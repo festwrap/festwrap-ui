@@ -18,7 +18,5 @@ jobs:
           node-version: "20.x"
       - name: Install dependencies
         run: npm install
-        working-directory: ./frontend
       - name: Run the tests
         run: make run-tests
-        working-directory: ./frontend
