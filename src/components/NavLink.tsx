@@ -10,7 +10,7 @@ const NavLink = ({
   return (
     <Link
       href={href}
-      className="text-primary hover:text-opacity-80 transition-all ease-in-out duration-200 font-medium"
+      className="text-primary hover:text-opacity-80 transition-all ease-in-out duration-300 font-medium"
     >
       {children}
     </Link>
