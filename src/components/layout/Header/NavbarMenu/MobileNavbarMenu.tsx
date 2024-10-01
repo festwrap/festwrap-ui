@@ -12,14 +12,18 @@ const MobileNavbarMenu = () => {
   const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const handleMenuClose = () => {
+    setIsMenuOpen(false)
+  }
+
+  const handleMenuOpen = () => {
+    setIsMenuOpen(true)
+  }
+
   return (
     <>
       <div className="flex md:hidden justify-end">
-        <Button
-          variant="ghost"
-          onClick={() => setIsMenuOpen((prevValue) => !prevValue)}
-          isIconOnly
-        >
+        <Button variant="ghost" onClick={handleMenuOpen} isIconOnly>
           <Menu size={24} />
         </Button>
       </div>
@@ -28,7 +32,7 @@ const MobileNavbarMenu = () => {
           <div className="flex flex-col gap-10 px-4 py-8">
             <div className="flex items-center justify-between">
               <div className="flex justify-start">
-                <Link href="/">
+                <Link href="/" onClick={handleMenuClose}>
                   <Image
                     src="/logo.svg"
                     alt="Festwrap logo"
@@ -40,23 +44,31 @@ const MobileNavbarMenu = () => {
                 </Link>
               </div>
               <div className="flex justify-end gap-3">
-                <Button
-                  variant="ghost"
-                  onClick={() => setIsMenuOpen(false)}
-                  isIconOnly
-                >
+                <Button variant="ghost" onClick={handleMenuClose} isIconOnly>
                   <X size={24} />
                 </Button>
               </div>
             </div>
             <nav className="flex flex-col items-center justify-center gap-6 py-4">
-              <NavLink variant="mobile" href="/get-started">
+              <NavLink
+                variant="mobile"
+                href="/get-started"
+                onClick={handleMenuClose}
+              >
                 Get started
               </NavLink>
-              <NavLink variant="mobile" href="/how-it-works">
-                How does it works?
+              <NavLink
+                variant="mobile"
+                href="/how-it-works"
+                onClick={handleMenuClose}
+              >
+                How it works?
               </NavLink>
-              <NavLink variant="mobile" href="/about-us">
+              <NavLink
+                variant="mobile"
+                href="/about-us"
+                onClick={handleMenuClose}
+              >
                 About us
               </NavLink>
               {session ? (

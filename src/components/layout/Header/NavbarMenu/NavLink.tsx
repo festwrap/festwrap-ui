@@ -7,6 +7,7 @@ type NavLinkProps = {
   href: string
   children: React.ReactNode
   variant?: NavLinkVariant
+  onClick?: () => void
 }
 
 const baseClasses = "transition-all ease-in-out duration-200 font-medium"
@@ -16,10 +17,16 @@ const variantClasses: Record<NavLinkVariant, string> = {
   mobile: "text-dark hover:text-primary text-xl",
 }
 
-const NavLink = ({ href, children, variant = "desktop" }: NavLinkProps) => {
+const NavLink = ({
+  href,
+  children,
+  variant = "desktop",
+  onClick,
+}: NavLinkProps) => {
   return (
     <Link
       href={href}
+      onClick={onClick}
       role="link"
       className={twMerge(baseClasses, variantClasses[variant])}
     >
