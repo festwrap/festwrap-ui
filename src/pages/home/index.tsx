@@ -1,4 +1,5 @@
 import Head from "next/head"
+import HeroSection from "./components/HeroSection"
 
 const Home = () => {
   return (
@@ -23,7 +24,7 @@ const Home = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div className="flex flex-col">
-        <h1>Home page</h1>
+        <HeroSection />
       </div>
     </>
   )
