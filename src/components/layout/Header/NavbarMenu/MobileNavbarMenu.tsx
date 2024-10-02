@@ -5,11 +5,9 @@ import NavLink from "@/components/layout/Header/NavbarMenu/NavLink"
 import Image from "next/image"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
-import UserMenu from "./UserMenu"
-import { signIn, useSession } from "next-auth/react"
+import SpotifyAuthDropdown from "./SpotifyAuthDropdown"
 
 const MobileNavbarMenu = () => {
-  const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleMenuClose = () => {
@@ -71,16 +69,7 @@ const MobileNavbarMenu = () => {
               >
                 About us
               </NavLink>
-              {session ? (
-                <UserMenu session={session} isMobileScreen />
-              ) : (
-                <Button
-                  variant="primary"
-                  onClick={() => signIn("spotify", { callbackUrl: "/" })}
-                >
-                  Login with Spotify
-                </Button>
-              )}
+              <SpotifyAuthDropdown isMobileScreen />
             </nav>
           </div>
         </div>
