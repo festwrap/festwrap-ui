@@ -47,13 +47,22 @@ const chipsList: ChipType[] = [
   },
 ]
 
+const chipContainerVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+  },
+}
+
 const FloatingChips = () => {
   return chipsList.map((chip, index) => (
     <motion.div
       key={index}
       className={twMerge("hidden sm:block absolute", chip.classNamePosition)}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
+      variants={chipContainerVariants}
+      initial="hidden"
+      animate="visible"
       transition={{ duration: 0.5, delay: 0.8 }}
     >
       <Chip size="sm" color={chip.color}>
