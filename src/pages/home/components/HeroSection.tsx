@@ -5,7 +5,8 @@ import heroBgDarkImage from "@public/hero-section-bg-dark-shape.svg"
 import heroBgLightImage from "@public/hero-section-bg-light-shape.svg"
 import spotifyListImage from "@public/spotify-list.svg"
 import Image from "next/image"
-import { div } from "framer-motion/client"
+import Chip from "./Chip"
+import FloatingChips from "./FloatingChips"
 
 const HeroSection = () => {
   const containerVariants = {
@@ -34,13 +35,13 @@ const HeroSection = () => {
     <div className="flex items-center justify-center">
       <div className="flex flex-col md:flex-row items-center">
         <motion.div
-          className="md:w-1/2 mb-8 md:mb-0 md:pr-10 text-dark"
+          className="md:w-1/2 mb-16 md:mb-0 md:pr-10 text-dark"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           <motion.h1
-            className="text-3xl sm:text-3xl md:text-4xl font-bold mb-4"
+            className="text-4xl sm:text-3xl md:text-4xl font-bold mb-4"
             variants={itemVariants}
           >
             Spotify playlists <span className="text-light">Generator </span>
@@ -61,7 +62,7 @@ const HeroSection = () => {
         </motion.div>
 
         <motion.div
-          className="md:w-1/2 px-10 relative h-96"
+          className="w-full md:w-1/2 px-10 relative h-96"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -106,6 +107,7 @@ const HeroSection = () => {
               className="w-42 h-auto"
             />
           </motion.div>
+          <FloatingChips />
         </motion.div>
       </div>
     </div>
