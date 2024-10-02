@@ -21,7 +21,7 @@ const Home = () => {
         <meta property="og:image" content="/path-to-image.jpg" />
         <meta property="og:url" content="https://tusitio.com" />
         <meta name="twitter:card" content="summary_large_image" />
-      </Head>{" "}
+      </Head>
       <div className="flex flex-col">
         <h1>Home page</h1>
       </div>
