@@ -26,7 +26,7 @@ const MobileNavbarMenu = () => {
         </Button>
       </div>
       {isMenuOpen && (
-        <div className="md:hidden fixed top-0 left-0 w-full h-full bg-white">
+        <div className="md:hidden fixed top-0 left-0 w-full h-full bg-white z-20">
           <div className="flex flex-col gap-10 px-4 py-8">
             <div className="flex items-center justify-between">
               <div className="flex justify-start">
