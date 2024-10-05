@@ -1,0 +1,41 @@
+name: Node.js CI
+
+# Run on every push or pull request to the 'main' branch (you can change this to your preference)
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]  # You can adjust the Node.js version according to your project
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step to run tests
+      - name: Run tests
+        run: npm test
+
+      # Step to run linter (ESLint and Prettier)
+      - name: Run linter
+        run: npm run lint
