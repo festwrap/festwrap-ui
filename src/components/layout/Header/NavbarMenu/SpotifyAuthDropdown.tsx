@@ -1,4 +1,3 @@
-import Spotify from "next-auth/providers/spotify"
 import { signIn, useSession } from "next-auth/react"
 import UserMenu from "./UserMenu"
 import Button from "@/components/ui/Button"

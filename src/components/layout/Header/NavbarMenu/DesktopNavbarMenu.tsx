@@ -1,7 +1,4 @@
 import NavLink from "@/components/layout/Header/NavbarMenu/NavLink"
-import Button from "@/components/ui/Button"
-import { signIn, useSession } from "next-auth/react"
-import UserMenu from "./UserMenu"
 import SpotifyAuthDropdown from "./SpotifyAuthDropdown"
 
 const DesktopNavbarMenu = () => {

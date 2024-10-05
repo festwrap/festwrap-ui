@@ -1,4 +1,4 @@
-import { delay, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import FloatingChips from "./FloatingChips"
 import heroBgDarkImage from "@public/hero-section-bg-dark-shape.svg"
 import heroBgLightImage from "@public/hero-section-bg-light-shape.svg"
