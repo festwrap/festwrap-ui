@@ -28,14 +28,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Install dependencies
+      # Install dependencies using Makefile
       - name: Install dependencies
-        run: npm install
+        run: make install-deps
 
-      # Step to run tests
-      - name: Run tests
-        run: npm test
-
-      # Step to run linter (ESLint and Prettier)
-      - name: Run linter
-        run: npm run lint
+      # Step to run both linter and tests using Makefile
+      - name: Run linter and tests
+        run: make run-checks
