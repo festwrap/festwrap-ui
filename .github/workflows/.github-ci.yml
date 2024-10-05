@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]  # You can adjust the Node.js version according to your project
+        node-version: [18.x]  # You can adjust the Node.js version according to your project
 
     steps:
       # Checkout the repository
