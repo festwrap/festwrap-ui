@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 html,
-body, #__next {
+body,
+#__next {
   margin: 0;
   padding: 0;
 }

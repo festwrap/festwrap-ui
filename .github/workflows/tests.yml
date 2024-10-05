@@ -5,11 +5,10 @@ on:
     branches: [main]
 
 jobs:
-
   tests:
     runs-on: ubuntu-latest
     env:
-        CI: true
+      CI: true
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node

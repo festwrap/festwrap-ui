@@ -41,6 +41,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
     "start": "next start",
     "test": "vitest"
   },
