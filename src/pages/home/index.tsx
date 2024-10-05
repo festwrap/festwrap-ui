@@ -1,5 +1,6 @@
 import Head from "next/head"
-import HeroSection from "./components/HeroSection"
+import HeroSection from "./components/HeroSection/HeroSection"
+import HowItWorksSection from "./components/HowItWorksSection/HowItWorksSection"
 
 const Home = () => {
   return (
@@ -23,8 +24,9 @@ const Home = () => {
         <meta property="og:url" content="https://tusitio.com" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-10">
         <HeroSection />
+        <HowItWorksSection />
       </div>
     </>
   )
