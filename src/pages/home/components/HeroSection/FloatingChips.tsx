@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
-import Chip, { ChipVariant } from "./Chip"
+import Chip, { ChipVariant } from "@/components/ui/Chip"
 import { twMerge } from "tailwind-merge"
 
 type ChipType = {
