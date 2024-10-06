@@ -60,7 +60,7 @@ const AnimatedSection = ({
 }: AnimatedSectionProps) => {
   const BackgroundShape = backgroundShapeVariants[backgroundShape]
   return (
-    <div className="relative w-full sm:h-72">
+    <div className="relative w-full sm:h-80">
       <motion.div
         className={cn("relative sm:absolute", floatingPosition)}
         variants={itemVariants}

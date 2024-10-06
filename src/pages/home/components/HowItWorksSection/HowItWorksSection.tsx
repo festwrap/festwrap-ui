@@ -41,10 +41,10 @@ const HowItWorksSection = () => {
             How It Works
           </Heading>
         </motion.div>
-        <div className="flex flex-col w-full sm:w-1/2 gap-6">
+        <div className="flex flex-col w-full md:w-70p lg:w-60p xl:w-1/2 gap-6">
           <AnimatedSection
             backgroundShape="platinum"
-            floatingPosition="sm:top-10 sm:-left-16"
+            floatingPosition="sm:top-10p sm:-left-5p md:-left-20p"
           >
             <AnimatedSection.Image src={spotifyLockImage} alt="Spotify lock" />
             <AnimatedSection.Title>
@@ -53,7 +53,7 @@ const HowItWorksSection = () => {
           </AnimatedSection>
           <AnimatedSection
             backgroundShape="dark-silver"
-            floatingPosition="sm:-top-0 sm:-right-28"
+            floatingPosition="sm:top-10p sm:right-0 md:-top-0 md:-right-20p"
           >
             <AnimatedSection.Image
               src={searchArtistsImage}
@@ -65,7 +65,7 @@ const HowItWorksSection = () => {
           </AnimatedSection>
           <AnimatedSection
             backgroundShape="platinum"
-            floatingPosition="sm:-top-16 sm:-left-16"
+            floatingPosition="sm:-top-20p sm:-left-5p md:-left-20p"
           >
             <AnimatedSection.Image
               src={customizePlaylistImage}
