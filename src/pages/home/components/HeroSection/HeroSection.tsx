@@ -3,11 +3,9 @@ import HeroSectionLeft from "./HeroSectionLeft"
 
 const HeroSection = () => {
   return (
-    <div className="flex items-center justify-center py-6">
-      <div className="flex flex-col md:flex-row items-center">
-        <HeroSectionLeft />
-        <HeroSectionRight />
-      </div>
+    <div className="flex flex-col items-center py-6 md:flex-row md:justify-between">
+      <HeroSectionLeft />
+      <HeroSectionRight />
     </div>
   )
 }
