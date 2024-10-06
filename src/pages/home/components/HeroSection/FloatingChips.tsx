@@ -12,37 +12,37 @@ const chipsList: ChipType[] = [
   {
     color: "primary",
     children: "Holding Absence",
-    classNamePosition: "top-2 left-28",
+    classNamePosition: "top-5p left-10p sm:left-20p",
   },
   {
     color: "secondary",
     children: "While Shee Sleeps",
-    classNamePosition: "bottom-6 right-7",
+    classNamePosition: "bottom-10p right-5p sm:right-10p",
   },
   {
     color: "primary",
     children: "Currents",
-    classNamePosition: "bottom-28 right-6",
+    classNamePosition: "bottom-25p right-5p sm:right-10p",
   },
   {
     color: "primary",
     children: "Knocked Loose",
-    classNamePosition: "top-8 right-10",
+    classNamePosition: "top-10p right-5p sm:right-10p",
   },
   {
     color: "secondary",
     children: "Polaris",
-    classNamePosition: "bottom-14 left-10",
+    classNamePosition: "bottom-20p left-10p sm:left-15p",
   },
   {
     color: "secondary",
     children: "NOFX",
-    classNamePosition: "top-16 left-20",
+    classNamePosition: "top-20p left-10p sm:left-20p",
   },
   {
     color: "primary",
     children: "Thy Art is Murder",
-    classNamePosition: "bottom-0 left-28",
+    classNamePosition: "bottom-0 left-10p sm:left-30p",
   },
 ]
 
@@ -58,7 +58,7 @@ const FloatingChips = () => {
   return chipsList.map((chip, index) => (
     <motion.div
       key={index}
-      className={twMerge("hidden sm:block absolute", chip.classNamePosition)}
+      className={twMerge("absolute", chip.classNamePosition)}
       variants={chipContainerVariants}
       initial="hidden"
       animate="visible"
