@@ -15,14 +15,6 @@ const Home = () => {
           name="keywords"
           content="spotify, generator, playlist, festival, line-up"
         />
-        <meta property="og:title" content="Home" />
-        <meta
-          property="og:description"
-          content="Descripción para redes sociales."
-        />
-        <meta property="og:image" content="/path-to-image.jpg" />
-        <meta property="og:url" content="https://tusitio.com" />
-        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div className="flex flex-col gap-10">
         <HeroSection />
