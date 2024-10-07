@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import Chip, { ChipVariant } from "@/components/ui/Chip"
 import { twMerge } from "tailwind-merge"
+import { scaleUp } from "@/lib/motionVariants"
 
 type ChipType = {
   color: ChipVariant
@@ -46,20 +47,12 @@ const chipsList: ChipType[] = [
   },
 ]
 
-const chipContainerVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-  },
-}
-
 const FloatingChips = () => {
   return chipsList.map((chip, index) => (
     <motion.div
       key={index}
       className={twMerge("absolute", chip.classNamePosition)}
-      variants={chipContainerVariants}
+      variants={scaleUp}
       initial="hidden"
       animate="visible"
       transition={{ duration: 0.5, delay: 0.8 }}

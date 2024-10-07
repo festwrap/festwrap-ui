@@ -4,39 +4,18 @@ import customizePlaylistImage from "@public/customize-playlist.svg"
 import spotifyLockImage from "@public/spotify-lock.svg"
 import searchArtistsImage from "@public/search-artists.svg"
 import AnimatedSection from "./AnimatedSection"
-
-const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      when: "beforeChildren",
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-}
+import { fadeInStaggerRight, fadeInUp } from "@/lib/motionVariants"
 
 const HowItWorksSection = () => {
   return (
     <section className="flex flex-col py-6 px-6">
       <motion.div
-        variants={containerVariants}
+        variants={fadeInStaggerRight}
         initial="hidden"
         animate="visible"
         className="flex flex-col items-center justify-center"
       >
-        <motion.div className="mb-8" variants={itemVariants}>
+        <motion.div className="mb-8" variants={fadeInUp}>
           <Heading as="h2" size="3xl" color="dark" weight="semibold">
             How It Works
           </Heading>

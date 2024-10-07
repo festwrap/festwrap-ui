@@ -4,15 +4,7 @@ import Image, { StaticImageData } from "next/image"
 import Heading from "@/components/ui/Heading"
 import darkSilverShapeImage from "@public/dark-silver-shape.svg"
 import platinumShapeImage from "@public/platinum-shape.svg"
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-}
+import { fadeInUp } from "@/lib/motionVariants"
 
 const PlatinumShape = () => {
   return <Image src={platinumShapeImage} alt="Dark silver shape" />
@@ -63,7 +55,8 @@ const AnimatedSection = ({
     <div className="relative w-full sm:h-80">
       <motion.div
         className={cn("relative sm:absolute", floatingPosition)}
-        variants={itemVariants}
+        variants={fadeInUp}
+        transition={{ duration: 0.5 }}
       >
         <BackgroundShape />
         <div className="absolute top-0 left-2 sm:left-10 w-full h-full flex items-center justify-center">
