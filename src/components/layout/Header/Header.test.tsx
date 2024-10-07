@@ -69,9 +69,6 @@ describe("Header", () => {
     expect(
       screen.getByRole("link", { name: /Get started/i })
     ).toBeInTheDocument()
-    expect(
-      screen.getByRole("link", { name: /How it works\?/i })
-    ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /About us/i })).toBeInTheDocument()
   })
 

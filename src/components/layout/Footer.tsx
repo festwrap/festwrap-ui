@@ -8,7 +8,6 @@ const Footer = () => {
         <div className="flex justify-center space-x-6">
           <nav className="flex flex-col sm:flex-row gap-5 sm:gap-10 font-medium text-sm">
             <Link href="/get-started">Get started</Link>
-            <Link href="/how-it-works">How does it works?</Link>
             <Link href="/about-us">About us</Link>
             <Link href="/terms-of-service">Terms of Service</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>

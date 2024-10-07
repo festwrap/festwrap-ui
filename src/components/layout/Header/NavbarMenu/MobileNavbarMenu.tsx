@@ -57,13 +57,6 @@ const MobileNavbarMenu = () => {
               </NavLink>
               <NavLink
                 variant="mobile"
-                href="/how-it-works"
-                onClick={handleMenuClose}
-              >
-                How it works?
-              </NavLink>
-              <NavLink
-                variant="mobile"
                 href="/about-us"
                 onClick={handleMenuClose}
               >

@@ -5,7 +5,6 @@ const DesktopNavbarMenu = () => {
   return (
     <nav className="hidden md:flex gap-10 items-center">
       <NavLink href="/get-started">Get started</NavLink>
-      <NavLink href="/how-it-works">How it works?</NavLink>
       <NavLink href="/about-us">About us</NavLink>
       <SpotifyAuthDropdown />
     </nav>
