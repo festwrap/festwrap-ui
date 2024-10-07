@@ -1,6 +1,5 @@
 name: Node.js CI
 
-# Run on every push or pull request to the 'main' branch (you can change this to your preference)
 on:
   push:
     branches:
