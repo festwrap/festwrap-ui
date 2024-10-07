@@ -14,23 +14,19 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.9.0]  # You can adjust the Node.js version according to your project
+        node-version: [20.9.0]
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Node.js
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Install dependencies using Makefile
       - name: Install dependencies
         run: make install-deps
 
-      # Step to run both linter and tests using Makefile
       - name: Run linter and tests
         run: make run-checks
