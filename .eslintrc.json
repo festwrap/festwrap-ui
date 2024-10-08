@@ -1,8 +1,18 @@
 {
-    "extends": ["next", "prettier", "plugin:react/recommended"],
-    "plugins": ["prettier"],
-    "rules": {
-      "prettier/prettier": "error",
-      "react/react-in-jsx-scope": "off"
-    }
+  "extends": ["next", "prettier", "plugin:react/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off",
+     "no-unused-vars": [
+      "error", 
+      { 
+        "vars": "all", 
+        "args": "after-used", 
+        "ignoreRestSiblings": true, 
+        "varsIgnorePattern": "^_", 
+        "argsIgnorePattern": "^_" 
+      }
+    ]
+  }
 }

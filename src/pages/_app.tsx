@@ -3,7 +3,6 @@ import { Poppins } from "next/font/google"
 import "../styles/globals.css"
 import SessionWrapper from "@/components/SessionWrapper"
 import RootLayout from "@/components/layout/RootLayout"
-import { twMerge } from "tailwind-merge"
 
 const poppins = Poppins({
   subsets: ["latin"],

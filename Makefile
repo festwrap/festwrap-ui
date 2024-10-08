@@ -1,9 +1,3 @@
-.PHONY: pre-commit-install
-pre-commit-install:
-	pre-commit install
-	pre-commit install --hook-type commit-msg
-
-
 .PHONY: install-deps
 install-deps:
 	npm install
@@ -13,7 +7,7 @@ create-env-from-template:
 	cp .env.template .env
 
 .PHONY: local-setup
-local-setup: pre-commit-install install-deps create-env-from-template
+local-setup: install-deps create-env-from-template
 
 .PHONY: run-app
 run-app:
@@ -24,3 +18,11 @@ run-app:
 run-tests:
 	@echo "Running tests..."
 	npm run test
+
+.PHONY: run-lint
+run-lint:
+	@echo "Running linter..."
+	npm run lint
+
+.PHONY: run-checks
+run-checks: run-lint run-tests
