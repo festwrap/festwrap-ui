@@ -21,3 +21,18 @@ To run the app, type:
 ```shell
 make run-app
 ```
+
+# Run production build locally
+
+Generate the build
+
+```shell
+make run-build
+```
+
+Run the app
+
+```shell
+make run-start
+```
+
