@@ -14,6 +14,16 @@ run-app:
 	@echo "Starting the frontend app..."
 	@export $(shell cat .env | xargs) && npm run dev
 
+.PHONY: run-build
+run-build:
+	@echo "Building the frontend app..."
+	@export $(shell cat .env | xargs) && npm run build
+
+.PHONY: run-start
+run-start:
+	@echo "Starting the production build locally..."
+	@export $(shell cat .env | xargs) && npm run start
+
 .PHONY: run-tests
 run-tests:
 	@echo "Running tests..."
