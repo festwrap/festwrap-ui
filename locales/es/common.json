@@ -1,0 +1,9 @@
+{
+    "nav": {
+        "aboutUs": "Sobre nosotros",
+        "getStarted": "Empieza",
+        "login": "Iniciar sesion en Spotify",
+        "logout": "Cerrar sesion",
+        "profile": "Perfil"
+    }
+}

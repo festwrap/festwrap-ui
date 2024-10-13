@@ -1,0 +1,9 @@
+{
+    "nav": {
+        "aboutUs": "About us",
+        "getStarted": "Get Started",
+        "login": "Log in with Spotify",
+        "logout": "Log out",
+        "profile": "Profile"
+    }
+}
