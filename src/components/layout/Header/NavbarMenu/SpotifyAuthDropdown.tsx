@@ -2,12 +2,14 @@ import { signIn, useSession } from "next-auth/react"
 import UserMenu from "./UserMenu"
 import Button from "@/components/ui/Button"
 import Skeleton from "@/components/ui/Skeleton"
+import useTranslation from "next-translate/useTranslation"
 
 type SpotifyAuthDropdownProps = {
   isMobileScreen?: boolean
 }
 
 const SpotifyAuthDropdown = ({ isMobileScreen }: SpotifyAuthDropdownProps) => {
+  const { t } = useTranslation("common")
   const { data: session, status } = useSession()
 
   const isSessionLoading = status === "loading"
@@ -22,7 +24,7 @@ const SpotifyAuthDropdown = ({ isMobileScreen }: SpotifyAuthDropdownProps) => {
         variant="primary"
         onClick={() => signIn("spotify", { callbackUrl: "/" })}
       >
-        Login with Spotify
+        {t("nav.login")}
       </Button>
     )
   }
