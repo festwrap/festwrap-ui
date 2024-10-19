@@ -1,9 +1,15 @@
 {
+    "footer": {
+        "allRightsReserved": "Todos los derechos reservados",
+        "madeWithLove": "Hecho con amor por"
+    },
     "nav": {
         "aboutUs": "Sobre nosotros",
         "getStarted": "Empieza",
         "login": "Iniciar sesion en Spotify",
         "logout": "Cerrar sesion",
-        "profile": "Perfil"
+        "privacyPolicy": "Politica de privacidad",
+        "profile": "Perfil",
+        "termsOfService": "Terminos de servicio"
     }
 }

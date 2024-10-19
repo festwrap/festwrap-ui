@@ -1,9 +1,15 @@
 {
+    "footer": {
+        "allRightsReserved": "All rights reserved",
+        "madeWithLove": "Made with love by"
+    },
     "nav": {
         "aboutUs": "About us",
         "getStarted": "Get Started",
         "login": "Log in with Spotify",
         "logout": "Log out",
-        "profile": "Profile"
+        "privacyPolicy": "Privacy Policy",
+        "profile": "Profile",
+        "termsOfService": "Terms of Service"
     }
 }

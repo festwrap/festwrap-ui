@@ -2,8 +2,14 @@
     "nav": {
         "aboutUs": "Sobre nosaltres",
         "getStarted": "Comença",
+        "termsOfService": "Termes de servei",
+        "privacyPolicy": "Política de privacitat",
         "login": "Inicia sessió en Spotify",
         "logout": "Tanca sessió",
         "profile": "Perfil"
+    },
+    "footer": {
+        "madeWithLove": "Fet amb amor per",
+        "allRightsReserved": "Tots els drets reservats"
     }
 }
