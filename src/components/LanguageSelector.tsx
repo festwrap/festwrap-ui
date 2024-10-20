@@ -10,13 +10,13 @@ import {
 import { Globe } from "lucide-react"
 
 const languages = [
-  { code: "en", name: "English" },
-  { code: "es", name: "Español" },
-  { code: "ca", name: "Catalan" },
+  { code: "en", translateKey: "languages.english" },
+  { code: "es", translateKey: "languages.spanish" },
+  { code: "ca", translateKey: "languages.catalan" },
 ]
 
 export function LanguageSelectorComponent() {
-  const { lang } = useTranslation()
+  const { t, lang } = useTranslation("common")
 
   const handleLanguageChange = async (newLocale: string) => {
     await setLanguage(newLocale)
@@ -31,7 +31,7 @@ export function LanguageSelectorComponent() {
       <SelectContent>
         {languages.map((lang) => (
           <SelectItem key={lang.code} value={lang.code}>
-            {lang.name}
+            {t(lang.translateKey)}
           </SelectItem>
         ))}
       </SelectContent>

@@ -3,6 +3,11 @@
         "allRightsReserved": "Todos los derechos reservados",
         "madeWithLove": "Hecho con amor por"
     },
+    "languages": {
+        "catalan": "Catalan",
+        "english": "Inglés",
+        "spanish": "Español"
+    },
     "nav": {
         "aboutUs": "Sobre nosotros",
         "getStarted": "Empieza",

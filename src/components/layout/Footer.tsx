@@ -5,6 +5,7 @@ import useTranslation from "next-translate/useTranslation"
 const Footer = () => {
   const { t } = useTranslation("common")
   const currentYear = new Date().getFullYear()
+
   return (
     <footer className="bg-secondary bg-opacity-30 text-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
