@@ -108,7 +108,7 @@ describe("Header", () => {
     expect(avatarButton).toBeInTheDocument()
 
     expect(screen.getByText("nav.logout")).toBeInTheDocument()
-    expect(screen.getByText("Copy access token")).toBeInTheDocument()
+    expect(screen.getByText("nav.copyAccessToken")).toBeInTheDocument()
   })
 
   test("should copy access token to clipboard", () => {
@@ -130,7 +130,7 @@ describe("Header", () => {
     render(<Header />)
 
     const copyButton = screen.getByRole("button", {
-      name: /Copy access token/i,
+      name: /nav.copyAccessToken/i,
     })
 
     copyButton.click()

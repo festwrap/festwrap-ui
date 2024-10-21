@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { LanguageSelectorComponent } from "../LanguageSelector"
+import { LanguageSelectorComponent } from "./LanguageSelector"
 import useTranslation from "next-translate/useTranslation"
 
 const Footer = () => {
