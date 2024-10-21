@@ -24,9 +24,12 @@ export function LanguageSelectorComponent() {
 
   return (
     <Select onValueChange={handleLanguageChange} defaultValue={lang}>
-      <SelectTrigger className="w-[150px]">
+      <SelectTrigger
+        className="w-[150px]"
+        aria-label={t("footer.selectLanguage")}
+      >
         <Globe className="mr-2 h-4 w-4" />
-        <SelectValue placeholder="Select Language" />
+        <SelectValue placeholder={t("footer.selectLanguage")} />
       </SelectTrigger>
       <SelectContent>
         {languages.map((lang) => (

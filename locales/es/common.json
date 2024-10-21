@@ -1,7 +1,8 @@
 {
     "footer": {
         "allRightsReserved": "Todos los derechos reservados",
-        "madeWithLove": "Hecho con amor por"
+        "madeWithLove": "Hecho con amor por",
+        "selectLanguage": "Selecciona un idioma"
     },
     "languages": {
         "catalan": "Catalan",
