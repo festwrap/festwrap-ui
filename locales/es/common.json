@@ -10,6 +10,7 @@
     },
     "nav": {
         "aboutUs": "Sobre nosotros",
+        "copyAccessToken": "Copiar Access Token",
         "getStarted": "Empieza",
         "login": "Iniciar sesion en Spotify",
         "logout": "Cerrar sesion",
