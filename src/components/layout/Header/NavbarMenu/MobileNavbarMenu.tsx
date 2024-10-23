@@ -41,10 +41,9 @@ const MobileNavbarMenu = () => {
                   <Image
                     src="/logo.svg"
                     alt="Festwrap logo"
-                    width={150}
-                    height={150}
+                    width={155}
+                    height={36}
                     className="h-auto"
-                    priority
                   />
                 </Link>
               </div>
