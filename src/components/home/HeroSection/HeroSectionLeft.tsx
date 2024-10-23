@@ -3,6 +3,7 @@ import Button from "@/components/ui/Button"
 import { fadeInStaggerRight, fadeInUp } from "@/lib/motionVariants"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Trans from "next-translate/Trans"
 
 const HeroSectionLeft = () => {
   const { t } = useTranslation("home")
@@ -18,7 +19,12 @@ const HeroSectionLeft = () => {
         variants={fadeInUp}
         transition={{ duration: 0.5 }}
       >
-        {t("heroSection.title")}
+        <Trans
+          i18nKey="home:heroSection.title"
+          components={[
+            <span key="home-title-span-key" className="text-light" />,
+          ]}
+        />
       </motion.h1>
       <motion.p
         className="text-xl font-medium mb-8 text-dark-blue"

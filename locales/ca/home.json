@@ -2,12 +2,11 @@
    "heroSection": {
       "button": "Començar",
       "subtitle": "Genera llistes de música a Spotify basat en les cançons que estàn tocant en aquell tour, utilizant la API de Setlist.fm",
-      "title": "Generador de llistes de Spotify utilitzant una llista de grups musicals"
+      "title": "Generador de llistes de <0>Spotify</0> utilitzant una llista de grups musicals"
    },
    "howItWorksSection": {
       "step1": {
-         "title": "Inicia sessió en el teu compte de Spotify",
-         "imageTitle": ""
+         "title": "Inicia sessió en el teu compte de Spotify"
       },
       "step2": {
          "title": "Busca i selecciona els artistes o grups"
