@@ -36,3 +36,31 @@ Run the app
 make run-start
 ```
 
+# Recommendations for a great experience using TailwindCSS 🧙🏼‍♂️
+
+### Add TailwindCSS Intellisense
+
+Check the link: [TailwindCSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+
+### Add these settings in VSCode
+
+To work properly with intellisense when the classes are in constants or variables, depending on how you name the variables:
+
+```shell
+"tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    ".*Styles.*",
+    ".*Classes.*",
+    ".*CLASSES.*",
+    "Classes",
+    "classNames",
+],
+```
+
+To avoid long strings in VSCode and allow see all classes in multiple lines
+
+```shell
+"editor.wordWrap": "on",
+```
