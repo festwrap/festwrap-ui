@@ -1,7 +1,8 @@
+"use client"
 import { signIn, useSession } from "next-auth/react"
 import UserMenu from "./UserMenu"
-import Button from "@/components/ui/Button"
-import Skeleton from "@/components/ui/Skeleton"
+import Button from "@/src/components/ui/Button"
+import Skeleton from "@/src/components/ui/Skeleton"
 import useTranslation from "next-translate/useTranslation"
 import { usePathname } from "next/navigation"
 

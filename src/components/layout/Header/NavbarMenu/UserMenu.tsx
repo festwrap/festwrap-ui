@@ -1,6 +1,6 @@
 import { Session } from "next-auth"
 import { signOut } from "next-auth/react"
-import Button from "@/components/ui/Button"
+import Button from "@/src/components/ui/Button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu"
+} from "@/src/components/ui/DropdownMenu"
 import useTranslation from "next-translate/useTranslation"
 
 type UserMenuProps = {

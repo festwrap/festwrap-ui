@@ -1,3 +1,4 @@
+"use client"
 import useTranslation from "next-translate/useTranslation"
 import setLanguage from "next-translate/setLanguage"
 import {
@@ -6,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select"
+} from "@/src/components/ui/Select"
 import { Globe } from "lucide-react"
 
 const languages = [

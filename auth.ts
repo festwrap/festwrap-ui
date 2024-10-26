@@ -31,5 +31,4 @@ export const authOptions = {
     },
   },
 }
-
-export default NextAuth(authOptions)
+export const { auth, handlers, signIn, signOut } = NextAuth(authOptions)

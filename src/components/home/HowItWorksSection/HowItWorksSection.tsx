@@ -1,10 +1,11 @@
+"use client"
 import { motion } from "framer-motion"
-import Heading from "@/components/ui/Heading"
+import Heading from "@/src/components/ui/Heading"
 import customizePlaylistImage from "@public/customize-playlist.svg"
 import spotifyLockImage from "@public/spotify-lock.svg"
 import searchArtistsImage from "@public/search-artists.svg"
 import AnimatedSection from "./AnimatedSection"
-import { fadeInStaggerRight, fadeInUp } from "@/lib/motionVariants"
+import { fadeInStaggerRight, fadeInUp } from "@/src/lib/motionVariants"
 import useTranslation from "next-translate/useTranslation"
 
 const HowItWorksSection = () => {

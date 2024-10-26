@@ -18,10 +18,10 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./*"],
       "@components/*": ["./src/components/*"],
       "@styles/*": ["./src/styles/*"],
-      "@public/*": ["./public/*"]
+      "@public/*": ["./public/*"],
     }
   },
   "include": [

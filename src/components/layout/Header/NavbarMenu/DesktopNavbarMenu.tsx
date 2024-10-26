@@ -1,4 +1,4 @@
-import NavLink from "@/components/layout/Header/NavbarMenu/NavLink"
+import NavLink from "@/src/components/layout/Header/NavbarMenu/NavLink"
 import SpotifyAuthDropdown from "./SpotifyAuthDropdown"
 import useTranslation from "next-translate/useTranslation"
 
