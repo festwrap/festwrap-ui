@@ -1,7 +1,7 @@
 {
     "heroSection": {
         "button": "Empieza",
-        "subtitle": "Genera listas de música en Spotify basadas en las canciones que están tocando en el tour actual, usando la API de Setlist.fm",
+        "subtitle": "Genera listas de música en Spotify basadas en las canciones que están tocando en el tour actual",
         "title": "Generador de listas en <0>Spotify</0> usando una lista de grupos musicales"
     },
     "howItWorksSection": {

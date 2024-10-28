@@ -1,7 +1,7 @@
 {
    "heroSection": {
       "button": "Començar",
-      "subtitle": "Genera llistes de música a Spotify basat en les cançons que estàn sonant en aquell tour, utilizant la API de Setlist.fm",
+      "subtitle": "Genera llistes de música a Spotify basat en les cançons que estàn sonant en aquell tour",
       "title": "Generador de llistes de <0>Spotify</0> utilitzant una llista de grups musicals"
    },
    "howItWorksSection": {

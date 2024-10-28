@@ -1,7 +1,7 @@
 {
     "heroSection": {
         "button": "Get Started",
-        "subtitle": "Generate Spotify playlists based on the songs that it's playing in the current tour, using the Setlist.fm API",
+        "subtitle": "Generate Spotify playlists based on the songs that it's playing in the current tour",
         "title": "Spotify playlist <0>generator</0> given a list of music bands"
     },
     "howItWorksSection": {

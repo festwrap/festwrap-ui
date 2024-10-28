@@ -4,7 +4,7 @@
         "selectLanguage": "Selecciona un idioma"
     },
     "languages": {
-        "catalan": "Catalan",
+        "catalan": "Catalán",
         "english": "Inglés",
         "spanish": "Español"
     },
@@ -12,10 +12,10 @@
         "aboutUs": "Sobre nosotros",
         "copyAccessToken": "Copiar Access Token",
         "getStarted": "Empieza",
-        "login": "Iniciar sesion en Spotify",
-        "logout": "Cerrar sesion",
+        "login": "Iniciar sesión en Spotify",
+        "logout": "Cerrar sesión",
         "privacyPolicy": "Politica de privacidad",
         "profile": "Perfil",
-        "termsOfService": "Terminos de servicio"
+        "termsOfService": "Términos de servicio"
     }
 }
