@@ -17,5 +17,9 @@
         "privacyPolicy": "Privacy Policy",
         "profile": "Profile",
         "termsOfService": "Terms of Service"
+    },
+    "notFound": {
+        "button": "Back to home",
+        "message": "It seems like you got a little bit lost"
     }
 }

@@ -17,5 +17,9 @@
         "privacyPolicy": "Política de privacitat",
         "profile": "Perfil",
         "termsOfService": "Termes de servei"
+    },
+    "notFound": {
+        "button": "Torna a l'inici",
+        "message": "Sembla que t'has perdut una mica"
     }
 }

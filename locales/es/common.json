@@ -17,5 +17,9 @@
         "privacyPolicy": "Politica de privacidad",
         "profile": "Perfil",
         "termsOfService": "Términos de servicio"
+    },
+    "notFound": {
+        "button": "Volver al inicio",
+        "message": "Parece que te has perdido un poco"
     }
 }
