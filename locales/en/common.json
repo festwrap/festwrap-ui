@@ -1,0 +1,25 @@
+{
+    "footer": {
+        "allRightsReserved": "All rights reserved",
+        "selectLanguage": "Select a language"
+    },
+    "languages": {
+        "catalan": "Catalan",
+        "english": "English",
+        "spanish": "Spanish"
+    },
+    "nav": {
+        "aboutUs": "About us",
+        "copyAccessToken": "Copy Access Token",
+        "getStarted": "Get Started",
+        "login": "Log in with Spotify",
+        "logout": "Log out",
+        "privacyPolicy": "Privacy Policy",
+        "profile": "Profile",
+        "termsOfService": "Terms of Service"
+    },
+    "notFound": {
+        "button": "Back to home",
+        "message": "It seems like you got a little bit lost"
+    }
+}

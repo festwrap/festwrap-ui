@@ -7,9 +7,8 @@ const LogoLink = () => {
       <Image
         src="/logo.svg"
         alt="Festwrap logo"
-        width={150}
-        height={150}
-        className="h-auto"
+        width={155}
+        height={36}
         priority
       />
     </Link>
