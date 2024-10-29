@@ -30,6 +30,14 @@ Generate the build
 make run-build
 ```
 
+Generate secret for the NextAuth secret
+
+```shell
+openssl rand -base64 32
+```
+
+Put the secret generate in the `NEXTAUTH_SECRET` env variable
+
 Run the app
 
 ```shell
