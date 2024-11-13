@@ -1,0 +1,7 @@
+.husky
+.github
+.next
+node_modules
+.env*
+Makefile
+README.md
