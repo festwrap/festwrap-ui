@@ -1,6 +1,11 @@
-import { Card } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/label"
+import {
+  RadioGroupButtons,
+  RadioGroupButton,
+  RadioGroupButtonTitle,
+  RadioGroupButtonDescription,
+} from "@/components/ui/RadioGroupButtons"
 import {
   Stepper,
   StepList,
@@ -9,9 +14,11 @@ import {
   StepperNavigation,
 } from "@/components/ui/Stepper"
 import { Switch } from "@/components/ui/switch"
-import { ChevronRight } from "lucide-react"
+import { div } from "framer-motion/client"
+import { useState } from "react"
 
 const GetStarted = () => {
+  const [playlistSelection, setPlaylistSelection] = useState("new")
   return (
     <div className="space-y-6">
       <Stepper>
@@ -45,24 +52,28 @@ const GetStarted = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 mt-6">
-              <Card className="p-6 hover:bg-accent cursor-pointer">
-                <h3 className="font-semibold text-lg">Create new playlist</h3>
-                <p className="text-sm text-muted-foreground mt-1">
+            <RadioGroupButtons
+              defaultValue="new"
+              onChange={(value) => setPlaylistSelection(value)}
+            >
+              <RadioGroupButton value="new">
+                <RadioGroupButtonTitle>
+                  Create new playlist
+                </RadioGroupButtonTitle>
+                <RadioGroupButtonDescription>
                   Use this option to create a playlist from scratch
-                </p>
-              </Card>
-              <Card className="p-6 hover:bg-accent cursor-pointer relative">
-                <h3 className="font-semibold text-lg">
+                </RadioGroupButtonDescription>
+              </RadioGroupButton>
+              <RadioGroupButton value="existing">
+                <RadioGroupButtonTitle>
                   Use an existing playlist
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1">
+                </RadioGroupButtonTitle>
+                <RadioGroupButtonDescription>
                   Use this option to add the songs generated in playlist already
                   created
-                </p>
-                <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2" />
-              </Card>
-            </div>
+                </RadioGroupButtonDescription>
+              </RadioGroupButton>
+            </RadioGroupButtons>
 
             <div className="space-y-2 mt-6">
               <Label htmlFor="playlist-search">
