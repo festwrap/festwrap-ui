@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
+import { Label } from "@/components/ui/label"
 import {
   Stepper,
   StepList,
@@ -7,6 +8,7 @@ import {
   StepContent,
   StepperNavigation,
 } from "@/components/ui/Stepper"
+import { Switch } from "@/components/ui/switch"
 import { ChevronRight } from "lucide-react"
 
 const GetStarted = () => {
@@ -71,6 +73,15 @@ const GetStarted = () => {
                 placeholder="Search..."
                 className="max-w-md"
               />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="airplane-mode" />
+              <Label htmlFor="airplane-mode" className="flex flex-col">
+                <span className="text-sm font-medium">Private playlist</span>
+                <span className="text-sm text-muted-foreground text-dark-blue">
+                  Playlist will only be visible to you
+                </span>
+              </Label>
             </div>
           </StepContent>
 
