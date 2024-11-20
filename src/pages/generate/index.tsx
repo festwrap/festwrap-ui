@@ -65,14 +65,10 @@ const GetStarted = () => {
             </div>
 
             <div className="space-y-2 mt-6">
-              <label htmlFor="playlist-search" className="text-sm font-medium">
-                Search your playlist
-              </label>
-              <Input
-                id="playlist-search"
-                placeholder="Search..."
-                className="max-w-md"
-              />
+              <Label htmlFor="playlist-search">
+                Give a name to the playlist
+              </Label>
+              <Input id="playlist-search" placeholder="Playlist name" />
             </div>
             <div className="flex items-center space-x-2">
               <Switch id="airplane-mode" />
