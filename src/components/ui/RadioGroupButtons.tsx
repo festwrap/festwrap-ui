@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react"
-import { Check } from "lucide-react"
+import { CircleCheck } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface RadioGroupContextType {
@@ -52,7 +52,7 @@ export function RadioGroupButton({
   return (
     <label
       className={cn(
-        "relative flex flex-1 h-full cursor-pointer flex-col rounded-lg border-2 border-muted bg-popover p-6 hover:bg-accent",
+        "relative flex flex-1 h-full cursor-pointer flex-col rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent",
         isChecked && "border-primary"
       )}
     >
@@ -64,7 +64,7 @@ export function RadioGroupButton({
         onChange={() => context.onChange(value)}
       />
       {isChecked && (
-        <Check className="absolute right-4 top-4 h-6 w-6 text-primary" />
+        <CircleCheck className="absolute right-4 top-4 h-6 w-6 text-primary" />
       )}
       {children}
     </label>
@@ -76,7 +76,7 @@ export function RadioGroupButtonTitle({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="mb-4 mt-2 text-2xl font-semibold">{children}</div>
+  return <div className="mb-2 text-xl font-semibold">{children}</div>
 }
 
 export function RadioGroupButtonDescription({
