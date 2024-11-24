@@ -1,6 +1,7 @@
+import ArtistSearch from "@/components/generate/ArtistSearch"
 import Heading from "@/components/ui/Heading"
 import { Input } from "@/components/ui/Input"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/Label"
 import {
   RadioGroupButtons,
   RadioGroupButton,
@@ -14,7 +15,7 @@ import {
   StepContent,
   StepperNavigation,
 } from "@/components/ui/Stepper"
-import { Switch } from "@/components/ui/switch"
+import { Switch } from "@/components/ui/Switch"
 import { useState } from "react"
 
 const GetStarted = () => {
@@ -101,7 +102,7 @@ const GetStarted = () => {
                 Find your artists by name using the search box
               </p>
             </div>
-            <Input placeholder="Search artists..." className="max-w-md mt-6" />
+            <ArtistSearch />
           </StepContent>
 
           <StepContent stepNumber={3}>
