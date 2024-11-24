@@ -29,7 +29,7 @@ export function RadioGroupButtons({
 
   return (
     <RadioGroupContext.Provider value={{ value, onChange: handleChange }}>
-      <div role="radiogroup" className="flex gap-4">
+      <div role="radiogroup" className="flex gap-4 items-stretch">
         {children}
       </div>
     </RadioGroupContext.Provider>
@@ -52,7 +52,7 @@ export function RadioGroupButton({
   return (
     <label
       className={cn(
-        "relative flex flex-1 h-full cursor-pointer flex-col rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent",
+        "relative flex flex-1 cursor-pointer flex-col rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent",
         isChecked && "border-primary"
       )}
     >
@@ -76,7 +76,7 @@ export function RadioGroupButtonTitle({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="mb-2 text-xl font-semibold">{children}</div>
+  return <div className="mb-2 text-lg font-semibold">{children}</div>
 }
 
 export function RadioGroupButtonDescription({
@@ -85,7 +85,7 @@ export function RadioGroupButtonDescription({
   children: React.ReactNode
 }) {
   return (
-    <span className="text-base text-muted-foreground text-dark-blue font-medium">
+    <span className="text-sm text-muted-foreground text-dark-blue font-medium">
       {children}
     </span>
   )

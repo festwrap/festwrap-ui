@@ -1,3 +1,4 @@
+import Heading from "@/components/ui/Heading"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/label"
 import {
@@ -14,7 +15,6 @@ import {
   StepperNavigation,
 } from "@/components/ui/Stepper"
 import { Switch } from "@/components/ui/switch"
-import { div } from "framer-motion/client"
 import { useState } from "react"
 
 const GetStarted = () => {
@@ -42,11 +42,11 @@ const GetStarted = () => {
 
         <div className="min-h-[600px] flex flex-col justify-between">
           <StepContent stepNumber={1}>
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight">
+            <div className="flex flex-col space-y-2">
+              <Heading as="h2" size="2xl" color="primary">
                 Choose an option to start
-              </h2>
-              <p className="text-lg text-muted-foreground mt-2">
+              </Heading>
+              <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
                 Select to create a new playlist or use an existing playlist in
                 your account
               </p>
@@ -93,10 +93,10 @@ const GetStarted = () => {
           </StepContent>
 
           <StepContent stepNumber={2}>
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight">
+            <div className="flex flex-col space-y-2">
+              <Heading as="h2" size="xl" color="primary">
                 Find your artists
-              </h2>
+              </Heading>
               <p className="text-lg text-muted-foreground mt-2">
                 Find your artists by name using the search box
               </p>
@@ -105,11 +105,11 @@ const GetStarted = () => {
           </StepContent>
 
           <StepContent stepNumber={3}>
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight">
+            <div className="flex flex-col space-y-2">
+              <Heading as="h2" size="xl" color="primary">
                 Copy the URL
-              </h2>
-              <p className="text-lg text-muted-foreground mt-2">
+              </Heading>
+              <p className="text-lg text-muted-foreground mt-2 text-light">
                 Open the list generated or modified using the URL.
               </p>
             </div>
