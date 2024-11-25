@@ -54,7 +54,7 @@ const GetStarted = () => {
             </div>
 
             <RadioGroupButtons
-              defaultValue="new"
+              defaultValue={playlistSelection}
               onChange={(value) => setPlaylistSelection(value)}
             >
               <RadioGroupButton value="new">
@@ -83,8 +83,8 @@ const GetStarted = () => {
               <Input id="playlist-search" placeholder="Playlist name" />
             </div>
             <div className="flex items-center space-x-2">
-              <Switch id="airplane-mode" />
-              <Label htmlFor="airplane-mode" className="flex flex-col">
+              <Switch id="private-playlist" />
+              <Label htmlFor="private-playlist" className="flex flex-col">
                 <span className="text-sm font-medium">Private playlist</span>
                 <span className="text-sm text-muted-foreground text-dark-blue">
                   Playlist will only be visible to you
@@ -95,10 +95,10 @@ const GetStarted = () => {
 
           <StepContent stepNumber={2}>
             <div className="flex flex-col space-y-2">
-              <Heading as="h2" size="xl" color="primary">
+              <Heading as="h2" size="2xl" color="primary">
                 Find your artists
               </Heading>
-              <p className="text-lg text-muted-foreground mt-2">
+              <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
                 Find your artists by name using the search box
               </p>
             </div>

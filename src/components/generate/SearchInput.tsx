@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react"
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from "lucide-react"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 
 interface Item {
   id: number
   title: string
-  icon: string
+  icon: StaticImageData
 }
 
 interface SearchComboboxProps {
@@ -118,14 +118,14 @@ export function SearchCombobox({
         aria-expanded={isOpen}
       >
         <div className="relative">
-          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+          <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary h-5 w-5" />
           <input
             ref={inputRef}
             type="text"
             value={search}
             onChange={handleInputChange}
             onFocus={() => setIsOpen(true)}
-            className="w-full rounded-full bg-white pl-10 pr-10 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Search..."
             aria-haspopup="listbox"
             aria-autocomplete="list"
@@ -133,7 +133,7 @@ export function SearchCombobox({
           />
           {search && (
             <button
-              className="absolute right-8 top-1/2 transform -translate-y-1/2"
+              className="absolute right-12 top-1/2 transform -translate-y-1/2"
               onClick={clearSearch}
               aria-label="Clear search"
             >
@@ -141,11 +141,11 @@ export function SearchCombobox({
             </button>
           )}
           <button
-            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle options"
           >
-            <ChevronsUpDownIcon className="h-5 w-5 text-gray-400" />
+            <ChevronsUpDownIcon className="h-5 w-5 text-secondary" />
           </button>
         </div>
         {isOpen && (
@@ -153,10 +153,10 @@ export function SearchCombobox({
             ref={listRef}
             id="combobox-items"
             role="listbox"
-            className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
+            className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
             {filteredItems.length === 0 ? (
-              <li className="px-4 py-2 text-gray-500">No results found.</li>
+              <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
               filteredItems.map((item, index) => (
                 <li

@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { X } from "lucide-react"
-import { Card, CardContent } from "@components/ui/Card"
 import { Badge } from "@components/ui/Badge"
 import Image from "next/image"
-import EmptyListImg from "@public/empty-list.svg"
+import EmptyListImg from "./empty-list.png"
 import { SearchCombobox } from "./SearchInput"
 import ExampleItemImg from "./example-item-img.png"
 
@@ -44,48 +43,46 @@ export default function ArtistSearch() {
   )
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardContent className="p-6">
-        <SearchCombobox
-          options={options}
-          values={selectedValues}
-          onChange={setSelectedValues}
-        />
-        {selectedValues.length === 0 ? (
-          <div className="mt-8 text-center text-secondary">
-            <div className="flex justify-center mb-4">
-              <Image
-                src={EmptyListImg}
-                alt="No artists selected"
-                className="w-48"
-              />
-            </div>
-            <h3 className="text-lg font-semibold mb-2">
-              There are no artists selected
-            </h3>
-            <p>Find your artists using the search box</p>
+    <div className="w-full">
+      <SearchCombobox
+        options={options}
+        values={selectedValues}
+        onChange={setSelectedValues}
+      />
+      {selectedValues.length === 0 ? (
+        <div className="mt-8 text-center text-dark-blue">
+          <div className="flex justify-center mb-4">
+            <Image
+              src={EmptyListImg}
+              alt="No artists selected"
+              className="w-48"
+            />
           </div>
-        ) : (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {selectedItems.map((item) => (
-              <Badge
-                key={item.id}
-                variant="secondary"
-                className="flex items-center gap-1 px-3 py-1"
+          <h3 className="text-lg font-semibold mb-2">
+            There are no artists selected
+          </h3>
+          <p>Find your artists using the search box</p>
+        </div>
+      ) : (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {selectedItems.map((item) => (
+            <Badge
+              key={item.id}
+              variant="secondary"
+              className="flex items-center gap-1 px-3 py-1"
+            >
+              {item.title}
+              <button
+                onClick={() => removeSelectedItem(item.id)}
+                className="ml-1 hover:bg-slate-100 rounded-full dark:hover:bg-slate-800"
+                type="button"
               >
-                {item.title}
-                <button
-                  onClick={() => removeSelectedItem(item.id)}
-                  className="ml-1 hover:bg-slate-100 rounded-full dark:hover:bg-slate-800"
-                  type="button"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            ))}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
