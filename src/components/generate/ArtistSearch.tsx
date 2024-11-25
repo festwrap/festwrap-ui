@@ -69,15 +69,16 @@ export default function ArtistSearch() {
             <Badge
               key={item.id}
               variant="secondary"
+              size="lg"
               className="flex items-center gap-1 px-3 py-1"
             >
               {item.title}
               <button
                 onClick={() => removeSelectedItem(item.id)}
-                className="ml-1 hover:bg-slate-100 rounded-full dark:hover:bg-slate-800"
+                className="ml-1 hover:bg-slate-100 rounded-full hover:text-primary text-dark-blue"
                 type="button"
               >
-                <X className="h-3 w-3" />
+                <X className="h-4 w-4" />
               </button>
             </Badge>
           ))}
