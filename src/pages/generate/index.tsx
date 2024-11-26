@@ -41,7 +41,7 @@ const GetStarted = () => {
           />
         </StepList>
 
-        <div className="min-h-[600px] flex flex-col justify-between">
+        <div className="min-h-[450px] flex flex-col justify-between">
           <StepContent stepNumber={1}>
             <div className="flex flex-col space-y-2">
               <Heading as="h2" size="2xl" color="primary">
