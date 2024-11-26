@@ -15,8 +15,28 @@ export function Stepper({ children }: { children: React.ReactNode }) {
   const [currentStep, setCurrentStep] = useState(1)
   const [stepsCount, setStepsCount] = useState(0)
 
+  const countSteps = (children: React.ReactNode): number => {
+    let count = 0
+
+    const countNestedSteps = (nodes: React.ReactNode) => {
+      React.Children.forEach(nodes, (child) => {
+        if (React.isValidElement(child)) {
+          if (child.type === Step) {
+            count++
+          } else {
+            countNestedSteps(child.props.children)
+          }
+        }
+      })
+    }
+
+    countNestedSteps(children)
+    return count
+  }
+
   useEffect(() => {
-    setStepsCount(React.Children.count(children))
+    const stepComponentCount = countSteps(children)
+    setStepsCount(stepComponentCount)
   }, [children])
 
   return (
@@ -127,13 +147,12 @@ export function StepperNavigation() {
   }
 
   return (
-    <div className="flex justify-between mt-8">
+    <div className="flex justify-end space-x-6 mt-8">
       {currentStep > 1 && (
-        <Button onClick={handleBack} onKeyDown={handleKeyDown}>
+        <Button variant="ghost" onClick={handleBack} onKeyDown={handleKeyDown}>
           Back
         </Button>
       )}
-      <div className="flex-1" />
       <Button onClick={handleNext} onKeyDown={handleKeyDown}>
         {currentStep === stepsCount ? "Complete" : "Continue"}
       </Button>

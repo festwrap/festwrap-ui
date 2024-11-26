@@ -1,4 +1,5 @@
 import ArtistSearch from "@/components/generate/ArtistSearch"
+import Button from "@/components/ui/Button"
 import Heading from "@/components/ui/Heading"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
@@ -107,18 +108,17 @@ const GetStarted = () => {
 
           <StepContent stepNumber={3}>
             <div className="flex flex-col space-y-2">
-              <Heading as="h2" size="xl" color="primary">
+              <Heading as="h2" size="2xl" color="primary">
                 Copy the URL
               </Heading>
-              <p className="text-lg text-muted-foreground mt-2 text-light">
+              <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
                 Open the list generated or modified using the URL.
               </p>
             </div>
-            <Input
-              value="https://example.com/playlist/123"
-              readOnly
-              className="max-w-md mt-6"
-            />
+            <div className="flex space-x-2 mt-6">
+              <Input value="https://example.com/playlist/123" readOnly />
+              <Button variant="primary">Copy URL</Button>
+            </div>
           </StepContent>
 
           <StepperNavigation />
