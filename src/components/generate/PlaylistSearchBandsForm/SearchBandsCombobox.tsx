@@ -14,12 +14,14 @@ interface SearchComboboxProps {
   options: Item[]
   values: number[]
   onChange: (values: number[]) => void
+  placeholder?: string
 }
 
 export function SearchBandsCombobox({
   options,
   values,
   onChange,
+  placeholder,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedItems, setSelectedItems] = useState<Item[]>([])
@@ -128,7 +130,7 @@ export function SearchBandsCombobox({
             onChange={handleInputChange}
             onFocus={() => setIsOpen(true)}
             className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Search..."
+            placeholder={placeholder}
             aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-controls="combobox-items"
@@ -170,7 +172,7 @@ export function SearchBandsCombobox({
                   className={`flex items-center px-4 py-2 cursor-pointer ${
                     index === activeIndex ? "bg-blue-100" : "hover:bg-gray-100"
                   }`}
-                  onClick={(e) => {
+                  onClick={() => {
                     handleItemSelect(item)
                   }}
                 >

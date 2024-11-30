@@ -6,6 +6,7 @@ import EmptyListImg from "@public/empty-list.png"
 import { useState } from "react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/Badge"
+import useTranslation from "next-translate/useTranslation"
 
 // Mock data for artists
 const options = [
@@ -32,6 +33,8 @@ const options = [
 ]
 
 const PlaylistSearchBandsForm = () => {
+  const { t } = useTranslation("generate")
+
   const [selectedValues, setSelectedValues] = useState<number[]>([])
 
   const removeSelectedItem = (id: number) => {
@@ -47,10 +50,10 @@ const PlaylistSearchBandsForm = () => {
     <>
       <div className="flex flex-col space-y-2">
         <Heading as="h2" size="2xl" color="primary">
-          Find your artists
+          {t("steps.step2.title")}
         </Heading>
         <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
-          Find your artists by name using the search box
+          {t("steps.step2.description")}
         </p>
       </div>
       <div className="w-full">
@@ -58,6 +61,7 @@ const PlaylistSearchBandsForm = () => {
           options={options}
           values={selectedValues}
           onChange={setSelectedValues}
+          placeholder={t("steps.step2.searchPlaceholder")}
         />
         {selectedValues.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">
@@ -69,9 +73,9 @@ const PlaylistSearchBandsForm = () => {
               />
             </div>
             <h3 className="text-lg font-semibold mb-2">
-              There are no artists selected
+              {t("steps.step2.emptyState.title")}
             </h3>
-            <p>Find your artists using the search box</p>
+            <p>{t("steps.step2.emptyState.description")}</p>
           </div>
         ) : (
           <div className="mt-4 flex flex-wrap gap-2">

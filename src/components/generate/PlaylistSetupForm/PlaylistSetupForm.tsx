@@ -8,20 +8,21 @@ import {
   RadioGroupButtonDescription,
 } from "@/components/ui/RadioGroupButtons"
 import { Switch } from "@/components/ui/Switch"
+import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
 
 const PlaylistSetupForm = () => {
+  const { t } = useTranslation("generate")
   const [playlistSelection, setPlaylistSelection] = useState("new")
 
   return (
     <>
       <div className="flex flex-col space-y-2">
         <Heading as="h2" size="2xl" color="primary">
-          Choose an option to start
+          {t("steps.step1.title")}
         </Heading>
         <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
-          Select to create a new playlist or use an existing playlist in your
-          account
+          {t("steps.step1.description")}
         </p>
       </div>
 
@@ -30,32 +31,42 @@ const PlaylistSetupForm = () => {
         onChange={(value) => setPlaylistSelection(value)}
       >
         <RadioGroupButton value="new">
-          <RadioGroupButtonTitle>Create new playlist</RadioGroupButtonTitle>
+          <RadioGroupButtonTitle>
+            {t("steps.step1.form.createNewPlaylist.title")}
+          </RadioGroupButtonTitle>
           <RadioGroupButtonDescription>
-            Use this option to create a playlist from scratch
+            {t("steps.step1.form.createNewPlaylist.description")}
           </RadioGroupButtonDescription>
         </RadioGroupButton>
         <RadioGroupButton value="existing">
           <RadioGroupButtonTitle>
-            Use an existing playlist
+            {t("steps.step1.form.useExistingPlaylist.title")}
           </RadioGroupButtonTitle>
           <RadioGroupButtonDescription>
-            Use this option to add the songs generated in playlist already
-            created
+            {t("steps.step1.form.useExistingPlaylist.description")}
           </RadioGroupButtonDescription>
         </RadioGroupButton>
       </RadioGroupButtons>
 
       <div className="space-y-2 mt-6">
-        <Label htmlFor="playlist-search">Give a name to the playlist</Label>
-        <Input id="playlist-search" placeholder="Playlist name" />
+        <Label htmlFor="playlist-search">
+          {t("steps.step1.form.createNewPlaylist.giveAName")}
+        </Label>
+        <Input
+          id="playlist-search"
+          placeholder={t("steps.step1.form.createNewPlaylist.namePlaceholder")}
+        />
       </div>
       <div className="flex items-center space-x-2">
         <Switch id="private-playlist" />
         <Label htmlFor="private-playlist" className="flex flex-col">
-          <span className="text-sm font-medium">Private playlist</span>
+          <span className="text-sm font-medium">
+            {t("steps.step1.form.createNewPlaylist.privatePlaylist.title")}
+          </span>
           <span className="text-sm text-muted-foreground text-dark-blue">
-            Playlist will only be visible to you
+            {t(
+              "steps.step1.form.createNewPlaylist.privatePlaylist.description"
+            )}
           </span>
         </Label>
       </div>

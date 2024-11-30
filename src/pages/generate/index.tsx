@@ -8,26 +8,28 @@ import {
   StepContent,
   StepperNavigation,
 } from "@/components/ui/Stepper"
+import useTranslation from "next-translate/useTranslation"
 
 const GetStarted = () => {
+  const { t } = useTranslation("generate")
   return (
     <div className="space-y-6 flex">
       <Stepper>
         <StepList>
           <Step
             stepNumber={1}
-            title="Choose an option to start"
-            description="Select to create a new playlist or use an existing playlist in your account"
+            title={t("steps.step1.title")}
+            description={t("steps.step1.description")}
           />
           <Step
             stepNumber={2}
-            title="Find your artists"
-            description="Find your artists by name using the search box"
+            title={t("steps.step2.title")}
+            description={t("steps.step2.description")}
           />
           <Step
             stepNumber={3}
-            title="Copy the URL"
-            description="Open the list generated or modified using the URL."
+            title={t("steps.step3.title")}
+            description={t("steps.step3.description")}
           />
         </StepList>
         <div className="min-h-[450px] flex flex-1 flex-col justify-between">
