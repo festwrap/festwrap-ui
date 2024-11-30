@@ -44,15 +44,17 @@ export function Stepper({ children }: { children: React.ReactNode }) {
     <StepperContext.Provider
       value={{ currentStep, setCurrentStep, stepsCount }}
     >
-      <div className="w-full max-w-6xl mx-auto p-6">
-        <div className="grid md:grid-cols-[300px_1fr] gap-6">{children}</div>
-      </div>
+      <div className="flex w-full flex-col md:flex-row">{children}</div>
     </StepperContext.Provider>
   )
 }
 
 export function StepList({ children }: { children: React.ReactNode }) {
-  return <div className="relative">{children}</div>
+  return (
+    <div className="relative w-[400px] pt-0 sm:pt-20 flex flex-col gap-4">
+      {children}
+    </div>
+  )
 }
 
 export function Step({
@@ -86,8 +88,10 @@ export function Step({
           {isCompleted ? <Check size={20} /> : stepNumber}
         </div>
         <div className="flex-1 text-left">
-          <div className="font-medium">{title}</div>
-          <div className="text-sm text-muted-foreground">{description}</div>
+          <div className="font-semibold">{title}</div>
+          <div className="text-sm font-medium text-muted-foreground text-dark-blue">
+            {description}
+          </div>
         </div>
       </button>
       {stepNumber < stepsCount && (

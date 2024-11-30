@@ -11,7 +11,7 @@ import {
 
 const GetStarted = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 flex">
       <Stepper>
         <StepList>
           <Step
@@ -30,7 +30,7 @@ const GetStarted = () => {
             description="Open the list generated or modified using the URL."
           />
         </StepList>
-        <div className="min-h-[450px] flex flex-col justify-between">
+        <div className="min-h-[450px] flex flex-1 flex-col justify-between">
           <StepContent stepNumber={1}>
             <PlaylistSetupForm />
           </StepContent>
