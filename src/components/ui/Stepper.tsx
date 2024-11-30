@@ -6,7 +6,7 @@ import { Check } from "lucide-react"
 
 type StepperContextType = {
   currentStep: number
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+  handleChangeStep: (step: number) => void
   stepsCount: number
 }
 
@@ -18,37 +18,35 @@ export const useStepper = () => {
   return context
 }
 
-export function Stepper({ children }: { children: React.ReactNode }) {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [stepsCount, setStepsCount] = useState(0)
+type StepperProps = {
+  children: React.ReactNode
+  currentStep?: number
+  defaultStep?: number
+  onStepChange?: (step: number) => void
+  stepsCount: number
+}
 
-  const countSteps = (children: React.ReactNode): number => {
-    let count = 0
+export function Stepper({
+  children,
+  defaultStep = 1,
+  currentStep = 1,
+  stepsCount = 0,
+  onStepChange,
+}: StepperProps) {
+  const [internalCurrentStep, setInternalCurrentStep] = useState(defaultStep)
 
-    const countNestedSteps = (nodes: React.ReactNode) => {
-      React.Children.forEach(nodes, (child) => {
-        if (React.isValidElement(child)) {
-          if (child.type === Step) {
-            count++
-          } else {
-            countNestedSteps(child.props.children)
-          }
-        }
-      })
-    }
-
-    countNestedSteps(children)
-    return count
+  const handleChangeStep = (step: number) => {
+    setInternalCurrentStep(step)
+    onStepChange?.(step)
   }
 
   useEffect(() => {
-    const stepComponentCount = countSteps(children)
-    setStepsCount(stepComponentCount)
-  }, [children])
+    setInternalCurrentStep(currentStep)
+  }, [currentStep])
 
   return (
     <StepperContext.Provider
-      value={{ currentStep, setCurrentStep, stepsCount }}
+      value={{ currentStep: internalCurrentStep, handleChangeStep, stepsCount }}
     >
       <div className="flex w-full flex-col md:flex-row">{children}</div>
     </StepperContext.Provider>
@@ -72,7 +70,7 @@ export function Step({
   title: string
   description: string
 }) {
-  const { currentStep, setCurrentStep, stepsCount } = useStepper()
+  const { currentStep, handleChangeStep, stepsCount } = useStepper()
 
   const isCompleted = stepNumber < currentStep
   const isCurrent = stepNumber === currentStep
@@ -81,7 +79,7 @@ export function Step({
   return (
     <div className="relative">
       <button
-        onClick={() => !isDisabled && setCurrentStep(stepNumber)}
+        onClick={() => !isDisabled && handleChangeStep(stepNumber)}
         className={`relative z-10 flex items-start gap-4 w-full p-4 hover:bg-accent rounded-lg transition-colors ${
           isCurrent ? "bg-accent" : ""
         } ${isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
@@ -117,41 +115,4 @@ export function StepContent({
   if (stepNumber !== currentStep) return null
 
   return <div className="space-y-6">{children}</div>
-}
-
-export function StepperNavigation() {
-  const { currentStep, setCurrentStep, stepsCount } = useStepper()
-
-  const handleNext = () => {
-    if (currentStep < stepsCount) {
-      setCurrentStep(currentStep + 1)
-    }
-  }
-
-  const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
-    }
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight" && currentStep < stepsCount) {
-      handleNext()
-    } else if (e.key === "ArrowLeft" && currentStep > 1) {
-      handleBack()
-    }
-  }
-
-  return (
-    <div className="flex justify-end space-x-6 mt-8">
-      {currentStep > 1 && (
-        <Button variant="ghost" onClick={handleBack} onKeyDown={handleKeyDown}>
-          Back
-        </Button>
-      )}
-      <Button onClick={handleNext} onKeyDown={handleKeyDown}>
-        {currentStep === stepsCount ? "Complete" : "Continue"}
-      </Button>
-    </div>
-  )
 }

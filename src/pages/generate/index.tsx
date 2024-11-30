@@ -1,20 +1,36 @@
 import PlaylistGetUrlLink from "@/components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink"
 import PlaylistSearchBandsForm from "@/components/generate/PlaylistSearchBandsForm/PlaylistSearchBandsForm"
 import PlaylistSetupForm from "@/components/generate/PlaylistSetupForm/PlaylistSetupForm"
-import {
-  Stepper,
-  StepList,
-  Step,
-  StepContent,
-  StepperNavigation,
-} from "@/components/ui/Stepper"
+import { Button } from "@/components/ui/Button"
+import { Stepper, StepList, Step, StepContent } from "@/components/ui/Stepper"
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
+
+const STEPS_COUNT = 3
 
 const GetStarted = () => {
   const { t } = useTranslation("generate")
+  const [currentStep, setCurrentStep] = useState(1)
+
+  const handleChangeStep = (step: number) => {
+    setCurrentStep(step)
+  }
+
+  const handleNext = () => {
+    setCurrentStep((prev) => prev + 1)
+  }
+
+  const handleBack = () => {
+    setCurrentStep((prev) => prev - 1)
+  }
+
   return (
     <div className="space-y-6 flex">
-      <Stepper>
+      <Stepper
+        stepsCount={STEPS_COUNT}
+        currentStep={currentStep}
+        handleChangeStep={handleChangeStep}
+      >
         <StepList>
           <Step
             stepNumber={1}
@@ -42,7 +58,18 @@ const GetStarted = () => {
           <StepContent stepNumber={3}>
             <PlaylistGetUrlLink />
           </StepContent>
-          <StepperNavigation />
+          <div className="flex justify-end space-x-6 mt-8">
+            {currentStep > 1 && (
+              <Button variant="ghost" onClick={handleBack}>
+                {t("steps.navigation.previous")}
+              </Button>
+            )}
+            <Button onClick={handleNext}>
+              {currentStep === STEPS_COUNT
+                ? t("steps.navigation.finish")
+                : t("steps.navigation.next")}
+            </Button>
+          </div>
         </div>
       </Stepper>
     </div>
