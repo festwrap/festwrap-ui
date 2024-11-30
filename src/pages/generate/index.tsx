@@ -29,7 +29,7 @@ const GetStarted = () => {
       <Stepper
         stepsCount={STEPS_COUNT}
         currentStep={currentStep}
-        handleChangeStep={handleChangeStep}
+        onStepChange={handleChangeStep}
       >
         <StepList>
           <Step
