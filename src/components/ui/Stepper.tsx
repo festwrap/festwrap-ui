@@ -12,6 +12,12 @@ type StepperContextType = {
 
 const StepperContext = createContext<StepperContextType | undefined>(undefined)
 
+export const useStepper = () => {
+  const context = useContext(StepperContext)
+  if (!context) throw new Error("useStepper must be used within a Stepper")
+  return context
+}
+
 export function Stepper({ children }: { children: React.ReactNode }) {
   const [currentStep, setCurrentStep] = useState(1)
   const [stepsCount, setStepsCount] = useState(0)
@@ -66,9 +72,7 @@ export function Step({
   title: string
   description: string
 }) {
-  const context = useContext(StepperContext)
-  if (!context) throw new Error("Step must be used within a Stepper")
-  const { currentStep, setCurrentStep, stepsCount } = context
+  const { currentStep, setCurrentStep, stepsCount } = useStepper()
 
   const isCompleted = stepNumber < currentStep
   const isCurrent = stepNumber === currentStep
@@ -108,9 +112,7 @@ export function StepContent({
   stepNumber: number
   children: React.ReactNode
 }) {
-  const context = useContext(StepperContext)
-  if (!context) throw new Error("StepContent must be used within a Stepper")
-  const { currentStep } = context
+  const { currentStep } = useStepper()
 
   if (stepNumber !== currentStep) return null
 
@@ -118,10 +120,7 @@ export function StepContent({
 }
 
 export function StepperNavigation() {
-  const context = useContext(StepperContext)
-  if (!context)
-    throw new Error("StepperNavigation must be used within a Stepper")
-  const { currentStep, setCurrentStep, stepsCount } = context
+  const { currentStep, setCurrentStep, stepsCount } = useStepper()
 
   const handleNext = () => {
     if (currentStep < stepsCount) {
@@ -155,11 +154,4 @@ export function StepperNavigation() {
       </Button>
     </div>
   )
-}
-
-export function useStepperContext() {
-  const context = useContext(StepperContext)
-  if (!context)
-    throw new Error("useStepperContext must be used within a Stepper")
-  return context
 }
