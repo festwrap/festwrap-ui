@@ -16,7 +16,7 @@ interface SearchComboboxProps {
   onChange: (values: number[]) => void
 }
 
-export function SearchCombobox({
+export function SearchBandsCombobox({
   options,
   values,
   onChange,
