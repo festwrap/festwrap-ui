@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 
 interface RadioGroupContextType {
   value: string
-  onChange: (value: string) => void
+  onChange: (_value: string) => void
 }
 
 const RadioGroupContext = createContext<RadioGroupContextType | undefined>(
@@ -18,7 +18,7 @@ export function RadioGroupButtons({
 }: {
   children: React.ReactNode
   defaultValue?: string
-  onChange?: (value: string) => void
+  onChange?: (_value: string) => void
 }) {
   const [value, setValue] = useState(defaultValue || "")
 

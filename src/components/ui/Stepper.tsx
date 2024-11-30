@@ -1,12 +1,11 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from "react"
-import { Button } from "./Button"
 import { Check } from "lucide-react"
 
 type StepperContextType = {
   currentStep: number
-  handleChangeStep: (step: number) => void
+  handleChangeStep: (_step: number) => void
   stepsCount: number
 }
 
@@ -22,7 +21,7 @@ type StepperProps = {
   children: React.ReactNode
   currentStep?: number
   defaultStep?: number
-  onStepChange?: (step: number) => void
+  onStepChange?: (_step: number) => void
   stepsCount: number
 }
 

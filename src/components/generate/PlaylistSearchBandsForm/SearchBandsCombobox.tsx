@@ -13,7 +13,7 @@ interface Item {
 interface SearchComboboxProps {
   options: Item[]
   values: number[]
-  onChange: (values: number[]) => void
+  onChange: (_values: number[]) => void
   placeholder?: string
 }
 
