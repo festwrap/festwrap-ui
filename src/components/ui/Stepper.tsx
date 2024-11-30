@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react"
 import { Button } from "./Button"
+import { Check } from "lucide-react"
 
 type StepperContextType = {
   currentStep: number
@@ -81,16 +82,8 @@ export function Step({
         disabled={isDisabled}
         aria-current={isCurrent ? "step" : undefined}
       >
-        <div
-          className={`flex items-center justify-center w-9 h-9 rounded text-lg font-medium ${
-            isCurrent
-              ? "bg-secondary text-primary-foreground"
-              : isCompleted
-                ? "bg-primary/50 text-primary-foreground"
-                : "bg-muted text-muted-foreground"
-          }`}
-        >
-          {stepNumber}
+        <div className="flex items-center justify-center w-9 h-9 rounded text-lg font-medium bg-secondary text-primary-foreground">
+          {isCompleted ? <Check size={20} /> : stepNumber}
         </div>
         <div className="flex-1 text-left">
           <div className="font-medium">{title}</div>
