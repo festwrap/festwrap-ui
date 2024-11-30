@@ -1,5 +1,5 @@
 import ArtistSearch from "@/components/generate/ArtistSearch"
-import Button from "@/components/ui/Button"
+import { Button } from "@/components/ui/Button"
 import Heading from "@/components/ui/Heading"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
@@ -117,7 +117,7 @@ const GetStarted = () => {
             </div>
             <div className="flex space-x-2 mt-6">
               <Input value="https://example.com/playlist/123" readOnly />
-              <Button variant="primary">Copy URL</Button>
+              <Button>Copy URL</Button>
             </div>
           </StepContent>
 

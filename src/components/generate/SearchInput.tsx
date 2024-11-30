@@ -43,7 +43,9 @@ export function SearchCombobox({
     const handleOutsideClick = (event: MouseEvent) => {
       if (
         inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
+        !inputRef.current.contains(event.target as Node) &&
+        listRef.current &&
+        !listRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false)
       }
@@ -168,7 +170,9 @@ export function SearchCombobox({
                   className={`flex items-center px-4 py-2 cursor-pointer ${
                     index === activeIndex ? "bg-blue-100" : "hover:bg-gray-100"
                   }`}
-                  onClick={() => handleItemSelect(item)}
+                  onClick={(e) => {
+                    handleItemSelect(item)
+                  }}
                 >
                   <Image
                     src={item.icon}

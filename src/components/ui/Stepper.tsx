@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from "react"
-import Button from "./Button"
+import { Button } from "./Button"
 
 type StepperContextType = {
   currentStep: number
