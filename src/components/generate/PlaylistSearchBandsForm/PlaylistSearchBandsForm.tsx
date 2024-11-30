@@ -72,10 +72,10 @@ const PlaylistSearchBandsForm = () => {
                 className="w-48"
               />
             </div>
-            <h3 className="text-lg font-semibold mb-2">
+            <h3 className="font-semibold mb-2">
               {t("steps.step2.emptyState.title")}
             </h3>
-            <p>{t("steps.step2.emptyState.description")}</p>
+            <p className="text-sm">{t("steps.step2.emptyState.description")}</p>
           </div>
         ) : (
           <div className="mt-4 flex flex-wrap gap-2">
