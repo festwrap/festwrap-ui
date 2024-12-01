@@ -55,7 +55,7 @@ export function Stepper({
 
 export function StepList({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative w-[400px] pt-0 sm:pt-20 flex flex-col gap-4">
+    <div className="relative w-[400px] pt-0 sm:pt-20 flex flex-col">
       {children}
     </div>
   )
@@ -80,7 +80,7 @@ export function Step({
     <div className="relative">
       <button
         onClick={() => !isDisabled && handleChangeStep(stepNumber)}
-        className={`relative z-10 flex items-start gap-4 w-full p-4 hover:bg-accent rounded-lg transition-colors ${
+        className={`relative z-10 flex items-start gap-4 w-full px-4 pt-2 pb-8 hover:bg-accent rounded-lg transition-colors ${
           isCurrent ? "bg-accent" : ""
         } ${isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
         disabled={isDisabled}
@@ -108,11 +108,10 @@ export function Step({
       {stepNumber < stepsCount && (
         <div
           className={cn(
-            "absolute left-8 top-14 w-0.5 h-[65px]",
+            "absolute left-8 top-12 w-0.5 h-[calc(100%-2.8rem)]",
             isCompleted ? "bg-primary" : "bg-secondary"
           )}
         />
-        // <div className="absolute left-7 top-[3.25rem] bottom-0 w-px bg-border ml-0.5" />
       )}
     </div>
   )
