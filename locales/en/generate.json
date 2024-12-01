@@ -6,10 +6,10 @@
    },
    "steps": {
       "navigation": {
-         "next": "Next",
-         "previous": "Previous",
          "finish": "Finish",
-         "generate": "Generate"
+         "generate": "Generate",
+         "next": "Next",
+         "previous": "Previous"
       },
       "step1": {
          "description": "Select to create a new playlist or use an existing playlist in your account",
@@ -26,6 +26,7 @@
             },
             "useExistingPlaylist": {
                "description": "Use this option to add songs to an existing playlist",
+               "selectPlaylist": "Select a playlist",
                "title": "Use an existing playlist"
             }
          },

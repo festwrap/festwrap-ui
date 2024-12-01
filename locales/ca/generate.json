@@ -26,6 +26,7 @@
             },
             "useExistingPlaylist": {
                "description": "Utilitza aquesta opció per afegir cançons a una llista de reproducció ja existent",
+               "selectPlaylist": "Selecciona una llista de reproducció",
                "title": "Utilitzar una llista existent"
             }
          },
