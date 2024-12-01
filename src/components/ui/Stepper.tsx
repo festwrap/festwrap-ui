@@ -85,7 +85,7 @@ export function Step({
         disabled={isDisabled}
         aria-current={isCurrent ? "step" : undefined}
       >
-        <div className="flex items-center justify-center w-9 h-9 rounded text-lg font-medium bg-secondary text-primary-foreground">
+        <div className="flex items-center justify-center w-9 h-9 rounded-full text-lg font-medium bg-secondary text-primary-foreground">
           {isCompleted ? <Check size={20} /> : stepNumber}
         </div>
         <div className="flex-1 text-left">
