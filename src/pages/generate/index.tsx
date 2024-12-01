@@ -1,87 +1,50 @@
-import PlaylistGetUrlLink from "@/components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink"
-import PlaylistSearchBandsForm from "@/components/generate/PlaylistSearchBandsForm/PlaylistSearchBandsForm"
-import PlaylistSetupForm from "@/components/generate/PlaylistSetupForm/PlaylistSetupForm"
-import { Button } from "@/components/ui/Button"
-import { Stepper, StepList, Step, StepContent } from "@/components/ui/Stepper"
-import useTranslation from "next-translate/useTranslation"
-import Link from "next/link"
-import { useState } from "react"
+import Head from "next/head"
+import { GetStaticProps, GetStaticPropsContext } from "next"
+import getT from "next-translate/getT"
+import GeneratePlaylistStepper from "@/components/generate/GeneratePlaylistStepper"
 
-const STEPS_COUNT = 3
-
-const Generate = () => {
-  const { t } = useTranslation("generate")
-  const [currentStep, setCurrentStep] = useState(1)
-
-  const handleChangeStep = (step: number) => {
-    setCurrentStep(step)
+type GenerateTranslationProps = {
+  meta: {
+    title: string
+    description: string
+    keywords: string
   }
+}
 
-  const handleNext = () => {
-    setCurrentStep((prev) => prev + 1)
-  }
+type GenerateProps = {
+  translations: GenerateTranslationProps
+}
 
-  const handleBack = () => {
-    setCurrentStep((prev) => prev - 1)
-  }
-
-  const shouldDisplayBackButton = currentStep > 1 && currentStep !== STEPS_COUNT
-  const shouldDisplayNextButton = currentStep < STEPS_COUNT
-  const shouldDisplayFinishButton = currentStep === STEPS_COUNT
-
+export default function Generate({ translations }: GenerateProps) {
   return (
-    <div className="space-y-6 flex">
-      <Stepper
-        stepsCount={STEPS_COUNT}
-        currentStep={currentStep}
-        onStepChange={handleChangeStep}
-      >
-        <StepList>
-          <Step
-            stepNumber={1}
-            title={t("steps.step1.title")}
-            description={t("steps.step1.description")}
-          />
-          <Step
-            stepNumber={2}
-            title={t("steps.step2.title")}
-            description={t("steps.step2.description")}
-          />
-          <Step
-            stepNumber={3}
-            title={t("steps.step3.title")}
-            description={t("steps.step3.description")}
-          />
-        </StepList>
-        <div className="min-h-[450px] flex flex-1 flex-col justify-between">
-          <StepContent stepNumber={1}>
-            <PlaylistSetupForm />
-          </StepContent>
-          <StepContent stepNumber={2}>
-            <PlaylistSearchBandsForm />
-          </StepContent>
-          <StepContent stepNumber={3}>
-            <PlaylistGetUrlLink />
-          </StepContent>
-          <div className="flex justify-end space-x-6 mt-8">
-            {shouldDisplayBackButton && (
-              <Button variant="ghost" onClick={handleBack}>
-                {t("steps.navigation.previous")}
-              </Button>
-            )}
-            {shouldDisplayNextButton && (
-              <Button onClick={handleNext}>{t("steps.navigation.next")}</Button>
-            )}
-            {shouldDisplayFinishButton && (
-              <Button asChild>
-                <Link href="/">{t("steps.navigation.finish")}</Link>
-              </Button>
-            )}
-          </div>
-        </div>
-      </Stepper>
-    </div>
+    <>
+      <Head>
+        <title>{translations.meta.title}</title>
+        <meta name="description" content={translations.meta.description} />
+        <meta name="keywords" content={translations.meta.keywords} />
+      </Head>
+      <GeneratePlaylistStepper />
+    </>
   )
 }
 
-export default Generate
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
+  const { locale } = context
+  const t = await getT(locale || "en", "generate")
+
+  const translations: GenerateTranslationProps = {
+    meta: {
+      title: t("meta.title"),
+      description: t("meta.description"),
+      keywords: t("meta.keywords"),
+    },
+  }
+
+  return {
+    props: {
+      translations,
+    },
+  }
+}
