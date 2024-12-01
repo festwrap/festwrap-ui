@@ -9,7 +9,7 @@ import { useState } from "react"
 
 const STEPS_COUNT = 3
 
-const GetStarted = () => {
+const Generate = () => {
   const { t } = useTranslation("generate")
   const [currentStep, setCurrentStep] = useState(1)
 
@@ -84,4 +84,4 @@ const GetStarted = () => {
   )
 }
 
-export default GetStarted
+export default Generate
