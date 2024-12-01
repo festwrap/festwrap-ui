@@ -48,7 +48,7 @@ export function Stepper({
     <StepperContext.Provider
       value={{ currentStep: internalCurrentStep, handleChangeStep, stepsCount }}
     >
-      <div className="flex w-full flex-col md:flex-row">{children}</div>
+      <div className="flex w-full gap-2 flex-col md:flex-row">{children}</div>
     </StepperContext.Provider>
   )
 }
