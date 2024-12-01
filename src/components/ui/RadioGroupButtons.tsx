@@ -52,7 +52,7 @@ export function RadioGroupButton({
   return (
     <label
       className={cn(
-        "relative flex flex-1 cursor-pointer flex-col rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent",
+        "relative flex flex-1 cursor-pointer rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2",
         isChecked && "border-primary"
       )}
     >
@@ -63,10 +63,10 @@ export function RadioGroupButton({
         checked={isChecked}
         onChange={() => context.onChange(value)}
       />
-      {isChecked && (
-        <CircleCheck className="absolute right-4 top-4 h-6 w-6 text-primary" />
-      )}
-      {children}
+      <div className="flex flex-col gap-1">{children}</div>
+      <div className="flex items-start w-8">
+        {isChecked && <CircleCheck className="h-5 w-5 text-primary" />}
+      </div>
     </label>
   )
 }
