@@ -128,5 +128,9 @@ export function StepContent({
 
   if (stepNumber !== currentStep) return null
 
-  return <div className="space-y-6">{children}</div>
+  return (
+    <div className="space-y-6" role="tabpanel">
+      {children}
+    </div>
+  )
 }

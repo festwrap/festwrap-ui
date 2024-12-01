@@ -11,7 +11,7 @@ type GenerateTranslationProps = {
   }
 }
 
-type GenerateProps = {
+export type GenerateProps = {
   translations: GenerateTranslationProps
 }
 
