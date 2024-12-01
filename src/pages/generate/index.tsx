@@ -4,6 +4,7 @@ import PlaylistSetupForm from "@/components/generate/PlaylistSetupForm/PlaylistS
 import { Button } from "@/components/ui/Button"
 import { Stepper, StepList, Step, StepContent } from "@/components/ui/Stepper"
 import useTranslation from "next-translate/useTranslation"
+import Link from "next/link"
 import { useState } from "react"
 
 const STEPS_COUNT = 3
@@ -23,6 +24,10 @@ const GetStarted = () => {
   const handleBack = () => {
     setCurrentStep((prev) => prev - 1)
   }
+
+  const shouldDisplayBackButton = currentStep > 1 && currentStep !== STEPS_COUNT
+  const shouldDisplayNextButton = currentStep < STEPS_COUNT
+  const shouldDisplayFinishButton = currentStep === STEPS_COUNT
 
   return (
     <div className="space-y-6 flex">
@@ -59,16 +64,19 @@ const GetStarted = () => {
             <PlaylistGetUrlLink />
           </StepContent>
           <div className="flex justify-end space-x-6 mt-8">
-            {currentStep > 1 && (
+            {shouldDisplayBackButton && (
               <Button variant="ghost" onClick={handleBack}>
                 {t("steps.navigation.previous")}
               </Button>
             )}
-            <Button onClick={handleNext}>
-              {currentStep === STEPS_COUNT
-                ? t("steps.navigation.finish")
-                : t("steps.navigation.next")}
-            </Button>
+            {shouldDisplayNextButton && (
+              <Button onClick={handleNext}>{t("steps.navigation.next")}</Button>
+            )}
+            {shouldDisplayFinishButton && (
+              <Button asChild>
+                <Link href="/">{t("steps.navigation.finish")}</Link>
+              </Button>
+            )}
           </div>
         </div>
       </Stepper>
