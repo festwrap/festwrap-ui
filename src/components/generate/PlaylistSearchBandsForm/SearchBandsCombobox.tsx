@@ -59,6 +59,10 @@ export function SearchBandsCombobox({
     }
   }, [])
 
+  const handleInputToggle = () => {
+    setIsOpen((prev) => !prev)
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
     setIsOpen(true)
@@ -74,8 +78,10 @@ export function SearchBandsCombobox({
 
     setSelectedItems(newSelectedItems)
     onChange(newSelectedItems.map((item) => item.id))
+
+    // Ensure closure after all updates
     setSearch("")
-    setIsOpen(false)
+    setTimeout(() => setIsOpen(false), 0)
     inputRef.current?.focus()
   }
 
@@ -97,6 +103,8 @@ export function SearchBandsCombobox({
       handleItemSelect(filteredItems[activeIndex])
     } else if (e.key === "Escape") {
       setIsOpen(false)
+    } else if (e.key === "Tab" && isOpen) {
+      e.preventDefault()
     }
   }
 
@@ -128,8 +136,8 @@ export function SearchBandsCombobox({
             type="text"
             value={search}
             onChange={handleInputChange}
-            onFocus={() => setIsOpen(true)}
-            className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onMouseDown={handleInputToggle}
+            className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             placeholder={placeholder}
             aria-haspopup="listbox"
             aria-autocomplete="list"
