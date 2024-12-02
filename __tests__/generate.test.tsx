@@ -1,5 +1,11 @@
 import { describe, expect, vi, it, beforeEach } from "vitest"
-import { cleanup, render, screen, within } from "@testing-library/react"
+import {
+  cleanup,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import GeneratePlaylistPage, { GenerateProps } from "@/pages/generate"
 
@@ -93,5 +99,101 @@ describe("GeneratePlaylistPage", () => {
       name: /steps.step2.title/i,
     })
     expect(secondNavigationStepButton).toBeInTheDocument()
+  })
+
+  it("should navigate to the previous step when clicking the previous button", async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />)
+
+    const firstNavigationStepButton = screen.getByRole("button", {
+      name: /steps.step1.title/i,
+    })
+    expect(firstNavigationStepButton).toBeInTheDocument()
+
+    const firstStepContent = screen.getByRole("tabpanel")
+    expect(
+      within(firstStepContent).getByText(/steps.step1.title/i)
+    ).toBeInTheDocument()
+
+    // Click next
+    const nextButton = screen.getByRole("button", {
+      name: /steps.navigation.next/i,
+    })
+    userEvent.click(nextButton)
+
+    // Check the second step is displayed
+    waitFor(() => {
+      const secondStepContent = screen.getByRole("tabpanel")
+      expect(
+        within(secondStepContent).getByText(/steps.step2.title/i)
+      ).toBeInTheDocument()
+
+      const previousButton = screen.getByRole("button", {
+        name: /steps.navigation.previous/i,
+      })
+      userEvent.click(previousButton)
+    })
+
+    expect(
+      within(firstStepContent).getByText(/steps.step1.title/i)
+    ).toBeInTheDocument()
+  })
+
+  it("should navigate to the last step when filling the form and clicking the next button", async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />)
+
+    const firstNavigationStepButton = screen.getByRole("button", {
+      name: /steps.step1.title/i,
+    })
+    expect(firstNavigationStepButton).toBeInTheDocument()
+
+    const firstStepContent = screen.getByRole("tabpanel")
+    expect(
+      within(firstStepContent).getByText(/steps.step1.title/i)
+    ).toBeInTheDocument()
+
+    // Click next
+    const nextButton = screen.getByRole("button", {
+      name: /steps.navigation.next/i,
+    })
+    userEvent.click(nextButton)
+
+    // Check the second step is displayed
+    waitFor(() => {
+      const secondStepContent = screen.getByRole("tabpanel")
+      expect(
+        within(secondStepContent).getByText(/steps.step2.title/i)
+      ).toBeInTheDocument()
+
+      // Fill the form
+      const searchInput = screen.getByRole("textbox", {
+        name: /steps.step2.form.searchBands.search/i,
+      })
+      userEvent.type(searchInput, "Metallica")
+
+      // Click next
+      userEvent.click(nextButton)
+    })
+
+    // Check the third step is displayed
+    waitFor(() => {
+      const thirdStepContent = screen.getByRole("tabpanel")
+      expect(
+        within(thirdStepContent).getByText(/steps.step3.title/i)
+      ).toBeInTheDocument()
+    })
+
+    waitFor(() => {
+      // Check the next button is not displayed
+      const nextButtonAfterLastStep = screen.queryByRole("button", {
+        name: /steps.navigation.next/i,
+      })
+      expect(nextButtonAfterLastStep).not.toBeInTheDocument()
+
+      // Check the finish button is displayed
+      const finishButton = screen.getByRole("button", {
+        name: /steps.navigation.finish/i,
+      })
+      expect(finishButton).toBeInTheDocument()
+    })
   })
 })
