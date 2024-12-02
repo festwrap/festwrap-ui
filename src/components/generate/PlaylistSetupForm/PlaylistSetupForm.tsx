@@ -75,7 +75,12 @@ const PlaylistSetupForm = () => {
             />
           </div>
           <div className="flex items-center space-x-2">
-            <Switch id="private-playlist" />
+            <Switch
+              id="private-playlist"
+              title={t(
+                "steps.step1.form.createNewPlaylist.privatePlaylist.title"
+              )}
+            />
             <Label htmlFor="private-playlist" className="flex flex-col">
               <span className="text-sm font-medium">
                 {t("steps.step1.form.createNewPlaylist.privatePlaylist.title")}
