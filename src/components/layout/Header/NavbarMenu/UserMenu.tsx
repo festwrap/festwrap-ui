@@ -8,9 +8,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu"
+} from "@components/ui/DropdownMenu"
 import useTranslation from "next-translate/useTranslation"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@components/ui/Button"
 
 type UserMenuProps = {
   session: Session

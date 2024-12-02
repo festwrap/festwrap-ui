@@ -1,11 +1,11 @@
-import Heading from "@/components/ui/Heading"
+import Heading from "@components/ui/Heading"
 import { X } from "lucide-react"
 import { SearchBandsCombobox } from "./SearchBandsCombobox"
 import ExampleItemImg from "@public/example-item-img.png"
 import EmptyListImg from "@public/empty-list.png"
 import { useState } from "react"
 import Image from "next/image"
-import { Badge } from "@/components/ui/Badge"
+import { Badge } from "@components/ui/Badge"
 import useTranslation from "next-translate/useTranslation"
 
 // Mock data for artists

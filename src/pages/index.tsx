@@ -1,5 +1,5 @@
-import HeroSection from "@/components/home/HeroSection/HeroSection"
-import HowItWorksSection from "@/components/home/HowItWorksSection/HowItWorksSection"
+import HeroSection from "@components/home/HeroSection/HeroSection"
+import HowItWorksSection from "@components/home/HowItWorksSection/HowItWorksSection"
 import Head from "next/head"
 import { GetStaticProps, GetStaticPropsContext } from "next"
 import getT from "next-translate/getT"

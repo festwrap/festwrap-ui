@@ -1,13 +1,13 @@
-import Heading from "@/components/ui/Heading"
-import { Input } from "@/components/ui/Input"
-import { Label } from "@/components/ui/Label"
+import Heading from "@components/ui/Heading"
+import { Input } from "@components/ui/Input"
+import { Label } from "@components/ui/Label"
 import {
   RadioGroupButtons,
   RadioGroupButton,
   RadioGroupButtonTitle,
   RadioGroupButtonDescription,
-} from "@/components/ui/RadioGroupButtons"
-import { Switch } from "@/components/ui/Switch"
+} from "@components/ui/RadioGroupButtons"
+import { Switch } from "@components/ui/Switch"
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
 import {
@@ -16,7 +16,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select"
+} from "@components/ui/Select"
 
 const PlaylistOptions = {
   NEW: "new",

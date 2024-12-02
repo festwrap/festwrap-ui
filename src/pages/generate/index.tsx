@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { GetStaticProps, GetStaticPropsContext } from "next"
 import getT from "next-translate/getT"
-import GeneratePlaylistStepper from "@/components/generate/GeneratePlaylistStepper"
+import GeneratePlaylistStepper from "@components/generate/GeneratePlaylistStepper"
 
 type GenerateTranslationProps = {
   meta: {
