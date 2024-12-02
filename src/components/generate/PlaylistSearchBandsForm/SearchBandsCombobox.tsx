@@ -1,7 +1,12 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from "react"
-import { ChevronsUpDownIcon, SearchIcon, XIcon } from "lucide-react"
+import {
+  ChevronsUpDownIcon,
+  CircleCheck,
+  SearchIcon,
+  XIcon,
+} from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 
 interface Item {
@@ -195,17 +200,9 @@ export function SearchBandsCombobox({
                   {selectedItems.some(
                     (selectedItem) => selectedItem.id === item.id
                   ) && (
-                    <svg
-                      className="ml-auto h-4 w-4 text-blue-500"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M5 13l4 4L19 7"></path>
-                    </svg>
+                    <span className="ml-auto">
+                      <CircleCheck className="h-5 w-5 text-primary" />
+                    </span>
                   )}
                 </li>
               ))
