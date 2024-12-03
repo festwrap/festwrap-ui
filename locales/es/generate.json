@@ -12,7 +12,7 @@
          "previous": "Anterior"
       },
       "step1": {
-         "description": "Selecciona para crear una nueva lista de reproducción o usar una lista de reproducción existente en tu cuenta",
+         "description": "Selecciona para crear una nueva lista o usar una lista existente en tu cuenta",
          "form": {
             "createNewPlaylist": {
                "description": "Utiliza esta opción para crear una nueva lista de reproducción en Spotify",
