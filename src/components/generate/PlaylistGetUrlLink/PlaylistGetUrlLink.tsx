@@ -22,7 +22,7 @@ const PlaylistGetUrlLink = () => {
           <Image
             src={playlistReadyImage}
             alt="Playlist ready"
-            className="w-48"
+            className="w-48 h-full"
           />
           <div className="text-dark-blue font-medium">
             {t("steps.step3.playlisyGeneratedSuccessfully")}

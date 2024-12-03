@@ -9,6 +9,15 @@ import {
 import userEvent from "@testing-library/user-event"
 import GeneratePlaylistPage, { GenerateProps } from "@/pages/generate"
 
+vi.mock("next/image", () => ({
+  __esModule: true,
+  default: (props: any) => {
+    const { src, alt } = props
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt={alt} {...props} />
+  },
+}))
+
 const staticTranslations: GenerateProps = {
   translations: {
     meta: {

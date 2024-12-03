@@ -68,10 +68,8 @@ const PlaylistSearchBandsForm = () => {
             <div className="flex justify-center mb-4">
               <Image
                 src={EmptyListImg}
-                width={96}
-                height={96}
                 alt="No artists selected"
-                className="w-48"
+                className="w-48 h-full"
               />
             </div>
             <h3 className="font-semibold mb-2">
