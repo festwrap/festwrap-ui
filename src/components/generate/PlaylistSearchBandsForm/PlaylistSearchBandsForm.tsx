@@ -7,12 +7,8 @@ import Image from "next/image"
 import { Badge } from "@components/ui/Badge"
 import useTranslation from "next-translate/useTranslation"
 import { useFormContext } from "react-hook-form"
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/Form"
+import { FormControl, FormField, FormItem } from "@/components/ui/Form"
+import ErrorMessage from "@/components/ui/ErrorMessage"
 
 // Mock data for artists
 const options = [
@@ -39,7 +35,9 @@ const options = [
 ]
 
 const PlaylistSearchBandsForm = () => {
-  const { control, watch, setValue } = useFormContext()
+  const { control, watch, setValue, formState } = useFormContext()
+  const { errors } = formState
+
   const { t } = useTranslation("generate")
 
   const selectedValues: Array<number> = watch("bands", [])
@@ -77,7 +75,11 @@ const PlaylistSearchBandsForm = () => {
                   placeholder={t("steps.step2.searchPlaceholder")}
                 />
               </FormControl>
-              <FormMessage />
+              {errors.bands && (
+                <ErrorMessage>
+                  {t("steps.errors.selectedBands.required")}
+                </ErrorMessage>
+              )}
             </FormItem>
           )}
         />

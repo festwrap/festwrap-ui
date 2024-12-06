@@ -21,8 +21,8 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormMessage,
 } from "@/components/ui/Form"
+import ErrorMessage from "@/components/ui/ErrorMessage"
 
 const PlaylistOptions = {
   NEW: "new",
@@ -30,7 +30,8 @@ const PlaylistOptions = {
 }
 
 const PlaylistSetupForm = () => {
-  const { watch, control } = useFormContext()
+  const { watch, control, formState } = useFormContext()
+  const { errors } = formState
   const { t } = useTranslation("generate")
 
   const playlistSelection = watch("playlistType")
@@ -91,7 +92,11 @@ const PlaylistSetupForm = () => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors.name?.message && (
+                    <ErrorMessage>
+                      {t("steps.errors.name.required")}
+                    </ErrorMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -157,7 +162,11 @@ const PlaylistSetupForm = () => {
                     <SelectItem value="4">Playlist 4</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormMessage />
+                {errors.playlistSelected?.message && (
+                  <ErrorMessage>
+                    {t("steps.errors.playlistSelected.required")}
+                  </ErrorMessage>
+                )}
               </FormItem>
             )}
           />
