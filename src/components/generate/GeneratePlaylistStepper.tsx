@@ -1,3 +1,4 @@
+import { z } from "zod"
 import PlaylistGetUrlLink from "@components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink"
 import PlaylistSearchBandsForm from "@components/generate/PlaylistSearchBandsForm/PlaylistSearchBandsForm"
 import PlaylistSetupForm from "@components/generate/PlaylistSetupForm/PlaylistSetupForm"
@@ -8,6 +9,31 @@ import Link from "next/link"
 import { useState } from "react"
 
 const STEPS_COUNT = 3
+const formSchema = z
+  .object({
+    playlistType: z.enum(["new", "existing"]),
+    name: z.string().optional(),
+    playlistSelected: z.string().optional(),
+    isPrivate: z.boolean(),
+    bands: z.array(z.number().min(1)).nonempty("At least one band is required"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.playlistType === "new" && !data.name) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Name is required for NEW role",
+        path: ["name"],
+      })
+    }
+
+    if (data.playlistType === "existing" && !data.playlistSelected) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Playlist is required for EXISTING role",
+        path: ["playlistSelected"],
+      })
+    }
+  })
 
 const GeneratePlaylistStepper = () => {
   const { t } = useTranslation("generate")
