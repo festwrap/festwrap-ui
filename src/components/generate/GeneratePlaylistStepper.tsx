@@ -59,7 +59,12 @@ const GeneratePlaylistStepper = () => {
   const { handleSubmit, trigger } = form
 
   const handleNext = async () => {
-    const isStepValid = await trigger(["name", "isPrivate", "playlistType"])
+    const isStepValid = await trigger([
+      "name",
+      "isPrivate",
+      "playlistType",
+      "playlistSelected",
+    ])
     if (isStepValid) setCurrentStep((prev) => prev + 1)
   }
 
