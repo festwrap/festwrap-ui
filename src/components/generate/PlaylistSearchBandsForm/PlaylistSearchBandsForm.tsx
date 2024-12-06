@@ -3,10 +3,16 @@ import { X } from "lucide-react"
 import { SearchBandsCombobox } from "./SearchBandsCombobox"
 import ExampleItemImg from "@public/example-item-img.png"
 import EmptyListImg from "@public/empty-list.png"
-import { useState } from "react"
 import Image from "next/image"
 import { Badge } from "@components/ui/Badge"
 import useTranslation from "next-translate/useTranslation"
+import { useFormContext } from "react-hook-form"
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/Form"
 
 // Mock data for artists
 const options = [
@@ -33,13 +39,14 @@ const options = [
 ]
 
 const PlaylistSearchBandsForm = () => {
+  const { control, watch, setValue } = useFormContext()
   const { t } = useTranslation("generate")
 
-  const [selectedValues, setSelectedValues] = useState<number[]>([])
+  const selectedValues: Array<number> = watch("bands", [])
 
   const removeSelectedItem = (id: number) => {
     const newSelectedItems = selectedValues.filter((item) => item !== id)
-    setSelectedValues(newSelectedItems)
+    setValue("bands", newSelectedItems)
   }
 
   const selectedItems = options.filter((option) =>
@@ -57,11 +64,22 @@ const PlaylistSearchBandsForm = () => {
         </p>
       </div>
       <div className="w-full">
-        <SearchBandsCombobox
-          options={options}
-          values={selectedValues}
-          onChange={setSelectedValues}
-          placeholder={t("steps.step2.searchPlaceholder")}
+        <FormField
+          control={control}
+          name="bands"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <SearchBandsCombobox
+                  options={options}
+                  values={field.value}
+                  onChange={field.onChange}
+                  placeholder={t("steps.step2.searchPlaceholder")}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         {selectedValues.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">
