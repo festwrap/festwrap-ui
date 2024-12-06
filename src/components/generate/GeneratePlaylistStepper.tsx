@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import PlaylistGetUrlLink from "@components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink"
 import PlaylistSearchBandsForm from "@components/generate/PlaylistSearchBandsForm/PlaylistSearchBandsForm"
@@ -35,9 +37,21 @@ const formSchema = z
     }
   })
 
+export type FormSchemaType = z.infer<typeof formSchema>
+
 const GeneratePlaylistStepper = () => {
   const { t } = useTranslation("generate")
   const [currentStep, setCurrentStep] = useState(1)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      playlistType: "new",
+      name: "",
+      playlistSelected: "",
+      isPrivate: false,
+      bands: [],
+    },
+  })
 
   const handleChangeStep = (step: number) => {
     setCurrentStep(step)
