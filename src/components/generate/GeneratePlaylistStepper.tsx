@@ -56,7 +56,7 @@ const GeneratePlaylistStepper = () => {
     },
   })
 
-  const { handleSubmit, trigger } = form
+  const { handleSubmit, trigger, formState } = form
 
   const handleNext = async () => {
     const isStepValid = await trigger([
@@ -91,6 +91,7 @@ const GeneratePlaylistStepper = () => {
           stepsCount={STEPS_COUNT}
           currentStep={currentStep}
           onStepChange={handleChangeStep}
+          isCompleted={formState.isSubmitted}
         >
           <StepList>
             <Step
