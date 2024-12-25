@@ -1,6 +1,6 @@
 {
    "meta": {
-      "description": "Generate Spotify playlists based on the songs being played in the current tour, using the Setlist.fm API",
+      "description": "Create playlists with the songs your bands are currently touring with",
       "keywords": "Spotify, Setlist.fm, Playlist generator, Festivals, Music, Concerts",
       "title": "Generator | Festwrap"
    },

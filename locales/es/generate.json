@@ -1,6 +1,6 @@
 {
    "meta": {
-      "description": "Genera listas de música en Spotify basado en les canciones que están tocando en el tour actual, usando la API de Setlist.fm",
+      "description": "Crea listas de reproducción con las canciones que tus bandas están tocando actualmente",
       "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
       "title": "Generador | Festwrap"
    },

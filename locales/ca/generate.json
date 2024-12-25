@@ -1,6 +1,6 @@
 {
    "meta": {
-      "description": "Genera llistes de música a Spotify basat en les cançons que estàn tocant en aquell tour, utilizant la API de Setlist.fm",
+      "description": "Genera llistes amb les cançons que les teves bandes estan girant actualment",
       "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
       "title": "Generar | Festwrap"
    },
