@@ -12,7 +12,7 @@
          "previous": "Previous"
       },
       "step1": {
-         "description": "Select to create a new playlist or use an existing playlist in your account",
+         "description": "Create a new list or use an existing one",
          "form": {
             "createNewPlaylist": {
                "description": "Use this option to create a new Spotify playlist",
@@ -25,7 +25,7 @@
                "title": "Create a new playlist"
             },
             "useExistingPlaylist": {
-               "description": "Use this option to add songs to an existing playlist",
+               "description": "Use this option to add songs to one of your existing playlists.",
                "selectPlaylist": "Select a playlist",
                "title": "Use an existing playlist"
             }
@@ -33,7 +33,7 @@
          "title": "Choose an option to start"
       },
       "step2": {
-         "description": "Search for the artists you want to add to the playlist",
+         "description": "Select for the artists you want to add to the playlist",
          "emptyState": {
             "description": "Start searching for artists to add them to the playlist",
             "title": "No artist added"
