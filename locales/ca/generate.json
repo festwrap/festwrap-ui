@@ -1,6 +1,6 @@
 {
    "meta": {
-      "description": "Genera llistes de música a Spotify basat en les cançons que estàn tocant en aquell tour, utilizant la API de Setlist.fm",
+      "description": "Genera llistes amb les cançons que les teves bandes estan girant actualment",
       "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
       "title": "Generar | Festwrap"
    },
@@ -23,11 +23,11 @@
          "previous": "Anterior"
       },
       "step1": {
-         "description": "Selecciona per crear una nova llista o utilitza una llista ja existent en el teu compte",
+         "description": "Crea una llista nova o utilitza una llista propia existent",
          "form": {
             "createNewPlaylist": {
                "description": "Utilitza aquesta opció per crear una nova llista de reproducció a Spotify",
-               "giveAName": "Dóna-li un nom a la llista",
+               "giveAName": "Dona un nom a la llista",
                "namePlaceholder": "Nom de la llista",
                "privatePlaylist": {
                   "description": "La llista de reproducció serà privada i només tu podràs veure-la",
@@ -36,7 +36,7 @@
                "title": "Crear una nova llista"
             },
             "useExistingPlaylist": {
-               "description": "Utilitza aquesta opció per afegir cançons a una llista de reproducció ja existent",
+               "description": "Utilitza aquesta opció per afegir cançons a una de les teves llistes de reproducció ja existent",
                "selectPlaylist": "Selecciona una llista de reproducció",
                "title": "Utilitzar una llista existent"
             }
@@ -44,7 +44,7 @@
          "title": "Tria una opció per començar"
       },
       "step2": {
-         "description": "Busca els artistes que vols afegir a la llista de reproducció",
+         "description": "Selecciona els artistes que vols afegir a la llista de reproducció",
          "emptyState": {
             "description": "Comença a buscar artistes per afegir-los a la llista de reproducció",
             "title": "No hi ha cap artista afegit"
