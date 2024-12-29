@@ -1,6 +1,6 @@
 {
    "meta": {
-      "description": "Genera llistes amb les cançons que les teves bandes estan girant actualment",
+      "description": "Genera llistes amb les cançons amb què les teves bandes preferides estan girant actualment",
       "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
       "title": "Generar | Festwrap"
    },
@@ -41,7 +41,7 @@
                "title": "Utilitzar una llista existent"
             }
          },
-         "title": "Tria una opció per començar"
+         "title": "Configura la llista"
       },
       "step2": {
          "description": "Selecciona els artistes que vols afegir a la llista de reproducció",
@@ -50,14 +50,14 @@
             "title": "No hi ha cap artista afegit"
          },
          "searchPlaceholder": "Cerca artistes",
-         "title": "Cercar els artistes"
+         "title": "Cerca els artistes"
       },
       "step3": {
-         "copyButton": "Copiar URL",
+         "copyButton": "Copia URL",
          "copySuccessButton": "Copiat!",
          "description": "Obre la llista generada o modificada utilitzant la URL de Spotify",
          "playlisyGeneratedSuccessfully": "Llista generada amb èxit",
-         "title": "Copiar la URL"
+         "title": "Copia la URL"
       }
    }
 }
