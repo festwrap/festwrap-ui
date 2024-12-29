@@ -39,14 +39,14 @@
             "title": "No hi ha cap artista afegit"
          },
          "searchPlaceholder": "Cerca artistes",
-         "title": "Cercar els artistes"
+         "title": "Cerca els artistes"
       },
       "step3": {
-         "copyButton": "Copiar URL",
+         "copyButton": "Copia URL",
          "copySuccessButton": "Copiat!",
          "description": "Obre la llista generada o modificada utilitzant la URL de Spotify",
          "playlisyGeneratedSuccessfully": "Llista generada amb èxit",
-         "title": "Copiar la URL"
+         "title": "Copia la URL"
       }
    }
 }
