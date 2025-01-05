@@ -1,5 +1,5 @@
-import MobileNavbarMenu from "./MobileNavbarMenu"
-import DesktopNavbarMenu from "./DesktopNavbarMenu"
+import MobileNavbarMenu from './MobileNavbarMenu';
+import DesktopNavbarMenu from './DesktopNavbarMenu';
 
 const NavbarMenu = () => {
   return (
@@ -7,7 +7,7 @@ const NavbarMenu = () => {
       <MobileNavbarMenu />
       <DesktopNavbarMenu />
     </>
-  )
-}
+  );
+};
 
-export default NavbarMenu
+export default NavbarMenu;

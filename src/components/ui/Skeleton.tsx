@@ -1,22 +1,22 @@
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 interface SkeletonProps {
-  className?: string
-  width?: string
-  height?: string
-  rounded?: string
+  className?: string;
+  width?: string;
+  height?: string;
+  rounded?: string;
 }
 
 const Skeleton = ({
-  className = "",
-  width = "w-full",
-  height = "h-4",
-  rounded = "rounded-md",
+  className = '',
+  width = 'w-full',
+  height = 'h-4',
+  rounded = 'rounded-md',
 }: SkeletonProps) => {
   return (
     <div
       className={cn(
-        "bg-gray-200 animate-pulse",
+        'bg-gray-200 animate-pulse',
         className,
         width,
         height,
@@ -27,7 +27,7 @@ const Skeleton = ({
     >
       <span className="sr-only">Loading...</span>
     </div>
-  )
-}
+  );
+};
 
-export default Skeleton
+export default Skeleton;

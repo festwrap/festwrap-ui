@@ -1,5 +1,5 @@
-import HeroSectionRight from "./HeroSectionRight"
-import HeroSectionLeft from "./HeroSectionLeft"
+import HeroSectionRight from './HeroSectionRight';
+import HeroSectionLeft from './HeroSectionLeft';
 
 const HeroSection = () => {
   return (
@@ -7,7 +7,7 @@ const HeroSection = () => {
       <HeroSectionLeft />
       <HeroSectionRight />
     </div>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

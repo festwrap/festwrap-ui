@@ -1,8 +1,8 @@
-import NextAuth from "next-auth"
-import SpotifyProvider from "next-auth/providers/spotify"
+import NextAuth from 'next-auth';
+import SpotifyProvider from 'next-auth/providers/spotify';
 
 const scope =
-  "playlist-modify-private playlist-modify-public playlist-read-private user-read-email"
+  'playlist-modify-private playlist-modify-public playlist-read-private user-read-email';
 
 export const authOptions = {
   providers: [
@@ -20,17 +20,17 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, account }: any) {
       if (account) {
-        token.id = account.id
-        token.expires_at = account.expires_at
-        token.accessToken = account.access_token
+        token.id = account.id;
+        token.expires_at = account.expires_at;
+        token.accessToken = account.access_token;
       }
-      return token
+      return token;
     },
     async session({ session, token }: any) {
-      session.user = token
-      return session
+      session.user = token;
+      return session;
     },
   },
-}
+};
 
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);

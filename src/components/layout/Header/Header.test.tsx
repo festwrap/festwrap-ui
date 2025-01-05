@@ -1,24 +1,24 @@
-import { cleanup, render, screen } from "@testing-library/react"
-import { useSession } from "next-auth/react"
-import Header from "./Header"
-import { vi, describe, afterEach, beforeAll, test, expect } from "vitest"
+import { cleanup, render, screen } from '@testing-library/react';
+import { useSession } from 'next-auth/react';
+import Header from './Header';
+import { vi, describe, afterEach, beforeAll, test, expect } from 'vitest';
 
-vi.mock("next-auth/react", () => {
+vi.mock('next-auth/react', () => {
   return {
     __esModule: true,
     useSession: vi.fn(),
-  }
-})
+  };
+});
 
-const writeTextMock = vi.fn()
+const writeTextMock = vi.fn();
 
 Object.assign(navigator, {
   clipboard: {
     writeText: writeTextMock,
   },
-})
+});
 
-vi.mock("@components/ui/DropdownMenu", () => ({
+vi.mock('@components/ui/DropdownMenu', () => ({
   DropdownMenu: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
@@ -39,102 +39,102 @@ vi.mock("@components/ui/DropdownMenu", () => ({
     children,
     onClick,
   }: {
-    children: React.ReactNode
-    onClick?: () => void
+    children: React.ReactNode;
+    onClick?: () => void;
   }) => <button onClick={onClick}>{children}</button>,
-}))
+}));
 
-describe("Header", () => {
-  const TOMORRROW_DATE = new Date(Date.now() + 86400).toISOString()
+describe('Header', () => {
+  const TOMORRROW_DATE = new Date(Date.now() + 86400).toISOString();
 
   afterEach(() => {
-    vi.clearAllMocks()
-    cleanup()
-  })
+    vi.clearAllMocks();
+    cleanup();
+  });
 
   beforeAll(() => {
-    window.PointerEvent = MouseEvent as typeof PointerEvent
-  })
+    window.PointerEvent = MouseEvent as typeof PointerEvent;
+  });
 
-  test("should render header", () => {
+  test('should render header', () => {
     vi.mocked(useSession).mockReturnValue({
       update: vi.fn(),
       data: null,
-      status: "unauthenticated",
-    })
+      status: 'unauthenticated',
+    });
 
-    render(<Header />)
+    render(<Header />);
 
     // check navlinks
     expect(
-      screen.getByRole("link", { name: /nav.getStarted/i })
-    ).toBeInTheDocument()
+      screen.getByRole('link', { name: /nav.getStarted/i })
+    ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /nav.aboutUs/i })
-    ).toBeInTheDocument()
-  })
+      screen.getByRole('link', { name: /nav.aboutUs/i })
+    ).toBeInTheDocument();
+  });
 
-  test("should render sign in button when there is not session", () => {
+  test('should render sign in button when there is not session', () => {
     vi.mocked(useSession).mockReturnValue({
       update: vi.fn(),
       data: null,
-      status: "unauthenticated",
-    })
+      status: 'unauthenticated',
+    });
 
-    render(<Header />)
+    render(<Header />);
 
-    expect(screen.getByRole("button", { name: /nav.login/i })).toBeTruthy()
-  })
+    expect(screen.getByRole('button', { name: /nav.login/i })).toBeTruthy();
+  });
 
-  test("should render sign out button when there is session", async () => {
+  test('should render sign out button when there is session', async () => {
     const mockSession = {
       expires: TOMORRROW_DATE,
       user: {
-        name: "Peter Griffin",
-        email: "user@gmail.com",
-        accessToken: "token",
+        name: 'Peter Griffin',
+        email: 'user@gmail.com',
+        accessToken: 'token',
       },
-    }
+    };
 
     vi.mocked(useSession).mockReturnValue({
       update: vi.fn(),
       data: mockSession,
-      status: "authenticated",
-    })
+      status: 'authenticated',
+    });
 
-    render(<Header />)
+    render(<Header />);
 
-    const avatarButton = screen.getByRole("button", { name: /PG/i })
-    expect(avatarButton).toBeInTheDocument()
+    const avatarButton = screen.getByRole('button', { name: /PG/i });
+    expect(avatarButton).toBeInTheDocument();
 
-    expect(screen.getByText("nav.logout")).toBeInTheDocument()
-    expect(screen.getByText("nav.copyAccessToken")).toBeInTheDocument()
-  })
+    expect(screen.getByText('nav.logout')).toBeInTheDocument();
+    expect(screen.getByText('nav.copyAccessToken')).toBeInTheDocument();
+  });
 
-  test("should copy access token to clipboard", () => {
+  test('should copy access token to clipboard', () => {
     const mockSession = {
       expires: TOMORRROW_DATE,
       user: {
-        name: "Peter Griffin",
-        email: "user@gmail.com",
-        accessToken: "token",
+        name: 'Peter Griffin',
+        email: 'user@gmail.com',
+        accessToken: 'token',
       },
-    }
+    };
 
     vi.mocked(useSession).mockReturnValue({
       update: vi.fn(),
       data: mockSession,
-      status: "authenticated",
-    })
+      status: 'authenticated',
+    });
 
-    render(<Header />)
+    render(<Header />);
 
-    const copyButton = screen.getByRole("button", {
+    const copyButton = screen.getByRole('button', {
       name: /nav.copyAccessToken/i,
-    })
+    });
 
-    copyButton.click()
+    copyButton.click();
 
-    expect(writeTextMock).toHaveBeenCalledWith(mockSession.user.accessToken)
-  })
-})
+    expect(writeTextMock).toHaveBeenCalledWith(mockSession.user.accessToken);
+  });
+});

@@ -1,5 +1,5 @@
-import { Session } from "next-auth"
-import { signOut } from "next-auth/react"
+import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,34 +8,34 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/DropdownMenu"
-import useTranslation from "next-translate/useTranslation"
-import { Button } from "@components/ui/Button"
+} from '@components/ui/DropdownMenu';
+import useTranslation from 'next-translate/useTranslation';
+import { Button } from '@components/ui/Button';
 
 type UserMenuProps = {
-  session: Session
-  isMobileScreen?: boolean
-}
+  session: Session;
+  isMobileScreen?: boolean;
+};
 
 const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
-  const { t } = useTranslation("common")
+  const { t } = useTranslation('common');
 
   const getInitialsFromName = (name: string) => {
-    const nameSplitBySpaces = name.split(" ")
-    return nameSplitBySpaces.map((n) => n[0]).join("")
-  }
+    const nameSplitBySpaces = name.split(' ');
+    return nameSplitBySpaces.map((n) => n[0]).join('');
+  };
 
   const copyToClipboardToken = () => {
-    navigator.clipboard.writeText(session?.user?.accessToken || "")
-  }
+    navigator.clipboard.writeText(session?.user?.accessToken || '');
+  };
 
-  const dropdownOverlayAlignment = isMobileScreen ? "center" : "end"
+  const dropdownOverlayAlignment = isMobileScreen ? 'center' : 'end';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" size="icon">
-          {getInitialsFromName(session.user.name || "")}
+          {getInitialsFromName(session.user.name || '')}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -54,15 +54,15 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={copyToClipboardToken}>
-            {t("nav.copyAccessToken")}
+            {t('nav.copyAccessToken')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => signOut()}>
-            {t("nav.logout")}
+            {t('nav.logout')}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
-export default UserMenu
+export default UserMenu;
