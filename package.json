@@ -55,7 +55,7 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "start": "next start",
-    "test": "vitest --run",
+    "test": "vitest --run --reporter=verbose",
     "prepare": "husky"
   },
   "version": "1.0.0"
