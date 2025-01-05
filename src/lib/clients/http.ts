@@ -40,3 +40,27 @@ export class HttpBaseClient implements HttpClient {
     });
   }
 }
+
+export class FakeHttpClient implements HttpClient {
+  private sendErrorMessage: string | undefined = undefined;
+  private result: HttpResponse;
+
+  constructor(result: HttpResponse = { data: {}, status: 200 }) {
+    this.result = result;
+  }
+
+  setResult(result: HttpResponse) {
+    this.result = result;
+  }
+
+  setSendErrorMessage(message: string) {
+    this.sendErrorMessage = message;
+  }
+
+  async send(..._: any[]): Promise<HttpResponse> {
+    if (this.sendErrorMessage !== undefined) {
+      throw new Error(this.sendErrorMessage);
+    }
+    return this.result;
+  }
+}
