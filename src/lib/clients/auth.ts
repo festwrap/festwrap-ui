@@ -35,3 +35,33 @@ export class GCPHTTPAuthClient {
     return 'X-Serverless-Authorization';
   }
 }
+
+export class FakeAuthClient {
+  private header: string;
+  private token: string;
+  private getTokenErrorMessage: string | undefined = undefined;
+
+  constructor(token: string, header: string) {
+    this.token = token;
+    this.header = header;
+  }
+
+  setToken(token: string) {
+    this.token = token;
+  }
+
+  setGetTokenErrorMessage(message: string) {
+    this.getTokenErrorMessage = message;
+  }
+
+  async getToken(): Promise<string> {
+    if (this.getTokenErrorMessage !== undefined) {
+      throw new Error(this.getTokenErrorMessage);
+    }
+    return this.token;
+  }
+
+  getHeaderName(): string {
+    return this.header;
+  }
+}
