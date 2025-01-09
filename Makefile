@@ -2,6 +2,7 @@ ENV_VARS := $(shell cat .env | xargs)
 
 IMAGE_NAME?=festwrap-ui
 IMAGE_TAG?=latest
+ENV_FILE?=./.env
 
 .PHONY: install-deps
 install-deps:
@@ -9,7 +10,7 @@ install-deps:
 
 .PHONY: create-env-from-template
 create-env-from-template:
-	cp .env.template .env
+	cp .env.template $(ENV_FILE)
 
 .PHONY: local-setup
 local-setup: install-deps create-env-from-template
@@ -42,6 +43,14 @@ run-lint:
 .PHONY: run-checks
 run-checks: run-lint run-tests
 
-.PHONY:
+.PHONY: build-image
 build-image:
 	docker build -f Dockerfile -t ${IMAGE_NAME}:${IMAGE_TAG} .
+
+.PHONY: run-services
+run-services:
+	@ENV_FILE=$(ENV_FILE) docker-compose up -d
+
+.PHONY: clean-services
+clean-services:
+	@ENV_FILE=$(ENV_FILE) docker-compose down

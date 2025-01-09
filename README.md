@@ -44,6 +44,22 @@ Run the app
 make run-start
 ```
 
+# Run all services
+
+We can run the app and the backend locally by typing:
+
+```shell
+make run-services
+```
+
+Make sure you have locally build an image of the backend following [these instructions](https://github.com/DanielMoraDC/festwrap-server?tab=readme-ov-file#run-the-app-container).
+
+To clean them all:
+
+```shell
+make clean-services
+```
+
 # Recommendations for a great experience using TailwindCSS 🧙🏼‍♂️
 
 ### Add TailwindCSS Intellisense
