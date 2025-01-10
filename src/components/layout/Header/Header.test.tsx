@@ -117,7 +117,7 @@ describe('Header', () => {
       user: {
         name: 'Peter Griffin',
         email: 'user@gmail.com',
-        accessToken: 'token',
+        access_token: 'token',
       },
     };
 
@@ -135,6 +135,6 @@ describe('Header', () => {
 
     copyButton.click();
 
-    expect(writeTextMock).toHaveBeenCalledWith(mockSession.user.accessToken);
+    expect(writeTextMock).toHaveBeenCalledWith(mockSession.user.access_token);
   });
 });
