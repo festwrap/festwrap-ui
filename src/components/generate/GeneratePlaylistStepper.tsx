@@ -70,9 +70,8 @@ const GeneratePlaylistStepper = () => {
 
   const handleBack = () => setCurrentStep((prev) => prev - 1);
 
-  const onSubmit = (values: FormSchemaType) => {
+  const onSubmit = (_values: FormSchemaType) => {
     setCurrentStep((prev) => prev + 1);
-    console.log(values);
   };
 
   const handleChangeStep = (step: number) => {
