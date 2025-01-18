@@ -1,6 +1,6 @@
-import Header from "@components/layout/Header/Header"
-import Main from "@components/layout/Main"
-import Footer from "@components/layout/Footer/Footer"
+import Header from '@components/layout/Header/Header';
+import Main from '@components/layout/Main';
+import Footer from '@components/layout/Footer/Footer';
 
 export default function RootLayout({
   children,
@@ -11,5 +11,5 @@ export default function RootLayout({
       <Main>{children}</Main>
       <Footer />
     </div>
-  )
+  );
 }

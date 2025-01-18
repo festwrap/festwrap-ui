@@ -5,7 +5,7 @@ const Main = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         {children}
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

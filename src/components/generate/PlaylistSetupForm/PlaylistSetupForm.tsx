@@ -1,42 +1,42 @@
-import Heading from "@components/ui/Heading"
-import { Input } from "@components/ui/Input"
-import { Label } from "@components/ui/Label"
+import Heading from '@components/ui/Heading';
+import { Input } from '@components/ui/Input';
+import { Label } from '@components/ui/Label';
 import {
   RadioGroupButtons,
   RadioGroupButton,
   RadioGroupButtonTitle,
   RadioGroupButtonDescription,
-} from "@components/ui/RadioGroupButtons"
-import { Switch } from "@components/ui/Switch"
-import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+} from '@components/ui/RadioGroupButtons';
+import { Switch } from '@components/ui/Switch';
+import useTranslation from 'next-translate/useTranslation';
+import { useState } from 'react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/Select"
+} from '@components/ui/Select';
 
 const PlaylistOptions = {
-  NEW: "new",
-  EXISTING: "existing",
-}
+  NEW: 'new',
+  EXISTING: 'existing',
+};
 
 const PlaylistSetupForm = () => {
-  const { t } = useTranslation("generate")
+  const { t } = useTranslation('generate');
   const [playlistSelection, setPlaylistSelection] = useState(
     PlaylistOptions.NEW
-  )
+  );
 
   return (
     <>
       <div className="flex flex-col space-y-2">
         <Heading as="h2" size="2xl" color="primary">
-          {t("steps.step1.title")}
+          {t('steps.step1.title')}
         </Heading>
         <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
-          {t("steps.step1.description")}
+          {t('steps.step1.description')}
         </p>
       </div>
 
@@ -46,18 +46,18 @@ const PlaylistSetupForm = () => {
       >
         <RadioGroupButton value={PlaylistOptions.NEW}>
           <RadioGroupButtonTitle>
-            {t("steps.step1.form.createNewPlaylist.title")}
+            {t('steps.step1.form.createNewPlaylist.title')}
           </RadioGroupButtonTitle>
           <RadioGroupButtonDescription>
-            {t("steps.step1.form.createNewPlaylist.description")}
+            {t('steps.step1.form.createNewPlaylist.description')}
           </RadioGroupButtonDescription>
         </RadioGroupButton>
         <RadioGroupButton value={PlaylistOptions.EXISTING}>
           <RadioGroupButtonTitle>
-            {t("steps.step1.form.useExistingPlaylist.title")}
+            {t('steps.step1.form.useExistingPlaylist.title')}
           </RadioGroupButtonTitle>
           <RadioGroupButtonDescription>
-            {t("steps.step1.form.useExistingPlaylist.description")}
+            {t('steps.step1.form.useExistingPlaylist.description')}
           </RadioGroupButtonDescription>
         </RadioGroupButton>
       </RadioGroupButtons>
@@ -65,12 +65,12 @@ const PlaylistSetupForm = () => {
         <>
           <div className="space-y-2 mt-6">
             <Label htmlFor="playlist-name">
-              {t("steps.step1.form.createNewPlaylist.giveAName")}
+              {t('steps.step1.form.createNewPlaylist.giveAName')}
             </Label>
             <Input
               id="playlist-name"
               placeholder={t(
-                "steps.step1.form.createNewPlaylist.namePlaceholder"
+                'steps.step1.form.createNewPlaylist.namePlaceholder'
               )}
             />
           </div>
@@ -78,16 +78,16 @@ const PlaylistSetupForm = () => {
             <Switch
               id="private-playlist"
               title={t(
-                "steps.step1.form.createNewPlaylist.privatePlaylist.title"
+                'steps.step1.form.createNewPlaylist.privatePlaylist.title'
               )}
             />
             <Label htmlFor="private-playlist" className="flex flex-col">
               <span className="text-sm font-medium">
-                {t("steps.step1.form.createNewPlaylist.privatePlaylist.title")}
+                {t('steps.step1.form.createNewPlaylist.privatePlaylist.title')}
               </span>
               <span className="text-sm text-muted-foreground text-dark-blue">
                 {t(
-                  "steps.step1.form.createNewPlaylist.privatePlaylist.description"
+                  'steps.step1.form.createNewPlaylist.privatePlaylist.description'
                 )}
               </span>
             </Label>
@@ -96,13 +96,13 @@ const PlaylistSetupForm = () => {
       ) : (
         <div className="space-y-2 mt-6">
           <Label htmlFor="select-existing-playlist">
-            {t("steps.step1.form.useExistingPlaylist.selectPlaylist")}
+            {t('steps.step1.form.useExistingPlaylist.selectPlaylist')}
           </Label>
           <Select>
             <SelectTrigger className="w-full" id="select-existing-playlist">
               <SelectValue
                 placeholder={t(
-                  "steps.step1.form.useExistingPlaylist.selectPlaylist"
+                  'steps.step1.form.useExistingPlaylist.selectPlaylist'
                 )}
               />
             </SelectTrigger>
@@ -116,7 +116,7 @@ const PlaylistSetupForm = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PlaylistSetupForm
+export default PlaylistSetupForm;
