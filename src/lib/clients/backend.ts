@@ -3,7 +3,7 @@ import { AuthClient } from './auth';
 import { HttpClient, Method } from './http';
 
 export interface BackendClient {
-  searchArtists(_token: string, _name: string, _limit: number): Promise<Artist>;
+  searchArtists(_token: string, _name: string, _limit: number): Promise<Artist[]>;
 }
 
 export class HTTPBackendClient implements BackendClient {
@@ -21,7 +21,7 @@ export class HTTPBackendClient implements BackendClient {
     token: string,
     name: string,
     limit: number
-  ): Promise<Artist> {
+  ): Promise<Artist[]> {
     const authHeader = await this.buildAuthHeader();
     const backendAuthHeader = { Authorization: `Bearer ${token}` };
     return this.httpClient
