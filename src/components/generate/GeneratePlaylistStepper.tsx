@@ -10,19 +10,20 @@ import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
+import { PlaylistType } from '@/types/Playlist';
 
 const STEPS_COUNT = 3;
 
 const formSchema = z
   .object({
-    playlistType: z.enum(['new', 'existing']),
+    playlistType: z.enum([PlaylistType.New, PlaylistType.Existing]),
     name: z.string().optional(),
     playlistSelected: z.string().optional(),
     isPrivate: z.boolean(),
     bands: z.array(z.number().min(1)).nonempty('At least one band is required'),
   })
   .superRefine((data, ctx) => {
-    if (data.playlistType === 'new' && !data.name) {
+    if (data.playlistType === PlaylistType.New && !data.name) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Name is required for NEW role',
@@ -30,7 +31,7 @@ const formSchema = z
       });
     }
 
-    if (data.playlistType === 'existing' && !data.playlistSelected) {
+    if (data.playlistType === PlaylistType.Existing && !data.playlistSelected) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Playlist is required for EXISTING role',
@@ -48,7 +49,7 @@ const GeneratePlaylistStepper = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      playlistType: 'new',
+      playlistType: PlaylistType.New,
       name: '',
       playlistSelected: '',
       isPrivate: false,
