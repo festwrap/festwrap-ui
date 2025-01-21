@@ -4,17 +4,17 @@ export enum PlaylistType {
   Existing = 'existing',
 }
 
-export interface NewPlaylist {
+export type NewPlaylist = {
   playlistType: PlaylistType.New;
   name: string;
   isPrivate: boolean;
   bands: string[];
-}
+};
 
-export interface ExistingPlaylist {
+export type ExistingPlaylist = {
   playlistType: PlaylistType.Existing;
   playlistSelected: string;
   bands: string[];
-}
+};
 
 export type Playlist = NewPlaylist | ExistingPlaylist;
