@@ -1,24 +1,24 @@
-"use client"
-import Link from "next/link"
-import NavLink from "@components/layout/Header/NavbarMenu/NavLink"
-import Image from "next/image"
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
-import SpotifyAuthDropdown from "./SpotifyAuthDropdown"
-import useTranslation from "next-translate/useTranslation"
-import { Button } from "@components/ui/Button"
+'use client';
+import Link from 'next/link';
+import NavLink from '@components/layout/Header/NavbarMenu/NavLink';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import SpotifyAuthDropdown from './SpotifyAuthDropdown';
+import useTranslation from 'next-translate/useTranslation';
+import { Button } from '@components/ui/Button';
 
 const MobileNavbarMenu = () => {
-  const { t } = useTranslation("common")
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { t } = useTranslation('common');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClose = () => {
-    setIsMenuOpen(false)
-  }
+    setIsMenuOpen(false);
+  };
 
   const handleMenuOpen = () => {
-    setIsMenuOpen(true)
-  }
+    setIsMenuOpen(true);
+  };
 
   return (
     <>
@@ -59,14 +59,14 @@ const MobileNavbarMenu = () => {
                 href="/get-started"
                 onClick={handleMenuClose}
               >
-                {t("nav.getStarted")}
+                {t('nav.getStarted')}
               </NavLink>
               <NavLink
                 variant="mobile"
                 href="/about-us"
                 onClick={handleMenuClose}
               >
-                {t("nav.aboutUs")}
+                {t('nav.aboutUs')}
               </NavLink>
               <SpotifyAuthDropdown isMobileScreen />
             </nav>
@@ -74,7 +74,7 @@ const MobileNavbarMenu = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default MobileNavbarMenu
+export default MobileNavbarMenu;

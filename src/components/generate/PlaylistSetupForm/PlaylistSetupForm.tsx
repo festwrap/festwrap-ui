@@ -1,49 +1,45 @@
-import Heading from "@components/ui/Heading"
-import { Input } from "@components/ui/Input"
+import Heading from '@components/ui/Heading';
+import { Input } from '@components/ui/Input';
 import {
   RadioGroupButtons,
   RadioGroupButton,
   RadioGroupButtonTitle,
   RadioGroupButtonDescription,
-} from "@components/ui/RadioGroupButtons"
-import { Switch } from "@components/ui/Switch"
-import useTranslation from "next-translate/useTranslation"
+} from '@components/ui/RadioGroupButtons';
+import { Switch } from '@components/ui/Switch';
+import useTranslation from 'next-translate/useTranslation';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/Select"
-import { useFormContext } from "react-hook-form"
+} from '@components/ui/Select';
+import { useFormContext } from 'react-hook-form';
 import {
   FormField,
   FormItem,
   FormLabel,
   FormControl,
-} from "@/components/ui/Form"
-import ErrorMessage from "@/components/ui/ErrorMessage"
-
-const PlaylistOptions = {
-  NEW: "new",
-  EXISTING: "existing",
-}
+} from '@/components/ui/Form';
+import ErrorMessage from '@/components/ui/ErrorMessage';
+import { PlaylistType } from '@/types/Playlist';
 
 const PlaylistSetupForm = () => {
-  const { watch, control, formState } = useFormContext()
-  const { errors } = formState
-  const { t } = useTranslation("generate")
+  const { watch, control, formState } = useFormContext();
+  const { errors } = formState;
+  const { t } = useTranslation('generate');
 
-  const playlistSelection = watch("playlistType")
+  const playlistSelection = watch('playlistType');
 
   return (
     <>
       <div className="flex flex-col space-y-2">
         <Heading as="h2" size="2xl" color="primary">
-          {t("steps.step1.title")}
+          {t('steps.step1.title')}
         </Heading>
         <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
-          {t("steps.step1.description")}
+          {t('steps.step1.description')}
         </p>
       </div>
       <FormField
@@ -54,26 +50,26 @@ const PlaylistSetupForm = () => {
             defaultValue={field.value}
             onChange={(value) => field.onChange(value)}
           >
-            <RadioGroupButton value={PlaylistOptions.NEW}>
+            <RadioGroupButton value={PlaylistType.New}>
               <RadioGroupButtonTitle>
-                {t("steps.step1.form.createNewPlaylist.title")}
+                {t('steps.step1.form.createNewPlaylist.title')}
               </RadioGroupButtonTitle>
               <RadioGroupButtonDescription>
-                {t("steps.step1.form.createNewPlaylist.description")}
+                {t('steps.step1.form.createNewPlaylist.description')}
               </RadioGroupButtonDescription>
             </RadioGroupButton>
-            <RadioGroupButton value={PlaylistOptions.EXISTING}>
+            <RadioGroupButton value={PlaylistType.Existing}>
               <RadioGroupButtonTitle>
-                {t("steps.step1.form.useExistingPlaylist.title")}
+                {t('steps.step1.form.useExistingPlaylist.title')}
               </RadioGroupButtonTitle>
               <RadioGroupButtonDescription>
-                {t("steps.step1.form.useExistingPlaylist.description")}
+                {t('steps.step1.form.useExistingPlaylist.description')}
               </RadioGroupButtonDescription>
             </RadioGroupButton>
           </RadioGroupButtons>
         )}
       />
-      {playlistSelection === PlaylistOptions.NEW ? (
+      {playlistSelection === PlaylistType.New ? (
         <>
           <div className="space-y-2 mt-6">
             <FormField
@@ -82,19 +78,19 @@ const PlaylistSetupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t("steps.step1.form.createNewPlaylist.giveAName")}
+                    {t('steps.step1.form.createNewPlaylist.giveAName')}
                   </FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t(
-                        "steps.step1.form.createNewPlaylist.namePlaceholder"
+                        'steps.step1.form.createNewPlaylist.namePlaceholder'
                       )}
                       {...field}
                     />
                   </FormControl>
                   {errors.name?.message && (
                     <ErrorMessage>
-                      {t("steps.errors.name.required")}
+                      {t('steps.errors.name.required')}
                     </ErrorMessage>
                   )}
                 </FormItem>
@@ -112,19 +108,19 @@ const PlaylistSetupForm = () => {
                     onCheckedChange={field.onChange}
                     aria-readonly
                     title={t(
-                      "steps.step1.form.createNewPlaylist.privatePlaylist.title"
+                      'steps.step1.form.createNewPlaylist.privatePlaylist.title'
                     )}
                   />
                 </FormControl>
                 <FormLabel className="flex flex-col">
                   <span className="text-sm font-medium">
                     {t(
-                      "steps.step1.form.createNewPlaylist.privatePlaylist.title"
+                      'steps.step1.form.createNewPlaylist.privatePlaylist.title'
                     )}
                   </span>
                   <span className="text-sm text-muted-foreground text-dark-blue">
                     {t(
-                      "steps.step1.form.createNewPlaylist.privatePlaylist.description"
+                      'steps.step1.form.createNewPlaylist.privatePlaylist.description'
                     )}
                   </span>
                 </FormLabel>
@@ -140,7 +136,7 @@ const PlaylistSetupForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  {t("steps.step1.form.useExistingPlaylist.selectPlaylist")}
+                  {t('steps.step1.form.useExistingPlaylist.selectPlaylist')}
                 </FormLabel>
                 <Select
                   onValueChange={field.onChange}
@@ -150,7 +146,7 @@ const PlaylistSetupForm = () => {
                     <SelectTrigger className="w-full">
                       <SelectValue
                         placeholder={t(
-                          "steps.step1.form.useExistingPlaylist.selectPlaylist"
+                          'steps.step1.form.useExistingPlaylist.selectPlaylist'
                         )}
                       />
                     </SelectTrigger>
@@ -164,7 +160,7 @@ const PlaylistSetupForm = () => {
                 </Select>
                 {errors.playlistSelected?.message && (
                   <ErrorMessage>
-                    {t("steps.errors.playlistSelected.required")}
+                    {t('steps.errors.playlistSelected.required')}
                   </ErrorMessage>
                 )}
               </FormItem>
@@ -173,7 +169,7 @@ const PlaylistSetupForm = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PlaylistSetupForm
+export default PlaylistSetupForm;

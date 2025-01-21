@@ -1,5 +1,5 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from 'next/image';
+import Link from 'next/link';
 
 const LogoLink = () => {
   return (
@@ -12,7 +12,7 @@ const LogoLink = () => {
         priority
       />
     </Link>
-  )
-}
+  );
+};
 
-export default LogoLink
+export default LogoLink;
