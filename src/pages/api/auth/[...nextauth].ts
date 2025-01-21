@@ -21,7 +21,7 @@ async function refreshAccessToken(
     },
     body: new URLSearchParams({
       grant_type: 'refresh_token',
-      refresh_token: token.refresh_token,
+      refresh_token: token.refreshToken,
       client_id: clientId,
     }),
   };
@@ -32,10 +32,11 @@ async function refreshAccessToken(
 
   const response = await body.json();
   return {
-    ...token,
-    access_token: response.access_token,
-    refresh_token: response.refresh_token,
-    expires_at: Date.now() + response.expires_in * 1000,
+    name: token.name,
+    email: token.email,
+    accessToken: response.access_token,
+    refreshToken: response.refresh_token,
+    expiresAt: Date.now() + response.expires_in * 1000,
   };
 }
 
@@ -57,12 +58,13 @@ export const authOptions = {
       // See https://authjs.dev/guides/refresh-token-rotation
       if (account) {
         return {
-          ...token,
-          access_token: account.access_token,
-          expires_at: account.expires_at * 1000,
-          refresh_token: account.refresh_token,
+          email: account.email,
+          name: token.name,
+          accessToken: account.access_token,
+          expiresAt: account.expires_at * 1000,
+          refreshToken: account.refresh_token,
         };
-      } else if (Date.now() < token.expires_at) {
+      } else if (Date.now() < token.expiresAt) {
         // Non-first-time login, token not expired, yet
         return token;
       } else {

@@ -26,7 +26,7 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   };
 
   const copyToClipboardToken = () => {
-    navigator.clipboard.writeText(session?.user?.access_token || '');
+    navigator.clipboard.writeText(session?.user?.accessToken || '');
   };
 
   const dropdownOverlayAlignment = isMobileScreen ? 'center' : 'end';
