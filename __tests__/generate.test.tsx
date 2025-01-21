@@ -1,208 +1,223 @@
-import { describe, expect, vi, it, beforeEach } from "vitest"
+import { describe, expect, vi, it, beforeEach } from 'vitest';
 import {
   cleanup,
   render,
   screen,
   waitFor,
   within,
-} from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
-import GeneratePlaylistPage, { GenerateProps } from "@/pages/generate"
+} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 
-vi.mock("next/image", () => ({
+vi.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => {
-    const { src, alt } = props
+    const { src, alt } = props;
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt} {...props} />
+    return <img src={src} alt={alt} {...props} />;
   },
-}))
+}));
 
 const staticTranslations: GenerateProps = {
   translations: {
     meta: {
-      title: "Generate a playlist",
-      description: "Generate a playlist description",
-      keywords: "Generate a playlist keywords",
+      title: 'Generate a playlist',
+      description: 'Generate a playlist description',
+      keywords: 'Generate a playlist keywords',
     },
   },
-}
+};
 
-userEvent.setup()
+userEvent.setup();
 
 beforeEach(() => {
-  vi.resetAllMocks()
-  cleanup()
-})
+  vi.resetAllMocks();
+  cleanup();
+});
 
-describe("GeneratePlaylistPage", () => {
-  it("should render the form with the first step displayed", async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />)
+const clickToNextButton = async () => {
+  const nextButton = screen.getByRole('button', {
+    name: /steps.navigation.next/i,
+  });
+  await userEvent.click(nextButton);
+};
 
-    const firstNavigationStepButton = screen.getByRole("button", {
+describe('GeneratePlaylistPage', () => {
+  it('should render the form with the first step displayed', async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const firstNavigationStepButton = screen.getByRole('button', {
       name: /steps.step1.title/i,
-    })
-    expect(firstNavigationStepButton).toBeInTheDocument()
+    });
+    expect(firstNavigationStepButton).toBeInTheDocument();
     expect(
       within(firstNavigationStepButton).getByText(/steps.step1.description/i)
-    ).toBeInTheDocument()
+    ).toBeInTheDocument();
 
-    const nextButton = screen.getByRole("button", {
+    const nextButton = screen.getByRole('button', {
       name: /steps.navigation.next/i,
-    })
-    expect(nextButton).toBeInTheDocument()
+    });
+    expect(nextButton).toBeInTheDocument();
 
-    const previousButton = screen.queryByRole("button", {
+    const previousButton = screen.queryByRole('button', {
       name: /steps.navigation.previous/i,
-    })
-    expect(previousButton).not.toBeInTheDocument()
+    });
+    expect(previousButton).not.toBeInTheDocument();
 
-    const firstStepContent = screen.getByRole("tabpanel")
+    const firstStepContent = screen.getByRole('tabpanel');
     expect(
       within(firstStepContent).getByText(/steps.step1.title/i)
-    ).toBeInTheDocument()
+    ).toBeInTheDocument();
     expect(
       within(firstStepContent).getByText(/steps.step1.description/i)
-    ).toBeInTheDocument()
-  })
+    ).toBeInTheDocument();
+  });
 
-  it("should fill the form and navigate to the next step when clicking the next button", async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />)
+  it('should display the error message when the "Create new playlist" option is selected and the playlist name is not filled', async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />);
 
-    const firstNavigationStepButton = screen.getByRole("button", {
-      name: /steps.step1.title/i,
-    })
-    expect(firstNavigationStepButton).toBeInTheDocument()
-
-    const firstStepContent = screen.getByRole("tabpanel")
-    expect(
-      within(firstStepContent).getByText(/steps.step1.title/i)
-    ).toBeInTheDocument()
-
-    // Select the new playlist option
-    const createNewPlaylistRadio = screen.getByRole("radio", {
+    const createNewPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.createNewPlaylist.title/i,
-    })
-    userEvent.click(createNewPlaylistRadio)
+    });
+    await userEvent.click(createNewPlaylistRadio);
 
-    // Fill the playlist name
+    const privatePlaylistSwitch = screen.getByRole('switch', {
+      name: /steps.step1.form.createNewPlaylist.privatePlaylist.title/i,
+    });
+    await userEvent.click(privatePlaylistSwitch);
+
+    await clickToNextButton();
+
+    const playlistNameError = await waitFor(() => {
+      return screen.getByText(/steps.errors.name.required/i);
+    });
+
+    expect(playlistNameError).toBeInTheDocument();
+  });
+
+  it('should display the error message when the "Use existing playlist" option is selected and the playlist is not selected', async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const useExistingPlaylistRadio = screen.getByRole('radio', {
+      name: /steps.step1.form.useExistingPlaylist.title/i,
+    });
+    await userEvent.click(useExistingPlaylistRadio);
+
+    await clickToNextButton();
+
+    const playlistSelectedError = await waitFor(() => {
+      return screen.getByText(/steps.errors.playlistSelected.required/i);
+    });
+
+    expect(playlistSelectedError).toBeInTheDocument();
+  });
+
+  it('should fill the form and navigate to the next step when clicking the next button', async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const createNewPlaylistRadio = screen.getByRole('radio', {
+      name: /steps.step1.form.createNewPlaylist.title/i,
+    });
+    await userEvent.click(createNewPlaylistRadio);
+
     const playlistNameInput = screen.getByLabelText(
       /steps.step1.form.createNewPlaylist.giveAName/i
-    )
-    userEvent.type(playlistNameInput, "My new playlist")
+    );
+    await userEvent.type(playlistNameInput, 'My new playlist');
 
-    // Enable private playlist
-    const privatePlaylistSwitch = screen.getByRole("switch", {
+    const privatePlaylistSwitch = screen.getByRole('switch', {
       name: /steps.step1.form.createNewPlaylist.privatePlaylist.title/i,
-    })
-    userEvent.click(privatePlaylistSwitch)
+    });
+    await userEvent.click(privatePlaylistSwitch);
 
-    // Click next
-    const nextButton = screen.getByRole("button", {
-      name: /steps.navigation.next/i,
-    })
-    userEvent.click(nextButton)
+    await clickToNextButton();
 
-    // Check the second step is displayed
-    const secondNavigationStepButton = screen.getByRole("button", {
-      name: /steps.step2.title/i,
-    })
-    expect(secondNavigationStepButton).toBeInTheDocument()
-  })
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
 
-  it("should navigate to the previous step when clicking the previous button", async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />)
+    expect(secondStepContentTitle).toBeInTheDocument();
+  });
 
-    const firstNavigationStepButton = screen.getByRole("button", {
-      name: /steps.step1.title/i,
-    })
-    expect(firstNavigationStepButton).toBeInTheDocument()
+  it('should navigate to the previous step when clicking the previous button', async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />);
 
-    const firstStepContent = screen.getByRole("tabpanel")
-    expect(
-      within(firstStepContent).getByText(/steps.step1.title/i)
-    ).toBeInTheDocument()
+    const playlistNameInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveAName/i
+    );
+    await userEvent.type(playlistNameInput, 'My new playlist');
 
-    // Click next
-    const nextButton = screen.getByRole("button", {
-      name: /steps.navigation.next/i,
-    })
-    userEvent.click(nextButton)
+    await clickToNextButton();
 
-    // Check the second step is displayed
-    waitFor(() => {
-      const secondStepContent = screen.getByRole("tabpanel")
-      expect(
-        within(secondStepContent).getByText(/steps.step2.title/i)
-      ).toBeInTheDocument()
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
 
-      const previousButton = screen.getByRole("button", {
-        name: /steps.navigation.previous/i,
-      })
-      userEvent.click(previousButton)
-    })
+    expect(secondStepContentTitle).toBeInTheDocument();
 
-    expect(
-      within(firstStepContent).getByText(/steps.step1.title/i)
-    ).toBeInTheDocument()
-  })
+    const previousButton = screen.getByRole('button', {
+      name: /steps.navigation.previous/i,
+    });
+    await userEvent.click(previousButton);
 
-  it("should navigate to the last step when filling the form and clicking the next button", async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />)
+    const firstStepContent = screen.getByRole('tabpanel');
+    await waitFor(() => {
+      within(firstStepContent).getByText(/steps.step1.title/i);
+    });
+  });
 
-    const firstNavigationStepButton = screen.getByRole("button", {
-      name: /steps.step1.title/i,
-    })
-    expect(firstNavigationStepButton).toBeInTheDocument()
+  it('should navigate to the last step when filling the form and clicking the next button', async () => {
+    render(<GeneratePlaylistPage {...staticTranslations} />);
 
-    const firstStepContent = screen.getByRole("tabpanel")
-    expect(
-      within(firstStepContent).getByText(/steps.step1.title/i)
-    ).toBeInTheDocument()
+    const playlistNameInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveAName/i
+    );
+    await userEvent.type(playlistNameInput, 'My new playlist');
 
-    // Click next
-    const nextButton = screen.getByRole("button", {
-      name: /steps.navigation.next/i,
-    })
-    userEvent.click(nextButton)
+    await clickToNextButton();
 
-    // Check the second step is displayed
-    waitFor(() => {
-      const secondStepContent = screen.getByRole("tabpanel")
-      expect(
-        within(secondStepContent).getByText(/steps.step2.title/i)
-      ).toBeInTheDocument()
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
 
-      // Fill the form
-      const searchInput = screen.getByRole("textbox", {
-        name: /steps.step2.form.searchBands.search/i,
-      })
-      userEvent.type(searchInput, "Metallica")
+    expect(secondStepContentTitle).toBeInTheDocument();
 
-      // Click next
-      userEvent.click(nextButton)
-    })
+    const searchInput = screen.getByPlaceholderText(
+      'steps.step2.searchPlaceholder'
+    );
+    await userEvent.type(searchInput, 'Holding');
 
-    // Check the third step is displayed
-    waitFor(() => {
-      const thirdStepContent = screen.getByRole("tabpanel")
-      expect(
-        within(thirdStepContent).getByText(/steps.step3.title/i)
-      ).toBeInTheDocument()
-    })
+    const itemOption = screen.getByRole('option', {
+      name: /Holding Absence/i,
+    });
+    await userEvent.click(itemOption);
 
-    waitFor(() => {
-      // Check the next button is not displayed
-      const nextButtonAfterLastStep = screen.queryByRole("button", {
-        name: /steps.navigation.next/i,
-      })
-      expect(nextButtonAfterLastStep).not.toBeInTheDocument()
+    const selectedItem = screen.getByText(/Holding Absence/i);
+    expect(selectedItem).toBeInTheDocument();
 
-      // Check the finish button is displayed
-      const finishButton = screen.getByRole("button", {
-        name: /steps.navigation.finish/i,
-      })
-      expect(finishButton).toBeInTheDocument()
-    })
-  })
-})
+    const generateButton = screen.getByRole('button', {
+      name: /steps.navigation.generate/i,
+    });
+    await userEvent.click(generateButton);
+
+    const thirdStepContentTitle = await waitFor(() => {
+      const thirdStepContent = screen.getByRole('tabpanel');
+      return within(thirdStepContent).getByText(/steps.step3.title/i);
+    });
+
+    expect(thirdStepContentTitle).toBeInTheDocument();
+
+    const successfullyMessage = screen.getByText(
+      /steps.step3.playlisyGeneratedSuccessfully/i
+    );
+    expect(successfullyMessage).toBeInTheDocument();
+
+    const copyURLButton = screen.getByRole('button', {
+      name: /steps.step3.copyButton/i,
+    });
+    expect(copyURLButton).toBeInTheDocument();
+  });
+});
