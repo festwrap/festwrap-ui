@@ -1,13 +1,13 @@
-import type { AppProps } from "next/app"
-import { Poppins } from "next/font/google"
-import "../styles/globals.css"
-import SessionWrapper from "@components/SessionWrapper"
-import RootLayout from "@components/layout/RootLayout"
+import type { AppProps } from 'next/app';
+import { Poppins } from 'next/font/google';
+import '../styles/globals.css';
+import SessionWrapper from '@components/SessionWrapper';
+import RootLayout from '@components/layout/RootLayout';
 
 const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-})
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+});
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -18,5 +18,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         </RootLayout>
       </main>
     </SessionWrapper>
-  )
+  );
 }

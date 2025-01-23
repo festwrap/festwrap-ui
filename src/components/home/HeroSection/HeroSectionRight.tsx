@@ -1,10 +1,10 @@
-import { motion } from "framer-motion"
-import FloatingChips from "./FloatingChips"
-import heroBgDarkImage from "@public/hero-section-bg-dark-shape.svg"
-import heroBgLightImage from "@public/hero-section-bg-light-shape.svg"
-import spotifyListImage from "@public/spotify-list.svg"
-import Image from "next/image"
-import { fadeInStaggerRight, scaleUp } from "@/lib/motionVariants"
+import { motion } from 'framer-motion';
+import FloatingChips from './FloatingChips';
+import heroBgDarkImage from '@public/hero-section-bg-dark-shape.svg';
+import heroBgLightImage from '@public/hero-section-bg-light-shape.svg';
+import spotifyListImage from '@public/spotify-list.svg';
+import Image from 'next/image';
+import { fadeInStaggerRight, scaleUp } from '@/lib/motionVariants';
 
 const HeroSectionRight = () => {
   return (
@@ -59,7 +59,7 @@ const HeroSectionRight = () => {
       </motion.div>
       <FloatingChips />
     </motion.div>
-  )
-}
+  );
+};
 
-export default HeroSectionRight
+export default HeroSectionRight;

@@ -1,5 +1,5 @@
 const AboutUs = () => {
-  return <h1 className="text-xl">About Us</h1>
-}
+  return <h1 className="text-xl">About Us</h1>;
+};
 
-export default AboutUs
+export default AboutUs;

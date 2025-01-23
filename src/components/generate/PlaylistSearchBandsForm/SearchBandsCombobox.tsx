@@ -1,25 +1,25 @@
-"use client"
+'use client';
 
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ChevronsUpDownIcon,
   CircleCheck,
   SearchIcon,
   XIcon,
-} from "lucide-react"
-import Image, { StaticImageData } from "next/image"
+} from 'lucide-react';
+import Image, { StaticImageData } from 'next/image';
 
 interface Item {
-  id: number
-  title: string
-  icon: StaticImageData
+  id: number;
+  title: string;
+  icon: StaticImageData;
 }
 
 interface SearchComboboxProps {
-  options: Item[]
-  values: number[]
-  onChange: (_values: number[]) => void
-  placeholder?: string
+  options: Item[];
+  values: number[];
+  onChange: (_values: number[]) => void;
+  placeholder?: string;
 }
 
 export function SearchBandsCombobox({
@@ -28,23 +28,23 @@ export function SearchBandsCombobox({
   onChange,
   placeholder,
 }: SearchComboboxProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedItems, setSelectedItems] = useState<Item[]>([])
-  const [search, setSearch] = useState("")
-  const inputRef = useRef<HTMLInputElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
-  const [activeIndex, setActiveIndex] = useState(-1)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+  const [search, setSearch] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   const filteredItems = options.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())
-  )
+  );
 
   useEffect(() => {
     const selectedOptions = options.filter((option) =>
       values.includes(option.id)
-    )
-    setSelectedItems(selectedOptions)
-  }, [options, values])
+    );
+    setSelectedItems(selectedOptions);
+  }, [options, values]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -54,78 +54,78 @@ export function SearchBandsCombobox({
         listRef.current &&
         !listRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleOutsideClick)
+    document.addEventListener('mousedown', handleOutsideClick);
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick)
-    }
-  }, [])
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   const handleInputToggle = () => {
-    setIsOpen((prev) => !prev)
-  }
+    setIsOpen((prev) => !prev);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-    setIsOpen(true)
-    setActiveIndex(-1)
-  }
+    setSearch(e.target.value);
+    setIsOpen(true);
+    setActiveIndex(-1);
+  };
 
   const handleItemSelect = (item: Item) => {
     const newSelectedItems = selectedItems.some(
       (selectedItem) => selectedItem.id === item.id
     )
       ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
-      : [...selectedItems, item]
+      : [...selectedItems, item];
 
-    setSelectedItems(newSelectedItems)
-    onChange(newSelectedItems.map((item) => item.id))
+    setSelectedItems(newSelectedItems);
+    onChange(newSelectedItems.map((item) => item.id));
 
     // Ensure closure after all updates
-    setSearch("")
-    setTimeout(() => setIsOpen(false), 0)
-    inputRef.current?.focus()
-  }
+    setSearch('');
+    setTimeout(() => setIsOpen(false), 0);
+    inputRef.current?.focus();
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault()
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
       if (!isOpen) {
-        setIsOpen(true)
+        setIsOpen(true);
       } else {
         setActiveIndex((prev) =>
           prev < filteredItems.length - 1 ? prev + 1 : prev
-        )
+        );
       }
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault()
-      setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev))
-    } else if (e.key === "Enter" && activeIndex >= 0) {
-      e.preventDefault()
-      handleItemSelect(filteredItems[activeIndex])
-    } else if (e.key === "Escape") {
-      setIsOpen(false)
-    } else if (e.key === "Tab" && isOpen) {
-      e.preventDefault()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+      handleItemSelect(filteredItems[activeIndex]);
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+    } else if (e.key === 'Tab' && isOpen) {
+      e.preventDefault();
     }
-  }
+  };
 
   const clearSearch = () => {
-    setSearch("")
-    inputRef.current?.focus()
-  }
+    setSearch('');
+    inputRef.current?.focus();
+  };
 
   useEffect(() => {
     if (isOpen && listRef.current && activeIndex >= 0) {
-      const activeItem = listRef.current.children[activeIndex] as HTMLElement
-      if (activeItem && typeof activeItem.scrollIntoView === "function") {
-        activeItem.scrollIntoView({ block: "nearest" })
+      const activeItem = listRef.current.children[activeIndex] as HTMLElement;
+      if (activeItem && typeof activeItem.scrollIntoView === 'function') {
+        activeItem.scrollIntoView({ block: 'nearest' });
       }
     }
-  }, [activeIndex, isOpen])
+  }, [activeIndex, isOpen]);
 
   return (
     <div className="w-full">
@@ -183,10 +183,10 @@ export function SearchBandsCombobox({
                     (selectedItem) => selectedItem.id === item.id
                   )}
                   className={`flex items-center px-4 py-2 cursor-pointer ${
-                    index === activeIndex ? "bg-blue-100" : "hover:bg-gray-100"
+                    index === activeIndex ? 'bg-blue-100' : 'hover:bg-gray-100'
                   }`}
                   onClick={() => {
-                    handleItemSelect(item)
+                    handleItemSelect(item);
                   }}
                 >
                   <Image
@@ -211,5 +211,5 @@ export function SearchBandsCombobox({
         )}
       </div>
     </div>
-  )
+  );
 }
