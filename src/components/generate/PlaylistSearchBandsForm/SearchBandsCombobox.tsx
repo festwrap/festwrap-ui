@@ -1,122 +1,37 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  ChevronsUpDownIcon,
-  CircleCheck,
-  SearchIcon,
-  XIcon,
-} from 'lucide-react';
-import Image, { StaticImageData } from 'next/image';
+import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
+import { StaticImageData } from 'next/image';
+import useTranslation from 'next-translate/useTranslation';
+import BandSearchResult from './BandSearchResult';
 
-interface Item {
+export interface SearchedArtist {
   id: number;
   title: string;
   icon: StaticImageData;
 }
 
 interface SearchComboboxProps {
-  options: Item[];
-  values: number[];
-  onChange: (_values: number[]) => void;
-  placeholder?: string;
+  onArtistSearch: (_name: string) => Promise<SearchedArtist[]>;
+  onSelectionChange: (_values: SearchedArtist[]) => void;
+  searchPlaceholder: string;
 }
 
 export function SearchBandsCombobox({
-  options,
-  values,
-  onChange,
-  placeholder,
+  onArtistSearch,
+  onSelectionChange,
+  searchPlaceholder,
 }: SearchComboboxProps) {
+  const { t } = useTranslation('generate');
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+  const [searchError, setSearchError] = useState<string>('');
+  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
+  const [filteredItems, setFilteredItems] = useState<SearchedArtist[]>([]);
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
-
-  const filteredItems = options.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
-
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node) &&
-        listRef.current &&
-        !listRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-
-  const handleInputToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setIsOpen(true);
-    setActiveIndex(-1);
-  };
-
-  const handleItemSelect = (item: Item) => {
-    const newSelectedItems = selectedItems.some(
-      (selectedItem) => selectedItem.id === item.id
-    )
-      ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
-      : [...selectedItems, item];
-
-    setSelectedItems(newSelectedItems);
-    onChange(newSelectedItems.map((item) => item.id));
-
-    // Ensure closure after all updates
-    setSearch('');
-    setTimeout(() => setIsOpen(false), 0);
-    inputRef.current?.focus();
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (!isOpen) {
-        setIsOpen(true);
-      } else {
-        setActiveIndex((prev) =>
-          prev < filteredItems.length - 1 ? prev + 1 : prev
-        );
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault();
-      handleItemSelect(filteredItems[activeIndex]);
-    } else if (e.key === 'Escape') {
-      setIsOpen(false);
-    } else if (e.key === 'Tab' && isOpen) {
-      e.preventDefault();
-    }
-  };
-
-  const clearSearch = () => {
-    setSearch('');
-    inputRef.current?.focus();
-  };
 
   useEffect(() => {
     if (isOpen && listRef.current && activeIndex >= 0) {
@@ -126,6 +41,122 @@ export function SearchBandsCombobox({
       }
     }
   }, [activeIndex, isOpen]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      inputRef.current &&
+      !inputRef.current.contains(event.target as Node) &&
+      listRef.current &&
+      !listRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    } else {
+    }
+  };
+
+  const handleInputToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+
+    if (e.target.value.length <= 1) {
+      updateSearchResults([], t('steps.step2.errors.shortArtistName'));
+      return;
+    }
+
+    await onArtistSearch(e.target.value)
+      .then((artists) => {
+        if (artists.length === 0) {
+          updateSearchResults([], t('steps.step2.errors.noResults'));
+        } else {
+          updateSearchResults(artists);
+        }
+      })
+      .catch((_) => {
+        updateSearchResults([], t('steps.step2.errors.search'));
+        return;
+      });
+  };
+
+  const updateSearchResults = (
+    searchResults: SearchedArtist[],
+    error?: string
+  ) => {
+    if (searchResults.length > 0) {
+      setIsOpen(true);
+      setActiveIndex(-1);
+    } else if (error) {
+      setIsOpen(true);
+    }
+    setFilteredItems(searchResults);
+    setSearchError(error || '');
+  };
+
+  const handleItemSelect = (item: SearchedArtist) => {
+    const newSelectedItems = selectedItems.some(
+      (selectedItem) => selectedItem.id === item.id
+    )
+      ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
+      : [...selectedItems, item];
+
+    setSelectedItems(newSelectedItems);
+    onSelectionChange(newSelectedItems);
+
+    // Ensure closure after all updates
+    setSearch('');
+    updateSearchResults([]);
+    inputRef.current?.focus();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (!isOpen) {
+        setIsOpen(true);
+      } else {
+        moveActiveArtistDown();
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      moveActiveArtistUp();
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+      selectCurrentArtist();
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+    } else if (e.key === 'Tab' && isOpen) {
+      e.preventDefault();
+    }
+  };
+
+  const selectCurrentArtist = () => {
+    handleItemSelect(filteredItems[activeIndex]);
+  };
+
+  const moveActiveArtistUp = () => {
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  const moveActiveArtistDown = () => {
+    setActiveIndex((prev) =>
+      prev < filteredItems.length - 1 ? prev + 1 : prev
+    );
+  };
+
+  const clearSearch = () => {
+    setSearch('');
+    updateSearchResults([]);
+    inputRef.current?.focus();
+  };
 
   return (
     <div className="w-full">
@@ -143,7 +174,7 @@ export function SearchBandsCombobox({
             onChange={handleInputChange}
             onMouseDown={handleInputToggle}
             className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-controls="combobox-items"
@@ -165,48 +196,30 @@ export function SearchBandsCombobox({
             <ChevronsUpDownIcon className="h-5 w-5 text-secondary" />
           </button>
         </div>
-        {isOpen && (
+        {isOpen && (filteredItems.length > 0 || searchError !== '') && (
           <ul
             ref={listRef}
             id="combobox-items"
             role="listbox"
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
-            {filteredItems.length === 0 ? (
-              <li className="px-4 py-2 text-secondary">No results found.</li>
+            {searchError !== '' ? (
+              <li className="px-4 py-2 text-secondary">{searchError}</li>
             ) : (
-              filteredItems.map((item, index) => (
-                <li
-                  key={item.id}
-                  role="option"
-                  aria-selected={selectedItems.some(
-                    (selectedItem) => selectedItem.id === item.id
-                  )}
-                  className={`flex items-center px-4 py-2 cursor-pointer ${
-                    index === activeIndex ? 'bg-blue-100' : 'hover:bg-gray-100'
-                  }`}
-                  onClick={() => {
-                    handleItemSelect(item);
-                  }}
-                >
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="h-8 w-8 rounded-md object-cover mr-2"
-                  />
-                  <span>{item.title}</span>
-                  {selectedItems.some(
-                    (selectedItem) => selectedItem.id === item.id
-                  ) && (
-                    <span className="ml-auto">
-                      <CircleCheck className="h-5 w-5 text-primary" />
-                    </span>
-                  )}
-                </li>
-              ))
+              <li></li>
             )}
+            {filteredItems.map((item, index) => (
+              <BandSearchResult
+                key={item.id}
+                name={item.title}
+                isActive={index === activeIndex}
+                isSelected={selectedItems.some(
+                  (selectedItem) => selectedItem.id === item.id
+                )}
+                handleItemSelect={() => handleItemSelect(item)}
+                icon={item.icon}
+              />
+            ))}
           </ul>
         )}
       </div>
