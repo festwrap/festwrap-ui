@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist } from '@/lib/artists';
 import { BackendClient, HTTPBackendClient } from '@/lib/clients/backend';
@@ -19,6 +20,29 @@ type ResponseData = {
   artists?: ResponseArtist[];
 };
 
+function searchQuerySchema(defaultLimit: number, maxLimit: number) {
+  const limitMessage = `"limit" should be a number in interval [1, ${maxLimit}]`;
+  return z.object({
+    name: z.string({
+      message: '"name" should be provided as a string',
+    }),
+    token: z.string({
+      message: '"token" should be provided as a string',
+    }),
+    limit: z
+      .number({
+        message: limitMessage,
+      })
+      .gt(1, {
+        message: limitMessage,
+      })
+      .lte(maxLimit, {
+        message: limitMessage,
+      })
+      .default(defaultLimit),
+  });
+}
+
 export function createSearchArtistHandler({
   client,
   defaultLimit,
@@ -28,40 +52,21 @@ export function createSearchArtistHandler({
     request: NextApiRequest,
     response: NextApiResponse<ResponseData>
   ): Promise<void> {
-    const { name, token, limit } = request.query;
-
-    let parsedLimit: number;
-    try {
-      parsedLimit = parseParamNumberWithDefault(
-        limit,
-        defaultLimit,
-        maxLimit,
-        'limit'
-      );
-    } catch (e) {
-      response.status(400).json({ message: (e as Error).message });
-      return;
-    }
-
-    if (typeof name !== 'string') {
+    const parsedArgs = searchQuerySchema(defaultLimit, maxLimit).safeParse(
+      request.query
+    );
+    if (!parsedArgs.success) {
       response
         .status(400)
-        .json({ message: '"name" should be provided as a string' });
-      return;
-    }
-
-    if (typeof token !== 'string') {
-      response
-        .status(400)
-        .json({ message: '"token" should be provided as a string' });
+        .json({ message: parsedArgs.error.errors[0].message });
       return;
     }
 
     try {
       const searchResults = await client.searchArtists(
-        token as string,
-        name as string,
-        parsedLimit
+        parsedArgs.data.token as string,
+        parsedArgs.data.name as string,
+        parsedArgs.data.limit
       );
       response.status(200).json({
         artists: searchResults.map((artist: Artist) => ({
@@ -76,24 +81,6 @@ export function createSearchArtistHandler({
         .json({ message: 'Unexpected error, cannot retrieve artists' });
     }
   };
-}
-
-function parseParamNumberWithDefault(
-  value: any,
-  defaultValue: number,
-  maxValue: number,
-  paramName: string
-) {
-  let parsed = defaultValue;
-  if (value !== undefined) {
-    parsed = parseInt(value as string);
-    if (isNaN(parsed) || parsed < 1 || parsed > maxValue) {
-      throw Error(
-        `"${paramName}" should be a number in interval [1, ${maxValue}]`
-      );
-    }
-  }
-  return parsed;
 }
 
 const defaultLimit: number = parseInt(
