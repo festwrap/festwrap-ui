@@ -88,6 +88,7 @@ export function Step({
   return (
     <div className="relative">
       <button
+        type="button"
         onClick={() => !isDisabled && handleChangeStep(stepNumber)}
         className={`relative z-10 flex items-start gap-4 w-full px-4 pt-2 pb-8 hover:bg-accent rounded-lg transition-colors ${
           isCurrent ? 'bg-accent' : ''
