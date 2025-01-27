@@ -3,7 +3,11 @@ import { AuthClient } from './auth';
 import { HttpClient, Method } from './http';
 
 export interface BackendClient {
-  searchArtists(_token: string, _name: string, _limit: number): Promise<Artist>;
+  searchArtists(
+    _token: string,
+    _name: string,
+    _limit: number
+  ): Promise<Artist[]>;
 }
 
 export class HTTPBackendClient implements BackendClient {
@@ -21,7 +25,7 @@ export class HTTPBackendClient implements BackendClient {
     token: string,
     name: string,
     limit: number
-  ): Promise<Artist> {
+  ): Promise<Artist[]> {
     const authHeader = await this.buildAuthHeader();
     const backendAuthHeader = { Authorization: `Bearer ${token}` };
     return this.httpClient
@@ -47,5 +51,29 @@ export class HTTPBackendClient implements BackendClient {
     return {
       [this.authClient.getHeaderName()]: `Bearer ${authToken}`,
     };
+  }
+}
+
+export class FakeBackendClient implements BackendClient {
+  private searchArtistError: Error | undefined = undefined;
+  private searchArtistResult: Artist[];
+
+  constructor(result: Artist[] = []) {
+    this.searchArtistResult = result;
+  }
+
+  setResult(result: Artist[]) {
+    this.searchArtistResult = result;
+  }
+
+  setSearchArtistError(error: Error) {
+    this.searchArtistError = error;
+  }
+
+  async searchArtists(..._: any[]): Promise<Artist[]> {
+    if (this.searchArtistError !== undefined) {
+      throw this.searchArtistError;
+    }
+    return this.searchArtistResult;
   }
 }
