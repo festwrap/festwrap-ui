@@ -2,7 +2,7 @@
     "auth": {
         "login": {
             "button": "Sign in with Spotify",
-            "description": "We need to connect you to Spotify in order to create or modify your playlists.",
+            "description": "We need to connect you to Spotify in order to create your playlists.",
             "title": "Sign in to continue"
         }
     },

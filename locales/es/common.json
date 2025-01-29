@@ -2,7 +2,7 @@
     "auth": {
         "login": {
             "button": "Iniciar sesión con Spotify",
-            "description": "Necesitamos conectarte a Spotify para poder crear o modificar tus listas de reproducción.",
+            "description": "Necesitamos conectarte a Spotify para poder crear tus listas de reproducción.",
             "title": "Iniciar sesión para continuar"
         }
     },
