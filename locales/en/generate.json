@@ -52,7 +52,8 @@
             "searchPlaceholder": "Search artists",
             "title": "Search the artists",
             "errors": {
-                "noResults": "No artist found"
+                "noResults": "No artist found",
+                "shortArtistName": "Input at least two characters to start searching"
             }
         },
         "step3": {

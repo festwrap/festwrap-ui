@@ -52,7 +52,8 @@
             "searchPlaceholder": "Cerca artistes",
             "title": "Cerca els artistes",
             "errors": {
-                "noResults": "No s'ha trobat cap artista"
+                "noResults": "No s'ha trobat cap artista",
+                "shortArtistName": "Introdueix almenys dos caràcters per començar la cerca"
             }
         },
         "step3": {

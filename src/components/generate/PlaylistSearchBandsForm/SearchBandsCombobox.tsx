@@ -55,11 +55,18 @@ export function SearchBandsCombobox({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+
     if (filteredItems.length == 0) {
       updateSearchResults([], t('steps.step2.errors.noResults'));
-    } else {
-      updateSearchResults(filteredItems);
+      return;
     }
+
+    if (e.target.value.length <= 1) {
+      updateSearchResults([], t('steps.step2.errors.shortArtistName'));
+      return;
+    }
+
+    updateSearchResults(filteredItems);
   };
 
   const updateSearchResults = (
