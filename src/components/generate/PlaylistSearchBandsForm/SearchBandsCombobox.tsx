@@ -9,14 +9,14 @@ import {
 } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 
-interface Item {
+interface SearchedArtist {
   id: number;
   title: string;
   icon: StaticImageData;
 }
 
 interface SearchComboboxProps {
-  options: Item[];
+  options: SearchedArtist[];
   values: number[];
   onChange: (_values: number[]) => void;
   placeholder?: string;
@@ -29,7 +29,7 @@ export function SearchBandsCombobox({
   placeholder,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -74,7 +74,7 @@ export function SearchBandsCombobox({
     }
   };
 
-  const handleItemSelect = (item: Item) => {
+  const handleItemSelect = (item: SearchedArtist) => {
     const newSelectedItems = selectedItems.some(
       (selectedItem) => selectedItem.id === item.id
     )
