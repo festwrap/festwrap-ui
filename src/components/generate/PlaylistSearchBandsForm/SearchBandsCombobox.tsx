@@ -47,17 +47,6 @@ export function SearchBandsCombobox({
   }, [options, values]);
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node) &&
-        listRef.current &&
-        !listRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
     document.addEventListener('mousedown', handleOutsideClick);
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
@@ -72,6 +61,17 @@ export function SearchBandsCombobox({
     setSearch(e.target.value);
     setIsOpen(true);
     setActiveIndex(-1);
+  };
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      inputRef.current &&
+      !inputRef.current.contains(event.target as Node) &&
+      listRef.current &&
+      !listRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
   };
 
   const handleItemSelect = (item: Item) => {
