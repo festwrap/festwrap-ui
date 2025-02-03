@@ -50,7 +50,10 @@
                 "title": "No artist added"
             },
             "searchPlaceholder": "Search artists",
-            "title": "Search the artists"
+            "title": "Search the artists",
+            "errors": {
+                "noResults": "No artist found"
+            }
         },
         "step3": {
             "copyButton": "Copy URL",

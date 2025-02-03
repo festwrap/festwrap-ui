@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
 import { StaticImageData } from 'next/image';
+import useTranslation from 'next-translate/useTranslation';
 import BandSearchResult from './BandSearchResult';
 
 type SearchedArtist = {
@@ -24,8 +25,10 @@ export function SearchBandsCombobox({
   onChange,
   placeholder,
 }: SearchComboboxProps) {
+  const { t } = useTranslation('generate');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
+  const [searchError, setSearchError] = useState<string>('');
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -52,8 +55,24 @@ export function SearchBandsCombobox({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    setIsOpen(true);
-    setActiveIndex(-1);
+    if (filteredItems.length == 0) {
+      updateSearchResults([], t('steps.step2.errors.noResults'));
+    } else {
+      updateSearchResults(filteredItems);
+    }
+  };
+
+  const updateSearchResults = (
+    searchResults: SearchedArtist[],
+    error?: string
+  ) => {
+    if (searchResults.length > 0) {
+      setIsOpen(true);
+      setActiveIndex(-1);
+    } else if (error) {
+      setIsOpen(true);
+    }
+    setSearchError(error || '');
   };
 
   const handleItemSelect = (item: SearchedArtist) => {
@@ -168,8 +187,8 @@ export function SearchBandsCombobox({
             role="listbox"
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
-            {filteredItems.length === 0 ? (
-              <li className="px-4 py-2 text-secondary">No results found.</li>
+            {searchError !== '' ? (
+              <li className="px-4 py-2 text-secondary">{searchError}</li>
             ) : (
               filteredItems.map((item, index) => (
                 <BandSearchResult

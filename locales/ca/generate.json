@@ -50,7 +50,10 @@
                 "title": "No hi ha cap artista afegit"
             },
             "searchPlaceholder": "Cerca artistes",
-            "title": "Cerca els artistes"
+            "title": "Cerca els artistes",
+            "errors": {
+                "noResults": "No s'ha trobat cap artista"
+            }
         },
         "step3": {
             "copyButton": "Copia URL",

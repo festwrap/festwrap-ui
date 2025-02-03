@@ -50,7 +50,10 @@
                 "title": "Ningún artista añadido"
             },
             "searchPlaceholder": "Busca artistas",
-            "title": "Busca los artistas"
+            "title": "Busca los artistas",
+            "errors": {
+                "noResults": "No se ha encontrado ninguna artista"
+            }
         },
         "step3": {
             "copyButton": "Copia URL",
