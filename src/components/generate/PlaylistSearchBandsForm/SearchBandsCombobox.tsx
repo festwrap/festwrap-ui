@@ -9,18 +9,18 @@ import {
 } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 
-interface SearchedArtist {
+type SearchedArtist = {
   id: number;
   title: string;
   icon: StaticImageData;
-}
+};
 
-interface SearchComboboxProps {
+type SearchComboboxProps = {
   options: SearchedArtist[];
   values: number[];
   onChange: (_values: number[]) => void;
   placeholder?: string;
-}
+};
 
 export function SearchBandsCombobox({
   options,
