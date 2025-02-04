@@ -6,37 +6,34 @@ import { StaticImageData } from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import BandSearchResult from './BandSearchResult';
 
-type SearchedArtist = {
-  id: number;
+export type SearchedArtist = {
+  id: string;
   title: string;
   icon: StaticImageData;
 };
 
 type SearchComboboxProps = {
-  options: SearchedArtist[];
-  values: number[];
-  onChange: (_values: number[]) => void;
+  searchArtistHandler: (_name: string) => Promise<SearchedArtist[]>;
+  onSelectionChange: (_values: SearchedArtist[]) => void;
   placeholder?: string;
 };
 
 export function SearchBandsCombobox({
-  options,
-  values,
-  onChange,
+  searchArtistHandler,
+  onSelectionChange,
   placeholder,
 }: SearchComboboxProps) {
   const { t } = useTranslation('generate');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
-  const [searchError, setSearchError] = useState<string>('');
+  const [filteredItems, setFilteredItems] = useState<SearchedArtist[]>([]);
+  const [searchError, setSearchError] = useState<string>(
+    t('steps.step2.errors.shortArtistName')
+  );
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
-
-  const filteredItems = options.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
 
   const handleOutsideClick = (event: MouseEvent) => {
     if (
@@ -53,20 +50,26 @@ export function SearchBandsCombobox({
     setIsOpen((prev) => !prev);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-
-    if (filteredItems.length == 0) {
-      updateSearchResults([], t('steps.step2.errors.noResults'));
-      return;
-    }
 
     if (e.target.value.length <= 1) {
       updateSearchResults([], t('steps.step2.errors.shortArtistName'));
       return;
     }
 
-    updateSearchResults(filteredItems);
+    await searchArtistHandler(e.target.value)
+      .then((artists) => {
+        if (artists.length === 0) {
+          updateSearchResults([], t('steps.step2.errors.noResults'));
+        } else {
+          updateSearchResults(artists);
+        }
+      })
+      .catch((_) => {
+        updateSearchResults([], t('steps.step2.errors.search'));
+        return;
+      });
   };
 
   const updateSearchResults = (
@@ -79,6 +82,7 @@ export function SearchBandsCombobox({
     } else if (error) {
       setIsOpen(true);
     }
+    setFilteredItems(searchResults);
     setSearchError(error || '');
   };
 
@@ -90,7 +94,7 @@ export function SearchBandsCombobox({
       : [...selectedItems, item];
 
     setSelectedItems(newSelectedItems);
-    onChange(newSelectedItems.map((item) => item.id));
+    onSelectionChange(newSelectedItems);
 
     // Ensure closure after all updates
     setSearch('');
@@ -125,13 +129,6 @@ export function SearchBandsCombobox({
     setSearch('');
     inputRef.current?.focus();
   };
-
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);

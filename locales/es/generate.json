@@ -53,7 +53,8 @@
             "title": "Busca los artistas",
             "errors": {
                 "noResults": "No se ha encontrado ninguna artista",
-                "shortArtistName": "Introduce almenos 2 caracteres para comenzar la búsqueda"
+                "shortArtistName": "Introduce almenos 2 caracteres para comenzar la búsqueda",
+                "search": "Error en la búsqueda"
             }
         },
         "step3": {

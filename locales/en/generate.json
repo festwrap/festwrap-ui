@@ -53,7 +53,8 @@
             "title": "Search the artists",
             "errors": {
                 "noResults": "No artist found",
-                "shortArtistName": "Input at least two characters to start searching"
+                "shortArtistName": "Input at least two characters to start searching",
+                "search": "Search resulted into an error"
             }
         },
         "step3": {
