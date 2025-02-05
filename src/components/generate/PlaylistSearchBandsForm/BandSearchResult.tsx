@@ -11,7 +11,6 @@ interface BandSearchResultProps {
 }
 
 const BandSearchResult = ({
-  key,
   name,
   isActive,
   isSelected,
@@ -20,7 +19,6 @@ const BandSearchResult = ({
 }: BandSearchResultProps) => {
   return (
     <li
-      key={key}
       role="option"
       aria-selected={isActive}
       className={`flex items-center px-4 py-2 cursor-pointer ${isActive ? 'bg-blue-100' : 'hover:bg-gray-100'}`}
