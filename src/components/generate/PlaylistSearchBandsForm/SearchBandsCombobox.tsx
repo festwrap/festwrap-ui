@@ -39,30 +39,6 @@ export function SearchBandsCombobox({
     item.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-
-  const handleInputToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setIsOpen(true);
-    setActiveIndex(-1);
-  };
-
   const handleOutsideClick = (event: MouseEvent) => {
     if (
       inputRef.current &&
@@ -72,6 +48,16 @@ export function SearchBandsCombobox({
     ) {
       setIsOpen(false);
     }
+  };
+
+  const handleInputToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setIsOpen(true);
+    setActiveIndex(-1);
   };
 
   const handleItemSelect = (item: SearchedArtist) => {
@@ -117,6 +103,20 @@ export function SearchBandsCombobox({
     setSearch('');
     inputRef.current?.focus();
   };
+
+  useEffect(() => {
+    const selectedOptions = options.filter((option) =>
+      values.includes(option.id)
+    );
+    setSelectedItems(selectedOptions);
+  }, [options, values]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen && listRef.current && activeIndex >= 0) {
