@@ -1,4 +1,5 @@
 import { Artist } from '../artists';
+import { Playlist } from '../playlists';
 import { AuthClient } from './auth';
 import { HttpClient, Method } from './http';
 
@@ -8,6 +9,11 @@ export interface BackendClient {
     _name: string,
     _limit: number
   ): Promise<Artist[]>;
+  searchPlaylists(
+    _token: string,
+    _name: string,
+    _limit: number
+  ): Promise<Playlist[]>;
 }
 
 export class HTTPBackendClient implements BackendClient {
@@ -42,6 +48,28 @@ export class HTTPBackendClient implements BackendClient {
       );
   }
 
+  async searchPlaylists(
+    token: string,
+    name: string,
+    limit: number
+  ): Promise<Playlist[]> {
+    const authHeader = await this.buildAuthHeader();
+    const backendAuthHeader = { Authorization: `Bearer ${token}` };
+    return this.httpClient
+      .send({
+        url: `${this.url}/playlists/search`,
+        method: Method.Get,
+        params: { name, limit },
+        headers: { ...authHeader, ...backendAuthHeader },
+      })
+      .then((response) =>
+        response.data.map(
+          (playlist: any) =>
+            new Playlist(playlist.Name, playlist.Description, playlist.IsPublic)
+        )
+      );
+  }
+
   private async buildAuthHeader(): Promise<Record<string, string>> {
     if (this.authClient === undefined) {
       return {};
@@ -58,11 +86,15 @@ export class FakeBackendClient implements BackendClient {
   private searchArtistError: Error | undefined = undefined;
   private searchArtistResult: Artist[];
 
-  constructor(result: Artist[] = []) {
+  private searchPlaylistError: Error | undefined = undefined;
+  private searchPlaylistResult: Playlist[];
+
+  constructor(result: Artist[] = [], resultPlaylist: Playlist[] = []) {
     this.searchArtistResult = result;
+    this.searchPlaylistResult = resultPlaylist;
   }
 
-  setResult(result: Artist[]) {
+  setArtistsResult(result: Artist[]) {
     this.searchArtistResult = result;
   }
 
@@ -75,5 +107,20 @@ export class FakeBackendClient implements BackendClient {
       throw this.searchArtistError;
     }
     return this.searchArtistResult;
+  }
+
+  setPlaylistsResult(result: Playlist[]) {
+    this.searchPlaylistResult = result;
+  }
+
+  setSearchPlaylistsError(error: Error) {
+    this.searchPlaylistError = error;
+  }
+
+  async searchPlaylists(..._: any[]): Promise<Playlist[]> {
+    if (this.searchPlaylistError !== undefined) {
+      throw this.searchPlaylistError;
+    }
+    return this.searchPlaylistResult;
   }
 }
