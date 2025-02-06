@@ -1,13 +1,9 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  ChevronsUpDownIcon,
-  CircleCheck,
-  SearchIcon,
-  XIcon,
-} from 'lucide-react';
-import Image, { StaticImageData } from 'next/image';
+import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
+import { StaticImageData } from 'next/image';
+import BandSearchResult from './BandSearchResult';
 
 interface Item {
   id: number;
@@ -176,35 +172,16 @@ export function SearchBandsCombobox({
               <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
               filteredItems.map((item, index) => (
-                <li
+                <BandSearchResult
                   key={item.id}
-                  role="option"
-                  aria-selected={selectedItems.some(
+                  name={item.title}
+                  isActive={index === activeIndex}
+                  isSelected={selectedItems.some(
                     (selectedItem) => selectedItem.id === item.id
                   )}
-                  className={`flex items-center px-4 py-2 cursor-pointer ${
-                    index === activeIndex ? 'bg-blue-100' : 'hover:bg-gray-100'
-                  }`}
-                  onClick={() => {
-                    handleItemSelect(item);
-                  }}
-                >
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="h-8 w-8 rounded-md object-cover mr-2"
-                  />
-                  <span>{item.title}</span>
-                  {selectedItems.some(
-                    (selectedItem) => selectedItem.id === item.id
-                  ) && (
-                    <span className="ml-auto">
-                      <CircleCheck className="h-5 w-5 text-primary" />
-                    </span>
-                  )}
-                </li>
+                  handleItemSelect={() => handleItemSelect(item)}
+                  icon={item.icon}
+                />
               ))
             )}
           </ul>
