@@ -5,18 +5,18 @@ import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
 import { StaticImageData } from 'next/image';
 import BandSearchResult from './BandSearchResult';
 
-interface Item {
+type SearchedArtist = {
   id: number;
   title: string;
   icon: StaticImageData;
-}
+};
 
-interface SearchComboboxProps {
-  options: Item[];
+type SearchComboboxProps = {
+  options: SearchedArtist[];
   values: number[];
   onChange: (_values: number[]) => void;
   placeholder?: string;
-}
+};
 
 export function SearchBandsCombobox({
   options,
@@ -25,7 +25,7 @@ export function SearchBandsCombobox({
   placeholder,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -35,30 +35,16 @@ export function SearchBandsCombobox({
     item.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node) &&
-        listRef.current &&
-        !listRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      inputRef.current &&
+      !inputRef.current.contains(event.target as Node) &&
+      listRef.current &&
+      !listRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
 
   const handleInputToggle = () => {
     setIsOpen((prev) => !prev);
@@ -70,7 +56,7 @@ export function SearchBandsCombobox({
     setActiveIndex(-1);
   };
 
-  const handleItemSelect = (item: Item) => {
+  const handleItemSelect = (item: SearchedArtist) => {
     const newSelectedItems = selectedItems.some(
       (selectedItem) => selectedItem.id === item.id
     )
@@ -113,6 +99,20 @@ export function SearchBandsCombobox({
     setSearch('');
     inputRef.current?.focus();
   };
+
+  useEffect(() => {
+    const selectedOptions = options.filter((option) =>
+      values.includes(option.id)
+    );
+    setSelectedItems(selectedOptions);
+  }, [options, values]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen && listRef.current && activeIndex >= 0) {
