@@ -1,7 +1,7 @@
 import { describe, it, vi, expect } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
-import { FakeBackendClient } from '@/lib/clients/backend';
+import { FakeBackendClient } from '@/lib/clients/artists-backend';
 import { Artist } from '@/lib/artists';
 
 describe('searchArtistHandler', () => {

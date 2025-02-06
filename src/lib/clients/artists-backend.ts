@@ -1,8 +1,9 @@
 import { Artist } from '../artists';
 import { AuthClient } from './auth';
+import { BaseHTTPClientWithAuth } from './base-backend';
 import { HttpClient, Method } from './http';
 
-export interface BackendClient {
+export interface IArtistsHTTPBackendClient {
   searchArtists(
     _token: string,
     _name: string,
@@ -10,15 +11,17 @@ export interface BackendClient {
   ): Promise<Artist[]>;
 }
 
-export class HTTPBackendClient implements BackendClient {
+export class ArtistsHTTPBackendClient
+  extends BaseHTTPClientWithAuth
+  implements IArtistsHTTPBackendClient
+{
   private url: string;
-  private authClient?: AuthClient | undefined;
   private httpClient: HttpClient;
 
   constructor(url: string, httpClient: HttpClient, authClient?: AuthClient) {
+    super(authClient);
     this.url = url;
     this.httpClient = httpClient;
-    this.authClient = authClient;
   }
 
   async searchArtists(
@@ -41,20 +44,9 @@ export class HTTPBackendClient implements BackendClient {
         )
       );
   }
-
-  private async buildAuthHeader(): Promise<Record<string, string>> {
-    if (this.authClient === undefined) {
-      return {};
-    }
-
-    const authToken = await this.authClient.getToken();
-    return {
-      [this.authClient.getHeaderName()]: `Bearer ${authToken}`,
-    };
-  }
 }
 
-export class FakeBackendClient implements BackendClient {
+export class FakeBackendClient implements IArtistsHTTPBackendClient {
   private searchArtistError: Error | undefined = undefined;
   private searchArtistResult: Artist[];
 

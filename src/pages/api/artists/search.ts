@@ -2,10 +2,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist } from '@/lib/artists';
-import { BackendClient, HTTPBackendClient } from '@/lib/clients/backend';
+import {
+  IArtistsHTTPBackendClient,
+  ArtistsHTTPBackendClient,
+} from '@/lib/clients/artists-backend';
 
 export type SearchArtistHandlerParams = {
-  client: BackendClient;
+  client: IArtistsHTTPBackendClient;
   defaultLimit: number;
   maxLimit: number;
 };
@@ -90,7 +93,7 @@ const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
 const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
 const httpClient: HttpClient = new HttpBaseClient();
-const client: BackendClient = new HTTPBackendClient(
+const client: IArtistsHTTPBackendClient = new ArtistsHTTPBackendClient(
   `${serverHost}:${serverPort}`,
   httpClient
 );
