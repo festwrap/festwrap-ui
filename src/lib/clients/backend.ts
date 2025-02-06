@@ -65,7 +65,7 @@ export class HTTPBackendClient implements BackendClient {
       .then((response) =>
         response.data.map(
           (playlist: any) =>
-            new Playlist(playlist.Name, playlist.Description, playlist.IsPublic)
+            new Playlist(playlist.name, playlist.description, playlist.isPublic)
         )
       );
   }
