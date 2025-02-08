@@ -3,7 +3,7 @@ import { AuthClient } from './auth';
 import { BaseHTTPClientWithAuth } from './base-backend';
 import { HttpClient, Method } from './http';
 
-export interface IArtistsHTTPBackendClient {
+export interface ArtistsClient {
   searchArtists(
     _token: string,
     _name: string,
@@ -13,7 +13,7 @@ export interface IArtistsHTTPBackendClient {
 
 export class ArtistsHTTPBackendClient
   extends BaseHTTPClientWithAuth
-  implements IArtistsHTTPBackendClient
+  implements ArtistsClient
 {
   private url: string;
   private httpClient: HttpClient;
@@ -46,7 +46,7 @@ export class ArtistsHTTPBackendClient
   }
 }
 
-export class FakeBackendClient implements IArtistsHTTPBackendClient {
+export class FakeBackendClient implements ArtistsClient {
   private searchArtistError: Error | undefined = undefined;
   private searchArtistResult: Artist[];
 
