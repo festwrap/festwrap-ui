@@ -1,55 +1,31 @@
 import Heading from '@components/ui/Heading';
 import { X } from 'lucide-react';
 import { SearchBandsCombobox } from './SearchBandsCombobox';
-import ExampleItemImg from '@public/example-item-img.png';
 import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
 import { Badge } from '@components/ui/Badge';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem } from '@/components/ui/Form';
+import { BandSearcher, SearchedBand } from './BandSearcher';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 
-// Mock data for artists
-const options = [
-  {
-    id: 1,
-    title: 'Holding Absence',
-    icon: ExampleItemImg,
-  },
-  {
-    id: 2,
-    title: 'Hollywood Undead',
-    icon: ExampleItemImg,
-  },
-  {
-    id: 3,
-    title: 'Bring Me The Horizon',
-    icon: ExampleItemImg,
-  },
-  {
-    id: 4,
-    title: 'Architects',
-    icon: ExampleItemImg,
-  },
-];
-
-const PlaylistSearchBandsForm = () => {
+const PlaylistSearchBandsForm = ({
+  bandSearcher,
+}: {
+  bandSearcher: BandSearcher;
+}) => {
+  const { t } = useTranslation('generate');
   const { control, watch, setValue, formState } = useFormContext();
   const { errors } = formState;
+  const selectedBands: Array<SearchedBand> = watch('bands', []);
 
-  const { t } = useTranslation('generate');
-
-  const selectedValues: Array<number> = watch('bands', []);
-
-  const removeSelectedItem = (id: number) => {
-    const newSelectedItems = selectedValues.filter((item) => item !== id);
-    setValue('bands', newSelectedItems);
+  const removeSelectedItem = (bandToRemove: SearchedBand) => {
+    const newSelection = selectedBands.filter(
+      (band) => band.id !== bandToRemove.id
+    );
+    setValue('bands', newSelection);
   };
-
-  const selectedItems = options.filter((option) =>
-    selectedValues.includes(option.id)
-  );
 
   return (
     <>
@@ -69,13 +45,13 @@ const PlaylistSearchBandsForm = () => {
             <FormItem>
               <FormControl>
                 <SearchBandsCombobox
-                  options={options}
-                  values={field.value}
-                  onChange={field.onChange}
-                  placeholder={t('steps.step2.searchPlaceholder')}
+                  bandSearcher={bandSearcher}
+                  onSelectionChange={field.onChange}
+                  searchPlaceholder={t('steps.step2.searchPlaceholder')}
                 />
               </FormControl>
               {errors.bands && (
+                // TODO fix: keeps raising error, not sure why
                 <ErrorMessage>
                   {t('steps.errors.selectedBands.required')}
                 </ErrorMessage>
@@ -83,7 +59,7 @@ const PlaylistSearchBandsForm = () => {
             </FormItem>
           )}
         />
-        {selectedValues.length === 0 ? (
+        {selectedBands.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">
             <div className="flex justify-center mb-4">
               <Image
@@ -99,16 +75,16 @@ const PlaylistSearchBandsForm = () => {
           </div>
         ) : (
           <div className="mt-4 flex flex-wrap gap-2">
-            {selectedItems.map((item) => (
+            {selectedBands.map((band) => (
               <Badge
-                key={item.id}
+                key={band.id}
                 variant="secondary"
                 size="lg"
                 className="flex items-center gap-1 px-3 py-1"
               >
-                {item.title}
+                {band.title}
                 <button
-                  onClick={() => removeSelectedItem(item.id)}
+                  onClick={() => removeSelectedItem(band)}
                   className="ml-1 hover:bg-slate-100 rounded-full hover:text-primary text-dark-blue"
                   type="button"
                 >

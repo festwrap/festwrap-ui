@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
 import { PlaylistType } from '@/types/Playlist';
+import { BandSearcher } from './PlaylistSearchBandsForm/BandSearcher';
 
 const STEPS_COUNT = 3;
 
@@ -42,7 +43,11 @@ const formSchema = z
 
 export type FormSchemaType = z.infer<typeof formSchema>;
 
-const GeneratePlaylistStepper = () => {
+function GeneratePlaylistStepper({
+  bandSearcher,
+}: {
+  bandSearcher: BandSearcher;
+}) {
   const { t } = useTranslation('generate');
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -116,7 +121,7 @@ const GeneratePlaylistStepper = () => {
               <PlaylistSetupForm />
             </StepContent>
             <StepContent stepNumber={2}>
-              <PlaylistSearchBandsForm />
+              <PlaylistSearchBandsForm bandSearcher={bandSearcher} />
             </StepContent>
             <StepContent stepNumber={3}>
               <PlaylistGetUrlLink />
@@ -146,6 +151,6 @@ const GeneratePlaylistStepper = () => {
       </form>
     </Form>
   );
-};
+}
 
 export default GeneratePlaylistStepper;
