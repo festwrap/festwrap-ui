@@ -2,10 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist } from '@/lib/artists';
-import {
-  ArtistsClient,
-  ArtistsHTTPBackendClient,
-} from '@/lib/clients/artists-backend';
+import { ArtistsClient, ArtistsHTTPBackendClient } from '@/lib/clients/artists';
 
 export type SearchArtistHandlerParams = {
   client: ArtistsClient;

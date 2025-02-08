@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
-import { ArtistsHTTPBackendClient } from './artists-backend';
+import { ArtistsHTTPBackendClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 import { FakeAuthClient } from './auth';
 
