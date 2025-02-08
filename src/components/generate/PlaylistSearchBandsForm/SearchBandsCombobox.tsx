@@ -2,19 +2,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
-import { StaticImageData } from 'next/image';
+
 import useTranslation from 'next-translate/useTranslation';
 import BandSearchResult from './BandSearchResult';
-
-export type SearchedArtist = {
-  id: string;
-  title: string;
-  icon: StaticImageData;
-};
+import { SearchedBand } from './BandSearcher';
 
 type SearchComboboxProps = {
-  searchArtistHandler: (_name: string) => Promise<SearchedArtist[]>;
-  onSelectionChange: (_values: SearchedArtist[]) => void;
+  searchArtistHandler: (_name: string) => Promise<SearchedBand[]>;
+  onSelectionChange: (_values: SearchedBand[]) => void;
   placeholder?: string;
 };
 
@@ -25,8 +20,8 @@ export function SearchBandsCombobox({
 }: SearchComboboxProps) {
   const { t } = useTranslation('generate');
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
-  const [filteredItems, setFilteredItems] = useState<SearchedArtist[]>([]);
+  const [selectedItems, setSelectedItems] = useState<SearchedBand[]>([]);
+  const [filteredItems, setFilteredItems] = useState<SearchedBand[]>([]);
   const [searchError, setSearchError] = useState<string>(
     t('steps.step2.errors.shortArtistName')
   );
@@ -73,7 +68,7 @@ export function SearchBandsCombobox({
   };
 
   const updateSearchResults = (
-    searchResults: SearchedArtist[],
+    searchResults: SearchedBand[],
     error?: string
   ) => {
     if (searchResults.length > 0) {
@@ -86,7 +81,7 @@ export function SearchBandsCombobox({
     setSearchError(error || '');
   };
 
-  const handleItemSelect = (item: SearchedArtist) => {
+  const handleItemSelect = (item: SearchedBand) => {
     const newSelectedItems = selectedItems.some(
       (selectedItem) => selectedItem.id === item.id
     )

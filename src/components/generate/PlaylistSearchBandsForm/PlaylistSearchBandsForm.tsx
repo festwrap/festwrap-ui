@@ -9,7 +9,9 @@ import { Badge } from '@components/ui/Badge';
 import useTranslation from 'next-translate/useTranslation';
 import { FormField, FormItem } from '@/components/ui/Form';
 
-const PlaylistSearchBandsForm = () => {
+const PlaylistSearchBandsForm = (
+  
+) => {
   const [selectedArtists, setSelectedArtists] = useState<SearchedArtist[]>([]);
   const { data: session } = useSession();
   const imageWidth = parseInt(process.env.NEXT_PUBLIC_IMAGE_WIDTH || '32', 10);
