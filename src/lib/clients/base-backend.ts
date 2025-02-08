@@ -1,10 +1,10 @@
 import { AuthClient } from './auth';
 
-interface IBaseHTTPClientWithAuth {
+interface BaseClientWithAuth {
   buildAuthHeader: () => Promise<Record<string, string>>;
 }
 
-export class BaseHTTPClientWithAuth implements IBaseHTTPClientWithAuth {
+export class BaseHTTPClientWithAuth implements BaseClientWithAuth {
   private authClient?: AuthClient | undefined;
 
   constructor(authClient?: AuthClient) {
