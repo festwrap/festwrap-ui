@@ -204,7 +204,7 @@ describe('GeneratePlaylistPage', () => {
     expect(selectedItem).toBeInTheDocument();
 
     const generateButton = screen.getByRole('button', {
-      name: /steps.navigation.generate/i,
+      name: /steps.navigation.next/i,
     });
     await userEvent.click(generateButton);
 

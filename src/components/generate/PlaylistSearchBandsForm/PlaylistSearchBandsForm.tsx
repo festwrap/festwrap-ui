@@ -5,10 +5,8 @@ import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
 import { Badge } from '@components/ui/Badge';
 import useTranslation from 'next-translate/useTranslation';
-import { useFormContext } from 'react-hook-form';
-import { FormControl, FormField, FormItem } from '@/components/ui/Form';
+import { useState } from 'react';
 import { BandSearcher, SearchedBand } from './BandSearcher';
-import ErrorMessage from '@/components/ui/ErrorMessage';
 
 const PlaylistSearchBandsForm = ({
   bandSearcher,
@@ -16,15 +14,13 @@ const PlaylistSearchBandsForm = ({
   bandSearcher: BandSearcher;
 }) => {
   const { t } = useTranslation('generate');
-  const { control, watch, setValue, formState } = useFormContext();
-  const { errors } = formState;
-  const selectedBands: Array<SearchedBand> = watch('bands', []);
+  const [selectedBands, setSelectedBands] = useState<SearchedBand[]>([]);
 
   const removeSelectedItem = (bandToRemove: SearchedBand) => {
     const newSelection = selectedBands.filter(
       (band) => band.id !== bandToRemove.id
     );
-    setValue('bands', newSelection);
+    setSelectedBands(newSelection);
   };
 
   return (
@@ -38,26 +34,10 @@ const PlaylistSearchBandsForm = ({
         </p>
       </div>
       <div className="w-full">
-        <FormField
-          control={control}
-          name="bands"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <SearchBandsCombobox
-                  bandSearcher={bandSearcher}
-                  onSelectionChange={field.onChange}
-                  searchPlaceholder={t('steps.step2.searchPlaceholder')}
-                />
-              </FormControl>
-              {errors.bands && (
-                // TODO fix: keeps raising error, not sure why
-                <ErrorMessage>
-                  {t('steps.errors.selectedBands.required')}
-                </ErrorMessage>
-              )}
-            </FormItem>
-          )}
+        <SearchBandsCombobox
+          bandSearcher={bandSearcher}
+          onSelectionChange={setSelectedBands}
+          searchPlaceholder={t('steps.step2.searchPlaceholder')}
         />
         {selectedBands.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">
