@@ -29,14 +29,13 @@ export class ArtistsHTTPBackendClient
     name: string,
     limit: number
   ): Promise<Artist[]> {
-    const authHeader = await this.buildAuthHeader();
-    const backendAuthHeader = { Authorization: `Bearer ${token}` };
+    const authHeader = await this.buildAuthHeader(token);
     return this.httpClient
       .send({
         url: `${this.url}/artists/search`,
         method: Method.Get,
         params: { name, limit },
-        headers: { ...authHeader, ...backendAuthHeader },
+        headers: authHeader,
       })
       .then((response) =>
         response.data.map(

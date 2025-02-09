@@ -1,7 +1,7 @@
 import { AuthClient } from './auth';
 
 interface BaseClientWithAuth {
-  buildAuthHeader: () => Promise<Record<string, string>>;
+  buildAuthHeader: (_spotifyToken: string) => Promise<Record<string, string>>;
 }
 
 export class BaseHTTPClientWithAuth implements BaseClientWithAuth {
@@ -11,14 +11,18 @@ export class BaseHTTPClientWithAuth implements BaseClientWithAuth {
     this.authClient = authClient;
   }
 
-  async buildAuthHeader(): Promise<Record<string, string>> {
-    if (this.authClient === undefined) {
-      return {};
-    }
+  async buildAuthHeader(
+    spotifyToken?: string
+  ): Promise<Record<string, string>> {
+    const headers: Record<string, string> = spotifyToken
+      ? { Authorization: `Bearer ${spotifyToken}` }
+      : {};
 
-    const authToken = await this.authClient.getToken();
+    if (!this.authClient) return headers;
+
     return {
-      [this.authClient.getHeaderName()]: `Bearer ${authToken}`,
+      ...headers,
+      [this.authClient.getHeaderName()]: `Bearer ${await this.authClient.getToken()}`,
     };
   }
 }
