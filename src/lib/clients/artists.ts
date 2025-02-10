@@ -11,7 +11,7 @@ export interface ArtistsClient {
   ): Promise<Artist[]>;
 }
 
-export class ArtistsHTTPBackendClient
+export class ArtistsHTTPClient
   extends BaseHTTPClientWithAuth
   implements ArtistsClient
 {
@@ -45,7 +45,7 @@ export class ArtistsHTTPBackendClient
   }
 }
 
-export class FakeBackendClient implements ArtistsClient {
+export class FakeArtistsHTTPClient implements ArtistsClient {
   private searchArtistError: Error | undefined = undefined;
   private searchArtistResult: Artist[];
 

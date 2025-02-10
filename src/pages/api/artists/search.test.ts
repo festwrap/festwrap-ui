@@ -1,7 +1,7 @@
 import { describe, it, vi, expect, beforeEach } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
-import { FakeBackendClient } from '@/lib/clients/artists';
+import { FakeArtistsHTTPClient } from '@/lib/clients/artists';
 import { Artist } from '@/lib/artists';
 import { getToken } from 'next-auth/jwt';
 
@@ -28,7 +28,7 @@ describe('searchArtistHandler', () => {
 
   function createHandler(
     { client, defaultLimit, maxLimit }: SearchArtistHandlerParams = {
-      client: new FakeBackendClient(),
+      client: new FakeArtistsHTTPClient(),
       defaultLimit: 5,
       maxLimit: 10,
     }
@@ -81,7 +81,7 @@ describe('searchArtistHandler', () => {
         name: 'name',
       };
       const request = createMockRequest({ ...args, limit: limit });
-      const client = new FakeBackendClient();
+      const client = new FakeArtistsHTTPClient();
       vi.spyOn(client, 'searchArtists');
 
       const defaultLimit = 5;
@@ -105,7 +105,7 @@ describe('searchArtistHandler', () => {
       new Artist('Brutus'),
       new Artist('Brutus Daughters', 'http://some_url'),
     ];
-    const client = new FakeBackendClient(retrievedArtist);
+    const client = new FakeArtistsHTTPClient(retrievedArtist);
     const response = createMockResponse();
 
     const handler = createHandler({
@@ -128,7 +128,7 @@ describe('searchArtistHandler', () => {
   });
 
   it('should return an error if search fails', async () => {
-    const client = new FakeBackendClient();
+    const client = new FakeArtistsHTTPClient();
     client.setSearchArtistError(new Error('test error'));
     const response = createMockResponse();
 

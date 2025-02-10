@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
-import { ArtistsHTTPBackendClient } from './artists';
+import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 import { FakeAuthClient } from './auth';
 
@@ -28,7 +28,7 @@ describe('ArtistsHTTPBackendClient', () => {
   });
 
   it('should call the client with the correct parameters', async () => {
-    const client = new ArtistsHTTPBackendClient(url, httpClient);
+    const client = new ArtistsHTTPClient(url, httpClient);
     vi.spyOn(httpClient, 'send');
 
     await client.searchArtists(token, name, limit);
@@ -45,7 +45,7 @@ describe('ArtistsHTTPBackendClient', () => {
     const authHeader = 'Some-Header';
     const authToken = 'some-token';
     const authClient = new FakeAuthClient(authToken, authHeader);
-    const client = new ArtistsHTTPBackendClient(url, httpClient, authClient);
+    const client = new ArtistsHTTPClient(url, httpClient, authClient);
     vi.spyOn(httpClient, 'send');
 
     await client.searchArtists(token, name, limit);
@@ -62,7 +62,7 @@ describe('ArtistsHTTPBackendClient', () => {
   });
 
   it('should return the list of artists returned by the HTTP client', async () => {
-    const client = new ArtistsHTTPBackendClient(url, httpClient);
+    const client = new ArtistsHTTPClient(url, httpClient);
 
     const actual = await client.searchArtists(token, name, limit);
 
@@ -76,7 +76,7 @@ describe('ArtistsHTTPBackendClient', () => {
   it('should throw an error if the HTTP client fails', async () => {
     const errorMessage = 'Request failed';
     httpClient.setSendErrorMessage(errorMessage);
-    const client = new ArtistsHTTPBackendClient(url, httpClient);
+    const client = new ArtistsHTTPClient(url, httpClient);
 
     await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
       errorMessage
@@ -87,7 +87,7 @@ describe('ArtistsHTTPBackendClient', () => {
     const errorMessage = 'Auth request failed';
     const authClient = new FakeAuthClient('some-token', 'Some-Header');
     authClient.setGetTokenErrorMessage(errorMessage);
-    const client = new ArtistsHTTPBackendClient(url, httpClient, authClient);
+    const client = new ArtistsHTTPClient(url, httpClient, authClient);
 
     await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
       errorMessage

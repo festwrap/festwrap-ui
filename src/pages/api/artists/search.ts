@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist } from '@/lib/artists';
-import { ArtistsClient, ArtistsHTTPBackendClient } from '@/lib/clients/artists';
+import { ArtistsClient, ArtistsHTTPClient } from '@/lib/clients/artists';
 import { getToken } from 'next-auth/jwt';
 
 export type SearchArtistHandlerParams = {
@@ -97,7 +97,7 @@ const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
 const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
 const httpClient: HttpClient = new HttpBaseClient();
-const client: ArtistsClient = new ArtistsHTTPBackendClient(
+const client: ArtistsClient = new ArtistsHTTPClient(
   `${serverHost}:${serverPort}`,
   httpClient
 );
