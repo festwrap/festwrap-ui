@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist } from '@/lib/artists';
 import { ArtistsClient, ArtistsHTTPBackendClient } from '@/lib/clients/artists';
+import { getToken } from 'next-auth/jwt';
 
 export type SearchArtistHandlerParams = {
   client: ArtistsClient;
@@ -25,9 +26,6 @@ function searchQuerySchema(defaultLimit: number, maxLimit: number) {
   return z.object({
     name: z.string({
       message: '"name" should be provided as a string',
-    }),
-    token: z.string({
-      message: '"token" should be provided as a string',
     }),
     limit: z.coerce
       .number({
@@ -62,11 +60,20 @@ export function createSearchArtistHandler({
       return;
     }
 
+    const token = await getToken({ req: request });
+
+    if (!token) {
+      response.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const { name, limit } = parsedArgs.data;
+
     try {
       const searchResults = await client.searchArtists(
-        parsedArgs.data.token as string,
-        parsedArgs.data.name as string,
-        parsedArgs.data.limit
+        token.accessToken,
+        name,
+        limit
       );
       response.status(200).json({
         artists: searchResults.map((artist: Artist) => ({
