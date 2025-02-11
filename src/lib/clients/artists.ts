@@ -1,6 +1,6 @@
 import { Artist } from '../artists';
 import { AuthClient } from './auth';
-import { BaseHTTPClientWithAuth } from './base-backend';
+import { BaseHTTPClientWithAuth } from './base-http-client';
 import { HttpClient, Method } from './http';
 
 export interface ArtistsClient {

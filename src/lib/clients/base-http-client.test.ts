@@ -1,4 +1,4 @@
-import { BaseHTTPClientWithAuth } from './base-backend';
+import { BaseHTTPClientWithAuth } from './base-http-client';
 import { FakeAuthClient } from './auth';
 import { describe, it, expect, vi } from 'vitest';
 
