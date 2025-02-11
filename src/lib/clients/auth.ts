@@ -1,6 +1,6 @@
 import { HttpClient, Method } from './http';
 
-export interface AuthClient {
+export interface GCPAuthClient {
   getToken(): Promise<string>;
   getHeaderName(): string;
 }
@@ -36,7 +36,7 @@ export class GCPHTTPAuthClient {
   }
 }
 
-export class FakeAuthClient {
+export class FakeGCPAuthClient {
   private header: string;
   private token: string;
   private getTokenErrorMessage: string | undefined = undefined;
@@ -63,5 +63,53 @@ export class FakeAuthClient {
 
   getHeaderName(): string {
     return this.header;
+  }
+}
+
+export interface AuthHeaderBuilder {
+  buildHeader: (_spotifyToken: string) => Promise<Record<string, string>>;
+}
+
+export class HTTPAuthHeaderBuilder implements AuthHeaderBuilder {
+  private gcpAuthClient?: GCPAuthClient | undefined;
+
+  constructor(gcpAuthClient?: GCPAuthClient) {
+    this.gcpAuthClient = gcpAuthClient;
+  }
+
+  async buildHeader(spotifyToken?: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = spotifyToken
+      ? { Authorization: `Bearer ${spotifyToken}` }
+      : {};
+
+    if (!this.gcpAuthClient) return headers;
+
+    return {
+      ...headers,
+      [this.gcpAuthClient.getHeaderName()]: `Bearer ${await this.gcpAuthClient.getToken()}`,
+    };
+  }
+}
+
+export class FakeHTTPAuthHeaderBuilder implements AuthHeaderBuilder {
+  private gcpAuthToken: string | undefined;
+  private gcpAuthHeaderName: string | undefined;
+
+  constructor(gcpAuthToken?: string, gcpAuthHeaderName?: string) {
+    this.gcpAuthToken = gcpAuthToken;
+    this.gcpAuthHeaderName = gcpAuthHeaderName;
+  }
+
+  async buildHeader(spotifyToken: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = spotifyToken
+      ? { Authorization: `Bearer ${spotifyToken}` }
+      : {};
+
+    if (!this.gcpAuthToken || !this.gcpAuthHeaderName) return headers;
+
+    return {
+      ...headers,
+      [this.gcpAuthHeaderName]: `Bearer ${this.gcpAuthToken}`,
+    };
   }
 }

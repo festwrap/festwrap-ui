@@ -1,6 +1,5 @@
 import { Artist } from '../artists';
-import { AuthClient } from './auth';
-import { BaseHTTPClientWithAuth } from './base-http-client';
+import { AuthHeaderBuilder, HTTPAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
 export interface ArtistsClient {
@@ -11,17 +10,19 @@ export interface ArtistsClient {
   ): Promise<Artist[]>;
 }
 
-export class ArtistsHTTPClient
-  extends BaseHTTPClientWithAuth
-  implements ArtistsClient
-{
+export class ArtistsHTTPClient implements ArtistsClient {
   private url: string;
   private httpClient: HttpClient;
+  private httpAuthHeaderBuilder: AuthHeaderBuilder;
 
-  constructor(url: string, httpClient: HttpClient, authClient?: AuthClient) {
-    super(authClient);
+  constructor(
+    url: string,
+    httpClient: HttpClient,
+    httpAuthHeaderBuilder: HTTPAuthHeaderBuilder
+  ) {
     this.url = url;
     this.httpClient = httpClient;
+    this.httpAuthHeaderBuilder = httpAuthHeaderBuilder;
   }
 
   async searchArtists(
@@ -29,7 +30,7 @@ export class ArtistsHTTPClient
     name: string,
     limit: number
   ): Promise<Artist[]> {
-    const authHeader = await this.buildAuthHeader(token);
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
     return this.httpClient
       .send({
         url: `${this.url}/artists/search`,
