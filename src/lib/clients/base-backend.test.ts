@@ -1,16 +1,13 @@
 import { BaseHTTPClientWithAuth } from './base-backend';
-import { AuthClient } from './auth';
-import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { FakeAuthClient } from './auth';
+import { describe, it, expect, vi } from 'vitest';
 
 describe('BaseHTTPClientWithAuth', () => {
-  let authClient: AuthClient;
-
-  beforeEach(() => {
-    authClient = {
-      getToken: vi.fn().mockResolvedValue('test-token'),
-      getHeaderName: vi.fn().mockReturnValue('X-Serverless-Authorization'),
-    } as unknown as AuthClient;
-  });
+  function createAuthClient() {
+    const authHeader = 'X-Serverless-Authorization';
+    const authToken = 'test-token';
+    return new FakeAuthClient(authToken, authHeader);
+  }
 
   it('should return an empty object if authClient is undefined', async () => {
     const client = new BaseHTTPClientWithAuth();
@@ -19,6 +16,7 @@ describe('BaseHTTPClientWithAuth', () => {
   });
 
   it('should return the correct auth header if authClient is defined', async () => {
+    const authClient = createAuthClient();
     const client = new BaseHTTPClientWithAuth(authClient);
     const headers = await client.buildAuthHeader();
     expect(headers).toEqual({
@@ -27,6 +25,9 @@ describe('BaseHTTPClientWithAuth', () => {
   });
 
   it('should call getToken and getHeaderName on authClient', async () => {
+    const authClient = createAuthClient();
+    vi.spyOn(authClient, 'getToken');
+    vi.spyOn(authClient, 'getHeaderName');
     const client = new BaseHTTPClientWithAuth(authClient);
     await client.buildAuthHeader();
     expect(authClient.getToken).toHaveBeenCalled();
@@ -41,6 +42,7 @@ describe('BaseHTTPClientWithAuth', () => {
   });
 
   it('should return the correct auth header if authClient and spotifyToken are provided', async () => {
+    const authClient = createAuthClient();
     const client = new BaseHTTPClientWithAuth(authClient);
     const spotifyToken = 'spotify-token';
     const headers = await client.buildAuthHeader(spotifyToken);
