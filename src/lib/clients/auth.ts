@@ -67,7 +67,7 @@ export class FakeAuthClient {
 }
 
 export interface HTTPAuthHeaderBuilder {
-  buildHeader: (_spotifyToken: string) => Promise<Record<string, string>>;
+  buildHeader: (_token: string) => Promise<Record<string, string>>;
 }
 
 export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
@@ -77,9 +77,9 @@ export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
     this.gcpAuthClient = gcpAuthClient;
   }
 
-  async buildHeader(spotifyToken?: string): Promise<Record<string, string>> {
-    const headers: Record<string, string> = spotifyToken
-      ? { Authorization: `Bearer ${spotifyToken}` }
+  async buildHeader(token?: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = token
+      ? { Authorization: `Bearer ${token}` }
       : {};
 
     if (!this.gcpAuthClient) return headers;
@@ -100,9 +100,9 @@ export class FakeBaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
     this.gcpAuthHeaderName = gcpAuthHeaderName;
   }
 
-  async buildHeader(spotifyToken: string): Promise<Record<string, string>> {
-    const headers: Record<string, string> = spotifyToken
-      ? { Authorization: `Bearer ${spotifyToken}` }
+  async buildHeader(token: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = token
+      ? { Authorization: `Bearer ${token}` }
       : {};
 
     if (!this.gcpAuthToken || !this.gcpAuthHeaderName) return headers;
