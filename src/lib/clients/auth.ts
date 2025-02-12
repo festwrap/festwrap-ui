@@ -77,10 +77,10 @@ export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
     this.gcpAuthClient = gcpAuthClient;
   }
 
-  async buildHeader(token?: string): Promise<Record<string, string>> {
-    const headers: Record<string, string> = token
-      ? { Authorization: `Bearer ${token}` }
-      : {};
+  async buildHeader(token: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${token}`,
+    };
 
     if (!this.gcpAuthClient) return headers;
 

@@ -59,45 +59,31 @@ describe('AuthClient', () => {
       return new FakeAuthClient(authToken, authHeader);
     }
 
-    it('should return an empty object if authClient is undefined', async () => {
-      const client = new BaseHTTPAuthHeaderBuilder();
-      const headers = await client.buildHeader();
-      expect(headers).toEqual({});
-    });
-
-    it('should return the correct auth header if authClient is defined', async () => {
-      const authClient = createAuthClient();
-      const client = new BaseHTTPAuthHeaderBuilder(authClient);
-      const headers = await client.buildHeader();
-      expect(headers).toEqual({
-        'X-Serverless-Authorization': 'Bearer test-token',
-      });
-    });
-
     it('should call getToken and getHeaderName on authClient', async () => {
       const authClient = createAuthClient();
       vi.spyOn(authClient, 'getToken');
       vi.spyOn(authClient, 'getHeaderName');
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
-      await client.buildHeader();
+      const token = 'app-token';
+      await client.buildHeader(token);
       expect(authClient.getToken).toHaveBeenCalled();
       expect(authClient.getHeaderName).toHaveBeenCalled();
     });
 
     it('should return the correct auth header if token is provided', async () => {
       const client = new BaseHTTPAuthHeaderBuilder();
-      const token = 'spotify-token';
+      const token = 'app-token';
       const headers = await client.buildHeader(token);
-      expect(headers).toEqual({ Authorization: 'Bearer spotify-token' });
+      expect(headers).toEqual({ Authorization: 'Bearer app-token' });
     });
 
     it('should return the correct auth header if authClient and token are provided', async () => {
       const authClient = createAuthClient();
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
-      const token = 'spotify-token';
+      const token = 'app-token';
       const headers = await client.buildHeader(token);
       expect(headers).toEqual({
-        Authorization: 'Bearer spotify-token',
+        Authorization: 'Bearer app-token',
         'X-Serverless-Authorization': 'Bearer test-token',
       });
     });
@@ -107,7 +93,7 @@ describe('AuthClient', () => {
       const authClient = createAuthClient();
       authClient.setGetTokenErrorMessage(errorMessage);
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
-      const token = 'spotify-token';
+      const token = 'app-token';
       await expect(client.buildHeader(token)).rejects.toThrow(errorMessage);
     });
   });
