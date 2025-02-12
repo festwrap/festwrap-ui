@@ -1,13 +1,9 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import {
-  FakeGCPAuthClient,
-  GCPHTTPAuthClient,
-  HTTPAuthHeaderBuilder,
-} from './auth';
+import { FakeAuthClient, HTTPAuthClient, HTTPAuthHeaderBuilder } from './auth';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 
 describe('AuthClient', () => {
-  describe('GCPHTTPAuthClient', () => {
+  describe('HTTPAuthClient', () => {
     const audience = 'test-audience';
     let httpClient: FakeHttpClient;
     let response: HttpResponse;
@@ -18,7 +14,7 @@ describe('AuthClient', () => {
     });
 
     it('should call the client with the correct parameters', async () => {
-      const authClient = new GCPHTTPAuthClient(httpClient, audience);
+      const authClient = new HTTPAuthClient(httpClient, audience);
       const baseUrl = 'http://some_url/auth';
       authClient.setBaseUrl(baseUrl);
       vi.spyOn(httpClient, 'send');
@@ -36,7 +32,7 @@ describe('AuthClient', () => {
     it('should return token from the client', async () => {
       const expected = 'some-token';
       httpClient.setResult({ data: expected, status: 200 });
-      const authClient = new GCPHTTPAuthClient(httpClient, audience);
+      const authClient = new HTTPAuthClient(httpClient, audience);
 
       const actual = await authClient.getToken();
 
@@ -46,7 +42,7 @@ describe('AuthClient', () => {
     it('should throw an error if the client fails', async () => {
       const errorMessage = 'Test error';
       httpClient.setSendErrorMessage('Test error');
-      const authClient = new GCPHTTPAuthClient(httpClient, audience);
+      const authClient = new HTTPAuthClient(httpClient, audience);
 
       await expect(authClient.getToken()).rejects.toThrow(errorMessage);
     });
@@ -56,7 +52,7 @@ describe('AuthClient', () => {
     function createAuthClient() {
       const authHeader = 'X-Serverless-Authorization';
       const authToken = 'test-token';
-      return new FakeGCPAuthClient(authToken, authHeader);
+      return new FakeAuthClient(authToken, authHeader);
     }
 
     it('should return an empty object if authClient is undefined', async () => {

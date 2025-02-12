@@ -1,11 +1,11 @@
 import { HttpClient, Method } from './http';
 
-export interface GCPAuthClient {
+export interface AuthClient {
   getToken(): Promise<string>;
   getHeaderName(): string;
 }
 
-export class GCPHTTPAuthClient {
+export class HTTPAuthClient {
   private httpClient: HttpClient;
   private baseUrl: string =
     'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity';
@@ -36,7 +36,7 @@ export class GCPHTTPAuthClient {
   }
 }
 
-export class FakeGCPAuthClient {
+export class FakeAuthClient {
   private header: string;
   private token: string;
   private getTokenErrorMessage: string | undefined = undefined;
@@ -71,9 +71,9 @@ export interface AuthHeaderBuilder {
 }
 
 export class HTTPAuthHeaderBuilder implements AuthHeaderBuilder {
-  private gcpAuthClient?: GCPAuthClient | undefined;
+  private gcpAuthClient?: AuthClient | undefined;
 
-  constructor(gcpAuthClient?: GCPAuthClient) {
+  constructor(gcpAuthClient?: AuthClient) {
     this.gcpAuthClient = gcpAuthClient;
   }
 
