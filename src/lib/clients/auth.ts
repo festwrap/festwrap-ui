@@ -66,11 +66,11 @@ export class FakeAuthClient {
   }
 }
 
-export interface AuthHeaderBuilder {
+export interface HTTPAuthHeaderBuilder {
   buildHeader: (_spotifyToken: string) => Promise<Record<string, string>>;
 }
 
-export class HTTPAuthHeaderBuilder implements AuthHeaderBuilder {
+export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
   private gcpAuthClient?: AuthClient | undefined;
 
   constructor(gcpAuthClient?: AuthClient) {
@@ -91,7 +91,7 @@ export class HTTPAuthHeaderBuilder implements AuthHeaderBuilder {
   }
 }
 
-export class FakeHTTPAuthHeaderBuilder implements AuthHeaderBuilder {
+export class FakeBaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
   private gcpAuthToken: string | undefined;
   private gcpAuthHeaderName: string | undefined;
 

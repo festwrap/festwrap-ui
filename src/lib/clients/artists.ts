@@ -1,5 +1,5 @@
 import { Artist } from '../artists';
-import { AuthHeaderBuilder, HTTPAuthHeaderBuilder } from './auth';
+import { HTTPAuthHeaderBuilder, BaseHTTPAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
 export interface ArtistsClient {
@@ -13,12 +13,12 @@ export interface ArtistsClient {
 export class ArtistsHTTPClient implements ArtistsClient {
   private url: string;
   private httpClient: HttpClient;
-  private httpAuthHeaderBuilder: AuthHeaderBuilder;
+  private httpAuthHeaderBuilder: HTTPAuthHeaderBuilder;
 
   constructor(
     url: string,
     httpClient: HttpClient,
-    httpAuthHeaderBuilder: HTTPAuthHeaderBuilder
+    httpAuthHeaderBuilder: BaseHTTPAuthHeaderBuilder
   ) {
     this.url = url;
     this.httpClient = httpClient;

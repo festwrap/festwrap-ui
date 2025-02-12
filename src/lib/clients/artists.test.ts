@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
 import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
-import { FakeHTTPAuthHeaderBuilder } from './auth';
+import { FakeBaseHTTPAuthHeaderBuilder } from './auth';
 
 describe('ArtistsHTTPBackendClient', () => {
   let url: string;
@@ -28,7 +28,7 @@ describe('ArtistsHTTPBackendClient', () => {
   });
 
   it('should call the client with the correct parameters', async () => {
-    const httpAuthHeaderBuilder = new FakeHTTPAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -49,7 +49,7 @@ describe('ArtistsHTTPBackendClient', () => {
   it('should call the client with an additional auth header if auth client is provided', async () => {
     const authHeader = 'Some-Header';
     const authToken = 'some-token';
-    const httpAuthHeaderBuilder = new FakeHTTPAuthHeaderBuilder(
+    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder(
       authToken,
       authHeader
     );
@@ -74,7 +74,7 @@ describe('ArtistsHTTPBackendClient', () => {
   });
 
   it('should return the list of artists returned by the HTTP client', async () => {
-    const httpAuthHeaderBuilder = new FakeHTTPAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -93,7 +93,7 @@ describe('ArtistsHTTPBackendClient', () => {
   it('should throw an error if the HTTP client fails', async () => {
     const errorMessage = 'Request failed';
     httpClient.setSendErrorMessage(errorMessage);
-    const httpAuthHeaderBuilder = new FakeHTTPAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
