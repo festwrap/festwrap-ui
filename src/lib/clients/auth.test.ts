@@ -64,24 +64,30 @@ describe('AuthClient', () => {
       vi.spyOn(authClient, 'getToken');
       vi.spyOn(authClient, 'getHeaderName');
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
+
       const token = 'app-token';
       await client.buildHeader(token);
+
       expect(authClient.getToken).toHaveBeenCalled();
       expect(authClient.getHeaderName).toHaveBeenCalled();
     });
 
     it('should return the correct auth header if token is provided', async () => {
       const client = new BaseHTTPAuthHeaderBuilder();
+
       const token = 'app-token';
       const headers = await client.buildHeader(token);
+
       expect(headers).toEqual({ Authorization: 'Bearer app-token' });
     });
 
     it('should return the correct auth header if authClient and token are provided', async () => {
       const authClient = createAuthClient();
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
+
       const token = 'app-token';
       const headers = await client.buildHeader(token);
+
       expect(headers).toEqual({
         Authorization: 'Bearer app-token',
         'X-Serverless-Authorization': 'Bearer test-token',
@@ -93,6 +99,7 @@ describe('AuthClient', () => {
       const authClient = createAuthClient();
       authClient.setGetTokenErrorMessage(errorMessage);
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
+
       const token = 'app-token';
       await expect(client.buildHeader(token)).rejects.toThrow(errorMessage);
     });
