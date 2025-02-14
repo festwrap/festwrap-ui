@@ -144,4 +144,17 @@ describe('searchArtistHandler', () => {
       message: 'Unexpected error, cannot retrieve artists',
     });
   });
+
+  it('should return 401 if token is not provided', async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+    const response = createMockResponse();
+
+    const handler = createHandler();
+    await handler(createMockRequest(), response);
+
+    expect(response.status).toBeCalledWith(401);
+    expect(response.json).toBeCalledWith({
+      message: 'Unauthorized',
+    });
+  });
 });
