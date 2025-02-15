@@ -46,7 +46,7 @@ export class ArtistsHTTPClient implements ArtistsClient {
   }
 }
 
-export class FakeArtistsHTTPClient implements ArtistsClient {
+export class ArtistsClientStub implements ArtistsClient {
   private searchArtistResult: Artist[];
 
   constructor(result: Artist[] = []) {
