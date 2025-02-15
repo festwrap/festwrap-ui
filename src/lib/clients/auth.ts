@@ -58,11 +58,11 @@ export class AuthClientStub implements AuthClient {
   }
 }
 
-export interface HTTPAuthHeaderBuilder {
+export interface AuthHeaderBuilder {
   buildHeader: (_token: string) => Promise<Record<string, string>>;
 }
 
-export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
+export class BaseAuthHeaderBuilder implements AuthHeaderBuilder {
   private gcpAuthClient?: AuthClient | undefined;
 
   constructor(gcpAuthClient?: AuthClient) {
@@ -83,7 +83,7 @@ export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
   }
 }
 
-export class AuthHeaderBuilderStub implements HTTPAuthHeaderBuilder {
+export class AuthHeaderBuilderStub implements AuthHeaderBuilder {
   private headers: Record<string, string>;
 
   constructor(headers: Record<string, string> = {}) {

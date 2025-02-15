@@ -4,7 +4,7 @@ import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist } from '@/lib/artists';
 import { ArtistsClient, ArtistsHTTPClient } from '@/lib/clients/artists';
 import { getToken } from 'next-auth/jwt';
-import { BaseHTTPAuthHeaderBuilder } from '@/lib/clients/auth';
+import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 
 export type SearchArtistHandlerParams = {
   client: ArtistsClient;
@@ -98,7 +98,7 @@ const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
 const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
 const httpClient: HttpClient = new HttpBaseClient();
-const httpAuthHeaderBuilder = new BaseHTTPAuthHeaderBuilder();
+const httpAuthHeaderBuilder = new BaseAuthHeaderBuilder();
 const client: ArtistsClient = new ArtistsHTTPClient(
   `${serverHost}:${serverPort}`,
   httpClient,

@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
 import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
-import { AuthHeaderBuilderStub, HTTPAuthHeaderBuilder } from './auth';
+import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';
 
 describe('ArtistsHTTPClient', () => {
   let url: string;
@@ -11,7 +11,7 @@ describe('ArtistsHTTPClient', () => {
   let limit: number;
   let httpClient: FakeHttpClient;
   let response: HttpResponse;
-  let authHeaderBuilder: HTTPAuthHeaderBuilder;
+  let authHeaderBuilder: AuthHeaderBuilder;
 
   beforeEach(() => {
     url = 'http://some_url';

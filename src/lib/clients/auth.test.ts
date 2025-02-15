@@ -1,9 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import {
-  AuthClientStub,
-  GCPAuthClient,
-  BaseHTTPAuthHeaderBuilder,
-} from './auth';
+import { AuthClientStub, GCPAuthClient, BaseAuthHeaderBuilder } from './auth';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 
 describe('AuthClient', () => {
@@ -63,7 +59,7 @@ describe('AuthClient', () => {
       const authClient = createAuthClient();
       vi.spyOn(authClient, 'getToken');
       vi.spyOn(authClient, 'getHeaderName');
-      const client = new BaseHTTPAuthHeaderBuilder(authClient);
+      const client = new BaseAuthHeaderBuilder(authClient);
 
       const token = 'app-token';
       await client.buildHeader(token);
@@ -73,7 +69,7 @@ describe('AuthClient', () => {
     });
 
     it('should return the correct auth header if token is provided', async () => {
-      const client = new BaseHTTPAuthHeaderBuilder();
+      const client = new BaseAuthHeaderBuilder();
 
       const token = 'app-token';
       const headers = await client.buildHeader(token);
@@ -83,7 +79,7 @@ describe('AuthClient', () => {
 
     it('should return the correct auth header if authClient and token are provided', async () => {
       const authClient = createAuthClient();
-      const client = new BaseHTTPAuthHeaderBuilder(authClient);
+      const client = new BaseAuthHeaderBuilder(authClient);
 
       const token = 'app-token';
       const headers = await client.buildHeader(token);
@@ -100,7 +96,7 @@ describe('AuthClient', () => {
       vi.spyOn(authClient, 'getToken').mockImplementation(() => {
         throw new Error(errorMessage);
       });
-      const client = new BaseHTTPAuthHeaderBuilder(authClient);
+      const client = new BaseAuthHeaderBuilder(authClient);
 
       const token = 'app-token';
       await expect(client.buildHeader(token)).rejects.toThrow(errorMessage);
