@@ -5,7 +5,7 @@ export interface AuthClient {
   getHeaderName(): string;
 }
 
-export class GCPAuthClient {
+export class GCPAuthClient implements AuthClient {
   private httpClient: HttpClient;
   private baseUrl: string =
     'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity';
