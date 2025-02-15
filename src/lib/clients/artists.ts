@@ -53,10 +53,6 @@ export class ArtistsClientStub implements ArtistsClient {
     this.searchArtistResult = result;
   }
 
-  setResult(result: Artist[]) {
-    this.searchArtistResult = result;
-  }
-
   async searchArtists(..._: any[]): Promise<Artist[]> {
     return this.searchArtistResult;
   }
