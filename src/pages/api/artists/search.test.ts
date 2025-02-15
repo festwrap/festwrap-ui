@@ -129,7 +129,7 @@ describe('searchArtistHandler', () => {
 
   it('should return an error if search fails', async () => {
     const client = new FakeArtistsHTTPClient();
-    client.setSearchArtistError(new Error('test error'));
+    vi.spyOn(client, 'searchArtists').mockImplementation(() => { throw new Error('test error') });
     const response = createMockResponse();
 
     const handler = createHandler({

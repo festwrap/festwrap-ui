@@ -47,7 +47,6 @@ export class ArtistsHTTPClient implements ArtistsClient {
 }
 
 export class FakeArtistsHTTPClient implements ArtistsClient {
-  private searchArtistError: Error | undefined = undefined;
   private searchArtistResult: Artist[];
 
   constructor(result: Artist[] = []) {
@@ -58,14 +57,7 @@ export class FakeArtistsHTTPClient implements ArtistsClient {
     this.searchArtistResult = result;
   }
 
-  setSearchArtistError(error: Error) {
-    this.searchArtistError = error;
-  }
-
   async searchArtists(..._: any[]): Promise<Artist[]> {
-    if (this.searchArtistError !== undefined) {
-      throw this.searchArtistError;
-    }
     return this.searchArtistResult;
   }
 }
