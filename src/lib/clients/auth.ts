@@ -90,10 +90,6 @@ export class AuthHeaderBuilderStub implements AuthHeaderBuilder {
     this.headers = headers;
   }
 
-  setHeaders(headers: Record<string, string>) {
-    this.headers = headers;
-  }
-
   async buildHeader(_token: string): Promise<Record<string, string>> {
     return this.headers;
   }
