@@ -78,4 +78,18 @@ describe('ArtistsHTTPClient', () => {
       errorMessage
     );
   });
+
+  it('should throw an error if the header builder fails', async () => {
+    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder();
+    vi.spyOn(httpAuthHeaderBuilder, 'buildHeader').mockImplementation(() => {
+      throw new Error('test Error');
+    });
+    const client = new ArtistsHTTPClient(
+      url,
+      httpClient,
+      httpAuthHeaderBuilder
+    );
+
+    await expect(client.searchArtists(token, name, limit)).rejects.toThrow();
+  });
 });
