@@ -91,25 +91,18 @@ export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
   }
 }
 
-export class FakeBaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
-  private gcpAuthToken: string | undefined;
-  private gcpAuthHeaderName: string | undefined;
+export class FakeAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
+  private headers: Record<string, string>;
 
-  constructor(gcpAuthToken?: string, gcpAuthHeaderName?: string) {
-    this.gcpAuthToken = gcpAuthToken;
-    this.gcpAuthHeaderName = gcpAuthHeaderName;
+  constructor(headers: Record<string, string> = {}) {
+    this.headers = headers;
   }
 
-  async buildHeader(token: string): Promise<Record<string, string>> {
-    const headers: Record<string, string> = token
-      ? { Authorization: `Bearer ${token}` }
-      : {};
+  setHeaders(headers: Record<string, string>) {
+    this.headers = headers;
+  }
 
-    if (!this.gcpAuthToken || !this.gcpAuthHeaderName) return headers;
-
-    return {
-      ...headers,
-      [this.gcpAuthHeaderName]: `Bearer ${this.gcpAuthToken}`,
-    };
+  async buildHeader(_token: string): Promise<Record<string, string>> {
+    return this.headers;
   }
 }

@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
 import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
-import { FakeBaseHTTPAuthHeaderBuilder } from './auth';
+import { FakeAuthHeaderBuilder } from './auth';
 
 describe('ArtistsHTTPClient', () => {
   let url: string;
@@ -28,7 +28,8 @@ describe('ArtistsHTTPClient', () => {
   });
 
   it('should call the client with the correct parameters', async () => {
-    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder();
+    const headers = { something: 'value' };
+    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder(headers);
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -42,39 +43,12 @@ describe('ArtistsHTTPClient', () => {
       url: `${url}/artists/search`,
       method: Method.Get,
       params: { name: name, limit: limit },
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  });
-
-  it('should call the client with an additional auth header if auth client is provided', async () => {
-    const authHeader = 'Some-Header';
-    const authToken = 'some-token';
-    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder(
-      authToken,
-      authHeader
-    );
-    const client = new ArtistsHTTPClient(
-      url,
-      httpClient,
-      httpAuthHeaderBuilder
-    );
-    vi.spyOn(httpClient, 'send');
-
-    await client.searchArtists(token, name, limit);
-
-    expect(httpClient.send).toHaveBeenCalledWith({
-      url: `${url}/artists/search`,
-      method: Method.Get,
-      params: { name: name, limit: limit },
-      headers: {
-        Authorization: `Bearer ${token}`,
-        [authHeader]: `Bearer ${authToken}`,
-      },
+      headers: headers,
     });
   });
 
   it('should return the list of artists returned by the HTTP client', async () => {
-    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -93,7 +67,7 @@ describe('ArtistsHTTPClient', () => {
   it('should throw an error if the HTTP client fails', async () => {
     const errorMessage = 'Request failed';
     httpClient.setSendErrorMessage(errorMessage);
-    const httpAuthHeaderBuilder = new FakeBaseHTTPAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
