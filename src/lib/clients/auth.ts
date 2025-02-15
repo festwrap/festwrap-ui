@@ -36,10 +36,9 @@ export class GCPAuthClient {
   }
 }
 
-export class FakeAuthClient {
+export class AuthClientStub implements AuthClient {
   private header: string;
   private token: string;
-  private getTokenErrorMessage: string | undefined = undefined;
 
   constructor(token: string, header: string) {
     this.token = token;
@@ -50,14 +49,7 @@ export class FakeAuthClient {
     this.token = token;
   }
 
-  setGetTokenErrorMessage(message: string) {
-    this.getTokenErrorMessage = message;
-  }
-
   async getToken(): Promise<string> {
-    if (this.getTokenErrorMessage !== undefined) {
-      throw new Error(this.getTokenErrorMessage);
-    }
     return this.token;
   }
 
@@ -91,7 +83,7 @@ export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
   }
 }
 
-export class FakeAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
+export class AuthHeaderBuilderStub implements HTTPAuthHeaderBuilder {
   private headers: Record<string, string>;
 
   constructor(headers: Record<string, string> = {}) {

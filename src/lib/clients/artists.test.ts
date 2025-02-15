@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
 import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
-import { FakeAuthHeaderBuilder } from './auth';
+import { AuthHeaderBuilderStub } from './auth';
 
 describe('ArtistsHTTPClient', () => {
   let url: string;
@@ -29,7 +29,7 @@ describe('ArtistsHTTPClient', () => {
 
   it('should call the client with the correct parameters', async () => {
     const headers = { something: 'value' };
-    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder(headers);
+    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub(headers);
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -48,7 +48,7 @@ describe('ArtistsHTTPClient', () => {
   });
 
   it('should return the list of artists returned by the HTTP client', async () => {
-    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -67,7 +67,7 @@ describe('ArtistsHTTPClient', () => {
   it('should throw an error if the HTTP client fails', async () => {
     const errorMessage = 'Request failed';
     httpClient.setSendErrorMessage(errorMessage);
-    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub();
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
@@ -80,7 +80,7 @@ describe('ArtistsHTTPClient', () => {
   });
 
   it('should throw an error if the header builder fails', async () => {
-    const httpAuthHeaderBuilder = new FakeAuthHeaderBuilder();
+    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub();
     vi.spyOn(httpAuthHeaderBuilder, 'buildHeader').mockImplementation(() => {
       throw new Error('test Error');
     });

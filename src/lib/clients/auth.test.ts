@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
 import {
-  FakeAuthClient,
+  AuthClientStub,
   GCPAuthClient,
   BaseHTTPAuthHeaderBuilder,
 } from './auth';
@@ -56,7 +56,7 @@ describe('AuthClient', () => {
     function createAuthClient() {
       const authHeader = 'X-Serverless-Authorization';
       const authToken = 'test-token';
-      return new FakeAuthClient(authToken, authHeader);
+      return new AuthClientStub(authToken, authHeader);
     }
 
     it('should call getToken and getHeaderName on authClient', async () => {
@@ -97,7 +97,9 @@ describe('AuthClient', () => {
     it('should throw an error if the auth client fails', async () => {
       const errorMessage = 'Auth request failed';
       const authClient = createAuthClient();
-      authClient.setGetTokenErrorMessage(errorMessage);
+      vi.spyOn(authClient, 'getToken').mockImplementation(() => {
+        throw new Error(errorMessage);
+      });
       const client = new BaseHTTPAuthHeaderBuilder(authClient);
 
       const token = 'app-token';
