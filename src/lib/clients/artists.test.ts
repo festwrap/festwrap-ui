@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
 import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
-import { AuthHeaderBuilderStub } from './auth';
+import { AuthHeaderBuilderStub, HTTPAuthHeaderBuilder } from './auth';
 
 describe('ArtistsHTTPClient', () => {
   let url: string;
@@ -11,6 +11,7 @@ describe('ArtistsHTTPClient', () => {
   let limit: number;
   let httpClient: FakeHttpClient;
   let response: HttpResponse;
+  let authHeaderBuilder: HTTPAuthHeaderBuilder;
 
   beforeEach(() => {
     url = 'http://some_url';
@@ -25,15 +26,15 @@ describe('ArtistsHTTPClient', () => {
       status: 200,
     };
     httpClient = new FakeHttpClient(response);
+    authHeaderBuilder = new AuthHeaderBuilderStub();
   });
 
   it('should call the client with the correct parameters', async () => {
     const headers = { something: 'value' };
-    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub(headers);
     const client = new ArtistsHTTPClient(
       url,
       httpClient,
-      httpAuthHeaderBuilder
+      new AuthHeaderBuilderStub(headers)
     );
     vi.spyOn(httpClient, 'send');
 
@@ -48,12 +49,7 @@ describe('ArtistsHTTPClient', () => {
   });
 
   it('should return the list of artists returned by the HTTP client', async () => {
-    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub();
-    const client = new ArtistsHTTPClient(
-      url,
-      httpClient,
-      httpAuthHeaderBuilder
-    );
+    const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
     const actual = await client.searchArtists(token, name, limit);
 
@@ -67,12 +63,7 @@ describe('ArtistsHTTPClient', () => {
   it('should throw an error if the HTTP client fails', async () => {
     const errorMessage = 'Request failed';
     httpClient.setSendErrorMessage(errorMessage);
-    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub();
-    const client = new ArtistsHTTPClient(
-      url,
-      httpClient,
-      httpAuthHeaderBuilder
-    );
+    const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
     await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
       errorMessage
@@ -80,15 +71,10 @@ describe('ArtistsHTTPClient', () => {
   });
 
   it('should throw an error if the header builder fails', async () => {
-    const httpAuthHeaderBuilder = new AuthHeaderBuilderStub();
-    vi.spyOn(httpAuthHeaderBuilder, 'buildHeader').mockImplementation(() => {
+    vi.spyOn(authHeaderBuilder, 'buildHeader').mockImplementation(() => {
       throw new Error('test Error');
     });
-    const client = new ArtistsHTTPClient(
-      url,
-      httpClient,
-      httpAuthHeaderBuilder
-    );
+    const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
     await expect(client.searchArtists(token, name, limit)).rejects.toThrow();
   });
