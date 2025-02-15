@@ -4,7 +4,7 @@ import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 import { FakeBaseHTTPAuthHeaderBuilder } from './auth';
 
-describe('ArtistsHTTPBackendClient', () => {
+describe('ArtistsHTTPClient', () => {
   let url: string;
   let token: string;
   let name: string;
