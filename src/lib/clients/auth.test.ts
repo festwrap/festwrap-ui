@@ -47,7 +47,7 @@ describe('GCPAuthClient', () => {
   });
 });
 
-describe('BaseHTTPAuthHeaderBuilder', () => {
+describe('BaseAuthHeaderBuilder', () => {
   function createAuthClient() {
     const authHeader = 'X-Serverless-Authorization';
     const authToken = 'test-token';
