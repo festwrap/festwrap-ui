@@ -1,16 +1,17 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { Artist } from '@/lib/artists';
-import { HTTPBackendClient } from './backend';
+import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
-import { FakeAuthClient } from './auth';
+import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';
 
-describe('HTTPBackendClient', () => {
+describe('ArtistsHTTPClient', () => {
   let url: string;
   let token: string;
   let name: string;
   let limit: number;
   let httpClient: FakeHttpClient;
   let response: HttpResponse;
+  let authHeaderBuilder: AuthHeaderBuilder;
 
   beforeEach(() => {
     url = 'http://some_url';
@@ -25,10 +26,16 @@ describe('HTTPBackendClient', () => {
       status: 200,
     };
     httpClient = new FakeHttpClient(response);
+    authHeaderBuilder = new AuthHeaderBuilderStub();
   });
 
   it('should call the client with the correct parameters', async () => {
-    const client = new HTTPBackendClient(url, httpClient);
+    const headers = { something: 'value' };
+    const client = new ArtistsHTTPClient(
+      url,
+      httpClient,
+      new AuthHeaderBuilderStub(headers)
+    );
     vi.spyOn(httpClient, 'send');
 
     await client.searchArtists(token, name, limit);
@@ -37,32 +44,12 @@ describe('HTTPBackendClient', () => {
       url: `${url}/artists/search`,
       method: Method.Get,
       params: { name: name, limit: limit },
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  });
-
-  it('should call the client with an additional auth header if auth client is provided', async () => {
-    const authHeader = 'Some-Header';
-    const authToken = 'some-token';
-    const authClient = new FakeAuthClient(authToken, authHeader);
-    const client = new HTTPBackendClient(url, httpClient, authClient);
-    vi.spyOn(httpClient, 'send');
-
-    await client.searchArtists(token, name, limit);
-
-    expect(httpClient.send).toHaveBeenCalledWith({
-      url: `${url}/artists/search`,
-      method: Method.Get,
-      params: { name: name, limit: limit },
-      headers: {
-        Authorization: `Bearer ${token}`,
-        [authHeader]: `Bearer ${authToken}`,
-      },
+      headers: headers,
     });
   });
 
   it('should return the list of artists returned by the HTTP client', async () => {
-    const client = new HTTPBackendClient(url, httpClient);
+    const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
     const actual = await client.searchArtists(token, name, limit);
 
@@ -76,21 +63,19 @@ describe('HTTPBackendClient', () => {
   it('should throw an error if the HTTP client fails', async () => {
     const errorMessage = 'Request failed';
     httpClient.setSendErrorMessage(errorMessage);
-    const client = new HTTPBackendClient(url, httpClient);
+    const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
     await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
       errorMessage
     );
   });
 
-  it('should throw an error if the auth client fails', async () => {
-    const errorMessage = 'Auth request failed';
-    const authClient = new FakeAuthClient('some-token', 'Some-Header');
-    authClient.setGetTokenErrorMessage(errorMessage);
-    const client = new HTTPBackendClient(url, httpClient, authClient);
+  it('should throw an error if the header builder fails', async () => {
+    vi.spyOn(authHeaderBuilder, 'buildHeader').mockImplementation(() => {
+      throw new Error('test Error');
+    });
+    const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
-    await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
-      errorMessage
-    );
+    await expect(client.searchArtists(token, name, limit)).rejects.toThrow();
   });
 });
