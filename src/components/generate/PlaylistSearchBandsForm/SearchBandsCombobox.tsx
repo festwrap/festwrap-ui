@@ -1,26 +1,22 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  ChevronsUpDownIcon,
-  CircleCheck,
-  SearchIcon,
-  XIcon,
-} from 'lucide-react';
-import Image, { StaticImageData } from 'next/image';
+import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
+import { StaticImageData } from 'next/image';
+import BandSearchResult from './BandSearchResult';
 
-interface Item {
+type SearchedArtist = {
   id: number;
   title: string;
   icon: StaticImageData;
-}
+};
 
-interface SearchComboboxProps {
-  options: Item[];
+type SearchComboboxProps = {
+  options: SearchedArtist[];
   values: number[];
   onChange: (_values: number[]) => void;
   placeholder?: string;
-}
+};
 
 export function SearchBandsCombobox({
   options,
@@ -29,7 +25,7 @@ export function SearchBandsCombobox({
   placeholder,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -39,30 +35,16 @@ export function SearchBandsCombobox({
     item.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node) &&
-        listRef.current &&
-        !listRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      inputRef.current &&
+      !inputRef.current.contains(event.target as Node) &&
+      listRef.current &&
+      !listRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
 
   const handleInputToggle = () => {
     setIsOpen((prev) => !prev);
@@ -74,7 +56,7 @@ export function SearchBandsCombobox({
     setActiveIndex(-1);
   };
 
-  const handleItemSelect = (item: Item) => {
+  const handleItemSelect = (item: SearchedArtist) => {
     const newSelectedItems = selectedItems.some(
       (selectedItem) => selectedItem.id === item.id
     )
@@ -117,6 +99,20 @@ export function SearchBandsCombobox({
     setSearch('');
     inputRef.current?.focus();
   };
+
+  useEffect(() => {
+    const selectedOptions = options.filter((option) =>
+      values.includes(option.id)
+    );
+    setSelectedItems(selectedOptions);
+  }, [options, values]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen && listRef.current && activeIndex >= 0) {
@@ -176,35 +172,16 @@ export function SearchBandsCombobox({
               <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
               filteredItems.map((item, index) => (
-                <li
+                <BandSearchResult
                   key={item.id}
-                  role="option"
-                  aria-selected={selectedItems.some(
+                  name={item.title}
+                  isActive={index === activeIndex}
+                  isSelected={selectedItems.some(
                     (selectedItem) => selectedItem.id === item.id
                   )}
-                  className={`flex items-center px-4 py-2 cursor-pointer ${
-                    index === activeIndex ? 'bg-blue-100' : 'hover:bg-gray-100'
-                  }`}
-                  onClick={() => {
-                    handleItemSelect(item);
-                  }}
-                >
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="h-8 w-8 rounded-md object-cover mr-2"
-                  />
-                  <span>{item.title}</span>
-                  {selectedItems.some(
-                    (selectedItem) => selectedItem.id === item.id
-                  ) && (
-                    <span className="ml-auto">
-                      <CircleCheck className="h-5 w-5 text-primary" />
-                    </span>
-                  )}
-                </li>
+                  handleItemSelect={() => handleItemSelect(item)}
+                  icon={item.icon}
+                />
               ))
             )}
           </ul>

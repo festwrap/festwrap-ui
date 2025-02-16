@@ -42,6 +42,6 @@ run-lint:
 .PHONY: run-checks
 run-checks: run-lint run-tests
 
-.PHONY:
+.PHONY: build-image
 build-image:
 	docker build -f Dockerfile -t ${IMAGE_NAME}:${IMAGE_TAG} .
