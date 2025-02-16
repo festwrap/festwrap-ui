@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
-import { BackendClient, HTTPBackendClient } from '@/lib/clients/backend';
 import { Playlist } from '@/lib/playlists';
+import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
+import { getToken } from 'next-auth/jwt';
+import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 
 export type SearchArtistHandlerParams = {
-  client: BackendClient;
+  client: PlaylistsClient;
   defaultLimit: number;
   maxLimit: number;
 };
@@ -26,9 +28,6 @@ function searchQuerySchema(defaultLimit: number, maxLimit: number) {
   return z.object({
     name: z.string({
       message: '"name" should be provided as a string',
-    }),
-    token: z.string({
-      message: '"token" should be provided as a string',
     }),
     limit: z.coerce
       .number({
@@ -63,11 +62,20 @@ export function createSearchPlaylistHandler({
       return;
     }
 
+    const token = await getToken({ req: request });
+
+    if (!token) {
+      response.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const { name, limit } = parsedArgs.data;
+
     try {
       const searchResults = await client.searchPlaylists(
-        parsedArgs.data.token as string,
-        parsedArgs.data.name as string,
-        parsedArgs.data.limit
+        token.accessToken,
+        name,
+        limit
       );
       response.status(200).json({
         playlists: searchResults.map((playlist: Playlist) =>
@@ -78,7 +86,7 @@ export function createSearchPlaylistHandler({
     } catch {
       response
         .status(500)
-        .json({ message: 'Unexpected error, cannot retrieve artists' });
+        .json({ message: 'Unexpected error, cannot retrieve playlists' });
     }
   };
 }
@@ -90,9 +98,11 @@ const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
 const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
 const httpClient: HttpClient = new HttpBaseClient();
-const client: BackendClient = new HTTPBackendClient(
+const httpAuthHeaderBuilder = new BaseAuthHeaderBuilder();
+const client: PlaylistsClient = new PlaylistsHTTPClient(
   `${serverHost}:${serverPort}`,
-  httpClient
+  httpClient,
+  httpAuthHeaderBuilder
 );
 const searchPlaylistHandler: (
   _request: NextApiRequest,
