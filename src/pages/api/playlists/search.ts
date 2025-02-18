@@ -92,9 +92,11 @@ export function createSearchPlaylistHandler({
 }
 
 const defaultLimit: number = parseInt(
-  process.env.SEARCH_ARTISTS_DEFAULT_LIMIT || '5'
+  process.env.SEARCH_PLAYLISTS_DEFAULT_LIMIT || '5'
 );
-const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
+const maxLimit: number = parseInt(
+  process.env.SEARCH_PLAYLISTS_MAX_LIMIT || '10'
+);
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
 const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
 const httpClient: HttpClient = new HttpBaseClient();
