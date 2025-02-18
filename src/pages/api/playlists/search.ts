@@ -6,7 +6,7 @@ import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
 import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 
-export type SearchArtistHandlerParams = {
+export type SearchPlaylistHandlerParams = {
   client: PlaylistsClient;
   defaultLimit: number;
   maxLimit: number;
@@ -47,7 +47,7 @@ export function createSearchPlaylistHandler({
   client,
   defaultLimit,
   maxLimit,
-}: SearchArtistHandlerParams) {
+}: SearchPlaylistHandlerParams) {
   return async function handler(
     request: NextApiRequest,
     response: NextApiResponse<ResponseData>

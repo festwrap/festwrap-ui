@@ -2,7 +2,7 @@ import { describe, it, vi, expect, beforeEach } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   createSearchPlaylistHandler,
-  SearchArtistHandlerParams,
+  SearchPlaylistHandlerParams,
 } from './search';
 import { PlaylistsClientStub } from '@/lib/clients/playlists';
 import { Playlist } from '@/lib/playlists';
@@ -32,7 +32,7 @@ describe('createSearchPlaylistHandler', () => {
   }
 
   function createHandler(
-    { client, defaultLimit, maxLimit }: SearchArtistHandlerParams = {
+    { client, defaultLimit, maxLimit }: SearchPlaylistHandlerParams = {
       client: new PlaylistsClientStub(),
       defaultLimit: 5,
       maxLimit: 10,
