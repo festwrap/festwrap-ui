@@ -11,12 +11,10 @@ export function usePlaylistSearch() {
   const search = useCallback(
     async (name: string, limit: number = 5) => {
       try {
-        console.log('searching playlists');
         if (name.trim() === '') {
           setPlaylists([]);
           return;
         }
-
         setLoading(true);
         const data = await playlistsService.searchPlaylists(name, limit);
         setPlaylists(data.playlists || []);

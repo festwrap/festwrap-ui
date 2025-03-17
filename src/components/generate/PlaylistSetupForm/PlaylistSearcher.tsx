@@ -84,7 +84,7 @@ const PlaylistSearcher = () => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0 w-[--radix-popover-trigger-width]">
-              <Command>
+              <Command shouldFilter={false}>
                 <CommandInput
                   placeholder={t(
                     'steps.step1.form.useExistingPlaylist.playlistSelector.placeholder'
