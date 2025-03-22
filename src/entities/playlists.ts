@@ -1,23 +1,13 @@
-/* eslint-disable no-unused-vars */
-export enum PlaylistCreationMode {
-  New = 'new',
-  Existing = 'existing',
-}
-
 export type CreateNewPlaylistDTO = {
   name: string;
   isPrivate: boolean;
   bands: string[];
 };
 
-export type UseExistingPlaylistDTO = {
+export type UpdatePlaylistDTO = {
   playlistId: string;
   bands: string[];
 };
-
-export type PlaylistCreationRequestDTO =
-  | CreateNewPlaylistDTO
-  | UseExistingPlaylistDTO;
 
 export type PlaylistDTO = {
   id: string;

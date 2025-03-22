@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/Form';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import PlaylistSearcher from './PlaylistSearcher';
-import { PlaylistCreationMode } from '@/entities/playlists';
+import { PlaylistCreationMode } from '../GeneratePlaylistStepper';
 
 const PlaylistSetupForm = () => {
   const { watch, control, formState } = useFormContext();

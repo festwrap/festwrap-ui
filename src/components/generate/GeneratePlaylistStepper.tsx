@@ -10,9 +10,13 @@ import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
-import { PlaylistCreationMode } from '@/entities/playlists';
 
 const STEPS_COUNT = 3;
+
+export const PlaylistCreationMode = {
+  New: 'new',
+  Existing: 'existing',
+};
 
 const formSchema = z
   .object({
