@@ -76,7 +76,7 @@ const PlaylistSearcher = () => {
                 className="w-full justify-between"
               >
                 {field.value
-                  ? playlists.find((item) => item.id === field.value)?.name
+                  ? field.value.name
                   : t(
                       'steps.step1.form.useExistingPlaylist.playlistSelector.placeholder'
                     )}
@@ -99,7 +99,9 @@ const PlaylistSearcher = () => {
                         key={playlist.id}
                         value={playlist.id}
                         onSelect={(currentValue: string) => {
-                          field.onChange(currentValue);
+                          field.onChange(
+                            playlists.find((item) => item.id === currentValue)
+                          );
                           setOpen(false);
                         }}
                       >

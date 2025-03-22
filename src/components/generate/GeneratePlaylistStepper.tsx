@@ -18,7 +18,12 @@ const formSchema = z
   .object({
     playlistType: z.enum([PlaylistType.New, PlaylistType.Existing]),
     name: z.string().optional(),
-    playlistSelected: z.string().optional(),
+    playlistSelected: z
+      .object({
+        id: z.string(),
+        name: z.string(),
+      })
+      .optional(),
     isPrivate: z.boolean(),
     bands: z.array(z.number().min(1)).nonempty('At least one band is required'),
   })
@@ -51,7 +56,7 @@ const GeneratePlaylistStepper = () => {
     defaultValues: {
       playlistType: PlaylistType.New,
       name: '',
-      playlistSelected: '',
+      playlistSelected: undefined,
       isPrivate: false,
       bands: [],
     },
