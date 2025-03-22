@@ -25,7 +25,7 @@ const PlaylistSetupForm = () => {
 
   const { t } = useTranslation('generate');
 
-  const playlistSelection = watch('playlistType');
+  const playlistModeSelected = watch('playlistCreationMode');
 
   return (
     <>
@@ -39,7 +39,7 @@ const PlaylistSetupForm = () => {
       </div>
       <FormField
         control={control}
-        name="playlistType"
+        name="playlistCreationMode"
         render={({ field }) => (
           <RadioGroupButtons
             defaultValue={field.value}
@@ -64,7 +64,7 @@ const PlaylistSetupForm = () => {
           </RadioGroupButtons>
         )}
       />
-      {playlistSelection === PlaylistCreationMode.New ? (
+      {playlistModeSelected === PlaylistCreationMode.New ? (
         <>
           <div className="space-y-2 mt-6">
             <FormField

@@ -5,14 +5,12 @@ export enum PlaylistCreationMode {
 }
 
 export type CreateNewPlaylistDTO = {
-  playlistType: PlaylistCreationMode.New;
   name: string;
   isPrivate: boolean;
   bands: string[];
 };
 
 export type UseExistingPlaylistDTO = {
-  playlistType: PlaylistCreationMode.Existing;
   playlistId: string;
   bands: string[];
 };

@@ -16,7 +16,7 @@ const STEPS_COUNT = 3;
 
 const formSchema = z
   .object({
-    playlistType: z.enum([
+    playlistCreationMode: z.enum([
       PlaylistCreationMode.New,
       PlaylistCreationMode.Existing,
     ]),
@@ -31,7 +31,7 @@ const formSchema = z
     bands: z.array(z.number().min(1)).nonempty('At least one band is required'),
   })
   .superRefine((data, ctx) => {
-    if (data.playlistType === PlaylistCreationMode.New && !data.name) {
+    if (data.playlistCreationMode === PlaylistCreationMode.New && !data.name) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Name is required for NEW role',
@@ -40,7 +40,7 @@ const formSchema = z
     }
 
     if (
-      data.playlistType === PlaylistCreationMode.Existing &&
+      data.playlistCreationMode === PlaylistCreationMode.Existing &&
       !data.playlistSelected
     ) {
       ctx.addIssue({
@@ -60,7 +60,7 @@ const GeneratePlaylistStepper = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      playlistType: PlaylistCreationMode.New,
+      playlistCreationMode: PlaylistCreationMode.New,
       name: '',
       playlistSelected: undefined,
       isPrivate: false,
@@ -74,7 +74,7 @@ const GeneratePlaylistStepper = () => {
     const isStepValid = await trigger([
       'name',
       'isPrivate',
-      'playlistType',
+      'playlistCreationMode',
       'playlistSelected',
     ]);
     if (isStepValid) setCurrentStep((prev) => prev + 1);
