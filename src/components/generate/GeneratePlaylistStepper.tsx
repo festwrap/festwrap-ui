@@ -10,13 +10,16 @@ import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
-import { PlaylistType } from '@/types/Playlist';
+import { GeneratePlaylistType } from '@/entities/playlists';
 
 const STEPS_COUNT = 3;
 
 const formSchema = z
   .object({
-    playlistType: z.enum([PlaylistType.New, PlaylistType.Existing]),
+    playlistType: z.enum([
+      GeneratePlaylistType.New,
+      GeneratePlaylistType.Existing,
+    ]),
     name: z.string().optional(),
     playlistSelected: z
       .object({
@@ -28,7 +31,7 @@ const formSchema = z
     bands: z.array(z.number().min(1)).nonempty('At least one band is required'),
   })
   .superRefine((data, ctx) => {
-    if (data.playlistType === PlaylistType.New && !data.name) {
+    if (data.playlistType === GeneratePlaylistType.New && !data.name) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Name is required for NEW role',
@@ -36,7 +39,10 @@ const formSchema = z
       });
     }
 
-    if (data.playlistType === PlaylistType.Existing && !data.playlistSelected) {
+    if (
+      data.playlistType === GeneratePlaylistType.Existing &&
+      !data.playlistSelected
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Playlist is required for EXISTING role',
@@ -54,7 +60,7 @@ const GeneratePlaylistStepper = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      playlistType: PlaylistType.New,
+      playlistType: GeneratePlaylistType.New,
       name: '',
       playlistSelected: undefined,
       isPrivate: false,

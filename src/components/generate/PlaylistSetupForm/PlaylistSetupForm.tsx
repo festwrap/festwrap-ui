@@ -16,8 +16,8 @@ import {
   FormControl,
 } from '@/components/ui/Form';
 import ErrorMessage from '@/components/ui/ErrorMessage';
-import { PlaylistType } from '@/types/Playlist';
 import PlaylistSearcher from './PlaylistSearcher';
+import { GeneratePlaylistType } from '@/entities/playlists';
 
 const PlaylistSetupForm = () => {
   const { watch, control, formState } = useFormContext();
@@ -45,7 +45,7 @@ const PlaylistSetupForm = () => {
             defaultValue={field.value}
             onChange={(value) => field.onChange(value)}
           >
-            <RadioGroupButton value={PlaylistType.New}>
+            <RadioGroupButton value={GeneratePlaylistType.New}>
               <RadioGroupButtonTitle>
                 {t('steps.step1.form.createNewPlaylist.title')}
               </RadioGroupButtonTitle>
@@ -53,7 +53,7 @@ const PlaylistSetupForm = () => {
                 {t('steps.step1.form.createNewPlaylist.description')}
               </RadioGroupButtonDescription>
             </RadioGroupButton>
-            <RadioGroupButton value={PlaylistType.Existing}>
+            <RadioGroupButton value={GeneratePlaylistType.Existing}>
               <RadioGroupButtonTitle>
                 {t('steps.step1.form.useExistingPlaylist.title')}
               </RadioGroupButtonTitle>
@@ -64,7 +64,7 @@ const PlaylistSetupForm = () => {
           </RadioGroupButtons>
         )}
       />
-      {playlistSelection === PlaylistType.New ? (
+      {playlistSelection === GeneratePlaylistType.New ? (
         <>
           <div className="space-y-2 mt-6">
             <FormField
