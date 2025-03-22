@@ -1,4 +1,4 @@
-import { Artist } from '../artists';
+import { Artist } from '../../entities/artists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 

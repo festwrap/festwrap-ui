@@ -1,3 +1,8 @@
+export type ArtistDTO = {
+  name: string;
+  imageUri?: string;
+};
+
 export class Artist {
   private name: string;
   private imageUri: string | undefined = undefined;

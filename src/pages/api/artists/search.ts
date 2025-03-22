@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
-import { Artist } from '@/lib/artists';
+import { Artist, ArtistDTO } from '@/entities/artists';
 import { ArtistsClient, ArtistsHTTPClient } from '@/lib/clients/artists';
 import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
@@ -12,14 +12,9 @@ export type SearchArtistHandlerParams = {
   maxLimit: number;
 };
 
-type ResponseArtist = {
-  name: string;
-  imageUri: string | undefined;
-};
-
 type ResponseData = {
   message: string;
-  artists?: ResponseArtist[];
+  artists?: Array<ArtistDTO>;
 };
 
 function searchQuerySchema(defaultLimit: number, maxLimit: number) {
