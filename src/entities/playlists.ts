@@ -24,7 +24,7 @@ export type GeneratePlaylistDTO =
 export type PlaylistDTO = {
   id: string;
   name: string;
-  description: string | undefined;
+  description?: string | undefined;
   isPublic: boolean;
 };
 
