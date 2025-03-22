@@ -1,4 +1,4 @@
-import { Playlist } from '../../entities/playlists';
+import { Playlist } from '@/entities/playlists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
