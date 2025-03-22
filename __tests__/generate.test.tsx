@@ -8,7 +8,8 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
-import { BandSearcherStub } from '@/components/generate/PlaylistSearchBandsForm/BandSearcher';
+import { ReactNode } from 'react';
+import { ServiceProvider } from '@/contexts/ServiceContext';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -27,10 +28,10 @@ const staticTranslations: GenerateProps = {
       keywords: 'Generate a playlist keywords',
     },
   },
-  bandSearcher: new BandSearcherStub([
-    { id: 'sftp', title: 'Stray from the Path', icon: { src: 'http://some_image.com', height: 20, width: 20 } },
-    { id: 'styg', title: 'Stick to your Guns' },
-  ])
+  // bandSearcher: new BandSearcherStub([
+  //   { id: 'sftp', title: 'Stray from the Path', icon: { src: 'http://some_image.com', height: 20, width: 20 } },
+  //   { id: 'styg', title: 'Stick to your Guns' },
+  // ])
 };
 
 userEvent.setup();
@@ -47,9 +48,23 @@ const clickToNextButton = async () => {
   await userEvent.click(nextButton);
 };
 
+const playlistsService = {
+  searchPlaylists: vi.fn(),
+};
+
+const MockServiceProvider = ({ children }: { children: ReactNode }) => {
+  return (
+    <ServiceProvider value={{ playlistsService }}>{children}</ServiceProvider>
+  );
+};
+
+const customRenderWithProviders = (ui: ReactNode) => {
+  return render(ui, { wrapper: MockServiceProvider });
+};
+
 describe('GeneratePlaylistPage', () => {
   it('should render the form with the first step displayed', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const firstNavigationStepButton = screen.getByRole('button', {
       name: /steps.step1.title/i,
@@ -79,7 +94,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should display the error message when the "Create new playlist" option is selected and the playlist name is not filled', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const createNewPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.createNewPlaylist.title/i,
@@ -101,7 +116,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should display the error message when the "Use existing playlist" option is selected and the playlist is not selected', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const useExistingPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.useExistingPlaylist.title/i,
@@ -118,7 +133,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should fill the form and navigate to the next step when clicking the next button', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const createNewPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.createNewPlaylist.title/i,
@@ -146,7 +161,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should navigate to the previous step when clicking the previous button', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
       /steps.step1.form.createNewPlaylist.giveAName/i
@@ -174,7 +189,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should navigate to the last step when filling the form and clicking the next button', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
       /steps.step1.form.createNewPlaylist.giveAName/i
@@ -224,5 +239,43 @@ describe('GeneratePlaylistPage', () => {
       name: /steps.step3.copyButton/i,
     });
     expect(copyURLButton).toBeInTheDocument();
+  });
+
+  it('should select a existing playlist when the "Use existing playlist" option is selected and the playlist is selected', async () => {
+    playlistsService.searchPlaylists.mockResolvedValue({
+      playlists: [
+        {
+          id: '1',
+          name: 'Holding Absence',
+          description: 'Holding Absence description',
+          isPublic: true,
+        },
+      ],
+    });
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const useExistingPlaylistRadio = screen.getByRole('radio', {
+      name: /steps.step1.form.useExistingPlaylist.title/i,
+    });
+    await userEvent.click(useExistingPlaylistRadio);
+
+    const triggerInput = screen.getByRole('combobox');
+    await userEvent.click(triggerInput);
+
+    const searchInput = screen.getByPlaceholderText(
+      /steps.step1.form.useExistingPlaylist.playlistSelector.placeholder/i
+    );
+    await userEvent.type(searchInput, 'Holding');
+
+    await waitFor(() => {
+      const itemOption = screen.getByRole('option', {
+        name: /holding absence/i,
+      });
+      expect(itemOption).toBeInTheDocument();
+      userEvent.click(itemOption);
+    });
+
+    const selectedItem = screen.getByText(/Holding Absence/i);
+    expect(selectedItem).toBeInTheDocument();
   });
 });

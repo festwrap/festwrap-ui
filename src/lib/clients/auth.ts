@@ -5,7 +5,7 @@ export interface AuthClient {
   getHeaderName(): string;
 }
 
-export class GCPHTTPAuthClient {
+export class GCPAuthClient implements AuthClient {
   private httpClient: HttpClient;
   private baseUrl: string =
     'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity';
@@ -36,10 +36,9 @@ export class GCPHTTPAuthClient {
   }
 }
 
-export class FakeAuthClient {
+export class AuthClientStub implements AuthClient {
   private header: string;
   private token: string;
-  private getTokenErrorMessage: string | undefined = undefined;
 
   constructor(token: string, header: string) {
     this.token = token;
@@ -50,18 +49,48 @@ export class FakeAuthClient {
     this.token = token;
   }
 
-  setGetTokenErrorMessage(message: string) {
-    this.getTokenErrorMessage = message;
-  }
-
   async getToken(): Promise<string> {
-    if (this.getTokenErrorMessage !== undefined) {
-      throw new Error(this.getTokenErrorMessage);
-    }
     return this.token;
   }
 
   getHeaderName(): string {
     return this.header;
+  }
+}
+
+export interface AuthHeaderBuilder {
+  buildHeader: (_token: string) => Promise<Record<string, string>>;
+}
+
+export class BaseAuthHeaderBuilder implements AuthHeaderBuilder {
+  private gcpAuthClient?: AuthClient | undefined;
+
+  constructor(gcpAuthClient?: AuthClient) {
+    this.gcpAuthClient = gcpAuthClient;
+  }
+
+  async buildHeader(token: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    if (!this.gcpAuthClient) return headers;
+
+    return {
+      ...headers,
+      [this.gcpAuthClient.getHeaderName()]: `Bearer ${await this.gcpAuthClient.getToken()}`,
+    };
+  }
+}
+
+export class AuthHeaderBuilderStub implements AuthHeaderBuilder {
+  private headers: Record<string, string>;
+
+  constructor(headers: Record<string, string> = {}) {
+    this.headers = headers;
+  }
+
+  async buildHeader(_token: string): Promise<Record<string, string>> {
+    return this.headers;
   }
 }

@@ -1,25 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
-import { Artist } from '@/lib/artists';
-import { ArtistsClient, ArtistsHTTPClient } from '@/lib/clients/artists';
+import { Playlist } from '@/lib/playlists';
+import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
 import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 
-export type SearchArtistHandlerParams = {
-  client: ArtistsClient;
+export type SearchPlaylistHandlerParams = {
+  client: PlaylistsClient;
   defaultLimit: number;
   maxLimit: number;
 };
 
-type ResponseArtist = {
+type ResponsePlaylist = {
+  id: string;
   name: string;
-  imageUri: string | undefined;
+  description: string | undefined;
+  isPublic: boolean;
 };
 
-type ResponseData = {
+export type ResponseData = {
   message: string;
-  artists?: ResponseArtist[];
+  playlists?: ResponsePlaylist[];
 };
 
 function searchQuerySchema(defaultLimit: number, maxLimit: number) {
@@ -42,11 +44,11 @@ function searchQuerySchema(defaultLimit: number, maxLimit: number) {
   });
 }
 
-export function createSearchArtistHandler({
+export function createSearchPlaylistHandler({
   client,
   defaultLimit,
   maxLimit,
-}: SearchArtistHandlerParams) {
+}: SearchPlaylistHandlerParams) {
   return async function handler(
     request: NextApiRequest,
     response: NextApiResponse<ResponseData>
@@ -71,41 +73,42 @@ export function createSearchArtistHandler({
     const { name, limit } = parsedArgs.data;
 
     try {
-      const searchResults = await client.searchArtists(
+      const searchResults = await client.searchPlaylists(
         token.accessToken,
         name,
         limit
       );
       response.status(200).json({
-        artists: searchResults.map((artist: Artist) => ({
-          name: artist.getName(),
-          imageUri: artist.getImageUri(),
-        })),
-        message: 'Artists successfully retrieved',
+        playlists: searchResults.map((playlist: Playlist) =>
+          playlist.toPrimitives()
+        ),
+        message: 'Playlists successfully retrieved',
       });
     } catch {
       response
         .status(500)
-        .json({ message: 'Unexpected error, cannot retrieve artists' });
+        .json({ message: 'Unexpected error, cannot retrieve playlists' });
     }
   };
 }
 
 const defaultLimit: number = parseInt(
-  process.env.SEARCH_ARTISTS_DEFAULT_LIMIT || '5'
+  process.env.SEARCH_PLAYLISTS_DEFAULT_LIMIT || '5'
 );
-const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
+const maxLimit: number = parseInt(
+  process.env.SEARCH_PLAYLISTS_MAX_LIMIT || '10'
+);
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
 const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
 const httpClient: HttpClient = new HttpBaseClient();
 const httpAuthHeaderBuilder = new BaseAuthHeaderBuilder();
-const client: ArtistsClient = new ArtistsHTTPClient(
+const client: PlaylistsClient = new PlaylistsHTTPClient(
   `${serverHost}:${serverPort}`,
   httpClient,
   httpAuthHeaderBuilder
 );
-const searchArtistHandler: (
+const searchPlaylistHandler: (
   _request: NextApiRequest,
   _response: NextApiResponse
-) => void = createSearchArtistHandler({ client, defaultLimit, maxLimit });
-export default searchArtistHandler;
+) => void = createSearchPlaylistHandler({ client, defaultLimit, maxLimit });
+export default searchPlaylistHandler;

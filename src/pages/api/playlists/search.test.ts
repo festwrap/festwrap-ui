@@ -1,21 +1,26 @@
 import { describe, it, vi, expect, beforeEach } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
-import { ArtistsClientStub } from '@/lib/clients/artists';
-import { Artist } from '@/lib/artists';
+import {
+  createSearchPlaylistHandler,
+  SearchPlaylistHandlerParams,
+} from './search';
+import { PlaylistsClientStub } from '@/lib/clients/playlists';
+import { Playlist } from '@/lib/playlists';
 import { getToken } from 'next-auth/jwt';
 
 vi.mock('next-auth/jwt', () => ({
   getToken: vi.fn(),
 }));
 
-describe('searchArtistHandler', () => {
+describe('createSearchPlaylistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(getToken).mockResolvedValue({ accessToken: 'mocked-token' });
   });
 
-  function createMockRequest(query: any = { name: 'Brutus' }): NextApiRequest {
+  function createMockRequest(
+    query: any = { name: 'Chill Vibes' }
+  ): NextApiRequest {
     return { query } as unknown as NextApiRequest;
   }
 
@@ -27,13 +32,13 @@ describe('searchArtistHandler', () => {
   }
 
   function createHandler(
-    { client, defaultLimit, maxLimit }: SearchArtistHandlerParams = {
-      client: new ArtistsClientStub(),
+    { client, defaultLimit, maxLimit }: SearchPlaylistHandlerParams = {
+      client: new PlaylistsClientStub(),
       defaultLimit: 5,
       maxLimit: 10,
     }
   ): (_request: NextApiRequest, _response: NextApiResponse) => Promise<void> {
-    return createSearchArtistHandler({ client, defaultLimit, maxLimit });
+    return createSearchPlaylistHandler({ client, defaultLimit, maxLimit });
   }
 
   it.each([
@@ -81,8 +86,8 @@ describe('searchArtistHandler', () => {
         name: 'name',
       };
       const request = createMockRequest({ ...args, limit: limit });
-      const client = new ArtistsClientStub();
-      vi.spyOn(client, 'searchArtists');
+      const client = new PlaylistsClientStub();
+      vi.spyOn(client, 'searchPlaylists');
 
       const defaultLimit = 5;
 
@@ -92,7 +97,7 @@ describe('searchArtistHandler', () => {
         maxLimit: 10,
       })(request, createMockResponse());
 
-      expect(client.searchArtists).toBeCalledWith(
+      expect(client.searchPlaylists).toBeCalledWith(
         'mocked-token',
         args.name,
         limit ? parseInt(limit, 10) : defaultLimit
@@ -101,11 +106,11 @@ describe('searchArtistHandler', () => {
   );
 
   it('should return backend client results', async () => {
-    const retrievedArtist = [
-      new Artist('Brutus'),
-      new Artist('Brutus Daughters', 'http://some_url'),
+    const retrievedPlaylists = [
+      new Playlist('1', 'Chill Vibes', true, 'Relaxing music'),
+      new Playlist('2', 'Workout Hits', false, 'High energy music'),
     ];
-    const client = new ArtistsClientStub(retrievedArtist);
+    const client = new PlaylistsClientStub(retrievedPlaylists);
     const response = createMockResponse();
 
     const handler = createHandler({
@@ -116,11 +121,21 @@ describe('searchArtistHandler', () => {
     await handler(createMockRequest(), response);
 
     const expected = {
-      artists: [
-        { name: 'Brutus' },
-        { name: 'Brutus Daughters', imageUri: 'http://some_url' },
+      playlists: [
+        {
+          id: '1',
+          name: 'Chill Vibes',
+          description: 'Relaxing music',
+          isPublic: true,
+        },
+        {
+          id: '2',
+          name: 'Workout Hits',
+          description: 'High energy music',
+          isPublic: false,
+        },
       ],
-      message: 'Artists successfully retrieved',
+      message: 'Playlists successfully retrieved',
     };
 
     expect(response.status).toBeCalledWith(200);
@@ -128,8 +143,8 @@ describe('searchArtistHandler', () => {
   });
 
   it('should return an error if search fails', async () => {
-    const client = new ArtistsClientStub();
-    vi.spyOn(client, 'searchArtists').mockImplementation(() => {
+    const client = new PlaylistsClientStub();
+    vi.spyOn(client, 'searchPlaylists').mockImplementation(() => {
       throw new Error('test error');
     });
     const response = createMockResponse();
@@ -143,7 +158,7 @@ describe('searchArtistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error, cannot retrieve artists',
+      message: 'Unexpected error, cannot retrieve playlists',
     });
   });
 

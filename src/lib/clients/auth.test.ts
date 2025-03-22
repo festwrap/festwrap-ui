@@ -1,8 +1,8 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { GCPHTTPAuthClient } from './auth';
+import { AuthClientStub, GCPAuthClient, BaseAuthHeaderBuilder } from './auth';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 
-describe('HTTPAuthClient', () => {
+describe('GCPAuthClient', () => {
   const audience = 'test-audience';
   let httpClient: FakeHttpClient;
   let response: HttpResponse;
@@ -13,7 +13,7 @@ describe('HTTPAuthClient', () => {
   });
 
   it('should call the client with the correct parameters', async () => {
-    const authClient = new GCPHTTPAuthClient(httpClient, audience);
+    const authClient = new GCPAuthClient(httpClient, audience);
     const baseUrl = 'http://some_url/auth';
     authClient.setBaseUrl(baseUrl);
     vi.spyOn(httpClient, 'send');
@@ -31,7 +31,7 @@ describe('HTTPAuthClient', () => {
   it('should return token from the client', async () => {
     const expected = 'some-token';
     httpClient.setResult({ data: expected, status: 200 });
-    const authClient = new GCPHTTPAuthClient(httpClient, audience);
+    const authClient = new GCPAuthClient(httpClient, audience);
 
     const actual = await authClient.getToken();
 
@@ -41,8 +41,63 @@ describe('HTTPAuthClient', () => {
   it('should throw an error if the client fails', async () => {
     const errorMessage = 'Test error';
     httpClient.setSendErrorMessage('Test error');
-    const authClient = new GCPHTTPAuthClient(httpClient, audience);
+    const authClient = new GCPAuthClient(httpClient, audience);
 
     await expect(authClient.getToken()).rejects.toThrow(errorMessage);
+  });
+});
+
+describe('BaseAuthHeaderBuilder', () => {
+  function createAuthClient() {
+    const authHeader = 'X-Serverless-Authorization';
+    const authToken = 'test-token';
+    return new AuthClientStub(authToken, authHeader);
+  }
+
+  it('should call getToken and getHeaderName on authClient', async () => {
+    const authClient = createAuthClient();
+    vi.spyOn(authClient, 'getToken');
+    vi.spyOn(authClient, 'getHeaderName');
+    const client = new BaseAuthHeaderBuilder(authClient);
+
+    const token = 'app-token';
+    await client.buildHeader(token);
+
+    expect(authClient.getToken).toHaveBeenCalled();
+    expect(authClient.getHeaderName).toHaveBeenCalled();
+  });
+
+  it('should return the correct auth header if token is provided', async () => {
+    const client = new BaseAuthHeaderBuilder();
+
+    const token = 'app-token';
+    const headers = await client.buildHeader(token);
+
+    expect(headers).toEqual({ Authorization: 'Bearer app-token' });
+  });
+
+  it('should return the correct auth header if authClient and token are provided', async () => {
+    const authClient = createAuthClient();
+    const client = new BaseAuthHeaderBuilder(authClient);
+
+    const token = 'app-token';
+    const headers = await client.buildHeader(token);
+
+    expect(headers).toEqual({
+      Authorization: 'Bearer app-token',
+      'X-Serverless-Authorization': 'Bearer test-token',
+    });
+  });
+
+  it('should throw an error if the auth client fails', async () => {
+    const errorMessage = 'Auth request failed';
+    const authClient = createAuthClient();
+    vi.spyOn(authClient, 'getToken').mockImplementation(() => {
+      throw new Error(errorMessage);
+    });
+    const client = new BaseAuthHeaderBuilder(authClient);
+
+    const token = 'app-token';
+    await expect(client.buildHeader(token)).rejects.toThrow(errorMessage);
   });
 });
