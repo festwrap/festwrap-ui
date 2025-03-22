@@ -5,7 +5,7 @@ import {
   SearchPlaylistHandlerParams,
 } from './search';
 import { PlaylistsClientStub } from '@/lib/clients/playlists';
-import { Playlist } from '@/lib/playlists';
+import { Playlist } from '@/entities/playlists';
 import { getToken } from 'next-auth/jwt';
 
 vi.mock('next-auth/jwt', () => ({

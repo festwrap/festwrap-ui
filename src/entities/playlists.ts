@@ -1,3 +1,33 @@
+/* eslint-disable no-unused-vars */
+export enum GeneratePlaylistType {
+  New = 'new',
+  Existing = 'existing',
+}
+
+export type GenerateNewPlaylist = {
+  playlistType: GeneratePlaylistType.New;
+  name: string;
+  isPrivate: boolean;
+  bands: string[];
+};
+
+export type GenerateExistingPlaylist = {
+  playlistType: GeneratePlaylistType.Existing;
+  playlistSelected: string;
+  bands: string[];
+};
+
+export type GeneratePlaylistDTO =
+  | GenerateNewPlaylist
+  | GenerateExistingPlaylist;
+
+export type PlaylistDTO = {
+  id: string;
+  name: string;
+  description: string | undefined;
+  isPublic: boolean;
+};
+
 export class Playlist {
   private id: string;
   private name: string;
