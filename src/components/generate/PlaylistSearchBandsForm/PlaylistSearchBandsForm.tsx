@@ -56,10 +56,7 @@ const PlaylistSearchBandsForm = () => {
                 <SearchBandsCombobox
                   options={artists}
                   values={field.value}
-                  onChange={(value) => {
-                    console.log({ value });
-                    onChangeSelection(value);
-                  }}
+                  onChange={onChangeSelection}
                   onSearch={debouncedSearch}
                   placeholder={t('steps.step2.searchPlaceholder')}
                 />

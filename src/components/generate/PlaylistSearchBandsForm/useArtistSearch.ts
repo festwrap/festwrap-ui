@@ -17,7 +17,6 @@ export function useArtistSearch() {
         }
         setLoading(true);
         const data = await artistsService.searchArtists(name, limit);
-        console.log(data);
         setArtists(data.artists || []);
       } catch (err: any) {
         setError(err.message);
