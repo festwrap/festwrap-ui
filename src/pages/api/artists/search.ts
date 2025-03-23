@@ -12,7 +12,7 @@ export type SearchArtistHandlerParams = {
   maxLimit: number;
 };
 
-type ResponseData = {
+export type ResponseData = {
   message: string;
   artists?: Array<ArtistDTO>;
 };
