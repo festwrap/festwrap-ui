@@ -2,19 +2,18 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
-import { StaticImageData } from 'next/image';
 import BandSearchResult from './BandSearchResult';
 
 type SearchedArtist = {
-  id: number;
-  title: string;
-  icon: StaticImageData;
+  name: string;
+  imageUri: string | undefined;
 };
 
 type SearchComboboxProps = {
   options: SearchedArtist[];
-  values: number[];
-  onChange: (_values: number[]) => void;
+  values: string[];
+  onChange: (_value: string) => void;
+  onSearch: (_search: string) => void;
   placeholder?: string;
 };
 
@@ -22,18 +21,14 @@ export function SearchBandsCombobox({
   options,
   values,
   onChange,
+  onSearch,
   placeholder,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
-
-  const filteredItems = options.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
 
   const handleOutsideClick = (event: MouseEvent) => {
     if (
@@ -51,24 +46,19 @@ export function SearchBandsCombobox({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(e.target.value);
     setSearch(e.target.value);
     setIsOpen(true);
     setActiveIndex(-1);
   };
 
   const handleItemSelect = (item: SearchedArtist) => {
-    const newSelectedItems = selectedItems.some(
-      (selectedItem) => selectedItem.id === item.id
-    )
-      ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
-      : [...selectedItems, item];
-
-    setSelectedItems(newSelectedItems);
-    onChange(newSelectedItems.map((item) => item.id));
+    onChange(item.name);
 
     // Ensure closure after all updates
     setSearch('');
     setTimeout(() => setIsOpen(false), 0);
+    setActiveIndex(-1);
     inputRef.current?.focus();
   };
 
@@ -78,18 +68,17 @@ export function SearchBandsCombobox({
       if (!isOpen) {
         setIsOpen(true);
       } else {
-        setActiveIndex((prev) =>
-          prev < filteredItems.length - 1 ? prev + 1 : prev
-        );
+        setActiveIndex((prev) => (prev < options.length - 1 ? prev + 1 : prev));
       }
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
-      handleItemSelect(filteredItems[activeIndex]);
+      handleItemSelect(options[activeIndex]);
     } else if (e.key === 'Escape') {
       setIsOpen(false);
+      setActiveIndex(-1);
     } else if (e.key === 'Tab' && isOpen) {
       e.preventDefault();
     }
@@ -99,13 +88,6 @@ export function SearchBandsCombobox({
     setSearch('');
     inputRef.current?.focus();
   };
-
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
@@ -168,19 +150,19 @@ export function SearchBandsCombobox({
             role="listbox"
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
-            {filteredItems.length === 0 ? (
+            {options.length === 0 ? (
               <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
-              filteredItems.map((item, index) => (
+              options.map((item, index) => (
                 <BandSearchResult
-                  key={item.id}
-                  name={item.title}
+                  key={index}
+                  name={item.name}
                   isActive={index === activeIndex}
-                  isSelected={selectedItems.some(
-                    (selectedItem) => selectedItem.id === item.id
+                  isSelected={values.some(
+                    (selectedItem) => selectedItem === item.name
                   )}
                   handleItemSelect={() => handleItemSelect(item)}
-                  icon={item.icon}
+                  srcImage={item.imageUri}
                 />
               ))
             )}
