@@ -8,6 +8,10 @@ export function useArtistSearch() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const clearArtists = () => {
+    setArtists([]);
+  };
+
   const search = useCallback(
     async (name: string, limit: number = 5) => {
       try {
@@ -27,5 +31,5 @@ export function useArtistSearch() {
     [artistsService]
   );
 
-  return { artists, loading, error, search };
+  return { artists, loading, error, search, clearArtists };
 }

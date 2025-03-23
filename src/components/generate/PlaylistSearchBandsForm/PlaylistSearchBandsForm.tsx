@@ -13,7 +13,7 @@ import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 
 const PlaylistSearchBandsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
-  const { artists, search } = useArtistSearch();
+  const { artists, search, clearArtists } = useArtistSearch();
   const { errors } = formState;
 
   const { t } = useTranslation('generate');
@@ -34,6 +34,7 @@ const PlaylistSearchBandsForm = () => {
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     setValue('bands', newSelectedItems);
+    clearArtists();
   };
 
   return (
