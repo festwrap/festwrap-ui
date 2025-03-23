@@ -48,10 +48,17 @@ const playlistsService = {
   searchPlaylists: vi.fn(),
 };
 
+const artistsService = {
+  searchArtists: vi.fn(),
+};
+
+const mockServices = {
+  playlistsService,
+  artistsService,
+};
+
 const MockServiceProvider = ({ children }: { children: ReactNode }) => {
-  return (
-    <ServiceProvider value={{ playlistsService }}>{children}</ServiceProvider>
-  );
+  return <ServiceProvider value={mockServices}>{children}</ServiceProvider>;
 };
 
 const customRenderWithProviders = (ui: ReactNode) => {
