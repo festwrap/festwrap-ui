@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { Artist } from '@/lib/artists';
+import { Artist } from '@/entities/artists';
 import { ArtistsHTTPClient } from './artists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';

@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
-import { Playlist } from '@/services/playlistsService';
 import { useServices } from '@/contexts/ServiceContext';
+import { PlaylistDTO } from '@/entities/playlists';
 
 export function usePlaylistSearch() {
   const { playlistsService } = useServices();
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [playlists, setPlaylists] = useState<PlaylistDTO[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

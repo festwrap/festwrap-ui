@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
-import { Playlist } from '@/lib/playlists';
+import { Playlist, PlaylistDTO } from '@/entities/playlists';
 import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
 import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
@@ -12,16 +12,9 @@ export type SearchPlaylistHandlerParams = {
   maxLimit: number;
 };
 
-type ResponsePlaylist = {
-  id: string;
-  name: string;
-  description: string | undefined;
-  isPublic: boolean;
-};
-
 export type ResponseData = {
   message: string;
-  playlists?: ResponsePlaylist[];
+  playlists?: Array<PlaylistDTO>;
 };
 
 function searchQuerySchema(defaultLimit: number, maxLimit: number) {

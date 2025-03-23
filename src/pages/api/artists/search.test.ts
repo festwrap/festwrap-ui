@@ -2,7 +2,7 @@ import { describe, it, vi, expect, beforeEach } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
 import { ArtistsClientStub } from '@/lib/clients/artists';
-import { Artist } from '@/lib/artists';
+import { Artist } from '@/entities/artists';
 import { getToken } from 'next-auth/jwt';
 
 vi.mock('next-auth/jwt', () => ({

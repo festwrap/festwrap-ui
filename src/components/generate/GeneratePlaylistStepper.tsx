@@ -10,13 +10,20 @@ import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
-import { PlaylistType } from '@/types/Playlist';
 
 const STEPS_COUNT = 3;
 
+export const PlaylistCreationMode = {
+  New: 'new',
+  Existing: 'existing',
+};
+
 const formSchema = z
   .object({
-    playlistType: z.enum([PlaylistType.New, PlaylistType.Existing]),
+    playlistCreationMode: z.enum([
+      PlaylistCreationMode.New,
+      PlaylistCreationMode.Existing,
+    ]),
     name: z.string().optional(),
     playlistSelected: z
       .object({
@@ -28,7 +35,7 @@ const formSchema = z
     bands: z.array(z.number().min(1)).nonempty('At least one band is required'),
   })
   .superRefine((data, ctx) => {
-    if (data.playlistType === PlaylistType.New && !data.name) {
+    if (data.playlistCreationMode === PlaylistCreationMode.New && !data.name) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Name is required for NEW role',
@@ -36,7 +43,10 @@ const formSchema = z
       });
     }
 
-    if (data.playlistType === PlaylistType.Existing && !data.playlistSelected) {
+    if (
+      data.playlistCreationMode === PlaylistCreationMode.Existing &&
+      !data.playlistSelected
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Playlist is required for EXISTING role',
@@ -54,7 +64,7 @@ const GeneratePlaylistStepper = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      playlistType: PlaylistType.New,
+      playlistCreationMode: PlaylistCreationMode.New,
       name: '',
       playlistSelected: undefined,
       isPrivate: false,
@@ -68,7 +78,7 @@ const GeneratePlaylistStepper = () => {
     const isStepValid = await trigger([
       'name',
       'isPrivate',
-      'playlistType',
+      'playlistCreationMode',
       'playlistSelected',
     ]);
     if (isStepValid) setCurrentStep((prev) => prev + 1);

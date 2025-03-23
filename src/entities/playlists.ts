@@ -1,3 +1,21 @@
+export type CreateNewPlaylistDTO = {
+  name: string;
+  isPrivate: boolean;
+  bands: string[];
+};
+
+export type UpdatePlaylistDTO = {
+  playlistId: string;
+  bands: string[];
+};
+
+export type PlaylistDTO = {
+  id: string;
+  name: string;
+  description?: string | undefined;
+  isPublic: boolean;
+};
+
 export class Playlist {
   private id: string;
   private name: string;

@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { Playlist } from '@/lib/playlists';
+import { Playlist } from '@/entities/playlists';
 import { PlaylistsHTTPClient } from './playlists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';

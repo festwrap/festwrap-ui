@@ -1,13 +1,6 @@
 import { ResponseData } from '@/pages/api/playlists/search';
 import { IFetchService } from './fetchService';
 
-export type Playlist = {
-  id: string;
-  name: string;
-  description?: string;
-  isPublic: boolean;
-};
-
 export interface IPlaylistsService {
   searchPlaylists(_name: string, _limit: number): Promise<ResponseData>;
 }
