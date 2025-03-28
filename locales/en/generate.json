@@ -55,6 +55,7 @@
                 "description": "Start searching for artists to add them to the playlist",
                 "title": "No artist added"
             },
+            "removeArtist": "Remove",
             "searchPlaceholder": "Search artists",
             "title": "Search the artists"
         },

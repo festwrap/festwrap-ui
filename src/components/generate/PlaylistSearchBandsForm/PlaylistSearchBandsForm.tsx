@@ -98,6 +98,7 @@ const PlaylistSearchBandsForm = () => {
                   onClick={() => removeSelectedItem(item)}
                   className="ml-1 hover:bg-slate-100 rounded-full hover:text-primary text-dark-blue"
                   type="button"
+                  aria-label={`${t('steps.step2.removeArtist')} ${item}`}
                 >
                   <X className="h-4 w-4" />
                 </button>

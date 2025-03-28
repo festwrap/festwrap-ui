@@ -56,6 +56,7 @@
                 "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
                 "title": "Ningún artista añadido"
             },
+            "removeArtist": "Eliminar",
             "searchPlaceholder": "Busca artistas",
             "title": "Busca los artistas"
         },
