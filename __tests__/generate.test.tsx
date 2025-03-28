@@ -44,6 +44,61 @@ const clickToNextButton = async () => {
   await userEvent.click(nextButton);
 };
 
+const completeFirstStepNewPlaylist = async () => {
+  const playlistNameInput = screen.getByLabelText(
+    /steps.step1.form.createNewPlaylist.giveAName/i
+  );
+  await userEvent.type(playlistNameInput, 'My new playlist');
+
+  await clickToNextButton();
+
+  const secondStepContentTitle = await waitFor(() => {
+    const secondStepContent = screen.getByRole('tabpanel');
+    return within(secondStepContent).getByText(/steps.step2.title/i);
+  });
+
+  expect(secondStepContentTitle).toBeInTheDocument();
+};
+
+const findAndSelectArtist = async (artistName: string) => {
+  const searchInput = screen.getByPlaceholderText(
+    'steps.step2.searchPlaceholder'
+  );
+  await userEvent.type(searchInput, artistName);
+
+  await waitFor(() => {
+    const itemOption = screen.getByRole('option', {
+      name: artistName,
+    });
+    expect(itemOption).toBeInTheDocument();
+    userEvent.click(itemOption);
+  });
+
+  const selectedItem = screen.getByText(artistName);
+  expect(selectedItem).toBeInTheDocument();
+};
+
+const findAndSelectPlaylist = async (playlistName: string) => {
+  const triggerInput = screen.getByRole('combobox');
+  await userEvent.click(triggerInput);
+
+  const searchInput = screen.getByPlaceholderText(
+    /steps.step1.form.useExistingPlaylist.playlistSelector.placeholder/i
+  );
+  await userEvent.type(searchInput, playlistName);
+
+  await waitFor(() => {
+    const itemOption = screen.getByRole('option', {
+      name: playlistName,
+    });
+    expect(itemOption).toBeInTheDocument();
+    userEvent.click(itemOption);
+  });
+
+  const selectedItem = screen.getByText(playlistName);
+  expect(selectedItem).toBeInTheDocument();
+};
+
 const playlistsService = {
   searchPlaylists: vi.fn(),
 };
@@ -192,6 +247,15 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should navigate to the last step when filling the form and clicking the next button', async () => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+      ],
+    });
+
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
@@ -208,18 +272,7 @@ describe('GeneratePlaylistPage', () => {
 
     expect(secondStepContentTitle).toBeInTheDocument();
 
-    const searchInput = screen.getByPlaceholderText(
-      'steps.step2.searchPlaceholder'
-    );
-    await userEvent.type(searchInput, 'Holding');
-
-    const itemOption = screen.getByRole('option', {
-      name: /Holding Absence/i,
-    });
-    await userEvent.click(itemOption);
-
-    const selectedItem = screen.getByText(/Holding Absence/i);
-    expect(selectedItem).toBeInTheDocument();
+    await findAndSelectArtist('Holding Absence');
 
     const generateButton = screen.getByRole('button', {
       name: /steps.navigation.generate/i,
@@ -249,8 +302,8 @@ describe('GeneratePlaylistPage', () => {
       playlists: [
         {
           id: '1',
-          name: 'Holding Absence',
-          description: 'Holding Absence description',
+          name: 'My playlist',
+          description: 'My playlist description',
           isPublic: true,
         },
       ],
@@ -262,23 +315,42 @@ describe('GeneratePlaylistPage', () => {
     });
     await userEvent.click(useExistingPlaylistRadio);
 
-    const triggerInput = screen.getByRole('combobox');
-    await userEvent.click(triggerInput);
+    await findAndSelectPlaylist('My playlist');
+  });
 
-    const searchInput = screen.getByPlaceholderText(
-      /steps.step1.form.useExistingPlaylist.playlistSelector.placeholder/i
-    );
-    await userEvent.type(searchInput, 'Holding');
-
-    await waitFor(() => {
-      const itemOption = screen.getByRole('option', {
-        name: /holding absence/i,
-      });
-      expect(itemOption).toBeInTheDocument();
-      userEvent.click(itemOption);
+  it('should add multiple artists and remove some of them when clicking the remove button', async () => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+        {
+          name: 'HOLD',
+          imageUri: null,
+        },
+      ],
     });
 
-    const selectedItem = screen.getByText(/Holding Absence/i);
-    expect(selectedItem).toBeInTheDocument();
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    await completeFirstStepNewPlaylist();
+
+    await findAndSelectArtist('Holding Absence');
+
+    await findAndSelectArtist('HOLD');
+
+    await waitFor(() => {
+      const removeButtons = screen.getAllByLabelText(
+        /steps.step2.removeArtist/i
+      );
+      expect(removeButtons).toHaveLength(2);
+    });
+
+    const removeButton = screen.getByLabelText('steps.step2.removeArtist HOLD');
+    await userEvent.click(removeButton);
+
+    const selectedItemRemoved = screen.queryByText('HOLD');
+    expect(selectedItemRemoved).not.toBeInTheDocument();
   });
 });
