@@ -1,6 +1,8 @@
 import { CircleCheck } from 'lucide-react';
 import Image from 'next/image';
 
+const IMAGE_SIZE = 30;
+
 interface BandSearchResultProps {
   key: number;
   name: string;
@@ -28,8 +30,8 @@ const BandSearchResult = ({
         <Image
           src={srcImage}
           alt={name}
-          width={30}
-          height={30}
+          width={IMAGE_SIZE}
+          height={IMAGE_SIZE}
           className="h-10 w-10 rounded-md object-cover mr-2"
         />
       ) : (
