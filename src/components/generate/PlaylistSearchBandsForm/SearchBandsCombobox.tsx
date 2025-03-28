@@ -3,14 +3,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
 import BandSearchResult from './BandSearchResult';
-
-type SearchedArtist = {
-  name: string;
-  imageUri: string | undefined;
-};
+import { ArtistDTO } from '@/entities/artists';
 
 type SearchComboboxProps = {
-  options: SearchedArtist[];
+  options: ArtistDTO[];
   values: string[];
   onChange: (_value: string) => void;
   onSearch: (_search: string) => void;
@@ -52,7 +48,7 @@ export function SearchBandsCombobox({
     setActiveIndex(-1);
   };
 
-  const handleItemSelect = (item: SearchedArtist) => {
+  const handleItemSelect = (item: ArtistDTO) => {
     onChange(item.name);
 
     // Ensure closure after all updates
