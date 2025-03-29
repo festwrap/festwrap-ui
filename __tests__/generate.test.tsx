@@ -44,6 +44,14 @@ const clickToNextButton = async () => {
   await userEvent.click(nextButton);
 };
 
+const waitForSecondStepContent = async () => {
+  const secondStepContentTitle = await waitFor(() => {
+    const secondStepContent = screen.getByRole('tabpanel');
+    return within(secondStepContent).getByText(/steps.step2.title/i);
+  });
+  return secondStepContentTitle;
+};
+
 const completeFirstStepNewPlaylist = async () => {
   const playlistNameInput = screen.getByLabelText(
     /steps.step1.form.createNewPlaylist.giveAName/i
@@ -51,13 +59,6 @@ const completeFirstStepNewPlaylist = async () => {
   await userEvent.type(playlistNameInput, 'My new playlist');
 
   await clickToNextButton();
-
-  const secondStepContentTitle = await waitFor(() => {
-    const secondStepContent = screen.getByRole('tabpanel');
-    return within(secondStepContent).getByText(/steps.step2.title/i);
-  });
-
-  expect(secondStepContentTitle).toBeInTheDocument();
 };
 
 const findAndSelectArtist = async (artistName: string) => {
@@ -316,7 +317,7 @@ describe('GeneratePlaylistPage', () => {
     expect(selectedItem).toBeInTheDocument();
   });
 
-  it('should add multiple artists and remove some of them when clicking the remove button', async () => {
+  it('should select multiple artists when searching for them and clicking on them', async () => {
     artistsService.searchArtists.mockResolvedValue({
       artists: [
         {
@@ -333,6 +334,7 @@ describe('GeneratePlaylistPage', () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     await completeFirstStepNewPlaylist();
+    expect(await waitForSecondStepContent()).toBeInTheDocument();
 
     const firstArtistName = 'Holding Absence';
     await findAndSelectArtist(firstArtistName);
@@ -352,9 +354,40 @@ describe('GeneratePlaylistPage', () => {
       );
       expect(removeButtons).toHaveLength(2);
     });
+  });
 
-    const removeButton = screen.getByLabelText('steps.step2.removeArtist HOLD');
-    await userEvent.click(removeButton);
+  it('should remove an artist that was selected when you clicked the remove button', async () => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+        {
+          name: 'HOLD',
+          imageUri: null,
+        },
+      ],
+    });
+
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    await completeFirstStepNewPlaylist();
+    expect(await waitForSecondStepContent()).toBeInTheDocument();
+
+    const artistName = 'Holding Absence';
+    await findAndSelectArtist(artistName);
+
+    const selectedArtistItem = screen.getByText(artistName);
+    expect(selectedArtistItem).toBeInTheDocument();
+
+    await waitFor(async () => {
+      const removeButton = screen.getByLabelText(
+        'steps.step2.removeArtist Holding Absence'
+      );
+      expect(removeButton).toBeInTheDocument();
+      await userEvent.click(removeButton);
+    });
 
     const selectedItemRemoved = screen.queryByText('HOLD');
     expect(selectedItemRemoved).not.toBeInTheDocument();
