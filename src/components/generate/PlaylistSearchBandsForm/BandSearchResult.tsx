@@ -3,14 +3,14 @@ import Image from 'next/image';
 
 const IMAGE_SIZE = 30;
 
-interface BandSearchResultProps {
+type BandSearchResultProps = {
   key: number;
   name: string;
   isActive: boolean;
   isSelected: boolean;
   handleItemSelect: (_item: any) => void;
   srcImage?: string;
-}
+};
 
 const BandSearchResult = ({
   name,
