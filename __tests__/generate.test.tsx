@@ -389,7 +389,7 @@ describe('GeneratePlaylistPage', () => {
       await userEvent.click(removeButton);
     });
 
-    const selectedItemRemoved = screen.queryByText('HOLD');
+    const selectedItemRemoved = screen.queryByText('Holding Absence');
     expect(selectedItemRemoved).not.toBeInTheDocument();
   });
 });
