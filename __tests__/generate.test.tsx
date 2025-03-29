@@ -383,7 +383,7 @@ describe('GeneratePlaylistPage', () => {
 
     await waitFor(async () => {
       const removeButton = screen.getByLabelText(
-        'steps.step2.removeArtist Holding Absence'
+        `steps.step2.removeArtist ${artistName}`
       );
       expect(removeButton).toBeInTheDocument();
       await userEvent.click(removeButton);
