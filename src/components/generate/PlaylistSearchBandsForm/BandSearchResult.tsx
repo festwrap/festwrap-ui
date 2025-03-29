@@ -9,7 +9,7 @@ type BandSearchResultProps = {
   isActive: boolean;
   isSelected: boolean;
   handleItemSelect: (_item: any) => void;
-  srcImage?: string;
+  imageUrl?: string;
 };
 
 const BandSearchResult = ({
@@ -17,7 +17,7 @@ const BandSearchResult = ({
   isActive,
   isSelected,
   handleItemSelect,
-  srcImage,
+  imageUrl: srcImage,
 }: BandSearchResultProps) => {
   return (
     <li

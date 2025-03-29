@@ -158,7 +158,7 @@ export function SearchBandsCombobox({
                     (selectedItem) => selectedItem === item.name
                   )}
                   handleItemSelect={() => handleItemSelect(item)}
-                  srcImage={item.imageUri}
+                  imageUrl={item.imageUri}
                 />
               ))
             )}
