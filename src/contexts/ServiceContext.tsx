@@ -1,8 +1,10 @@
+import { IArtistsService } from '@/services/artistsService';
 import { IPlaylistsService } from '@/services/playlistsService';
 import { createContext, useContext, ReactNode } from 'react';
 
 export interface ServiceContextType {
   playlistsService: IPlaylistsService;
+  artistsService: IArtistsService;
 }
 
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined);

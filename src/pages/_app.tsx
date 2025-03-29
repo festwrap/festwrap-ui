@@ -6,6 +6,7 @@ import RootLayout from '@components/layout/RootLayout';
 import { ServiceContextType, ServiceProvider } from '@/contexts/ServiceContext';
 import { FetchService } from '@/services/fetchService';
 import { PlaylistsService } from '@/services/playlistsService';
+import { ArtistsService } from '@/services/artistsService';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -14,9 +15,11 @@ const poppins = Poppins({
 
 const fetchService = new FetchService();
 const playlistsService = new PlaylistsService(fetchService);
+const artistsService = new ArtistsService(fetchService);
 
 const servicesValue: ServiceContextType = {
   playlistsService,
+  artistsService,
 };
 
 export default function MyApp({ Component, pageProps }: AppProps) {

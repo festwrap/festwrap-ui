@@ -32,7 +32,7 @@ const formSchema = z
       })
       .optional(),
     isPrivate: z.boolean(),
-    bands: z.array(z.number().min(1)).nonempty('At least one band is required'),
+    bands: z.array(z.string().min(1)).nonempty('At least one band is required'),
   })
   .superRefine((data, ctx) => {
     if (data.playlistCreationMode === PlaylistCreationMode.New && !data.name) {
