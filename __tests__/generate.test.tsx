@@ -73,9 +73,6 @@ const findAndSelectArtist = async (artistName: string) => {
     expect(itemOption).toBeInTheDocument();
     userEvent.click(itemOption);
   });
-
-  const selectedItem = screen.getByText(artistName);
-  expect(selectedItem).toBeInTheDocument();
 };
 
 const findAndSelectPlaylist = async (playlistName: string) => {
@@ -94,9 +91,6 @@ const findAndSelectPlaylist = async (playlistName: string) => {
     expect(itemOption).toBeInTheDocument();
     userEvent.click(itemOption);
   });
-
-  const selectedItem = screen.getByText(playlistName);
-  expect(selectedItem).toBeInTheDocument();
 };
 
 const playlistsService = {
@@ -315,7 +309,11 @@ describe('GeneratePlaylistPage', () => {
     });
     await userEvent.click(useExistingPlaylistRadio);
 
-    await findAndSelectPlaylist('My playlist');
+    const playlistName = 'My playlist';
+    await findAndSelectPlaylist(playlistName);
+
+    const selectedItem = screen.getByText(playlistName);
+    expect(selectedItem).toBeInTheDocument();
   });
 
   it('should add multiple artists and remove some of them when clicking the remove button', async () => {
@@ -336,9 +334,17 @@ describe('GeneratePlaylistPage', () => {
 
     await completeFirstStepNewPlaylist();
 
-    await findAndSelectArtist('Holding Absence');
+    const firstArtistName = 'Holding Absence';
+    await findAndSelectArtist(firstArtistName);
 
-    await findAndSelectArtist('HOLD');
+    const selectedFirstArtistItem = screen.getByText(firstArtistName);
+    expect(selectedFirstArtistItem).toBeInTheDocument();
+
+    const secondArtistName = 'HOLD';
+    await findAndSelectArtist(secondArtistName);
+
+    const selectedSecondArtistItem = screen.getByText(secondArtistName);
+    expect(selectedSecondArtistItem).toBeInTheDocument();
 
     await waitFor(() => {
       const removeButtons = screen.getAllByLabelText(
