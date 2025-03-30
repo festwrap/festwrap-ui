@@ -1,6 +1,6 @@
 import Heading from '@components/ui/Heading';
 import { X } from 'lucide-react';
-import { SearchBandsCombobox } from './SearchBandsCombobox';
+import { SearchArtistsCombobox } from './SearchArtistsCombobox';
 import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
 import { Badge } from '@components/ui/Badge';
@@ -11,7 +11,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage';
 import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 
-const PlaylistSearchBandsForm = () => {
+const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
   const { artists, search, clearArtists } = useArtistSearch();
   const { errors } = formState;
@@ -54,7 +54,7 @@ const PlaylistSearchBandsForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <SearchBandsCombobox
+                <SearchArtistsCombobox
                   options={artists}
                   values={field.value}
                   onChange={onChangeSelection}
@@ -111,4 +111,4 @@ const PlaylistSearchBandsForm = () => {
   );
 };
 
-export default PlaylistSearchBandsForm;
+export default PlaylistSearchArtistsForm;

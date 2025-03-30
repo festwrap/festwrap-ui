@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import PlaylistGetUrlLink from '@components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink';
-import PlaylistSearchBandsForm from '@components/generate/PlaylistSearchBandsForm/PlaylistSearchBandsForm';
+import PlaylistSearchArtistsForm from '@/components/generate/PlaylistSearchArtistsForm/PlaylistSearchArtistsForm';
 import PlaylistSetupForm from '@components/generate/PlaylistSetupForm/PlaylistSetupForm';
 import { Button } from '@components/ui/Button';
 import { Stepper, StepList, Step, StepContent } from '@components/ui/Stepper';
@@ -131,7 +131,7 @@ const GeneratePlaylistStepper = () => {
               <PlaylistSetupForm />
             </StepContent>
             <StepContent stepNumber={2}>
-              <PlaylistSearchBandsForm />
+              <PlaylistSearchArtistsForm />
             </StepContent>
             <StepContent stepNumber={3}>
               <PlaylistGetUrlLink />

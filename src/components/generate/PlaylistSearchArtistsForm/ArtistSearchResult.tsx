@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const IMAGE_SIZE = 30;
 
-type BandSearchResultProps = {
+type ArtistSearchResultProps = {
   key: number;
   name: string;
   isActive: boolean;
@@ -12,13 +12,13 @@ type BandSearchResultProps = {
   imageUrl?: string;
 };
 
-const BandSearchResult = ({
+const ArtistSearchResult = ({
   name,
   isActive,
   isSelected,
   handleItemSelect,
   imageUrl: srcImage,
-}: BandSearchResultProps) => {
+}: ArtistSearchResultProps) => {
   return (
     <li
       role="option"
@@ -47,4 +47,4 @@ const BandSearchResult = ({
   );
 };
 
-export default BandSearchResult;
+export default ArtistSearchResult;
