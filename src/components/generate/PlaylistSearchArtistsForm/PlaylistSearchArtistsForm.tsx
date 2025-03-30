@@ -18,11 +18,11 @@ const PlaylistSearchArtistsForm = () => {
 
   const { t } = useTranslation('generate');
 
-  const selectedValues: Array<string> = watch('bands', []);
+  const selectedValues: Array<string> = watch('artists', []);
 
   const removeSelectedItem = (name: string) => {
     const newSelectedItems = selectedValues.filter((item) => item !== name);
-    setValue('bands', newSelectedItems);
+    setValue('artists', newSelectedItems);
   };
 
   const debouncedSearch = useDebouncedCallback((searchTerm: string) => {
@@ -33,7 +33,7 @@ const PlaylistSearchArtistsForm = () => {
     const newSelectedItems = selectedValues.some((item) => item === value)
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
-    setValue('bands', newSelectedItems);
+    setValue('artists', newSelectedItems);
     clearArtists();
   };
 
@@ -50,7 +50,7 @@ const PlaylistSearchArtistsForm = () => {
       <div className="w-full">
         <FormField
           control={control}
-          name="bands"
+          name="artists"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -62,7 +62,7 @@ const PlaylistSearchArtistsForm = () => {
                   placeholder={t('steps.step2.searchPlaceholder')}
                 />
               </FormControl>
-              {errors.bands && (
+              {errors.artists && (
                 <ErrorMessage>
                   {t('steps.errors.selectedArtists.required')}
                 </ErrorMessage>

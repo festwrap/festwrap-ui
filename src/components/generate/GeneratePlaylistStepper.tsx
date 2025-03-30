@@ -32,7 +32,9 @@ const formSchema = z
       })
       .optional(),
     isPrivate: z.boolean(),
-    bands: z.array(z.string().min(1)).nonempty('At least one band is required'),
+    artists: z
+      .array(z.string().min(1))
+      .nonempty('At least one artist is required'),
   })
   .superRefine((data, ctx) => {
     if (data.playlistCreationMode === PlaylistCreationMode.New && !data.name) {
@@ -68,7 +70,7 @@ const GeneratePlaylistStepper = () => {
       name: '',
       playlistSelected: undefined,
       isPrivate: false,
-      bands: [],
+      artists: [],
     },
   });
 
