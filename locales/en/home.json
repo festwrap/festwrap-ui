@@ -2,7 +2,7 @@
     "heroSection": {
         "button": "Get Started",
         "subtitle": "Generate Spotify playlists based on the songs that it's playing in the current tour",
-        "title": "Spotify playlist <0>generator</0> given a list of music bands"
+        "title": "Spotify playlist <0>generator</0> given a list of music artists"
     },
     "howItWorksSection": {
         "step1": {

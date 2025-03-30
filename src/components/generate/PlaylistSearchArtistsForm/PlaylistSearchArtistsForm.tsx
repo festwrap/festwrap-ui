@@ -64,7 +64,7 @@ const PlaylistSearchArtistsForm = () => {
               </FormControl>
               {errors.bands && (
                 <ErrorMessage>
-                  {t('steps.errors.selectedBands.required')}
+                  {t('steps.errors.selectedArtists.required')}
                 </ErrorMessage>
               )}
             </FormItem>

@@ -1,6 +1,6 @@
 {
     "meta": {
-        "description": "Create playlists with the songs your bands are currently touring with",
+        "description": "Create playlists with the songs your artists are currently touring with",
         "keywords": "Spotify, Setlist.fm, Playlist generator, Festivals, Music, Concerts",
         "title": "Generator | Festwrap"
     },
@@ -12,7 +12,7 @@
             "playlistSelected": {
                 "required": "Select a playlist"
             },
-            "selectedBands": {
+            "selectedArtists": {
                 "required": "Select at least one artist"
             }
         },
