@@ -1,6 +1,6 @@
 import Heading from '@components/ui/Heading';
 import { X } from 'lucide-react';
-import { SearchBandsCombobox } from './SearchBandsCombobox';
+import { SearchArtistsCombobox } from './SearchArtistsCombobox';
 import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
 import { Badge } from '@components/ui/Badge';
@@ -11,18 +11,18 @@ import ErrorMessage from '@/components/ui/ErrorMessage';
 import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 
-const PlaylistSearchBandsForm = () => {
+const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
   const { artists, search, clearArtists } = useArtistSearch();
   const { errors } = formState;
 
   const { t } = useTranslation('generate');
 
-  const selectedValues: Array<string> = watch('bands', []);
+  const selectedValues: Array<string> = watch('artists', []);
 
   const removeSelectedItem = (name: string) => {
     const newSelectedItems = selectedValues.filter((item) => item !== name);
-    setValue('bands', newSelectedItems);
+    setValue('artists', newSelectedItems);
   };
 
   const debouncedSearch = useDebouncedCallback((searchTerm: string) => {
@@ -33,7 +33,7 @@ const PlaylistSearchBandsForm = () => {
     const newSelectedItems = selectedValues.some((item) => item === value)
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
-    setValue('bands', newSelectedItems);
+    setValue('artists', newSelectedItems);
     clearArtists();
   };
 
@@ -50,11 +50,11 @@ const PlaylistSearchBandsForm = () => {
       <div className="w-full">
         <FormField
           control={control}
-          name="bands"
+          name="artists"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <SearchBandsCombobox
+                <SearchArtistsCombobox
                   options={artists}
                   values={field.value}
                   onChange={onChangeSelection}
@@ -62,9 +62,9 @@ const PlaylistSearchBandsForm = () => {
                   placeholder={t('steps.step2.searchPlaceholder')}
                 />
               </FormControl>
-              {errors.bands && (
+              {errors.artists && (
                 <ErrorMessage>
-                  {t('steps.errors.selectedBands.required')}
+                  {t('steps.errors.selectedArtists.required')}
                 </ErrorMessage>
               )}
             </FormItem>
@@ -111,4 +111,4 @@ const PlaylistSearchBandsForm = () => {
   );
 };
 
-export default PlaylistSearchBandsForm;
+export default PlaylistSearchArtistsForm;

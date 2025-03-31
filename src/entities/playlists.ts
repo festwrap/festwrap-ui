@@ -1,12 +1,12 @@
 export type CreateNewPlaylistDTO = {
   name: string;
   isPrivate: boolean;
-  bands: string[];
+  artists: string[];
 };
 
 export type UpdatePlaylistDTO = {
   playlistId: string;
-  bands: string[];
+  artists: string[];
 };
 
 export type PlaylistDTO = {

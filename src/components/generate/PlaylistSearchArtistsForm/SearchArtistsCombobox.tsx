@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
-import BandSearchResult from './BandSearchResult';
+import ArtistSearchResult from './ArtistSearchResult';
 import { ArtistDTO } from '@/entities/artists';
 
 type SearchComboboxProps = {
@@ -13,7 +13,7 @@ type SearchComboboxProps = {
   placeholder?: string;
 };
 
-export function SearchBandsCombobox({
+export function SearchArtistsCombobox({
   options,
   values,
   onChange,
@@ -150,7 +150,7 @@ export function SearchBandsCombobox({
               <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
               options.map((item, index) => (
-                <BandSearchResult
+                <ArtistSearchResult
                   key={index}
                   name={item.name}
                   isActive={index === activeIndex}

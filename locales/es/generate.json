@@ -1,6 +1,6 @@
 {
     "meta": {
-        "description": "Crea listas de reproducción con las canciones que tus bandas están tocando actualmente",
+        "description": "Crea listas de reproducción con las canciones que tus artistas están tocando actualmente",
         "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
         "title": "Generador | Festwrap"
     },
@@ -12,7 +12,7 @@
             "playlistSelected": {
                 "required": "Selecciona una lista de reproducción"
             },
-            "selectedBands": {
+            "selectedArtists": {
                 "required": "Selecciona al menos un artista"
             }
         },

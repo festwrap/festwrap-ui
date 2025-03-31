@@ -1,6 +1,6 @@
 {
     "meta": {
-        "description": "Genera llistes amb les cançons amb què les teves bandes preferides estan girant actualment",
+        "description": "Genera llistes amb les cançons amb què els teus artistes preferits estan girant actualment",
         "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
         "title": "Generar | Festwrap"
     },
@@ -12,7 +12,7 @@
             "playlistSelected": {
                 "required": "Selecciona una llista de reproducció"
             },
-            "selectedBands": {
+            "selectedArtists": {
                 "required": "Selecciona com a mínim un artista"
             }
         },
