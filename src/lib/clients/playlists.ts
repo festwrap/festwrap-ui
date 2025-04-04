@@ -1,4 +1,8 @@
-import { Playlist } from '@/entities/playlists';
+import {
+  CreateNewPlaylistDTO,
+  CreateNewPlaylistResponseDTO,
+  Playlist,
+} from '@/entities/playlists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
@@ -8,6 +12,7 @@ export interface PlaylistsClient {
     _name: string,
     _limit: number
   ): Promise<Playlist[]>;
+  createPlaylist(_token: string, _playlist: CreateNewPlaylistDTO): Promise<any>;
 }
 
 export class PlaylistsHTTPClient implements PlaylistsClient {
@@ -50,16 +55,44 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
         )
       );
   }
+
+  async createPlaylist(
+    token: string,
+    playlist: CreateNewPlaylistDTO
+  ): Promise<CreateNewPlaylistResponseDTO> {
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
+    return this.httpClient
+      .send({
+        url: `${this.url}/playlists`,
+        method: Method.Post,
+        data: playlist,
+        headers: authHeader,
+      })
+      .then((playlistCreated: any) => {
+        return playlistCreated.data.playlist;
+      });
+  }
 }
 
 export class PlaylistsClientStub implements PlaylistsClient {
   private searchPlaylistResult: Playlist[];
+  private createPlaylistResult: CreateNewPlaylistResponseDTO;
 
-  constructor(result: Playlist[] = []) {
-    this.searchPlaylistResult = result;
+  constructor(
+    searchPlaylistResult: Playlist[] = [],
+    createPlaylistResult: CreateNewPlaylistResponseDTO = {
+      id: '1',
+    }
+  ) {
+    this.searchPlaylistResult = searchPlaylistResult;
+    this.createPlaylistResult = createPlaylistResult;
   }
 
   async searchPlaylists(..._: any[]): Promise<Playlist[]> {
     return this.searchPlaylistResult;
+  }
+
+  async createPlaylist(..._: any[]): Promise<any> {
+    return this.createPlaylistResult;
   }
 }
