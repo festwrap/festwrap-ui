@@ -1,7 +1,16 @@
 export type CreateNewPlaylistDTO = {
-  name: string;
-  isPrivate: boolean;
-  artists: string[];
+  playlist: {
+    name: string;
+    description?: string | undefined;
+    isPrivate: boolean;
+  };
+  artists: Array<{
+    name: string;
+  }>;
+};
+
+export type CreateNewPlaylistResponseDTO = {
+  id: string;
 };
 
 export type UpdatePlaylistDTO = {
