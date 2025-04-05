@@ -124,19 +124,23 @@ describe('PlaylistsHTTPClient', () => {
         },
         artists: [{ name: 'Artist 1' }, { name: 'Artist 2' }],
       };
+      authHeaderBuilder = new AuthHeaderBuilderStub();
+    });
+
+    const mockHttpClientResponse = (status: number = 201) => {
       response = {
         data: {
           playlist: {
             id: '123',
           },
         },
-        status: 201,
+        status,
       };
       httpClient = new FakeHttpClient(response);
-      authHeaderBuilder = new AuthHeaderBuilderStub();
-    });
+    };
 
     it('should call the client with the correct parameters', async () => {
+      mockHttpClientResponse();
       const headers = { authorization: 'Bearer token' };
       const client = new PlaylistsHTTPClient(
         url,
@@ -155,7 +159,8 @@ describe('PlaylistsHTTPClient', () => {
       });
     });
 
-    it('should return the response data returned by the HTTP client', async () => {
+    it('should return the response data from the HTTP client without issues when the status is 201', async () => {
+      mockHttpClientResponse();
       const client = new PlaylistsHTTPClient(
         url,
         httpClient,
@@ -163,10 +168,33 @@ describe('PlaylistsHTTPClient', () => {
       );
 
       const result = await client.createPlaylist(token, playlistData);
-      expect(result).toEqual(response.data.playlist);
+
+      const expectedResponse = {
+        id: response.data.playlist.id,
+        status: 'CREATED_WITHOUT_ISSUES',
+      };
+      expect(result).toEqual(expectedResponse);
+    });
+
+    it('should return the response data from the HTTP client with missing artists when the status is 207', async () => {
+      mockHttpClientResponse(207);
+      const client = new PlaylistsHTTPClient(
+        url,
+        httpClient,
+        authHeaderBuilder
+      );
+
+      const result = await client.createPlaylist(token, playlistData);
+
+      const expectedResponse = {
+        id: response.data.playlist.id,
+        status: 'CREATED_MISSING_ARTISTS',
+      };
+      expect(result).toEqual(expectedResponse);
     });
 
     it('should throw an error if the HTTP client fails', async () => {
+      mockHttpClientResponse();
       const errorMessage = 'Failed to create playlist';
       httpClient.setSendErrorMessage(errorMessage);
       const client = new PlaylistsHTTPClient(
@@ -181,6 +209,7 @@ describe('PlaylistsHTTPClient', () => {
     });
 
     it('should throw an error if the header builder fails', async () => {
+      mockHttpClientResponse();
       vi.spyOn(authHeaderBuilder, 'buildHeader').mockImplementation(() => {
         throw new Error('Authentication failed');
       });

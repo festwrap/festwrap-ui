@@ -115,9 +115,10 @@ describe('createCreatePlaylistHandler', () => {
     });
   });
 
-  it('should return backend client results', async () => {
+  it('should return backend client results with 201 status when creation is successfully without issues', async () => {
     const createdPlaylistResponse: CreateNewPlaylistResponseDTO = {
       id: '123',
+      status: 'CREATED_WITHOUT_ISSUES',
     };
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'createPlaylist').mockResolvedValue(
@@ -133,7 +134,30 @@ describe('createCreatePlaylistHandler', () => {
       message: 'Playlists successfully created',
     };
 
-    expect(response.status).toBeCalledWith(200);
+    expect(response.status).toBeCalledWith(201);
+    expect(response.json).toBeCalledWith(expected);
+  });
+
+  it('should return backend client results with 207 status when creation is successfully with issues', async () => {
+    const createdPlaylistResponse: CreateNewPlaylistResponseDTO = {
+      id: '123',
+      status: 'CREATED_MISSING_ARTISTS',
+    };
+    const client = new PlaylistsClientStub();
+    vi.spyOn(client, 'createPlaylist').mockResolvedValue(
+      createdPlaylistResponse
+    );
+    const response = createMockResponse();
+
+    const handler = createHandler({ client });
+    await handler(createMockRequest(), response);
+
+    const expected = {
+      playlistCreated: createdPlaylistResponse,
+      message: 'Playlist has been created but some artists could not be added',
+    };
+
+    expect(response.status).toBeCalledWith(207);
     expect(response.json).toBeCalledWith(expected);
   });
 

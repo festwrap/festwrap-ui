@@ -12,7 +12,10 @@ export interface PlaylistsClient {
     _name: string,
     _limit: number
   ): Promise<Playlist[]>;
-  createPlaylist(_token: string, _playlist: CreateNewPlaylistDTO): Promise<any>;
+  createPlaylist(
+    _token: string,
+    _playlist: CreateNewPlaylistDTO
+  ): Promise<CreateNewPlaylistResponseDTO>;
 }
 
 export class PlaylistsHTTPClient implements PlaylistsClient {
@@ -68,8 +71,17 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
         data: playlist,
         headers: authHeader,
       })
-      .then((playlistCreated: any) => {
-        return playlistCreated.data.playlist;
+      .then((response: any) => {
+        if (response.status === 201) {
+          return {
+            id: response.data.playlist.id,
+            status: 'CREATED_WITHOUT_ISSUES',
+          };
+        }
+        return {
+          id: response.data.playlist.id,
+          status: 'CREATED_MISSING_ARTISTS',
+        };
       });
   }
 }
@@ -82,6 +94,7 @@ export class PlaylistsClientStub implements PlaylistsClient {
     searchPlaylistResult: Playlist[] = [],
     createPlaylistResult: CreateNewPlaylistResponseDTO = {
       id: '1',
+      status: 'CREATED_WITHOUT_ISSUES',
     }
   ) {
     this.searchPlaylistResult = searchPlaylistResult;

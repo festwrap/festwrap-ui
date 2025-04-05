@@ -67,7 +67,15 @@ export function createCreatePlaylistHandler({
         playlistData
       );
 
-      response.status(200).json({
+      if (playlistCreated.status === 'CREATED_MISSING_ARTISTS') {
+        response.status(207).json({
+          playlistCreated,
+          message:
+            'Playlist has been created but some artists could not be added',
+        });
+      }
+
+      response.status(201).json({
         playlistCreated,
         message: 'Playlists successfully created',
       });

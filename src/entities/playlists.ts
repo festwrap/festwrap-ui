@@ -9,8 +9,13 @@ export type CreateNewPlaylistDTO = {
   }>;
 };
 
+export type CreateNewPlaylistStatusType =
+  | 'CREATED_WITHOUT_ISSUES'
+  | 'CREATED_MISSING_ARTISTS';
+
 export type CreateNewPlaylistResponseDTO = {
   id: string;
+  status: CreateNewPlaylistStatusType;
 };
 
 export type UpdatePlaylistDTO = {
