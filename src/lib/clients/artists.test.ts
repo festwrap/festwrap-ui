@@ -83,7 +83,7 @@ describe('ArtistsHTTPClient', () => {
     { status: 400, message: 'Bad request' },
     { status: 500, message: 'Internal error' },
   ])(
-    'should throw an error if the server response status it not the expected successful one',
+    'should throw an error if the server response status is not the expected successful one',
     async ({ status, message }) => {
       response = { status: status, data: message };
       httpClient = new FakeHttpClient(response);
