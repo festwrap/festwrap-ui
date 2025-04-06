@@ -88,4 +88,25 @@ describe('PlaylistsHTTPClient', () => {
 
     await expect(client.searchPlaylists(token, name, limit)).rejects.toThrow();
   });
+
+  it.each([
+    { status: 400, message: 'Bad request' },
+    { status: 500, message: 'Internal error' },
+  ])(
+    'should throw an error if the server responsestatus it not the expected successful one',
+    async ({ status, message }) => {
+      response = { status: status, data: message };
+      httpClient = new FakeHttpClient(response);
+      const client = new PlaylistsHTTPClient(
+        url,
+        httpClient,
+        authHeaderBuilder
+      );
+
+      const expectedMessage = `Unexpected playlist search response status: ${status}: ${message}`;
+      await expect(client.searchPlaylists(token, name, limit)).rejects.toThrow(
+        expectedMessage
+      );
+    }
+  );
 });

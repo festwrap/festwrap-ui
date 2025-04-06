@@ -38,8 +38,13 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
         params: { name, limit },
         headers: authHeader,
       })
-      .then((response) =>
-        response.data.map(
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error(
+            `Unexpected playlist search response status: ${response.status}: ${response.data}`
+          );
+        }
+        return response.data.map(
           (playlist: any) =>
             new Playlist(
               playlist.id,
@@ -47,8 +52,8 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
               playlist.isPublic,
               playlist.description
             )
-        )
-      );
+        );
+      });
   }
 }
 
