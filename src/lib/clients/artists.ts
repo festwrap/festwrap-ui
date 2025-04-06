@@ -38,11 +38,17 @@ export class ArtistsHTTPClient implements ArtistsClient {
         params: { name, limit },
         headers: authHeader,
       })
-      .then((response) =>
-        response.data.map(
-          (artist: any) => new Artist(artist.name, artist.imageUri)
-        )
-      );
+      .then((response) => {
+        if (response.status == 200) {
+          return response.data.map(
+            (artist: any) => new Artist(artist.name, artist.imageUri)
+          );
+        } else {
+          throw new Error(
+            `Unexpected artist search response status: ${response.status}: ${response.data}`
+          );
+        }
+      });
   }
 }
 
