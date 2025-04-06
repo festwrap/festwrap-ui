@@ -163,39 +163,28 @@ describe('PlaylistsHTTPClient', () => {
       });
     });
 
-    it('should return the response data from the HTTP client without issues when the status is 201', async () => {
-      mockHttpClientResponse();
-      const client = new PlaylistsHTTPClient(
-        url,
-        httpClient,
-        authHeaderBuilder
-      );
+    it.each([
+      { status: 201, expectedStatus: CreatedPlaylistStatus.OK },
+      { status: 207, expectedStatus: CreatedPlaylistStatus.MISSING_ARTISTS },
+    ])(
+      'should return the response data with the correct status when HTTP status is $status',
+      async ({ status, expectedStatus }) => {
+        mockHttpClientResponse(status);
+        const client = new PlaylistsHTTPClient(
+          url,
+          httpClient,
+          authHeaderBuilder
+        );
 
-      const result = await client.createPlaylist(token, playlistData);
+        const result = await client.createPlaylist(token, playlistData);
 
-      const expectedResponse = {
-        id: response.data.playlist.id,
-        status: CreatedPlaylistStatus.OK,
-      };
-      expect(result).toEqual(expectedResponse);
-    });
-
-    it('should return the response data from the HTTP client with missing artists when the status is 207', async () => {
-      mockHttpClientResponse(207);
-      const client = new PlaylistsHTTPClient(
-        url,
-        httpClient,
-        authHeaderBuilder
-      );
-
-      const result = await client.createPlaylist(token, playlistData);
-
-      const expectedResponse = {
-        id: response.data.playlist.id,
-        status: CreatedPlaylistStatus.MISSING_ARTISTS,
-      };
-      expect(result).toEqual(expectedResponse);
-    });
+        const expectedResponse = {
+          id: response.data.playlist.id,
+          status: expectedStatus,
+        };
+        expect(result).toEqual(expectedResponse);
+      }
+    );
 
     it('should throw an error if the HTTP client fails', async () => {
       mockHttpClientResponse();
