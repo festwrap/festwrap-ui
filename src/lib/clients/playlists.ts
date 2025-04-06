@@ -39,20 +39,21 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
         headers: authHeader,
       })
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status === 200) {
+          return response.data.map(
+            (playlist: any) =>
+              new Playlist(
+                playlist.id,
+                playlist.name,
+                playlist.isPublic,
+                playlist.description
+              )
+          );
+        } else {
           throw new Error(
             `Unexpected playlist search response status: ${response.status}: ${response.data}`
           );
         }
-        return response.data.map(
-          (playlist: any) =>
-            new Playlist(
-              playlist.id,
-              playlist.name,
-              playlist.isPublic,
-              playlist.description
-            )
-        );
       });
   }
 }

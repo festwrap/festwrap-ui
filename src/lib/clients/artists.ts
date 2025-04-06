@@ -39,7 +39,7 @@ export class ArtistsHTTPClient implements ArtistsClient {
         headers: authHeader,
       })
       .then((response) => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           return response.data.map(
             (artist: any) => new Artist(artist.name, artist.imageUri)
           );
