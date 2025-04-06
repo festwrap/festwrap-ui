@@ -1,5 +1,9 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { CreateNewPlaylistDTO, Playlist } from '@/entities/playlists';
+import {
+  CreatedPlaylistStatus,
+  CreateNewPlaylistDTO,
+  Playlist,
+} from '@/entities/playlists';
 import { PlaylistsHTTPClient } from './playlists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
 import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';
@@ -171,7 +175,7 @@ describe('PlaylistsHTTPClient', () => {
 
       const expectedResponse = {
         id: response.data.playlist.id,
-        status: 'CREATED_WITHOUT_ISSUES',
+        status: CreatedPlaylistStatus.OK,
       };
       expect(result).toEqual(expectedResponse);
     });
@@ -188,7 +192,7 @@ describe('PlaylistsHTTPClient', () => {
 
       const expectedResponse = {
         id: response.data.playlist.id,
-        status: 'CREATED_MISSING_ARTISTS',
+        status: CreatedPlaylistStatus.MISSING_ARTISTS,
       };
       expect(result).toEqual(expectedResponse);
     });

@@ -4,7 +4,10 @@ import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
 import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
-import { CreateNewPlaylistResponseDTO } from '@/entities/playlists';
+import {
+  CreatedPlaylistStatus,
+  CreateNewPlaylistResponseDTO,
+} from '@/entities/playlists';
 
 export type CreatePlaylistHandlerParams = {
   client: PlaylistsClient;
@@ -67,7 +70,7 @@ export function createCreatePlaylistHandler({
         playlistData
       );
 
-      if (playlistCreated.status === 'CREATED_MISSING_ARTISTS') {
+      if (playlistCreated.status === CreatedPlaylistStatus.MISSING_ARTISTS) {
         response.status(207).json({
           playlistCreated,
           message:

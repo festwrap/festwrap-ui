@@ -1,4 +1,5 @@
 import {
+  CreatedPlaylistStatus,
   CreateNewPlaylistDTO,
   CreateNewPlaylistResponseDTO,
   Playlist,
@@ -75,12 +76,12 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
         if (response.status === 201) {
           return {
             id: response.data.playlist.id,
-            status: 'CREATED_WITHOUT_ISSUES',
+            status: CreatedPlaylistStatus.OK,
           };
         }
         return {
           id: response.data.playlist.id,
-          status: 'CREATED_MISSING_ARTISTS',
+          status: CreatedPlaylistStatus.MISSING_ARTISTS,
         };
       });
   }
@@ -94,7 +95,7 @@ export class PlaylistsClientStub implements PlaylistsClient {
     searchPlaylistResult: Playlist[] = [],
     createPlaylistResult: CreateNewPlaylistResponseDTO = {
       id: '1',
-      status: 'CREATED_WITHOUT_ISSUES',
+      status: CreatedPlaylistStatus.OK,
     }
   ) {
     this.searchPlaylistResult = searchPlaylistResult;

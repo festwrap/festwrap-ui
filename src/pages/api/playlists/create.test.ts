@@ -6,7 +6,10 @@ import {
 } from './create';
 import { PlaylistsClientStub } from '@/lib/clients/playlists';
 import { getToken } from 'next-auth/jwt';
-import { CreateNewPlaylistResponseDTO } from '@/entities/playlists';
+import {
+  CreatedPlaylistStatus,
+  CreateNewPlaylistResponseDTO,
+} from '@/entities/playlists';
 
 vi.mock('next-auth/jwt', () => ({
   getToken: vi.fn(),
@@ -118,7 +121,7 @@ describe('createCreatePlaylistHandler', () => {
   it('should return backend client results with 201 status when creation is successfully without issues', async () => {
     const createdPlaylistResponse: CreateNewPlaylistResponseDTO = {
       id: '123',
-      status: 'CREATED_WITHOUT_ISSUES',
+      status: CreatedPlaylistStatus.OK,
     };
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'createPlaylist').mockResolvedValue(
@@ -141,7 +144,7 @@ describe('createCreatePlaylistHandler', () => {
   it('should return backend client results with 207 status when creation is successfully with issues', async () => {
     const createdPlaylistResponse: CreateNewPlaylistResponseDTO = {
       id: '123',
-      status: 'CREATED_MISSING_ARTISTS',
+      status: CreatedPlaylistStatus.MISSING_ARTISTS,
     };
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'createPlaylist').mockResolvedValue(
