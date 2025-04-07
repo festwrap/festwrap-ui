@@ -76,6 +76,7 @@ export function createCreatePlaylistHandler({
           message:
             'Playlist has been created but some artists could not be added',
         });
+        return;
       }
 
       response.status(201).json({
