@@ -55,16 +55,16 @@ export function createCreatePlaylistHandler({
 
     const { playlist } = parsedArgs.data;
 
-    try {
-      const playlistData = {
-        playlist: {
-          name: playlist.name,
-          description: playlist.description,
-          isPrivate: playlist.isPrivate || false,
-        },
-        artists: playlist.artists,
-      };
+    const playlistData = {
+      playlist: {
+        name: playlist.name,
+        description: playlist.description,
+        isPrivate: playlist.isPrivate || false,
+      },
+      artists: playlist.artists,
+    };
 
+    try {
       const playlistCreated = await client.createPlaylist(
         token.accessToken,
         playlistData
