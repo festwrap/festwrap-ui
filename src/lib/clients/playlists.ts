@@ -84,11 +84,16 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
             id: response.data.playlist.id,
             status: CreatedPlaylistStatus.OK,
           };
+        } else if (response.status === 207) {
+          return {
+            id: response.data.playlist.id,
+            status: CreatedPlaylistStatus.MISSING_ARTISTS,
+          };
+        } else {
+          throw new Error(
+            `Unexpected playlist search response status: ${response.status}: ${response.data}`
+          );
         }
-        return {
-          id: response.data.playlist.id,
-          status: CreatedPlaylistStatus.MISSING_ARTISTS,
-        };
       });
   }
 }
