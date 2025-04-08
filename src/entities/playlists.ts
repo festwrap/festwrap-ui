@@ -1,7 +1,24 @@
+/* eslint-disable no-unused-vars */
+
 export type CreateNewPlaylistDTO = {
-  name: string;
-  isPrivate: boolean;
-  artists: string[];
+  playlist: {
+    name: string;
+    description?: string | undefined;
+    isPublic: boolean;
+  };
+  artists: Array<{
+    name: string;
+  }>;
+};
+
+export enum CreatedPlaylistStatus {
+  OK = 'OK',
+  MISSING_ARTISTS = 'MISSING_ARTISTS',
+}
+
+export type CreateNewPlaylistResponseDTO = {
+  id: string;
+  status: CreatedPlaylistStatus;
 };
 
 export type UpdatePlaylistDTO = {
