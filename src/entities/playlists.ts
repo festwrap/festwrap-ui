@@ -4,7 +4,7 @@ export type CreateNewPlaylistDTO = {
   playlist: {
     name: string;
     description?: string | undefined;
-    isPrivate: boolean;
+    isPublic: boolean;
   };
   artists: Array<{
     name: string;

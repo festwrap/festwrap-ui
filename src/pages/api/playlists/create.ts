@@ -21,14 +21,14 @@ export type ResponseData = {
 const searchQuerySchema = z.object({
   playlist: z.object({
     name: z.string(),
-    description: z.string().optional(),
-    isPrivate: z.boolean().optional(),
-    artists: z.array(
-      z.object({
-        name: z.string(),
-      })
-    ),
+    description: z.string(),
+    isPublic: z.boolean(),
   }),
+  artists: z.array(
+    z.object({
+      name: z.string(),
+    })
+  ),
 });
 
 export function createCreatePlaylistHandler({
@@ -53,15 +53,11 @@ export function createCreatePlaylistHandler({
       return;
     }
 
-    const { playlist } = parsedArgs.data;
+    const { playlist, artists } = parsedArgs.data;
 
     const playlistData = {
-      playlist: {
-        name: playlist.name,
-        description: playlist.description,
-        isPrivate: playlist.isPrivate || false,
-      },
-      artists: playlist.artists,
+      playlist,
+      artists,
     };
 
     try {

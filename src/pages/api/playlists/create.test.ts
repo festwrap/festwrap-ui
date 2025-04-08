@@ -26,9 +26,9 @@ describe('createCreatePlaylistHandler', () => {
       playlist: {
         name: 'Chill Vibes',
         description: 'Relaxing music',
-        isPrivate: false,
-        artists: [{ name: 'Artist1' }],
+        isPublic: false,
       },
+      artists: [{ name: 'Artist1' }],
     }
   ): NextApiRequest {
     return { body } as unknown as NextApiRequest;
@@ -96,12 +96,13 @@ describe('createCreatePlaylistHandler', () => {
       playlist: {
         name: 'New Playlist',
         description: 'A fresh playlist',
-        isPrivate: true,
+        isPublic: true,
       },
       artists: [{ name: 'Artist1' }, { name: 'Artist2' }],
     };
     const request = createMockRequest({
-      playlist: { ...playlistData.playlist, artists: playlistData.artists },
+      playlist: playlistData.playlist,
+      artists: playlistData.artists,
     });
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'createPlaylist');
@@ -112,7 +113,7 @@ describe('createCreatePlaylistHandler', () => {
       playlist: {
         name: playlistData.playlist.name,
         description: playlistData.playlist.description,
-        isPrivate: playlistData.playlist.isPrivate,
+        isPublic: playlistData.playlist.isPublic,
       },
       artists: playlistData.artists,
     });

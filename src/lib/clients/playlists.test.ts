@@ -124,7 +124,7 @@ describe('PlaylistsHTTPClient', () => {
         playlist: {
           name: 'Festival Hits',
           description: 'All the best songs',
-          isPrivate: false,
+          isPublic: false,
         },
         artists: [{ name: 'Artist 1' }, { name: 'Artist 2' }],
       };
