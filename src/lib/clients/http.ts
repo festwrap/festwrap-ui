@@ -37,6 +37,7 @@ export class HttpBaseClient implements HttpClient {
       params,
       headers,
       data,
+      validateStatus: (_) => true, // Always return the server response code
     }).then((response) => {
       return {
         data: response.data,

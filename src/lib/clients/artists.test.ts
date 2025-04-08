@@ -78,4 +78,21 @@ describe('ArtistsHTTPClient', () => {
 
     await expect(client.searchArtists(token, name, limit)).rejects.toThrow();
   });
+
+  it.each([
+    { status: 400, message: 'Bad request' },
+    { status: 500, message: 'Internal error' },
+  ])(
+    'should throw an error if the server response status is not the expected successful one',
+    async ({ status, message }) => {
+      response = { status: status, data: message };
+      httpClient = new FakeHttpClient(response);
+      const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
+
+      const expectedMessage = `Unexpected artist search response status: ${status}: ${message}`;
+      await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
+        expectedMessage
+      );
+    }
+  );
 });
