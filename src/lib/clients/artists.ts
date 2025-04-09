@@ -31,24 +31,21 @@ export class ArtistsHTTPClient implements ArtistsClient {
     limit: number
   ): Promise<Artist[]> {
     const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
-    return this.httpClient
-      .send({
-        url: `${this.url}/artists/search`,
-        method: Method.Get,
-        params: { name, limit },
-        headers: authHeader,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.data.map(
-            (artist: any) => new Artist(artist.name, artist.imageUri)
-          );
-        } else {
-          throw new Error(
-            `Unexpected artist search response status: ${response.status}: ${response.data}`
-          );
-        }
-      });
+    const response = await this.httpClient.send({
+      url: `${this.url}/artists/search`,
+      method: Method.Get,
+      params: { name, limit },
+      headers: authHeader,
+    });
+    if (response.status === 200) {
+      return response.data.map(
+        (artist: any) => new Artist(artist.name, artist.imageUri)
+      );
+    } else {
+      throw new Error(
+        `Unexpected artist search response status: ${response.status}: ${response.data}`
+      );
+    }
   }
 }
 

@@ -31,19 +31,18 @@ export class HttpBaseClient implements HttpClient {
     headers,
     data,
   }: HttpRequest): Promise<HttpResponse> {
-    return axios({
+    const response = await axios({
       url,
       method,
       params,
       headers,
       data,
       validateStatus: (_) => true, // Always return the server response code
-    }).then((response) => {
-      return {
-        data: response.data,
-        status: response.status,
-      };
     });
+    return {
+      data: response.data,
+      status: response.status,
+    };
   }
 }
 
