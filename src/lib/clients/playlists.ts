@@ -40,30 +40,27 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
     limit: number
   ): Promise<Playlist[]> {
     const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
-    return this.httpClient
-      .send({
-        url: `${this.url}/playlists/search`,
-        method: Method.Get,
-        params: { name, limit },
-        headers: authHeader,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.data.map(
-            (playlist: any) =>
-              new Playlist(
-                playlist.id,
-                playlist.name,
-                playlist.isPublic,
-                playlist.description
-              )
-          );
-        } else {
-          throw new Error(
-            `Unexpected playlist search response status: ${response.status}: ${response.data}`
-          );
-        }
-      });
+    const response = await this.httpClient.send({
+      url: `${this.url}/playlists/search`,
+      method: Method.Get,
+      params: { name, limit },
+      headers: authHeader,
+    });
+    if (response.status === 200) {
+      return response.data.map(
+        (playlist: any) =>
+          new Playlist(
+            playlist.id,
+            playlist.name,
+            playlist.isPublic,
+            playlist.description
+          )
+      );
+    } else {
+      throw new Error(
+        `Unexpected playlist search response status: ${response.status}: ${response.data}`
+      );
+    }
   }
 
   async createPlaylist(
@@ -71,30 +68,27 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
     playlist: CreateNewPlaylistDTO
   ): Promise<CreateNewPlaylistResponseDTO> {
     const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
-    return this.httpClient
-      .send({
-        url: `${this.url}/playlists`,
-        method: Method.Post,
-        data: playlist,
-        headers: authHeader,
-      })
-      .then((response: any) => {
-        if (response.status === 201) {
-          return {
-            id: response.data.playlist.id,
-            status: CreatedPlaylistStatus.OK,
-          };
-        } else if (response.status === 207) {
-          return {
-            id: response.data.playlist.id,
-            status: CreatedPlaylistStatus.MISSING_ARTISTS,
-          };
-        } else {
-          throw new Error(
-            `Unexpected playlist search response status: ${response.status}: ${response.data}`
-          );
-        }
-      });
+    const response = await this.httpClient.send({
+      url: `${this.url}/playlists`,
+      method: Method.Post,
+      data: playlist,
+      headers: authHeader,
+    });
+    if (response.status === 201) {
+      return {
+        id: response.data.playlist.id,
+        status: CreatedPlaylistStatus.OK,
+      };
+    } else if (response.status === 207) {
+      return {
+        id: response.data.playlist.id,
+        status: CreatedPlaylistStatus.MISSING_ARTISTS,
+      };
+    } else {
+      throw new Error(
+        `Unexpected playlist search response status: ${response.status}: ${response.data}`
+      );
+    }
   }
 }
 
