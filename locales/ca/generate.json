@@ -6,6 +6,10 @@
     },
     "steps": {
         "errors": {
+            "createNewPlaylist": {
+                "missingArtists": "La llista de reproducció s'ha creat però alguns artistes no s'han pogut afegir",
+                "unexpectedError": "S'ha produït un error inesperat mentre es creava la llista de reproducció"
+            },
             "name": {
                 "required": "El nom de la llista és obligatori"
             },
@@ -19,6 +23,7 @@
         "navigation": {
             "finish": "Finalitzar",
             "generate": "Generar",
+            "generating": "Generant...",
             "next": "Següent",
             "previous": "Anterior"
         },

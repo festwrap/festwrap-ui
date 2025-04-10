@@ -6,6 +6,10 @@
     },
     "steps": {
         "errors": {
+            "createNewPlaylist": {
+                "missingArtists": "Playlist has been created but some artists could not be added",
+                "unexpectedError": "An unexpected error occurred while creating the playlist"
+            },
             "name": {
                 "required": "The playlist name is required"
             },
@@ -19,6 +23,7 @@
         "navigation": {
             "finish": "Finish",
             "generate": "Generate",
+            "generating": "Generating...",
             "next": "Next",
             "previous": "Previous"
         },
