@@ -250,7 +250,79 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
-  it('should generate the new playlist and copy the URL link into the clipboard', async () => {
+  it('should create the new playlist and display the success message', async () => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+      ],
+    });
+    playlistsService.createNewPlaylist.mockResolvedValue({
+      playlistCreated: {
+        id: '123',
+      },
+    });
+
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const playlistNameInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveAName/i
+    );
+    await userEvent.type(playlistNameInput, 'My new playlist');
+
+    const playlistDescriptionInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveADescription/i
+    );
+    await userEvent.type(
+      playlistDescriptionInput,
+      'My new playlist description'
+    );
+
+    await clickToNextButton();
+
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
+
+    expect(secondStepContentTitle).toBeInTheDocument();
+
+    await findAndSelectArtist('Holding Absence');
+
+    const generateButton = screen.getByRole('button', {
+      name: /steps.navigation.generate/i,
+    });
+    await userEvent.click(generateButton);
+
+    const thirdStepContentTitle = await waitFor(() => {
+      const thirdStepContent = screen.getByRole('tabpanel');
+      return within(thirdStepContent).getByText(/steps.step3.title/i);
+    });
+
+    expect(thirdStepContentTitle).toBeInTheDocument();
+
+    const successfullyMessage = screen.getByText(
+      /steps.step3.playlisyGeneratedSuccessfully/i
+    );
+    expect(successfullyMessage).toBeInTheDocument();
+
+    expect(playlistsService.createNewPlaylist).toHaveBeenCalledWith({
+      playlist: {
+        name: 'My new playlist',
+        description: 'My new playlist description',
+        isPublic: true,
+      },
+      artists: [
+        {
+          name: 'Holding Absence',
+        },
+      ],
+    });
+  });
+
+  it('should copy the URL link into the clipboard when clicking the copy button', async () => {
     const spyClipboardWriteText = vi
       .spyOn(navigator.clipboard, 'writeText')
       .mockImplementation(() => Promise.resolve());
@@ -298,11 +370,6 @@ describe('GeneratePlaylistPage', () => {
     });
 
     expect(thirdStepContentTitle).toBeInTheDocument();
-
-    const successfullyMessage = screen.getByText(
-      /steps.step3.playlisyGeneratedSuccessfully/i
-    );
-    expect(successfullyMessage).toBeInTheDocument();
 
     const copyURLButton = screen.getByRole('button', {
       name: /steps.step3.copyButton/i,
