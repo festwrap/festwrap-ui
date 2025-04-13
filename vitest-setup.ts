@@ -1,7 +1,7 @@
-import "@testing-library/jest-dom/vitest"
-import { vi } from "vitest"
+import '@testing-library/jest-dom/vitest';
+import { vi } from 'vitest';
 
-Element.prototype.scrollIntoView = vi.fn()
+Element.prototype.scrollIntoView = vi.fn();
 
 class MockResizeObserver {
   observe() {}
@@ -9,4 +9,4 @@ class MockResizeObserver {
   disconnect() {}
 }
 
-global.ResizeObserver = MockResizeObserver as any
+global.ResizeObserver = MockResizeObserver as any;
