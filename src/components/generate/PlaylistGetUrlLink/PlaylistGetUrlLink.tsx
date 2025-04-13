@@ -37,7 +37,7 @@ const PlaylistGetUrlLink = ({
             {t('steps.step3.playlisyGeneratedSuccessfully')}
           </div>
         </div>
-        <div className="flex w-full md:w-1/2 space-x-2 mt-6">
+        <div className="flex w-full md:w-3/4 space-x-2 mt-6">
           <Input value={urlWithId} readOnly />
           <Button
             type="button"
