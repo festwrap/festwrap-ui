@@ -10,6 +10,9 @@ import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
+import { usePlaylistSubmission } from './usePlaylistSubmission';
+import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const STEPS_COUNT = 3;
 
@@ -62,13 +65,17 @@ export type FormSchemaType = z.infer<typeof formSchema>;
 
 const GeneratePlaylistStepper = () => {
   const { t } = useTranslation('generate');
+  const { isLoading, submitPlaylist } = usePlaylistSubmission();
+
   const [currentStep, setCurrentStep] = useState(1);
+  const [playlistId, setPlaylistId] = useState<string | undefined>(undefined);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       playlistCreationMode: PlaylistCreationMode.New,
       name: '',
+      description: '',
       playlistSelected: undefined,
       isPrivate: false,
       artists: [],
@@ -78,19 +85,26 @@ const GeneratePlaylistStepper = () => {
   const { handleSubmit, trigger, formState } = form;
 
   const handleNext = async () => {
-    const isStepValid = await trigger([
-      'name',
-      'isPrivate',
-      'playlistCreationMode',
-      'playlistSelected',
-    ]);
+    const fieldsToValidate: Array<keyof FormSchemaType> =
+      currentStep === 1
+        ? ['name', 'isPrivate', 'playlistCreationMode', 'playlistSelected']
+        : ['artists'];
+
+    const isStepValid = await trigger(fieldsToValidate);
     if (isStepValid) setCurrentStep((prev) => prev + 1);
   };
 
   const handleBack = () => setCurrentStep((prev) => prev - 1);
 
-  const onSubmit = (_values: FormSchemaType) => {
-    setCurrentStep((prev) => prev + 1);
+  const onSubmit = async (values: FormSchemaType) => {
+    const { success, data: playlistId } = await submitPlaylist(values);
+
+    if (success) {
+      setCurrentStep((prev) => prev + 1);
+      setPlaylistId(playlistId);
+    } else {
+      toast.error(t('steps.errors.createNewPlaylist.unexpectedError'));
+    }
   };
 
   const handleChangeStep = (step: number) => {
@@ -137,7 +151,7 @@ const GeneratePlaylistStepper = () => {
               <PlaylistSearchArtistsForm />
             </StepContent>
             <StepContent stepNumber={3}>
-              <PlaylistGetUrlLink />
+              <PlaylistGetUrlLink playlistId={playlistId} />
             </StepContent>
             <div className="flex justify-end space-x-6 mt-8">
               {shouldDisplayBackButton && (
@@ -151,7 +165,15 @@ const GeneratePlaylistStepper = () => {
                 </Button>
               )}
               {shouldDisplaySubmitButton && (
-                <Button type="submit">{t('steps.navigation.generate')}</Button>
+                <Button
+                  type="submit"
+                  disabled={isLoading || formState.isSubmitting}
+                >
+                  {isLoading && <Loader2 className="animate-spin" />}
+                  {isLoading
+                    ? t('steps.navigation.generating')
+                    : t('steps.navigation.generate')}
+                </Button>
               )}
               {shouldDisplayFinishButton && (
                 <Button asChild>
