@@ -18,6 +18,7 @@ import {
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import PlaylistSearcher from './PlaylistSearcher';
 import { PlaylistCreationMode } from '../GeneratePlaylistStepper';
+import { Textarea } from '@/components/ui/Textarea';
 
 const PlaylistSetupForm = () => {
   const { watch, control, formState } = useFormContext();
@@ -66,7 +67,7 @@ const PlaylistSetupForm = () => {
       />
       {playlistModeSelected === PlaylistCreationMode.New ? (
         <>
-          <div className="space-y-2 mt-6">
+          <div className="flex flex-col space-y-3 mt-6">
             <FormField
               control={control}
               name="name"
@@ -77,6 +78,7 @@ const PlaylistSetupForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
+                      required
                       placeholder={t(
                         'steps.step1.form.createNewPlaylist.namePlaceholder'
                       )}
@@ -91,37 +93,56 @@ const PlaylistSetupForm = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t('steps.step1.form.createNewPlaylist.giveADescription')}
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={t(
+                        'steps.step1.form.createNewPlaylist.descriptionPlaceholder'
+                      )}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="isPrivate"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-2">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                      title={t(
+                        'steps.step1.form.createNewPlaylist.privatePlaylist.title'
+                      )}
+                    />
+                  </FormControl>
+                  <FormLabel className="flex flex-col">
+                    <span className="text-sm font-medium">
+                      {t(
+                        'steps.step1.form.createNewPlaylist.privatePlaylist.title'
+                      )}
+                    </span>
+                    <span className="text-sm text-muted-foreground text-dark-blue">
+                      {t(
+                        'steps.step1.form.createNewPlaylist.privatePlaylist.description'
+                      )}
+                    </span>
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
           </div>
-          <FormField
-            control={control}
-            name="isPrivate"
-            render={({ field }) => (
-              <FormItem className="flex items-center space-x-2">
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    aria-readonly
-                    title={t(
-                      'steps.step1.form.createNewPlaylist.privatePlaylist.title'
-                    )}
-                  />
-                </FormControl>
-                <FormLabel className="flex flex-col">
-                  <span className="text-sm font-medium">
-                    {t(
-                      'steps.step1.form.createNewPlaylist.privatePlaylist.title'
-                    )}
-                  </span>
-                  <span className="text-sm text-muted-foreground text-dark-blue">
-                    {t(
-                      'steps.step1.form.createNewPlaylist.privatePlaylist.description'
-                    )}
-                  </span>
-                </FormLabel>
-              </FormItem>
-            )}
-          />
         </>
       ) : (
         <div className="space-y-2 mt-6">

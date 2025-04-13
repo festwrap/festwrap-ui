@@ -25,6 +25,7 @@ const formSchema = z
       PlaylistCreationMode.Existing,
     ]),
     name: z.string().optional(),
+    description: z.string().optional(),
     playlistSelected: z
       .object({
         id: z.string(),
