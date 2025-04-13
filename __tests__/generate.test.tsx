@@ -163,10 +163,10 @@ describe('GeneratePlaylistPage', () => {
     });
     await userEvent.click(createNewPlaylistRadio);
 
-    const privatePlaylistSwitch = screen.getByRole('switch', {
-      name: /steps.step1.form.createNewPlaylist.privatePlaylist.title/i,
+    const publicPlaylistSwitch = screen.getByRole('switch', {
+      name: /steps.step1.form.createNewPlaylist.publicPlaylist.title/i,
     });
-    await userEvent.click(privatePlaylistSwitch);
+    await userEvent.click(publicPlaylistSwitch);
 
     await clickToNextButton();
 
@@ -207,10 +207,10 @@ describe('GeneratePlaylistPage', () => {
     );
     await userEvent.type(playlistNameInput, 'My new playlist');
 
-    const privatePlaylistSwitch = screen.getByRole('switch', {
-      name: /steps.step1.form.createNewPlaylist.privatePlaylist.title/i,
+    const publicPlaylistSwitch = screen.getByRole('switch', {
+      name: /steps.step1.form.createNewPlaylist.publicPlaylist.title/i,
     });
-    await userEvent.click(privatePlaylistSwitch);
+    await userEvent.click(publicPlaylistSwitch);
 
     await clickToNextButton();
 
@@ -312,7 +312,7 @@ describe('GeneratePlaylistPage', () => {
       playlist: {
         name: 'My new playlist',
         description: 'My new playlist description',
-        isPublic: true,
+        isPublic: false,
       },
       artists: [
         {

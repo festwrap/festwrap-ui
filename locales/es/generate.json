@@ -36,9 +36,9 @@
           "giveADescription": "Da una descripción a la lista",
           "giveAName": "Da un nombre a la lista de reproducción",
           "namePlaceholder": "Nombre de la lista de reproducción",
-          "privatePlaylist": {
-            "description": "La lista de reproducción será privada y solo tú podrás verla",
-            "title": "Lista de reproducción privada"
+          "publicPlaylist": {
+            "description": "La lista de reproducción será pública y podrás encontrarla en tu biblioteca",
+            "title": "Pública en tu perfil"
           },
           "title": "Crear una nueva lista de reproducción"
         },

@@ -35,7 +35,7 @@ const formSchema = z
         name: z.string(),
       })
       .optional(),
-    isPrivate: z.boolean(),
+    isPublic: z.boolean(),
     artists: z
       .array(z.string().min(1))
       .nonempty('At least one artist is required'),
@@ -77,7 +77,7 @@ const GeneratePlaylistStepper = () => {
       name: '',
       description: '',
       playlistSelected: undefined,
-      isPrivate: false,
+      isPublic: false,
       artists: [],
     },
   });
@@ -87,7 +87,7 @@ const GeneratePlaylistStepper = () => {
   const handleNext = async () => {
     const fieldsToValidate: Array<keyof FormSchemaType> =
       currentStep === 1
-        ? ['name', 'isPrivate', 'playlistCreationMode', 'playlistSelected']
+        ? ['name', 'isPublic', 'playlistCreationMode', 'playlistSelected']
         : ['artists'];
 
     const isStepValid = await trigger(fieldsToValidate);

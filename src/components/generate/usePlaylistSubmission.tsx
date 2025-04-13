@@ -36,7 +36,7 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           playlist: {
             name: playlistData.name || '',
             description: playlistData.description,
-            isPublic: !playlistData.isPrivate,
+            isPublic: playlistData.isPublic,
           },
           artists: playlistData.artists.map((artist) => ({
             name: artist,

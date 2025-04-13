@@ -63,7 +63,7 @@ describe('createCreatePlaylistHandler', () => {
     const invalidRequest = createMockRequest({
       playlist: {
         description: 'Missing name',
-        isPrivate: false,
+        isPublic: false,
         artists: [{ name: 'Artist1' }],
       },
     });
@@ -80,7 +80,7 @@ describe('createCreatePlaylistHandler', () => {
       playlist: {
         name: 'Test Playlist',
         description: 'Missing artists',
-        isPrivate: false,
+        isPublic: false,
       },
     });
     const response = createMockResponse();

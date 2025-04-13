@@ -114,7 +114,7 @@ const PlaylistSetupForm = () => {
             />
             <FormField
               control={control}
-              name="isPrivate"
+              name="isPublic"
               render={({ field }) => (
                 <FormItem className="flex items-center space-x-2">
                   <FormControl>
@@ -123,19 +123,19 @@ const PlaylistSetupForm = () => {
                       onCheckedChange={field.onChange}
                       aria-readonly
                       title={t(
-                        'steps.step1.form.createNewPlaylist.privatePlaylist.title'
+                        'steps.step1.form.createNewPlaylist.publicPlaylist.title'
                       )}
                     />
                   </FormControl>
                   <FormLabel className="flex flex-col">
                     <span className="text-sm font-medium">
                       {t(
-                        'steps.step1.form.createNewPlaylist.privatePlaylist.title'
+                        'steps.step1.form.createNewPlaylist.publicPlaylist.title'
                       )}
                     </span>
                     <span className="text-sm text-muted-foreground text-dark-blue">
                       {t(
-                        'steps.step1.form.createNewPlaylist.privatePlaylist.description'
+                        'steps.step1.form.createNewPlaylist.publicPlaylist.description'
                       )}
                     </span>
                   </FormLabel>
