@@ -21,14 +21,19 @@ export class GCPAuthClient implements AuthClient {
   }
 
   async getToken(): Promise<string> {
-    return this.httpClient
-      .send({
-        url: this.baseUrl,
-        method: Method.Get,
-        params: { audience: this.audience },
-        headers: { 'Metadata-Flavor': 'Google' },
-      })
-      .then((response) => response.data);
+    const tokenResponse = await this.httpClient.send({
+      url: this.baseUrl,
+      method: Method.Get,
+      params: { audience: this.audience },
+      headers: { 'Metadata-Flavor': 'Google' },
+    });
+    if (tokenResponse.status !== 200) {
+      throw new Error(
+        'Failed to get token. Status code: ' + tokenResponse.status
+      );
+    } else {
+      return tokenResponse.data;
+    }
   }
 
   getHeaderName(): string {

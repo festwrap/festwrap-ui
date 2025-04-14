@@ -45,6 +45,15 @@ describe('GCPAuthClient', () => {
 
     await expect(authClient.getToken()).rejects.toThrow(errorMessage);
   });
+
+  it('should throw an error if the client status code is not ok', async () => {
+    httpClient.setResult({ data: 'error', status: 500 });
+    const authClient = new GCPAuthClient(httpClient, audience);
+
+    await expect(authClient.getToken()).rejects.toThrow(
+      'Failed to get token. Status code: 500'
+    );
+  });
 });
 
 describe('BaseAuthHeaderBuilder', () => {
