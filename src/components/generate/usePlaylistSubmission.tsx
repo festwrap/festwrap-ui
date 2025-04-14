@@ -63,10 +63,8 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           success: false,
         };
       }
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to submit playlist'
-      );
+    } catch {
+      setError('Failed to create playlist');
       return {
         success: false,
       };
