@@ -56,7 +56,7 @@ const MobileNavbarMenu = () => {
             <nav className="flex flex-col items-center justify-center gap-6 py-4">
               <NavLink
                 variant="mobile"
-                href="/get-started"
+                href="/generate"
                 onClick={handleMenuClose}
               >
                 {t('nav.getStarted')}

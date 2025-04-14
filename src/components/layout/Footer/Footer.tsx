@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="flex flex-col justify-start items-start space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-x-6 sm:space-y-0 py-6">
           <LanguageSelectorComponent />
           <nav className="flex flex-col gap-2 items-start sm:flex-row sm:gap-10 sm:items-end font-medium text-sm">
-            <Link href="/get-started">{t('nav.getStarted')}</Link>
+            <Link href="/generate">{t('nav.getStarted')}</Link>
             <Link href="/about-us">{t('nav.aboutUs')}</Link>
           </nav>
         </div>
