@@ -18,7 +18,7 @@ export type CreatePlaylistResponseData = {
   playlistCreated?: CreateNewPlaylistResponseDTO;
 };
 
-const searchQuerySchema = z.object({
+const createNewPlaylistSchema = z.object({
   playlist: z.object({
     name: z.string(),
     description: z.string(),
@@ -39,7 +39,7 @@ export function createCreatePlaylistHandler({
     response: NextApiResponse<CreatePlaylistResponseData>
   ): Promise<void> {
     const body = JSON.parse(request.body);
-    const parsedArgs = searchQuerySchema.safeParse(body);
+    const parsedArgs = createNewPlaylistSchema.safeParse(body);
 
     if (!parsedArgs.success) {
       response
