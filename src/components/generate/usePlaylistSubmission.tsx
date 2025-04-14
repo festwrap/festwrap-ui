@@ -52,11 +52,15 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           success: true,
           data: playlistCreated?.id,
         };
-      } else {
-        // Assuming playlistCreationMode is PlaylistCreationMode.Existing
+      } else if (playlistCreationMode === PlaylistCreationMode.Existing) {
         return {
           success: true,
           data: 'mock-playlist-id',
+        };
+      } else {
+        setError('Invalid playlist creation mode');
+        return {
+          success: false,
         };
       }
     } catch (err) {
