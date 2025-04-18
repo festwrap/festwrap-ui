@@ -7,7 +7,6 @@ import PlaylistSetupForm from '@components/generate/PlaylistSetupForm/PlaylistSe
 import { Button } from '@components/ui/Button';
 import { Stepper, StepList, Step, StepContent } from '@components/ui/Stepper';
 import useTranslation from 'next-translate/useTranslation';
-import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
 import { usePlaylistSubmission } from './usePlaylistSubmission';
@@ -114,7 +113,6 @@ const GeneratePlaylistStepper = () => {
   const shouldDisplayBackButton =
     currentStep > 1 && currentStep !== STEPS_COUNT;
   const shouldDisplayNextButton = currentStep === 1;
-  const shouldDisplayFinishButton = currentStep === STEPS_COUNT;
   const shouldDisplaySubmitButton = currentStep === 2;
 
   return (
@@ -173,11 +171,6 @@ const GeneratePlaylistStepper = () => {
                   {isLoading
                     ? t('steps.navigation.generating')
                     : t('steps.navigation.generate')}
-                </Button>
-              )}
-              {shouldDisplayFinishButton && (
-                <Button asChild>
-                  <Link href="/">{t('steps.navigation.finish')}</Link>
                 </Button>
               )}
             </div>

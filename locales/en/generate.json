@@ -21,7 +21,6 @@
       }
     },
     "navigation": {
-      "finish": "Finish",
       "generate": "Generate",
       "generating": "Generating...",
       "next": "Next",

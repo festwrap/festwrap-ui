@@ -21,7 +21,6 @@
       }
     },
     "navigation": {
-      "finish": "Finalizar",
       "generate": "Generar",
       "generating": "Generando...",
       "next": "Siguiente",
