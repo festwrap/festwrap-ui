@@ -13,14 +13,12 @@ type SubmitPlaylistResponse = {
 
 interface UsePlaylistSubmissionResult {
   isLoading: boolean;
-  error: string | null;
   submitPlaylist: (_values: FormSchemaType) => Promise<SubmitPlaylistResponse>;
 }
 
 export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
   const { playlistsService } = useServices();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const submitPlaylist = async (
     values: FormSchemaType
@@ -28,7 +26,6 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
     const { playlistCreationMode, ...playlistData } = values;
 
     setIsLoading(true);
-    setError(null);
 
     try {
       if (playlistCreationMode === PlaylistCreationMode.New) {
@@ -58,13 +55,11 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           data: 'mock-playlist-id',
         };
       } else {
-        setError('Invalid playlist creation mode');
         return {
           success: false,
         };
       }
     } catch {
-      setError('Failed to create playlist');
       return {
         success: false,
       };
@@ -75,7 +70,6 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
 
   return {
     isLoading,
-    error,
     submitPlaylist,
   };
 }
