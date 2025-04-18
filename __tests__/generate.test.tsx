@@ -322,11 +322,7 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
-  it('should copy the URL link into the clipboard when clicking the copy button', async () => {
-    const spyClipboardWriteText = vi
-      .spyOn(navigator.clipboard, 'writeText')
-      .mockImplementation(() => Promise.resolve());
-
+  it('should show the embedded playlist on successful update', async () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
@@ -354,21 +350,10 @@ describe('GeneratePlaylistPage', () => {
       const thirdStepContent = screen.getByRole('tabpanel');
       return within(thirdStepContent).getByText(/steps.step3.title/i);
     });
+    const embeddedPlaylist = screen.queryByTitle('Spotify embedded playlist');
 
     expect(thirdStepContentTitle).toBeInTheDocument();
-
-    const copyURLButton = screen.getByRole('button', {
-      name: /steps.step3.copyButton/i,
-    });
-    expect(copyURLButton).toBeInTheDocument();
-
-    userEvent.click(copyURLButton);
-
-    await waitFor(() => {
-      expect(spyClipboardWriteText).toHaveBeenCalledWith(
-        'https://open.spotify.com/playlist/' + createdPlaylistId
-      );
-    });
+    expect(embeddedPlaylist).toHaveAttribute('src', `https://open.spotify.com/embed/playlist/${createdPlaylistId}`);
   });
 
   it('should display an error when it tries to submitting the form', async () => {
