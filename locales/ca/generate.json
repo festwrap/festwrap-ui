@@ -37,7 +37,7 @@
           "giveAName": "Dona un nom a la llista",
           "namePlaceholder": "Nom de la llista",
           "publicPlaylist": {
-            "description": "Només les llistes de reproducció públiques són visibles al vostre perfil",
+            "description": "Només les llistes de reproducció públiques són visibles al teu perfil",
             "title": "Pública en el teu perfil"
           },
           "title": "Crear una nova llista"
