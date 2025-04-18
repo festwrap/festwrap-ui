@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 import { ReactNode } from 'react';
 import { ServiceProvider } from '@/contexts/ServiceContext';
+import { toast } from 'sonner';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -17,6 +18,13 @@ vi.mock('next/image', () => ({
     const { src, alt } = props;
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={alt} {...props} />;
+  },
+}));
+
+vi.mock('sonner', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
@@ -96,6 +104,7 @@ const findAndSelectPlaylist = async (playlistName: string) => {
 
 const playlistsService = {
   searchPlaylists: vi.fn(),
+  createNewPlaylist: vi.fn(),
 };
 
 const artistsService = {
@@ -154,10 +163,10 @@ describe('GeneratePlaylistPage', () => {
     });
     await userEvent.click(createNewPlaylistRadio);
 
-    const privatePlaylistSwitch = screen.getByRole('switch', {
-      name: /steps.step1.form.createNewPlaylist.privatePlaylist.title/i,
+    const publicPlaylistSwitch = screen.getByRole('switch', {
+      name: /steps.step1.form.createNewPlaylist.publicPlaylist.title/i,
     });
-    await userEvent.click(privatePlaylistSwitch);
+    await userEvent.click(publicPlaylistSwitch);
 
     await clickToNextButton();
 
@@ -198,10 +207,10 @@ describe('GeneratePlaylistPage', () => {
     );
     await userEvent.type(playlistNameInput, 'My new playlist');
 
-    const privatePlaylistSwitch = screen.getByRole('switch', {
-      name: /steps.step1.form.createNewPlaylist.privatePlaylist.title/i,
+    const publicPlaylistSwitch = screen.getByRole('switch', {
+      name: /steps.step1.form.createNewPlaylist.publicPlaylist.title/i,
     });
-    await userEvent.click(privatePlaylistSwitch);
+    await userEvent.click(publicPlaylistSwitch);
 
     await clickToNextButton();
 
@@ -241,7 +250,7 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
-  it('should navigate to the last step when filling the form and clicking the next button', async () => {
+  it('should create the new playlist and display the success message', async () => {
     artistsService.searchArtists.mockResolvedValue({
       artists: [
         {
@@ -249,6 +258,87 @@ describe('GeneratePlaylistPage', () => {
           imageUri: null,
         },
       ],
+    });
+    playlistsService.createNewPlaylist.mockResolvedValue({
+      playlistCreated: {
+        id: '123',
+      },
+    });
+
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const playlistNameInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveAName/i
+    );
+    await userEvent.type(playlistNameInput, 'My new playlist');
+
+    const playlistDescriptionInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveADescription/i
+    );
+    await userEvent.type(
+      playlistDescriptionInput,
+      'My new playlist description'
+    );
+
+    await clickToNextButton();
+
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
+
+    expect(secondStepContentTitle).toBeInTheDocument();
+
+    await findAndSelectArtist('Holding Absence');
+
+    const generateButton = screen.getByRole('button', {
+      name: /steps.navigation.generate/i,
+    });
+    await userEvent.click(generateButton);
+
+    const thirdStepContentTitle = await waitFor(() => {
+      const thirdStepContent = screen.getByRole('tabpanel');
+      return within(thirdStepContent).getByText(/steps.step3.title/i);
+    });
+
+    expect(thirdStepContentTitle).toBeInTheDocument();
+
+    const successfullyMessage = screen.getByText(
+      /steps.step3.playlisyGeneratedSuccessfully/i
+    );
+    expect(successfullyMessage).toBeInTheDocument();
+
+    expect(playlistsService.createNewPlaylist).toHaveBeenCalledWith({
+      playlist: {
+        name: 'My new playlist',
+        description: 'My new playlist description',
+        isPublic: false,
+      },
+      artists: [
+        {
+          name: 'Holding Absence',
+        },
+      ],
+    });
+  });
+
+  it('should copy the URL link into the clipboard when clicking the copy button', async () => {
+    const spyClipboardWriteText = vi
+      .spyOn(navigator.clipboard, 'writeText')
+      .mockImplementation(() => Promise.resolve());
+
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+      ],
+    });
+    playlistsService.createNewPlaylist.mockResolvedValue({
+      playlistCreated: {
+        id: '123',
+      },
     });
 
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
@@ -281,15 +371,59 @@ describe('GeneratePlaylistPage', () => {
 
     expect(thirdStepContentTitle).toBeInTheDocument();
 
-    const successfullyMessage = screen.getByText(
-      /steps.step3.playlisyGeneratedSuccessfully/i
-    );
-    expect(successfullyMessage).toBeInTheDocument();
-
     const copyURLButton = screen.getByRole('button', {
       name: /steps.step3.copyButton/i,
     });
     expect(copyURLButton).toBeInTheDocument();
+
+    userEvent.click(copyURLButton);
+
+    await waitFor(() => {
+      expect(spyClipboardWriteText).toHaveBeenCalledWith(
+        'https://open.spotify.com/playlist/123'
+      );
+    });
+  });
+
+  it('should display an error when it tries to submitting the form', async () => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+      ],
+    });
+    playlistsService.createNewPlaylist.mockRejectedValue({
+      error: 'Error creating playlist',
+    });
+
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const playlistNameInput = screen.getByLabelText(
+      /steps.step1.form.createNewPlaylist.giveAName/i
+    );
+    await userEvent.type(playlistNameInput, 'My new playlist');
+
+    await clickToNextButton();
+
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
+
+    expect(secondStepContentTitle).toBeInTheDocument();
+
+    await findAndSelectArtist('Holding Absence');
+
+    const generateButton = screen.getByRole('button', {
+      name: /steps.navigation.generate/i,
+    });
+    await userEvent.click(generateButton);
+
+    expect(toast.error).toHaveBeenCalledWith(
+      'steps.errors.createNewPlaylist.unexpectedError'
+    );
   });
 
   it('should select a existing playlist when the "Use existing playlist" option is selected and the playlist is selected', async () => {

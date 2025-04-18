@@ -13,12 +13,12 @@ export type CreatePlaylistHandlerParams = {
   client: PlaylistsClient;
 };
 
-export type ResponseData = {
+export type CreatePlaylistResponseData = {
   message: string;
   playlistCreated?: CreateNewPlaylistResponseDTO;
 };
 
-const searchQuerySchema = z.object({
+const createNewPlaylistSchema = z.object({
   playlist: z.object({
     name: z.string(),
     description: z.string(),
@@ -36,9 +36,11 @@ export function createCreatePlaylistHandler({
 }: CreatePlaylistHandlerParams) {
   return async function handler(
     request: NextApiRequest,
-    response: NextApiResponse<ResponseData>
+    response: NextApiResponse<CreatePlaylistResponseData>
   ): Promise<void> {
-    const parsedArgs = searchQuerySchema.safeParse(request.body);
+    const body = JSON.parse(request.body);
+    const parsedArgs = createNewPlaylistSchema.safeParse(body);
+
     if (!parsedArgs.success) {
       response
         .status(400)

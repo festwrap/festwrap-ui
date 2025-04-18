@@ -1,71 +1,78 @@
 {
-    "meta": {
-        "description": "Crea listas de reproducción con las canciones que tus artistas están tocando actualmente",
-        "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
-        "title": "Generador | Festwrap"
+  "meta": {
+    "description": "Crea listas de reproducción con las canciones que tus artistas están tocando actualmente",
+    "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
+    "title": "Generador | Festwrap"
+  },
+  "steps": {
+    "errors": {
+      "createNewPlaylist": {
+        "missingArtists": "La lista de reproducción se ha creado pero algunos artistas no se han podido añadir",
+        "unexpectedError": "Surgió un error inesperado al crear la lista de reproducción"
+      },
+      "name": {
+        "required": "El nombre de la lista es obligatorio"
+      },
+      "playlistSelected": {
+        "required": "Selecciona una lista de reproducción"
+      },
+      "selectedArtists": {
+        "required": "Selecciona al menos un artista"
+      }
     },
-    "steps": {
-        "errors": {
-            "name": {
-                "required": "El nombre de la lista es obligatorio"
-            },
-            "playlistSelected": {
-                "required": "Selecciona una lista de reproducción"
-            },
-            "selectedArtists": {
-                "required": "Selecciona al menos un artista"
-            }
+    "navigation": {
+      "finish": "Finalizar",
+      "generate": "Generar",
+      "generating": "Generando...",
+      "next": "Siguiente",
+      "previous": "Anterior"
+    },
+    "step1": {
+      "description": "Crea una lista nueva o utiliza una lista propia existente",
+      "form": {
+        "createNewPlaylist": {
+          "description": "Utiliza esta opción para crear una nueva lista de reproducción en Spotify",
+          "descriptionPlaceholder": "Descripción de la lista",
+          "giveADescription": "Da una descripción a la lista",
+          "giveAName": "Da un nombre a la lista de reproducción",
+          "namePlaceholder": "Nombre de la lista de reproducción",
+          "publicPlaylist": {
+            "description": "Solo las listas de reproducción pública son visibles en tu perfil",
+            "title": "Pública en tu perfil"
+          },
+          "title": "Crear una nueva lista de reproducción"
         },
-        "navigation": {
-            "finish": "Finalizar",
-            "generate": "Generar",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        },
-        "step1": {
-            "description": "Crea una lista nueva o utiliza una lista propia existente",
-            "form": {
-                "createNewPlaylist": {
-                    "description": "Utiliza esta opción para crear una nueva lista de reproducción en Spotify",
-                    "giveAName": "Da un nombre a la lista de reproducción",
-                    "namePlaceholder": "Nombre de la lista de reproducción",
-                    "privatePlaylist": {
-                        "description": "La lista de reproducción será privada y solo tú podrás verla",
-                        "title": "Lista de reproducción privada"
-                    },
-                    "title": "Crear una nueva lista de reproducción"
-                },
-                "useExistingPlaylist": {
-                    "description": "Utiliza esta opción para añadir canciones a una de tus listas de reproducción ya existentes.",
-                    "playlistSelector": {
-                        "loading": "Cargando listas de reproducción...",
-                        "noResults": "No se encontraron listas de reproducción",
-                        "placeholder": "Selecciona una lista de reproducción",
-                        "searchPlaceholder": "Busca listas de reproducción",
-                        "title": "Selecciona una lista de reproducción"
-                    },
-                    "selectPlaylist": "Selecciona una lista de reproducción",
-                    "title": "Usar una lista de reproducción existente"
-                }
-            },
-            "title": "Configura la lista de reproducción"
-        },
-        "step2": {
-            "description": "Selecciona los artistas que quieres añadir a la lista de reproducción",
-            "emptyState": {
-                "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
-                "title": "Ningún artista añadido"
-            },
-            "removeArtist": "Eliminar",
-            "searchPlaceholder": "Busca artistas",
-            "title": "Busca los artistas"
-        },
-        "step3": {
-            "copyButton": "Copia URL",
-            "copySuccessButton": "Copiada!",
-            "description": "Abre la lista de reproducción generada o modificada usando la URL de Spotify",
-            "playlisyGeneratedSuccessfully": "Lista de reproducción generada con éxito",
-            "title": "Copia la URL"
+        "useExistingPlaylist": {
+          "description": "Utiliza esta opción para añadir canciones a una de tus listas de reproducción ya existentes.",
+          "playlistSelector": {
+            "loading": "Cargando listas de reproducción...",
+            "noResults": "No se encontraron listas de reproducción",
+            "placeholder": "Selecciona una lista de reproducción",
+            "searchPlaceholder": "Busca listas de reproducción",
+            "title": "Selecciona una lista de reproducción"
+          },
+          "selectPlaylist": "Selecciona una lista de reproducción",
+          "title": "Usar una lista de reproducción existente"
         }
+      },
+      "title": "Configura la lista de reproducción"
+    },
+    "step2": {
+      "description": "Selecciona los artistas que quieres añadir a la lista de reproducción",
+      "emptyState": {
+        "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
+        "title": "Ningún artista añadido"
+      },
+      "removeArtist": "Eliminar",
+      "searchPlaceholder": "Busca artistas",
+      "title": "Busca los artistas"
+    },
+    "step3": {
+      "copyButton": "Copia URL",
+      "copySuccessButton": "Copiada!",
+      "description": "Abre la lista de reproducción generada o modificada usando la URL de Spotify",
+      "playlisyGeneratedSuccessfully": "Lista de reproducción generada con éxito",
+      "title": "Copia la URL"
     }
+  }
 }

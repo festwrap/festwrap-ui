@@ -6,11 +6,16 @@ import playlistReadyImage from '@public/playlist-ready.svg';
 import Image from 'next/image';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
-const URL_EXAMPLE = 'https://example.com/playlist/123';
+const URL_BASE = 'https://open.spotify.com/playlist/';
 
-const PlaylistGetUrlLink = () => {
+const PlaylistGetUrlLink = ({
+  playlistId,
+}: {
+  playlistId: string | undefined;
+}) => {
   const { t } = useTranslation('generate');
   const { copy, isCopied } = useCopyToClipboard();
+  const urlWithId = `${URL_BASE}${playlistId}`;
   return (
     <>
       <div className="flex flex-col space-y-2">
@@ -32,12 +37,12 @@ const PlaylistGetUrlLink = () => {
             {t('steps.step3.playlisyGeneratedSuccessfully')}
           </div>
         </div>
-        <div className="flex w-full md:w-1/2 space-x-2 mt-6">
-          <Input value={URL_EXAMPLE} readOnly />
+        <div className="flex w-full md:w-3/4 space-x-2 mt-6">
+          <Input value={urlWithId} readOnly />
           <Button
             type="button"
             variant="outline"
-            onClick={() => copy(URL_EXAMPLE)}
+            onClick={() => copy(urlWithId)}
           >
             {isCopied
               ? t('steps.step3.copySuccessButton')
