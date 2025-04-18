@@ -14,7 +14,7 @@ export const PlaylistOverview: FC<PlaylistOverviewProps> = ({
   return (
     <iframe
       src={embedUrl}
-      style={{ borderRadius: '12px' }}
+      className="rounded"
       width="100%"
       height={height}
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
