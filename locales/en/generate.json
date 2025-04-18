@@ -37,7 +37,7 @@
           "giveAName": "Give a name to the playlist",
           "namePlaceholder": "Playlist name",
           "publicPlaylist": {
-            "description": "The playlist will be public and you will be able to find it in your library",
+            "description": "Only public playlists are visible in your profile",
             "title": "Public on your profile"
           },
           "title": "Create a new playlist"

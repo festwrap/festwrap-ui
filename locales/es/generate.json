@@ -37,7 +37,7 @@
           "giveAName": "Da un nombre a la lista de reproducción",
           "namePlaceholder": "Nombre de la lista de reproducción",
           "publicPlaylist": {
-            "description": "La lista de reproducción será pública y podrás encontrarla en tu biblioteca",
+            "description": "Solo las listas de reproducción pública son visibles en su perfil",
             "title": "Pública en tu perfil"
           },
           "title": "Crear una nueva lista de reproducción"
