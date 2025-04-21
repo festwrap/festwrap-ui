@@ -1,8 +1,9 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest';
 import {
   CreatedPlaylistStatus,
-  CreateNewPlaylistDTO,
+  UpdatePlaylistDTO,
   Playlist,
+  CreateNewPlaylistDTO,
 } from '@/entities/playlists';
 import { PlaylistsHTTPClient } from './playlists';
 import { FakeHttpClient, HttpResponse, Method } from './http';
@@ -236,7 +237,7 @@ describe('PlaylistsHTTPClient', () => {
           authHeaderBuilder
         );
 
-        const expectedMessage = `Unexpected playlist search response status: ${status}: ${message}`;
+        const expectedMessage = `Unexpected playlist create response status: ${status}: ${message}`;
         await expect(
           client.createPlaylist(token, playlistData)
         ).rejects.toThrow(expectedMessage);
@@ -256,6 +257,132 @@ describe('PlaylistsHTTPClient', () => {
 
       await expect(
         client.createPlaylist(token, playlistData)
+      ).rejects.toThrow();
+    });
+  });
+
+  describe('updatePlaylist', () => {
+    let url: string;
+    let token: string;
+    let playlistData: UpdatePlaylistDTO;
+    let httpClient: FakeHttpClient;
+    let response: HttpResponse;
+    let authHeaderBuilder: AuthHeaderBuilder;
+
+    beforeEach(() => {
+      url = 'http://some_url';
+      token = 'my-token';
+      playlistData = {
+        playlistId: '123',
+        artists: [{ name: 'Artist 3' }, { name: 'Artist 4' }],
+      };
+      authHeaderBuilder = new AuthHeaderBuilderStub();
+    });
+
+    const mockHttpClientResponse = (status: number = 200) => {
+      response = {
+        data: {
+          playlist: {
+            id: '123',
+          },
+        },
+        status,
+      };
+      httpClient = new FakeHttpClient(response);
+    };
+
+    it('should call the client with the correct parameters', async () => {
+      mockHttpClientResponse();
+      const headers = { authorization: 'Bearer token' };
+      const client = new PlaylistsHTTPClient(
+        url,
+        httpClient,
+        new AuthHeaderBuilderStub(headers)
+      );
+      vi.spyOn(httpClient, 'send');
+
+      await client.updatePlaylist(token, playlistData);
+
+      expect(httpClient.send).toHaveBeenCalledWith({
+        url: `${url}/playlists/${playlistData.playlistId}`,
+        method: Method.Put,
+        data: playlistData,
+        headers: headers,
+      });
+    });
+
+    it.each([
+      { status: 200, expectedStatus: CreatedPlaylistStatus.OK },
+      { status: 207, expectedStatus: CreatedPlaylistStatus.MISSING_ARTISTS },
+    ])(
+      'should return the response data with the correct status when HTTP status is $status',
+      async ({ status, expectedStatus }) => {
+        mockHttpClientResponse(status);
+        const client = new PlaylistsHTTPClient(
+          url,
+          httpClient,
+          authHeaderBuilder
+        );
+
+        const result = await client.updatePlaylist(token, playlistData);
+
+        const expectedResponse = {
+          id: response.data.playlist.id,
+          status: expectedStatus,
+        };
+        expect(result).toEqual(expectedResponse);
+      }
+    );
+
+    it('should throw an error if the HTTP client fails', async () => {
+      mockHttpClientResponse();
+      const errorMessage = 'Failed to update playlist';
+      httpClient.setSendErrorMessage(errorMessage);
+      const client = new PlaylistsHTTPClient(
+        url,
+        httpClient,
+        authHeaderBuilder
+      );
+
+      await expect(client.updatePlaylist(token, playlistData)).rejects.toThrow(
+        errorMessage
+      );
+    });
+
+    it.each([
+      { status: 400, message: 'Bad request' },
+      { status: 500, message: 'Internal error' },
+    ])(
+      'should throw an error if the server response status is not the expected successful one',
+      async ({ status, message }) => {
+        response = { status: status, data: message };
+        httpClient = new FakeHttpClient(response);
+        const client = new PlaylistsHTTPClient(
+          url,
+          httpClient,
+          authHeaderBuilder
+        );
+
+        const expectedMessage = `Unexpected playlist update response status: ${status}: ${message}`;
+        await expect(
+          client.updatePlaylist(token, playlistData)
+        ).rejects.toThrow(expectedMessage);
+      }
+    );
+
+    it('should throw an error if the header builder fails', async () => {
+      mockHttpClientResponse();
+      vi.spyOn(authHeaderBuilder, 'buildHeader').mockImplementation(() => {
+        throw new Error('Authentication failed');
+      });
+      const client = new PlaylistsHTTPClient(
+        url,
+        httpClient,
+        authHeaderBuilder
+      );
+
+      await expect(
+        client.updatePlaylist(token, playlistData)
       ).rejects.toThrow();
     });
   });

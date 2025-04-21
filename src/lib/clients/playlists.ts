@@ -1,8 +1,10 @@
 import {
   CreatedPlaylistStatus,
-  CreateNewPlaylistDTO,
+  UpdatePlaylistDTO,
   CreateNewPlaylistResponseDTO,
   Playlist,
+  UpdatePlaylistResponseDTO,
+  CreateNewPlaylistDTO,
 } from '@/entities/playlists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
@@ -17,6 +19,10 @@ export interface PlaylistsClient {
     _token: string,
     _playlist: CreateNewPlaylistDTO
   ): Promise<CreateNewPlaylistResponseDTO>;
+  updatePlaylist(
+    _token: string,
+    _playlist: UpdatePlaylistDTO
+  ): Promise<UpdatePlaylistResponseDTO>;
 }
 
 export class PlaylistsHTTPClient implements PlaylistsClient {
@@ -86,7 +92,35 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
       };
     } else {
       throw new Error(
-        `Unexpected playlist search response status: ${response.status}: ${response.data}`
+        `Unexpected playlist create response status: ${response.status}: ${response.data}`
+      );
+    }
+  }
+
+  async updatePlaylist(
+    token: string,
+    playlist: UpdatePlaylistDTO
+  ): Promise<UpdatePlaylistResponseDTO> {
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
+    const response = await this.httpClient.send({
+      url: `${this.url}/playlists/${playlist.playlistId}`,
+      method: Method.Put,
+      data: playlist,
+      headers: authHeader,
+    });
+    if (response.status === 200) {
+      return {
+        id: response.data.playlist.id,
+        status: CreatedPlaylistStatus.OK,
+      };
+    } else if (response.status === 207) {
+      return {
+        id: response.data.playlist.id,
+        status: CreatedPlaylistStatus.MISSING_ARTISTS,
+      };
+    } else {
+      throw new Error(
+        `Unexpected playlist update response status: ${response.status}: ${response.data}`
       );
     }
   }
@@ -95,16 +129,22 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
 export class PlaylistsClientStub implements PlaylistsClient {
   private searchPlaylistResult: Playlist[];
   private createPlaylistResult: CreateNewPlaylistResponseDTO;
+  private updatePlaylistResult: UpdatePlaylistResponseDTO;
 
   constructor(
     searchPlaylistResult: Playlist[] = [],
     createPlaylistResult: CreateNewPlaylistResponseDTO = {
       id: '1',
       status: CreatedPlaylistStatus.OK,
+    },
+    updatePlaylistResult: UpdatePlaylistResponseDTO = {
+      id: '1',
+      status: CreatedPlaylistStatus.OK,
     }
   ) {
     this.searchPlaylistResult = searchPlaylistResult;
     this.createPlaylistResult = createPlaylistResult;
+    this.updatePlaylistResult = updatePlaylistResult;
   }
 
   async searchPlaylists(..._: any[]): Promise<Playlist[]> {
@@ -113,5 +153,9 @@ export class PlaylistsClientStub implements PlaylistsClient {
 
   async createPlaylist(..._: any[]): Promise<any> {
     return this.createPlaylistResult;
+  }
+
+  async updatePlaylist(..._: any[]): Promise<any> {
+    return this.updatePlaylistResult;
   }
 }
