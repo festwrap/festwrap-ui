@@ -105,17 +105,17 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
     const response = await this.httpClient.send({
       url: `${this.url}/playlists/${playlist.playlistId}`,
       method: Method.Put,
-      data: playlist,
+      data: {
+        artists: playlist.artists,
+      },
       headers: authHeader,
     });
     if (response.status === 200) {
       return {
-        id: response.data.playlist.id,
         status: CreatedPlaylistStatus.OK,
       };
     } else if (response.status === 207) {
       return {
-        id: response.data.playlist.id,
         status: CreatedPlaylistStatus.MISSING_ARTISTS,
       };
     } else {
@@ -138,7 +138,6 @@ export class PlaylistsClientStub implements PlaylistsClient {
       status: CreatedPlaylistStatus.OK,
     },
     updatePlaylistResult: UpdatePlaylistResponseDTO = {
-      id: '1',
       status: CreatedPlaylistStatus.OK,
     }
   ) {

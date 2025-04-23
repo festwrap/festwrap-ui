@@ -306,7 +306,9 @@ describe('PlaylistsHTTPClient', () => {
       expect(httpClient.send).toHaveBeenCalledWith({
         url: `${url}/playlists/${playlistData.playlistId}`,
         method: Method.Put,
-        data: playlistData,
+        data: {
+          artists: playlistData.artists,
+        },
         headers: headers,
       });
     });
@@ -327,7 +329,6 @@ describe('PlaylistsHTTPClient', () => {
         const result = await client.updatePlaylist(token, playlistData);
 
         const expectedResponse = {
-          id: response.data.playlist.id,
           status: expectedStatus,
         };
         expect(result).toEqual(expectedResponse);
