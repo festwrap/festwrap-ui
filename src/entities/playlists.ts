@@ -29,7 +29,6 @@ export type CreateNewPlaylistResponseDTO = {
 };
 
 export type UpdatePlaylistResponseDTO = {
-  id: string;
   status: CreatedPlaylistStatus;
 };
 
