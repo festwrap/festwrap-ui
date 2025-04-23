@@ -31,7 +31,7 @@ describe('createCreatePlaylistHandler', () => {
       artists: [{ name: 'Artist1' }],
     }
   ): NextApiRequest {
-    return { body: JSON.stringify(body) } as unknown as NextApiRequest;
+    return { body } as unknown as NextApiRequest;
   }
 
   function createMockResponse(): NextApiResponse {
