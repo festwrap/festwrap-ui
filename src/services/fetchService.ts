@@ -4,7 +4,19 @@ export interface IFetchService {
 
 export class FetchService implements IFetchService {
   async fetchData<T>(url: string, options?: RequestInit): Promise<T> {
-    const response = await fetch(url, options);
+    const defaultHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    const mergedOptions: RequestInit = {
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...options?.headers,
+      },
+    };
+
+    const response = await fetch(url, mergedOptions);
     if (!response.ok) {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
