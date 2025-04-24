@@ -130,9 +130,7 @@ describe('GeneratePlaylistPage', () => {
   let createdPlaylistId = '123';
 
   beforeEach(() => {
-    artistsService.searchArtists.mockResolvedValue({
-      artists: searchResultArtists.map(artist => ({ name: artist.name, imageUri: artist.imageUri })),
-    });
+    artistsService.searchArtists.mockResolvedValue({ artists: searchResultArtists});
 
     playlistsService.createNewPlaylist.mockResolvedValue({
       playlistCreated: { id: createdPlaylistId },
