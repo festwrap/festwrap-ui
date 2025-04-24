@@ -38,7 +38,7 @@ export function createCreatePlaylistHandler({
     request: NextApiRequest,
     response: NextApiResponse<CreatePlaylistResponseData>
   ): Promise<void> {
-    const body = JSON.parse(request.body);
+    const body = request.body;
     const parsedArgs = createNewPlaylistSchema.safeParse(body);
 
     if (!parsedArgs.success) {
