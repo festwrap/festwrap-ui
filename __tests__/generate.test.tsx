@@ -126,12 +126,12 @@ const customRenderWithProviders = (ui: ReactNode) => {
 
 describe('GeneratePlaylistPage', () => {
 
-  let searchResultArtists = ['Holding Absence'];
+  let searchResultArtists = [{ name: 'Holding Absence', imageUri: null }];
   let createdPlaylistId = '123';
 
   beforeEach(() => {
     artistsService.searchArtists.mockResolvedValue({
-      artists: searchResultArtists.map(name => ({ name: name, imageUri: null }))
+      artists: searchResultArtists.map(artist => ({ name: artist.name, imageUri: artist.imageUri })),
     });
 
     playlistsService.createNewPlaylist.mockResolvedValue({
