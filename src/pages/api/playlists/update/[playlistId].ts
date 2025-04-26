@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
-import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 import {
   CreatedPlaylistStatus,
   UpdatePlaylistResponseDTO,
 } from '@/entities/playlists';
+import { createBaseHandler } from '@/lib/handlers/createBaseHandler';
 
 export type UpdatePlaylistHandlerParams = {
   client: PlaylistsClient;
@@ -30,48 +30,24 @@ const updatePlaylistSchema = z.object({
 export function createUpdatePlaylistHandler({
   client,
 }: UpdatePlaylistHandlerParams) {
-  return async function handler(
-    request: NextApiRequest,
-    response: NextApiResponse<UpdatePlaylistResponseData>
-  ): Promise<void> {
-    const queryParams = request.query;
-    const body = request.body;
+  return createBaseHandler<
+    typeof updatePlaylistSchema._type,
+    UpdatePlaylistResponseData
+  >({
+    validationSchema: updatePlaylistSchema,
+    extractRequestData: (req) => ({ ...req.body, ...req.query }),
+    handleRequest: async (requestData, accessToken, response) => {
+      const { playlistId, artists } = requestData;
+      const playlistData = { playlistId, artists };
 
-    const parsedArgs = updatePlaylistSchema.safeParse({
-      ...body,
-      ...queryParams,
-    });
-
-    if (!parsedArgs.success) {
-      response
-        .status(400)
-        .json({ message: parsedArgs.error.errors[0].message });
-      return;
-    }
-
-    const token = await getToken({ req: request });
-
-    if (!token) {
-      response.status(401).json({ message: 'Unauthorized' });
-      return;
-    }
-
-    const { playlistId, artists } = parsedArgs.data;
-
-    const playlistData = {
-      playlistId,
-      artists,
-    };
-
-    try {
-      const playlistCreated = await client.updatePlaylist(
-        token.accessToken,
+      const playlistUpdated = await client.updatePlaylist(
+        accessToken,
         playlistData
       );
 
-      if (playlistCreated.status === CreatedPlaylistStatus.MISSING_ARTISTS) {
+      if (playlistUpdated.status === CreatedPlaylistStatus.MISSING_ARTISTS) {
         response.status(207).json({
-          playlistUpdated: playlistCreated,
+          playlistUpdated,
           message:
             'Playlist has been updated but some artists could not be added',
         });
@@ -79,15 +55,11 @@ export function createUpdatePlaylistHandler({
       }
 
       response.status(200).json({
-        playlistUpdated: playlistCreated,
+        playlistUpdated,
         message: 'Playlists successfully updated',
       });
-    } catch (error) {
-      response
-        .status(500)
-        .json({ message: 'Unexpected error, cannot update playlist' });
-    }
-  };
+    },
+  });
 }
 
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';

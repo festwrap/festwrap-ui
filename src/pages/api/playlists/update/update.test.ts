@@ -169,7 +169,7 @@ describe('createUpdatePlaylistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error, cannot update playlist',
+      message: 'Unexpected error occurred',
     });
   });
 
