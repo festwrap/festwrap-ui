@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
-import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 import {
   CreatedPlaylistStatus,
   CreateNewPlaylistResponseDTO,
 } from '@/entities/playlists';
+import { createBaseHandler } from '@/lib/handlers/createBaseHandler';
 
 export type CreatePlaylistHandlerParams = {
   client: PlaylistsClient;
@@ -34,37 +34,18 @@ const createNewPlaylistSchema = z.object({
 export function createCreatePlaylistHandler({
   client,
 }: CreatePlaylistHandlerParams) {
-  return async function handler(
-    request: NextApiRequest,
-    response: NextApiResponse<CreatePlaylistResponseData>
-  ): Promise<void> {
-    const body = request.body;
-    const parsedArgs = createNewPlaylistSchema.safeParse(body);
+  return createBaseHandler<
+    typeof createNewPlaylistSchema._type,
+    CreatePlaylistResponseData
+  >({
+    validationSchema: createNewPlaylistSchema,
+    extractRequestData: (req) => req.body,
+    handleRequest: async (requestData, accessToken, response) => {
+      const { playlist, artists } = requestData;
+      const playlistData = { playlist, artists };
 
-    if (!parsedArgs.success) {
-      response
-        .status(400)
-        .json({ message: parsedArgs.error.errors[0].message });
-      return;
-    }
-
-    const token = await getToken({ req: request });
-
-    if (!token) {
-      response.status(401).json({ message: 'Unauthorized' });
-      return;
-    }
-
-    const { playlist, artists } = parsedArgs.data;
-
-    const playlistData = {
-      playlist,
-      artists,
-    };
-
-    try {
       const playlistCreated = await client.createPlaylist(
-        token.accessToken,
+        accessToken,
         playlistData
       );
 
@@ -81,12 +62,8 @@ export function createCreatePlaylistHandler({
         playlistCreated,
         message: 'Playlists successfully created',
       });
-    } catch {
-      response
-        .status(500)
-        .json({ message: 'Unexpected error, cannot create playlist' });
-    }
-  };
+    },
+  });
 }
 
 const serverHost: string = process.env.SERVER_HOST || 'http://localhost';

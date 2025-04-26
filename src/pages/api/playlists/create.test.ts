@@ -177,7 +177,7 @@ describe('createCreatePlaylistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error, cannot create playlist',
+      message: 'Unexpected error occurred',
     });
   });
 
