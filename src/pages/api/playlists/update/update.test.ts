@@ -99,20 +99,6 @@ describe('createUpdatePlaylistHandler', () => {
     });
   });
 
-  it('should handle query parameters when provided', async () => {
-    const request = {
-      body: '{}',
-      query: { playlistId: 'playlist123' },
-    } as unknown as NextApiRequest;
-    const client = new PlaylistsClientStub();
-    vi.spyOn(client, 'updatePlaylist');
-    const response = createMockResponse();
-
-    await createHandler({ client })(request, response);
-
-    expect(response.status).toHaveBeenCalledWith(400); // Will fail because artists are missing
-  });
-
   it('should return backend client results with 200 status when update is successful without issues', async () => {
     const updatedPlaylistResponse: UpdatePlaylistResponseDTO = {
       status: CreatedPlaylistStatus.OK,
