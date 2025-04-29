@@ -143,7 +143,7 @@ describe('searchArtistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error, cannot retrieve artists',
+      message: 'Unexpected error occurred',
     });
   });
 
