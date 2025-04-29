@@ -7,7 +7,7 @@ import {
   CreatedPlaylistStatus,
   UpdatePlaylistResponseDTO,
 } from '@/entities/playlists';
-import { createBaseHandler } from '@/lib/handlers/createBaseHandler';
+import { createBaseHandler } from '@/lib/handlers/base';
 
 export type UpdatePlaylistHandlerParams = {
   client: PlaylistsClient;
