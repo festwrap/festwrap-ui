@@ -158,7 +158,7 @@ describe('createSearchPlaylistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error, cannot retrieve playlists',
+      message: 'Unexpected error occurred',
     });
   });
 
