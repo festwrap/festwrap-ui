@@ -1,6 +1,10 @@
 import { ResponseData } from '@/pages/api/playlists/search';
 import { IFetchService } from './fetchService';
-import { CreateNewPlaylistDTO } from '@/entities/playlists';
+import {
+  CreateNewPlaylistDTO,
+  UpdatePlaylistDTO,
+  UpdatePlaylistResponseDTO,
+} from '@/entities/playlists';
 import { CreatePlaylistResponseData } from '@/pages/api/playlists/create';
 
 export interface IPlaylistsService {
@@ -8,6 +12,7 @@ export interface IPlaylistsService {
   createNewPlaylist(
     _data: CreateNewPlaylistDTO
   ): Promise<CreatePlaylistResponseData>;
+  updatePlaylist(_data: UpdatePlaylistDTO): Promise<UpdatePlaylistResponseDTO>;
 }
 
 export class PlaylistsService implements IPlaylistsService {
@@ -29,6 +34,18 @@ export class PlaylistsService implements IPlaylistsService {
     return this.fetchService.fetchData<CreatePlaylistResponseData>(url, {
       method: 'POST',
       body: JSON.stringify(data),
+    });
+  }
+
+  async updatePlaylist(
+    data: UpdatePlaylistDTO
+  ): Promise<UpdatePlaylistResponseDTO> {
+    const url = `/api/playlists/update/${data.playlistId}`;
+    return this.fetchService.fetchData<UpdatePlaylistResponseDTO>(url, {
+      method: 'PUT',
+      body: JSON.stringify({
+        artists: data.artists,
+      }),
     });
   }
 }
