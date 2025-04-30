@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreateNewPlaylistDTO } from '@/entities/playlists';
+import { CreateNewPlaylistDTO, UpdatePlaylistDTO } from '@/entities/playlists';
 import { useServices } from '@/contexts/ServiceContext';
 import {
   FormSchemaType,
@@ -50,9 +50,18 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           data: playlistCreated?.id,
         };
       } else if (playlistCreationMode === PlaylistCreationMode.Existing) {
+        const existingPlaylistData: UpdatePlaylistDTO = {
+          playlistId: playlistData.playlistSelected?.id || '',
+          artists: playlistData.artists.map((artist) => ({
+            name: artist,
+          })),
+        };
+
+        await playlistsService.updatePlaylist(existingPlaylistData);
+
         return {
           success: true,
-          data: 'mock-playlist-id',
+          data: playlistData.playlistSelected?.id,
         };
       } else {
         return {

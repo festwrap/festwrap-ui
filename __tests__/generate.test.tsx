@@ -105,6 +105,7 @@ const findAndSelectPlaylist = async (playlistName: string) => {
 const playlistsService = {
   searchPlaylists: vi.fn(),
   createNewPlaylist: vi.fn(),
+  updatePlaylist: vi.fn(),
 };
 
 const artistsService = {
@@ -314,6 +315,78 @@ describe('GeneratePlaylistPage', () => {
         description: 'My new playlist description',
         isPublic: false,
       },
+      artists: [
+        {
+          name: 'Holding Absence',
+        },
+      ],
+    });
+  });
+
+  it('should update the existing playlist and display the success message', async () => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: [
+        {
+          name: 'Holding Absence',
+          imageUri: null,
+        },
+      ],
+    });
+
+    playlistsService.searchPlaylists.mockResolvedValue({
+      playlists: [
+        {
+          id: '123',
+          name: 'My playlist',
+          description: 'My playlist description',
+          isPublic: true,
+        },
+      ],
+    });
+    playlistsService.updatePlaylist.mockResolvedValue({
+      playlistUpdated: {
+        id: '123',
+      },
+    });
+
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+    const useExistingPlaylistRadio = screen.getByRole('radio', {
+      name: /steps.step1.form.useExistingPlaylist.title/i,
+    });
+    await userEvent.click(useExistingPlaylistRadio);
+
+    const playlistName = 'My playlist';
+    await findAndSelectPlaylist(playlistName);
+
+    await clickToNextButton();
+
+    const secondStepContentTitle = await waitFor(() => {
+      const secondStepContent = screen.getByRole('tabpanel');
+      return within(secondStepContent).getByText(/steps.step2.title/i);
+    });
+    expect(secondStepContentTitle).toBeInTheDocument();
+
+    await findAndSelectArtist('Holding Absence');
+
+    const generateButton = screen.getByRole('button', {
+      name: /steps.navigation.generate/i,
+    });
+    await userEvent.click(generateButton);
+
+    const thirdStepContentTitle = await waitFor(() => {
+      const thirdStepContent = screen.getByRole('tabpanel');
+      return within(thirdStepContent).getByText(/steps.step3.title/i);
+    });
+    expect(thirdStepContentTitle).toBeInTheDocument();
+
+    const successfullyMessage = screen.getByText(
+      /steps.step3.playlisyGeneratedSuccessfully/i
+    );
+    expect(successfullyMessage).toBeInTheDocument();
+
+    expect(playlistsService.updatePlaylist).toHaveBeenCalledWith({
+      playlistId: '123',
       artists: [
         {
           name: 'Holding Absence',
