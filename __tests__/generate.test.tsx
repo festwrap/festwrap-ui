@@ -219,7 +219,9 @@ describe('GeneratePlaylistPage', () => {
       await actions.completeSecondStep(artistsToSelect);
 
       expect(
-        screen.getByText(/steps.step3.playlistGeneratedSuccessfully/i)
+        screen.getByRole('heading', {
+          name: /steps.step3.playlistGeneratedSuccessfully/i,
+        })
       ).toBeInTheDocument();
       const embeddedPlaylist = screen.getByTitle('Spotify embedded playlist');
       expect(embeddedPlaylist).toHaveAttribute(

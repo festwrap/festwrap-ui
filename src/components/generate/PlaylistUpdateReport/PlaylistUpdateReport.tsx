@@ -20,9 +20,9 @@ const PlaylistUpdateReport = ({
       </div>
       <div className="flex flex-col space-y-6 items-center">
         <div className="flex flex-col space-y-2">
-          <div className="text-dark-blue font-medium">
-            {t('steps.step3.playlistGeneratedSuccessfully')}
-          </div>
+          <Heading as="h3" size="lg" color="darkBlue" weight="semibold">
+            {t('steps.step3.playlistGeneratedSuccessfully')} 🎉
+          </Heading>
         </div>
         <div className="flex w-full md:w-3/4 space-x-2 mt-6">
           {playlistId && <PlaylistOverview playlistId={playlistId} />}
