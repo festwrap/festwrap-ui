@@ -49,7 +49,7 @@ const staticTranslations: GenerateProps = {
 
 const TEST_DATA = {
   playlists: {
-    default: {
+    existing: {
       id: 'existing-playlist-1',
       name: 'My Existing Playlist',
       description: 'Existing playlist description',
@@ -61,7 +61,7 @@ const TEST_DATA = {
     },
   },
   artists: {
-    default: { name: 'Holding Absence', imageUri: null },
+    single: { name: 'Holding Absence', imageUri: null },
     multiple: [
       { name: 'Holding Absence', imageUri: null },
       { name: 'Loathe', imageUri: null },
@@ -87,7 +87,7 @@ type ServiceMocks = {
 const createServiceMocks = (): ServiceMocks => ({
   playlistsService: {
     searchPlaylists: vi.fn().mockResolvedValue({
-      playlists: [TEST_DATA.playlists.default],
+      playlists: [TEST_DATA.playlists.existing],
     }),
     createNewPlaylist: vi.fn().mockResolvedValue({
       playlistCreated: { id: TEST_DATA.createdPlaylistId },
@@ -95,7 +95,7 @@ const createServiceMocks = (): ServiceMocks => ({
   },
   artistsService: {
     searchArtists: vi.fn().mockResolvedValue({
-      artists: [TEST_DATA.artists.default],
+      artists: [TEST_DATA.artists.single],
     }),
   },
 });
@@ -167,7 +167,7 @@ const actions = {
   },
 
   async completeFirstStepExistingPlaylist(
-    playlistName = TEST_DATA.playlists.default.name
+    playlistName = TEST_DATA.playlists.existing.name
   ) {
     await actions.selectRadio(/steps.step1.form.useExistingPlaylist.title/i);
     await actions.selectPlaylist(playlistName);
@@ -175,7 +175,7 @@ const actions = {
     return actions.waitForStep(/steps.step2.title/i);
   },
 
-  async completeSecondStep(artistNames = [TEST_DATA.artists.default.name]) {
+  async completeSecondStep(artistNames = [TEST_DATA.artists.single.name]) {
     for (const name of artistNames) {
       await actions.selectArtist(name);
     }
@@ -240,7 +240,7 @@ describe('GeneratePlaylistPage', () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
       const { name, description } = TEST_DATA.playlists.new;
-      const artistsToSelect = [TEST_DATA.artists.default.name];
+      const artistsToSelect = [TEST_DATA.artists.single.name];
 
       await actions.completeFirstStepNewPlaylist(name, description);
       await actions.completeSecondStep(artistsToSelect);
@@ -308,7 +308,7 @@ describe('GeneratePlaylistPage', () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
       await actions.completeFirstStepNewPlaylist();
-      await actions.selectArtist(TEST_DATA.artists.default.name);
+      await actions.selectArtist(TEST_DATA.artists.single.name);
       await actions.click(/steps.navigation.generate/i);
 
       await waitFor(() => {
@@ -328,7 +328,7 @@ describe('GeneratePlaylistPage', () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
       await actions.completeFirstStepExistingPlaylist();
-      await actions.completeSecondStep([TEST_DATA.artists.default.name]);
+      await actions.completeSecondStep([TEST_DATA.artists.single.name]);
 
       expect(
         screen.getByText(/steps.step3.playlisyGeneratedSuccessfully/i)
