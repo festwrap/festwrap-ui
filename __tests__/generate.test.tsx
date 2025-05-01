@@ -99,14 +99,12 @@ const actions = {
   async click(selector: RegExp | string) {
     const element = screen.getByRole('button', { name: selector });
     await user.click(element);
-    return element;
   },
 
   async type(labelText: RegExp | string, value: string) {
     const input = screen.getByLabelText(labelText);
     await user.clear(input);
     await user.type(input, value);
-    return input;
   },
 
   async selectRadio(name: RegExp | string) {
@@ -114,7 +112,6 @@ const actions = {
     if (!radio.hasAttribute('data-state="checked"')) {
       await user.click(radio);
     }
-    return radio;
   },
 
   async completeFirstStepNewPlaylist(
@@ -135,7 +132,7 @@ const actions = {
     }
 
     await actions.click(/steps.navigation.next/i);
-    return actions.waitForStep(/steps.step2.title/i);
+    await actions.waitForStep(/steps.step2.title/i);
   },
 
   async completeFirstStepExistingPlaylist(
@@ -144,7 +141,7 @@ const actions = {
     await actions.selectRadio(/steps.step1.form.useExistingPlaylist.title/i);
     await actions.selectPlaylist(playlistName);
     await actions.click(/steps.navigation.next/i);
-    return actions.waitForStep(/steps.step2.title/i);
+    await actions.waitForStep(/steps.step2.title/i);
   },
 
   async completeSecondStep(artistNames = [TEST_DATA.artists.single.name]) {
@@ -152,7 +149,7 @@ const actions = {
       await actions.selectArtist(name);
     }
     await actions.click(/steps.navigation.generate/i);
-    return actions.waitForStep(/steps.step3.title/i);
+    await actions.waitForStep(/steps.step3.title/i);
   },
 
   async selectArtist(artistName: string) {
