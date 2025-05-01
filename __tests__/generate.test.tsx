@@ -321,10 +321,6 @@ describe('GeneratePlaylistPage', () => {
 
   describe('Existing Playlist Flow', () => {
     it('should successfully update an existing playlist', async () => {
-      mockServices.playlistsService.createNewPlaylist.mockResolvedValue({
-        playlistCreated: { id: 'mock-playlist-id' },
-      });
-
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
       await actions.completeFirstStepExistingPlaylist();
