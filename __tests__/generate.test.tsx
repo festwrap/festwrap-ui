@@ -219,7 +219,7 @@ describe('GeneratePlaylistPage', () => {
       await actions.completeSecondStep(artistsToSelect);
 
       expect(
-        screen.getByText(/steps.step3.playlisyGeneratedSuccessfully/i)
+        screen.getByText(/steps.step3.playlistGeneratedSuccessfully/i)
       ).toBeInTheDocument();
       const embeddedPlaylist = screen.getByTitle('Spotify embedded playlist');
       expect(embeddedPlaylist).toHaveAttribute(
@@ -300,7 +300,7 @@ describe('GeneratePlaylistPage', () => {
       await actions.completeSecondStep([TEST_DATA.artists.single.name]);
 
       expect(
-        screen.getByText(/steps.step3.playlisyGeneratedSuccessfully/i)
+        screen.getByText(/steps.step3.playlistGeneratedSuccessfully/i)
       ).toBeInTheDocument();
       const embeddedPlaylist = screen.getByTitle('Spotify embedded playlist');
       expect(embeddedPlaylist).toHaveAttribute(

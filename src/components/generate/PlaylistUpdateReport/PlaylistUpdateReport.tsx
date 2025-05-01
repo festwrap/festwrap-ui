@@ -21,7 +21,7 @@ const PlaylistUpdateReport = ({
       <div className="flex flex-col space-y-6 items-center">
         <div className="flex flex-col space-y-2">
           <div className="text-dark-blue font-medium">
-            {t('steps.step3.playlisyGeneratedSuccessfully')}
+            {t('steps.step3.playlistGeneratedSuccessfully')}
           </div>
         </div>
         <div className="flex w-full md:w-3/4 space-x-2 mt-6">
