@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
-import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, test, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Footer from './Footer';
 import setLanguage from 'next-translate/setLanguage';
 
@@ -17,11 +17,6 @@ vi.mock('next-translate/setLanguage', () => ({
 const mockT: any = (key: string) => key;
 
 describe('Footer', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    cleanup();
-  });
-
   test('should render the footer with the correct links', () => {
     vi.mocked(useTranslation).mockReturnValue({
       t: mockT,

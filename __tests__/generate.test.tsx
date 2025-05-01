@@ -1,20 +1,5 @@
-import {
-  describe,
-  expect,
-  vi,
-  it,
-  beforeAll,
-  afterAll,
-  afterEach,
-  beforeEach,
-} from 'vitest';
-import {
-  cleanup,
-  render,
-  screen,
-  waitFor,
-  within,
-} from '@testing-library/react';
+import { describe, expect, vi, it, beforeAll, beforeEach } from 'vitest';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 import { ReactNode } from 'react';
@@ -211,15 +196,6 @@ const actions = {
 describe('GeneratePlaylistPage', () => {
   beforeAll(() => {
     user = userEvent.setup({ delay: null });
-  });
-
-  afterAll(() => {
-    vi.restoreAllMocks();
-  });
-
-  afterEach(() => {
-    cleanup();
-    vi.clearAllMocks();
   });
 
   beforeEach(() => {
