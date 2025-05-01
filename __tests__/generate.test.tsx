@@ -70,19 +70,19 @@ const TEST_DATA = {
   createdPlaylistId: '123',
 };
 
-interface PlaylistsService {
+type PlaylistsService = {
   searchPlaylists: ReturnType<typeof vi.fn>;
   createNewPlaylist: ReturnType<typeof vi.fn>;
-}
+};
 
-interface ArtistsService {
+type ArtistsService = {
   searchArtists: ReturnType<typeof vi.fn>;
-}
+};
 
-interface ServiceMocks {
+type ServiceMocks = {
   playlistsService: PlaylistsService;
   artistsService: ArtistsService;
-}
+};
 
 const createServiceMocks = (): ServiceMocks => ({
   playlistsService: {
