@@ -199,7 +199,7 @@ describe('GeneratePlaylistPage', () => {
     mockServices = createServiceMocks();
   });
 
-  it('should navigate between steps correctly', async () => {
+  it('should navigate to the first step clicking on the previous button', async () => {
     renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     await actions.completeFirstStepNewPlaylist();
