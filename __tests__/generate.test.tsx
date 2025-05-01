@@ -103,19 +103,6 @@ const createServiceMocks = (): ServiceMocks => ({
 let mockServices: ServiceMocks;
 let user: ReturnType<typeof userEvent.setup>;
 
-beforeAll(() => {
-  user = userEvent.setup({ delay: null });
-});
-
-afterAll(() => {
-  vi.restoreAllMocks();
-});
-
-afterEach(() => {
-  cleanup();
-  vi.clearAllMocks();
-});
-
 const renderWithProviders = (
   ui: ReactNode,
   services: ServiceMocks = mockServices
@@ -222,6 +209,19 @@ const actions = {
 };
 
 describe('GeneratePlaylistPage', () => {
+  beforeAll(() => {
+    user = userEvent.setup({ delay: null });
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
+
   beforeEach(() => {
     mockServices = createServiceMocks();
   });
