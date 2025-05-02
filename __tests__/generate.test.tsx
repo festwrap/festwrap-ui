@@ -5,6 +5,8 @@ import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 import { ReactNode } from 'react';
 import { ServiceProvider } from '@/contexts/ServiceContext';
 import { toast } from 'sonner';
+import { IPlaylistsService } from '@/services/playlistsService';
+import { IArtistsService } from '@/services/artistsService';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -46,27 +48,18 @@ const TEST_DATA = {
     },
   },
   artists: {
-    single: { name: 'Holding Absence', imageUri: null },
+    single: { name: 'Holding Absence', imageUri: undefined },
     multiple: [
-      { name: 'Holding Absence', imageUri: null },
-      { name: 'Loathe', imageUri: null },
+      { name: 'Holding Absence', imageUri: undefined },
+      { name: 'Loathe', imageUri: undefined },
     ],
   },
   createdPlaylistId: '123',
 };
 
-type PlaylistsService = {
-  searchPlaylists: ReturnType<typeof vi.fn>;
-  createNewPlaylist: ReturnType<typeof vi.fn>;
-};
-
-type ArtistsService = {
-  searchArtists: ReturnType<typeof vi.fn>;
-};
-
 type ServiceMocks = {
-  playlistsService: PlaylistsService;
-  artistsService: ArtistsService;
+  playlistsService: IPlaylistsService;
+  artistsService: IArtistsService;
 };
 
 const createServiceMocks = (): ServiceMocks => ({
@@ -242,8 +235,9 @@ describe('GeneratePlaylistPage', () => {
     });
 
     it('should handle multiple artist selection and removal', async () => {
-      mockServices.artistsService.searchArtists.mockResolvedValue({
+      vi.mocked(mockServices.artistsService.searchArtists).mockResolvedValue({
         artists: TEST_DATA.artists.multiple,
+        message: 'Success',
       });
 
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
@@ -276,9 +270,9 @@ describe('GeneratePlaylistPage', () => {
     });
 
     it('should display error toast when API fails', async () => {
-      mockServices.playlistsService.createNewPlaylist.mockRejectedValue(
-        new Error('API Error')
-      );
+      vi.mocked(
+        mockServices.playlistsService.createNewPlaylist
+      ).mockRejectedValue(new Error('API Error'));
 
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
