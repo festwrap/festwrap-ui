@@ -132,20 +132,20 @@ const actions = {
     playlistName = TEST_DATA.playlists.existing.name
   ) {
     await actions.selectRadio(/steps.step1.form.useExistingPlaylist.title/i);
-    await actions.selectPlaylist(playlistName);
+    await actions.selectPlaylistAndAssetSelected(playlistName);
     await actions.click(/steps.navigation.next/i);
     await actions.waitForStep(/steps.step2.title/i);
   },
 
   async completeSecondStep(artistNames = [TEST_DATA.artists.single.name]) {
     for (const name of artistNames) {
-      await actions.selectArtist(name);
+      await actions.selectArtistAndAssertSelected(name);
     }
     await actions.click(/steps.navigation.generate/i);
     await actions.waitForStep(/steps.step3.title/i);
   },
 
-  async selectArtist(artistName: string) {
+  async selectArtistAndAssertSelected(artistName: string) {
     const searchInput = screen.getByPlaceholderText(
       'steps.step2.searchPlaceholder'
     );
@@ -159,7 +159,7 @@ const actions = {
     });
   },
 
-  async selectPlaylist(playlistName: string) {
+  async selectPlaylistAndAssetSelected(playlistName: string) {
     const combobox = screen.getByRole('combobox');
     await user.click(combobox);
 
@@ -244,8 +244,8 @@ describe('GeneratePlaylistPage', () => {
       await actions.completeFirstStepNewPlaylist();
 
       const [artist1, artist2] = TEST_DATA.artists.multiple.map((a) => a.name);
-      await actions.selectArtist(artist1);
-      await actions.selectArtist(artist2);
+      await actions.selectArtistAndAssertSelected(artist1);
+      await actions.selectArtistAndAssertSelected(artist2);
 
       expect(screen.getByText(artist1)).toBeInTheDocument();
       expect(screen.getByText(artist2)).toBeInTheDocument();
@@ -277,7 +277,9 @@ describe('GeneratePlaylistPage', () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
       await actions.completeFirstStepNewPlaylist();
-      await actions.selectArtist(TEST_DATA.artists.single.name);
+      await actions.selectArtistAndAssertSelected(
+        TEST_DATA.artists.single.name
+      );
       await actions.click(/steps.navigation.generate/i);
 
       await waitFor(() => {
