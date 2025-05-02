@@ -4,6 +4,7 @@ import axios from 'axios';
 export enum Method {
   Get = 'GET',
   Post = 'POST',
+  Put = 'PUT',
 }
 
 export interface HttpRequest {

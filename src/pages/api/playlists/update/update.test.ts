@@ -1,21 +1,21 @@
 import { describe, it, vi, expect, beforeEach } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
-  createCreatePlaylistHandler,
-  CreatePlaylistHandlerParams,
-} from './create';
+  createUpdatePlaylistHandler,
+  UpdatePlaylistHandlerParams,
+} from './[playlistId]';
 import { PlaylistsClientStub } from '@/lib/clients/playlists';
 import { getToken } from 'next-auth/jwt';
 import {
   CreatedPlaylistStatus,
-  CreateNewPlaylistResponseDTO,
+  UpdatePlaylistResponseDTO,
 } from '@/entities/playlists';
 
 vi.mock('next-auth/jwt', () => ({
   getToken: vi.fn(),
 }));
 
-describe('createCreatePlaylistHandler', () => {
+describe('createUpdatePlaylistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(getToken).mockResolvedValue({ accessToken: 'mocked-token' });
@@ -23,15 +23,14 @@ describe('createCreatePlaylistHandler', () => {
 
   function createMockRequest(
     body: any = {
-      playlist: {
-        name: 'Chill Vibes',
-        description: 'Relaxing music',
-        isPublic: false,
-      },
+      playlistId: 'playlist123',
       artists: [{ name: 'Artist1' }],
     }
   ): NextApiRequest {
-    return { body } as unknown as NextApiRequest;
+    return {
+      body,
+      query: {},
+    } as unknown as NextApiRequest;
   }
 
   function createMockResponse(): NextApiResponse {
@@ -42,11 +41,11 @@ describe('createCreatePlaylistHandler', () => {
   }
 
   function createHandler(
-    { client }: CreatePlaylistHandlerParams = {
+    { client }: UpdatePlaylistHandlerParams = {
       client: new PlaylistsClientStub(),
     }
   ): (_request: NextApiRequest, _response: NextApiResponse) => Promise<void> {
-    return createCreatePlaylistHandler({ client });
+    return createUpdatePlaylistHandler({ client });
   }
 
   it('should return 400 if request body is invalid', async () => {
@@ -59,13 +58,9 @@ describe('createCreatePlaylistHandler', () => {
     expect(response.json).toHaveBeenCalled();
   });
 
-  it('should return 400 if playlist name is missing', async () => {
+  it('should return 400 if playlistId is missing', async () => {
     const invalidRequest = createMockRequest({
-      playlist: {
-        description: 'Missing name',
-        isPublic: false,
-        artists: [{ name: 'Artist1' }],
-      },
+      artists: [{ name: 'Artist1' }],
     });
     const response = createMockResponse();
 
@@ -77,11 +72,7 @@ describe('createCreatePlaylistHandler', () => {
 
   it('should return 400 if artists array is missing', async () => {
     const invalidRequest = createMockRequest({
-      playlist: {
-        name: 'Test Playlist',
-        description: 'Missing artists',
-        isPublic: false,
-      },
+      playlistId: 'playlist123',
     });
     const response = createMockResponse();
 
@@ -91,42 +82,30 @@ describe('createCreatePlaylistHandler', () => {
     expect(response.json).toHaveBeenCalled();
   });
 
-  it('should create playlist with the provided data', async () => {
+  it('should update playlist with the provided data', async () => {
     const playlistData = {
-      playlist: {
-        name: 'New Playlist',
-        description: 'A fresh playlist',
-        isPublic: true,
-      },
+      playlistId: 'playlist123',
       artists: [{ name: 'Artist1' }, { name: 'Artist2' }],
     };
-    const request = createMockRequest({
-      playlist: playlistData.playlist,
-      artists: playlistData.artists,
-    });
+    const request = createMockRequest(playlistData);
     const client = new PlaylistsClientStub();
-    vi.spyOn(client, 'createPlaylist');
+    vi.spyOn(client, 'updatePlaylist');
 
     await createHandler({ client })(request, createMockResponse());
 
-    expect(client.createPlaylist).toHaveBeenCalledWith('mocked-token', {
-      playlist: {
-        name: playlistData.playlist.name,
-        description: playlistData.playlist.description,
-        isPublic: playlistData.playlist.isPublic,
-      },
+    expect(client.updatePlaylist).toHaveBeenCalledWith('mocked-token', {
+      playlistId: playlistData.playlistId,
       artists: playlistData.artists,
     });
   });
 
-  it('should return backend client results with 201 status when creation is successfully without issues', async () => {
-    const createdPlaylistResponse: CreateNewPlaylistResponseDTO = {
-      id: '123',
+  it('should return backend client results with 200 status when update is successful without issues', async () => {
+    const updatedPlaylistResponse: UpdatePlaylistResponseDTO = {
       status: CreatedPlaylistStatus.OK,
     };
     const client = new PlaylistsClientStub();
-    vi.spyOn(client, 'createPlaylist').mockResolvedValue(
-      createdPlaylistResponse
+    vi.spyOn(client, 'updatePlaylist').mockResolvedValue(
+      updatedPlaylistResponse
     );
     const response = createMockResponse();
 
@@ -134,22 +113,21 @@ describe('createCreatePlaylistHandler', () => {
     await handler(createMockRequest(), response);
 
     const expected = {
-      playlistCreated: createdPlaylistResponse,
-      message: 'Playlists successfully created',
+      playlistUpdated: updatedPlaylistResponse,
+      message: 'Playlists successfully updated',
     };
 
-    expect(response.status).toBeCalledWith(201);
+    expect(response.status).toBeCalledWith(200);
     expect(response.json).toBeCalledWith(expected);
   });
 
-  it('should return backend client results with 207 status when creation is successfully with issues', async () => {
-    const createdPlaylistResponse: CreateNewPlaylistResponseDTO = {
-      id: '123',
+  it('should return backend client results with 207 status when update is successful with issues', async () => {
+    const updatedPlaylistResponse: UpdatePlaylistResponseDTO = {
       status: CreatedPlaylistStatus.MISSING_ARTISTS,
     };
     const client = new PlaylistsClientStub();
-    vi.spyOn(client, 'createPlaylist').mockResolvedValue(
-      createdPlaylistResponse
+    vi.spyOn(client, 'updatePlaylist').mockResolvedValue(
+      updatedPlaylistResponse
     );
     const response = createMockResponse();
 
@@ -157,17 +135,17 @@ describe('createCreatePlaylistHandler', () => {
     await handler(createMockRequest(), response);
 
     const expected = {
-      playlistCreated: createdPlaylistResponse,
-      message: 'Playlist has been created but some artists could not be added',
+      playlistUpdated: updatedPlaylistResponse,
+      message: 'Playlist has been updated but some artists could not be added',
     };
 
     expect(response.status).toBeCalledWith(207);
     expect(response.json).toBeCalledWith(expected);
   });
 
-  it('should return an error if creation fails', async () => {
+  it('should return an error if update fails', async () => {
     const client = new PlaylistsClientStub();
-    vi.spyOn(client, 'createPlaylist').mockImplementation(() => {
+    vi.spyOn(client, 'updatePlaylist').mockImplementation(() => {
       throw new Error('test error');
     });
     const response = createMockResponse();

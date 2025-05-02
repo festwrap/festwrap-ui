@@ -5,25 +5,21 @@ import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
 import {
   CreatedPlaylistStatus,
-  CreateNewPlaylistResponseDTO,
+  UpdatePlaylistResponseDTO,
 } from '@/entities/playlists';
 import { createBaseHandler } from '@/lib/handlers/base';
 
-export type CreatePlaylistHandlerParams = {
+export type UpdatePlaylistHandlerParams = {
   client: PlaylistsClient;
 };
 
-export type CreatePlaylistResponseData = {
+export type UpdatePlaylistResponseData = {
   message: string;
-  playlistCreated?: CreateNewPlaylistResponseDTO;
+  playlistUpdated?: UpdatePlaylistResponseDTO;
 };
 
-const createNewPlaylistSchema = z.object({
-  playlist: z.object({
-    name: z.string(),
-    description: z.string(),
-    isPublic: z.boolean(),
-  }),
+const updatePlaylistSchema = z.object({
+  playlistId: z.string(),
   artists: z.array(
     z.object({
       name: z.string(),
@@ -31,36 +27,36 @@ const createNewPlaylistSchema = z.object({
   ),
 });
 
-export function createCreatePlaylistHandler({
+export function createUpdatePlaylistHandler({
   client,
-}: CreatePlaylistHandlerParams) {
+}: UpdatePlaylistHandlerParams) {
   return createBaseHandler<
-    typeof createNewPlaylistSchema._type,
-    CreatePlaylistResponseData
+    typeof updatePlaylistSchema._type,
+    UpdatePlaylistResponseData
   >({
-    validationSchema: createNewPlaylistSchema,
-    extractRequestData: (req) => req.body,
+    validationSchema: updatePlaylistSchema,
+    extractRequestData: (req) => ({ ...req.body, ...req.query }),
     handleRequest: async (requestData, accessToken, response) => {
-      const { playlist, artists } = requestData;
-      const playlistData = { playlist, artists };
+      const { playlistId, artists } = requestData;
+      const playlistData = { playlistId, artists };
 
-      const playlistCreated = await client.createPlaylist(
+      const playlistUpdated = await client.updatePlaylist(
         accessToken,
         playlistData
       );
 
-      if (playlistCreated.status === CreatedPlaylistStatus.MISSING_ARTISTS) {
+      if (playlistUpdated.status === CreatedPlaylistStatus.MISSING_ARTISTS) {
         response.status(207).json({
-          playlistCreated,
+          playlistUpdated,
           message:
-            'Playlist has been created but some artists could not be added',
+            'Playlist has been updated but some artists could not be added',
         });
         return;
       }
 
-      response.status(201).json({
-        playlistCreated,
-        message: 'Playlists successfully created',
+      response.status(200).json({
+        playlistUpdated,
+        message: 'Playlists successfully updated',
       });
     },
   });
@@ -75,8 +71,8 @@ const client: PlaylistsClient = new PlaylistsHTTPClient(
   httpClient,
   httpAuthHeaderBuilder
 );
-const createPlaylistHandler: (
+const updatePlaylistHandler: (
   _request: NextApiRequest,
   _response: NextApiResponse
-) => void = createCreatePlaylistHandler({ client });
-export default createPlaylistHandler;
+) => void = createUpdatePlaylistHandler({ client });
+export default updatePlaylistHandler;

@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist, ArtistDTO } from '@/entities/artists';
 import { ArtistsClient, ArtistsHTTPClient } from '@/lib/clients/artists';
-import { getToken } from 'next-auth/jwt';
 import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
+import { createBaseHandler } from '@/lib/handlers/base';
 
 export type SearchArtistHandlerParams = {
   client: ArtistsClient;
@@ -17,17 +17,18 @@ export type ResponseData = {
   artists?: Array<ArtistDTO>;
 };
 
-function searchQuerySchema(defaultLimit: number, maxLimit: number) {
+function createSearchQuerySchema(defaultLimit: number, maxLimit: number) {
   const limitMessage = `"limit" should be a number in interval [1, ${maxLimit}]`;
   return z.object({
     name: z.string({
-      message: '"name" should be provided as a string',
+      required_error: '"name" should be provided as a string',
+      invalid_type_error: '"name" should be provided as a string',
     }),
     limit: z.coerce
       .number({
-        message: limitMessage,
+        invalid_type_error: limitMessage,
       })
-      .gt(1, {
+      .min(1, {
         message: limitMessage,
       })
       .lte(maxLimit, {
@@ -42,32 +43,16 @@ export function createSearchArtistHandler({
   defaultLimit,
   maxLimit,
 }: SearchArtistHandlerParams) {
-  return async function handler(
-    request: NextApiRequest,
-    response: NextApiResponse<ResponseData>
-  ): Promise<void> {
-    const parsedArgs = searchQuerySchema(defaultLimit, maxLimit).safeParse(
-      request.query
-    );
-    if (!parsedArgs.success) {
-      response
-        .status(400)
-        .json({ message: parsedArgs.error.errors[0].message });
-      return;
-    }
+  const searchQuerySchema = createSearchQuerySchema(defaultLimit, maxLimit);
 
-    const token = await getToken({ req: request });
+  return createBaseHandler<typeof searchQuerySchema._type, ResponseData>({
+    validationSchema: searchQuerySchema,
+    extractRequestData: (req) => req.query,
+    handleRequest: async (requestData, accessToken, response) => {
+      const { name, limit } = requestData;
 
-    if (!token) {
-      response.status(401).json({ message: 'Unauthorized' });
-      return;
-    }
-
-    const { name, limit } = parsedArgs.data;
-
-    try {
       const searchResults = await client.searchArtists(
-        token.accessToken,
+        accessToken,
         name,
         limit
       );
@@ -78,12 +63,8 @@ export function createSearchArtistHandler({
         })),
         message: 'Artists successfully retrieved',
       });
-    } catch {
-      response
-        .status(500)
-        .json({ message: 'Unexpected error, cannot retrieve artists' });
-    }
-  };
+    },
+  });
 }
 
 const defaultLimit: number = parseInt(
