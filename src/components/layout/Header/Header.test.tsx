@@ -10,14 +10,6 @@ vi.mock('next-auth/react', () => {
   };
 });
 
-const writeTextMock = vi.fn();
-
-Object.assign(navigator, {
-  clipboard: {
-    writeText: writeTextMock,
-  },
-});
-
 vi.mock('@components/ui/DropdownMenu', () => ({
   DropdownMenu: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
@@ -108,33 +100,5 @@ describe('Header', () => {
     expect(avatarButton).toBeInTheDocument();
 
     expect(screen.getByText('nav.logout')).toBeInTheDocument();
-    expect(screen.getByText('nav.copyAccessToken')).toBeInTheDocument();
-  });
-
-  test('should copy access token to clipboard', () => {
-    const mockSession = {
-      expires: TOMORRROW_DATE,
-      user: {
-        name: 'Peter Griffin',
-        email: 'user@gmail.com',
-        accessToken: 'token',
-      },
-    };
-
-    vi.mocked(useSession).mockReturnValue({
-      update: vi.fn(),
-      data: mockSession,
-      status: 'authenticated',
-    });
-
-    render(<Header />);
-
-    const copyButton = screen.getByRole('button', {
-      name: /nav.copyAccessToken/i,
-    });
-
-    copyButton.click();
-
-    expect(writeTextMock).toHaveBeenCalledWith(mockSession.user.accessToken);
   });
 });
