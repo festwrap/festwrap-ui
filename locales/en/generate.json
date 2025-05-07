@@ -10,6 +10,10 @@
         "missingArtists": "Playlist has been created but some artists could not be added",
         "unexpectedError": "An unexpected error occurred while creating the playlist"
       },
+      "existingPlaylist": {
+        "missingArtists": "Some artists could not be added to the playlist",
+        "unexpectedError": "An unexpected error occurred while modifying the playlist"
+      },
       "name": {
         "required": "The playlist name is required"
       },
@@ -18,7 +22,8 @@
       },
       "selectedArtists": {
         "required": "Select at least one artist"
-      }
+      },
+      "unexpectedError": "An unexpected error occurred"
     },
     "navigation": {
       "generate": "Generate",
