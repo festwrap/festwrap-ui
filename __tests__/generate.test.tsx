@@ -178,7 +178,11 @@ const actions = {
   async waitForStep(stepTitleRegex: RegExp) {
     return waitFor(() => {
       const stepContent = screen.getByRole('tabpanel');
-      expect(within(stepContent).getByText(stepTitleRegex)).toBeInTheDocument();
+      const stepTitle = within(stepContent).getByRole('heading', {
+        name: stepTitleRegex,
+      });
+      expect(stepTitle).toBeInTheDocument();
+      return stepTitle;
     });
   },
 };
@@ -198,7 +202,9 @@ describe('GeneratePlaylistPage', () => {
     await actions.completeFirstStepNewPlaylist();
 
     await actions.click(/steps.navigation.previous/i);
-    await actions.waitForStep(/steps.step1.title/i);
+
+    const firstStepTitle = await actions.waitForStep(/steps.step1.title/i);
+    expect(firstStepTitle).toBeInTheDocument();
   });
 
   describe('New Playlist Flow', () => {
