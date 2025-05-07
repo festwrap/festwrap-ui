@@ -9,6 +9,7 @@ import {
 type SubmitPlaylistResponse = {
   success: boolean;
   data?: string | undefined;
+  errorKey?: string;
 };
 
 interface UsePlaylistSubmissionResult {
@@ -24,11 +25,12 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
     values: FormSchemaType
   ): Promise<SubmitPlaylistResponse> => {
     const { playlistCreationMode, ...playlistData } = values;
+    let response: SubmitPlaylistResponse;
 
     setIsLoading(true);
 
-    try {
-      if (playlistCreationMode === PlaylistCreationMode.New) {
+    if (playlistCreationMode === PlaylistCreationMode.New) {
+      try {
         const newPlaylistData: CreateNewPlaylistDTO = {
           playlist: {
             name: playlistData.name || '',
@@ -40,16 +42,23 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           })),
         };
 
-        const response =
+        const serviceResponse =
           await playlistsService.createNewPlaylist(newPlaylistData);
 
-        const { playlistCreated } = response;
+        const { playlistCreated } = serviceResponse;
 
-        return {
+        response = {
           success: true,
           data: playlistCreated?.id,
         };
-      } else if (playlistCreationMode === PlaylistCreationMode.Existing) {
+      } catch (error) {
+        response = {
+          success: false,
+          errorKey: 'steps.errors.createNewPlaylist.unexpectedError',
+        };
+      }
+    } else if (playlistCreationMode === PlaylistCreationMode.Existing) {
+      try {
         const existingPlaylistData: UpdatePlaylistDTO = {
           playlistId: playlistData.playlistSelected?.id || '',
           artists: playlistData.artists.map((artist) => ({
@@ -59,22 +68,25 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
 
         await playlistsService.updatePlaylist(existingPlaylistData);
 
-        return {
+        response = {
           success: true,
           data: playlistData.playlistSelected?.id,
         };
-      } else {
-        return {
+      } catch (error) {
+        response = {
           success: false,
+          errorKey: 'steps.errors.existingPlaylist.unexpectedError',
         };
       }
-    } catch {
-      return {
+    } else {
+      response = {
         success: false,
+        errorKey: 'steps.errors.unexpectedError',
       };
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
+    return response;
   };
 
   return {

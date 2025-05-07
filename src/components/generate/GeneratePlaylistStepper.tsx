@@ -96,13 +96,17 @@ const GeneratePlaylistStepper = () => {
   const handleBack = () => setCurrentStep((prev) => prev - 1);
 
   const onSubmit = async (values: FormSchemaType) => {
-    const { success, data: playlistId } = await submitPlaylist(values);
+    const {
+      success,
+      data: playlistId,
+      errorKey,
+    } = await submitPlaylist(values);
 
     if (success) {
       setCurrentStep((prev) => prev + 1);
       setPlaylistId(playlistId);
     } else {
-      toast.error(t('steps.errors.createNewPlaylist.unexpectedError'));
+      toast.error(t(errorKey || 'steps.errors.unexpectedError'));
     }
   };
 
