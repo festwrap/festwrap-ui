@@ -310,7 +310,7 @@ describe('GeneratePlaylistPage', () => {
       const embeddedPlaylist = screen.getByTitle('Spotify embedded playlist');
       expect(embeddedPlaylist).toHaveAttribute(
         'src',
-        'https://open.spotify.com/embed/playlist/mock-playlist-id'
+        'https://open.spotify.com/embed/playlist/existing-playlist-1'
       );
     });
 
@@ -323,6 +323,26 @@ describe('GeneratePlaylistPage', () => {
       expect(
         await screen.findByText(/steps.errors.playlistSelected.required/i)
       ).toBeInTheDocument();
+    });
+
+    it('should display error toast when API fails', async () => {
+      vi.mocked(mockServices.playlistsService.updatePlaylist).mockRejectedValue(
+        new Error('API Error')
+      );
+
+      renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+      await actions.completeFirstStepExistingPlaylist();
+      await actions.selectArtistAndAssertSelected(
+        TEST_DATA.artists.single.name
+      );
+      await actions.click(/steps.navigation.generate/i);
+
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith(
+          'steps.errors.existingPlaylist.unexpectedError'
+        );
+      });
     });
   });
 });
