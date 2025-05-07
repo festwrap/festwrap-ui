@@ -1,7 +1,7 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useSession } from 'next-auth/react';
 import Header from './Header';
-import { vi, describe, afterEach, beforeAll, test, expect } from 'vitest';
+import { vi, describe, beforeAll, test, expect } from 'vitest';
 
 vi.mock('next-auth/react', () => {
   return {
@@ -38,11 +38,6 @@ vi.mock('@components/ui/DropdownMenu', () => ({
 
 describe('Header', () => {
   const TOMORRROW_DATE = new Date(Date.now() + 86400).toISOString();
-
-  afterEach(() => {
-    vi.clearAllMocks();
-    cleanup();
-  });
 
   beforeAll(() => {
     window.PointerEvent = MouseEvent as typeof PointerEvent;

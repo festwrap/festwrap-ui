@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 interface HeadingProps {
   as?: keyof JSX.IntrinsicElements;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  color?: 'primary' | 'secondary' | 'dark' | 'light' | 'neutral';
+  color?: 'primary' | 'secondary' | 'dark' | 'light' | 'neutral' | 'darkBlue';
   weight?: 'normal' | 'bold' | 'semibold';
   children: React.ReactNode;
 }
@@ -23,6 +23,7 @@ const colorMap = {
   primary: 'text-primary',
   secondary: 'text-secondary',
   dark: 'text-dark',
+  darkBlue: 'text-dark-blue',
   light: 'text-light',
   neutral: 'text-slate-600',
 };

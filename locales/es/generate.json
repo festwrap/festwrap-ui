@@ -68,7 +68,7 @@
     },
     "step3": {
       "description": "Visualiza las canciones añadidas en la lista",
-      "playlisyGeneratedSuccessfully": "Lista de reproducción generada con éxito",
+      "playlistGeneratedSuccessfully": "Lista de reproducción generada con éxito",
       "title": "Visualiza la lista de reproducción"
     }
   }

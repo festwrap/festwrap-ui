@@ -67,7 +67,7 @@
     },
     "step3": {
       "description": "Visualize the songs added to the playlist",
-      "playlisyGeneratedSuccessfully": "Playlist generated successfully",
+      "playlistGeneratedSuccessfully": "Playlist generated successfully",
       "title": "Visualize the playlist"
     }
   }
