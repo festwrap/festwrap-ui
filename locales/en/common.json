@@ -17,7 +17,6 @@
     },
     "nav": {
         "aboutUs": "About us",
-        "copyAccessToken": "Copy Access Token",
         "getStarted": "Get Started",
         "login": "Sign in with Spotify",
         "logout": "Log out",
