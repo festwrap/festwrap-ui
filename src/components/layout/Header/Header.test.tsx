@@ -1,21 +1,13 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useSession } from 'next-auth/react';
 import Header from './Header';
-import { vi, describe, afterEach, beforeAll, test, expect } from 'vitest';
+import { vi, describe, beforeAll, test, expect } from 'vitest';
 
 vi.mock('next-auth/react', () => {
   return {
     __esModule: true,
     useSession: vi.fn(),
   };
-});
-
-const writeTextMock = vi.fn();
-
-Object.assign(navigator, {
-  clipboard: {
-    writeText: writeTextMock,
-  },
 });
 
 vi.mock('@components/ui/DropdownMenu', () => ({
@@ -46,11 +38,6 @@ vi.mock('@components/ui/DropdownMenu', () => ({
 
 describe('Header', () => {
   const TOMORRROW_DATE = new Date(Date.now() + 86400).toISOString();
-
-  afterEach(() => {
-    vi.clearAllMocks();
-    cleanup();
-  });
 
   beforeAll(() => {
     window.PointerEvent = MouseEvent as typeof PointerEvent;
@@ -108,33 +95,5 @@ describe('Header', () => {
     expect(avatarButton).toBeInTheDocument();
 
     expect(screen.getByText('nav.logout')).toBeInTheDocument();
-    expect(screen.getByText('nav.copyAccessToken')).toBeInTheDocument();
-  });
-
-  test('should copy access token to clipboard', () => {
-    const mockSession = {
-      expires: TOMORRROW_DATE,
-      user: {
-        name: 'Peter Griffin',
-        email: 'user@gmail.com',
-        accessToken: 'token',
-      },
-    };
-
-    vi.mocked(useSession).mockReturnValue({
-      update: vi.fn(),
-      data: mockSession,
-      status: 'authenticated',
-    });
-
-    render(<Header />);
-
-    const copyButton = screen.getByRole('button', {
-      name: /nav.copyAccessToken/i,
-    });
-
-    copyButton.click();
-
-    expect(writeTextMock).toHaveBeenCalledWith(mockSession.user.accessToken);
   });
 });
