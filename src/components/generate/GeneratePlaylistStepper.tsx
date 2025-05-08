@@ -18,47 +18,35 @@ const STEPS_COUNT = 3;
 export const PlaylistCreationMode = {
   New: 'new',
   Existing: 'existing',
-};
+} as const;
 
-const formSchema = z
-  .object({
-    playlistCreationMode: z.enum([
-      PlaylistCreationMode.New,
-      PlaylistCreationMode.Existing,
-    ]),
-    name: z.string().optional(),
-    description: z.string().optional(),
-    playlistSelected: z
-      .object({
-        id: z.string(),
-        name: z.string(),
-      })
-      .optional(),
-    isPublic: z.boolean(),
-    artists: z
-      .array(z.string().min(1))
-      .nonempty('At least one artist is required'),
-  })
-  .superRefine((data, ctx) => {
-    if (data.playlistCreationMode === PlaylistCreationMode.New && !data.name) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Name is required for NEW role',
-        path: ['name'],
-      });
-    }
+const baseSchema = z.object({
+  description: z.string().optional(),
+  isPublic: z.boolean(),
+  artists: z
+    .array(z.string().min(1))
+    .nonempty('At least one artist is required'),
+});
 
-    if (
-      data.playlistCreationMode === PlaylistCreationMode.Existing &&
-      !data.playlistSelected
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Playlist is required for EXISTING role',
-        path: ['playlistSelected'],
-      });
-    }
-  });
+const newPlaylistSchema = baseSchema.extend({
+  playlistCreationMode: z.literal(PlaylistCreationMode.New),
+  name: z.string().min(1, 'Name is required when creating a new playlist'),
+  playlistSelected: z.undefined().optional(),
+});
+
+const existingPlaylistSchema = baseSchema.extend({
+  playlistCreationMode: z.literal(PlaylistCreationMode.Existing),
+  name: z.string().optional(),
+  playlistSelected: z.object({
+    id: z.string().min(1, "Playlist ID can't be empty"),
+    name: z.string(),
+  }),
+});
+
+const formSchema = z.discriminatedUnion('playlistCreationMode', [
+  newPlaylistSchema,
+  existingPlaylistSchema,
+]);
 
 export type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -69,7 +57,7 @@ const GeneratePlaylistStepper = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [playlistId, setPlaylistId] = useState<string | undefined>(undefined);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       playlistCreationMode: PlaylistCreationMode.New,
@@ -84,12 +72,16 @@ const GeneratePlaylistStepper = () => {
   const { handleSubmit, trigger, formState } = form;
 
   const handleNext = async () => {
+    const fieldsToValidateStep1: Array<keyof FormSchemaType> = [
+      'playlistCreationMode',
+      'name',
+      'playlistSelected',
+      'isPublic',
+    ];
     const fieldsToValidate: Array<keyof FormSchemaType> =
-      currentStep === 1
-        ? ['name', 'isPublic', 'playlistCreationMode', 'playlistSelected']
-        : ['artists'];
+      currentStep === 1 ? fieldsToValidateStep1 : ['artists'];
 
-    const isStepValid = await trigger(fieldsToValidate);
+    const isStepValid = await trigger(fieldsToValidate as any);
     if (isStepValid) setCurrentStep((prev) => prev + 1);
   };
 

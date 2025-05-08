@@ -24,20 +24,19 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
   const submitPlaylist = async (
     values: FormSchemaType
   ): Promise<SubmitPlaylistResponse> => {
-    const { playlistCreationMode, ...playlistData } = values;
     let response: SubmitPlaylistResponse;
 
     setIsLoading(true);
 
-    if (playlistCreationMode === PlaylistCreationMode.New) {
+    if (values.playlistCreationMode === PlaylistCreationMode.New) {
       try {
         const newPlaylistData: CreateNewPlaylistDTO = {
           playlist: {
-            name: playlistData.name || '',
-            description: playlistData.description,
-            isPublic: playlistData.isPublic,
+            name: values.name,
+            description: values.description,
+            isPublic: values.isPublic,
           },
-          artists: playlistData.artists.map((artist) => ({
+          artists: values.artists.map((artist) => ({
             name: artist,
           })),
         };
@@ -57,11 +56,11 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           errorKey: 'steps.errors.createNewPlaylist.unexpectedError',
         };
       }
-    } else if (playlistCreationMode === PlaylistCreationMode.Existing) {
+    } else if (values.playlistCreationMode === PlaylistCreationMode.Existing) {
       try {
         const existingPlaylistData: UpdatePlaylistDTO = {
-          playlistId: playlistData.playlistSelected?.id || '',
-          artists: playlistData.artists.map((artist) => ({
+          playlistId: values.playlistSelected.id,
+          artists: values.artists.map((artist) => ({
             name: artist,
           })),
         };
@@ -70,7 +69,7 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
 
         response = {
           success: true,
-          playlistId: playlistData.playlistSelected?.id,
+          playlistId: values.playlistSelected.id,
         };
       } catch (error) {
         response = {
