@@ -8,7 +8,7 @@ import {
 
 type SubmitPlaylistResponse = {
   success: boolean;
-  data?: string | undefined;
+  playlistId?: string | undefined;
   errorKey?: string;
 };
 
@@ -49,7 +49,7 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
 
         response = {
           success: true,
-          data: playlistCreated?.id,
+          playlistId: playlistCreated?.id,
         };
       } catch (error) {
         response = {
@@ -70,7 +70,7 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
 
         response = {
           success: true,
-          data: playlistData.playlistSelected?.id,
+          playlistId: playlistData.playlistSelected?.id,
         };
       } catch (error) {
         response = {

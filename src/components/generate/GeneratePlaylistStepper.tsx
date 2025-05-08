@@ -96,11 +96,7 @@ const GeneratePlaylistStepper = () => {
   const handleBack = () => setCurrentStep((prev) => prev - 1);
 
   const onSubmit = async (values: FormSchemaType) => {
-    const {
-      success,
-      data: playlistId,
-      errorKey,
-    } = await submitPlaylist(values);
+    const { success, playlistId, errorKey } = await submitPlaylist(values);
 
     if (success) {
       setCurrentStep((prev) => prev + 1);
