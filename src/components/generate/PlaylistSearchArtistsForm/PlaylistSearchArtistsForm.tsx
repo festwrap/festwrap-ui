@@ -10,6 +10,7 @@ import { FormControl, FormField, FormItem } from '@/components/ui/Form';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
+import { ArtistDTO } from '@/entities/artists';
 
 const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
@@ -18,10 +19,12 @@ const PlaylistSearchArtistsForm = () => {
 
   const { t } = useTranslation('generate');
 
-  const selectedValues: Array<string> = watch('artists', []);
+  const selectedValues: Array<ArtistDTO> = watch('artists', []);
 
   const removeSelectedItem = (name: string) => {
-    const newSelectedItems = selectedValues.filter((item) => item !== name);
+    const newSelectedItems = selectedValues.filter(
+      (item) => item.name !== name
+    );
     setValue('artists', newSelectedItems);
   };
 
@@ -29,8 +32,10 @@ const PlaylistSearchArtistsForm = () => {
     search(searchTerm);
   });
 
-  const onChangeSelection = (value: string) => {
-    const newSelectedItems = selectedValues.some((item) => item === value)
+  const onChangeSelection = (value: ArtistDTO) => {
+    const newSelectedItems = selectedValues.some(
+      (item) => item.name === value.name
+    )
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     setValue('artists', newSelectedItems);
@@ -88,17 +93,17 @@ const PlaylistSearchArtistsForm = () => {
           <div className="mt-4 flex flex-wrap gap-2">
             {selectedValues.map((item) => (
               <Badge
-                key={item}
+                key={item.name}
                 variant="secondary"
                 size="lg"
                 className="flex items-center gap-1 px-3 py-1"
               >
-                {item}
+                {item.name}
                 <button
-                  onClick={() => removeSelectedItem(item)}
+                  onClick={() => removeSelectedItem(item.name)}
                   className="ml-1 hover:bg-slate-100 rounded-full hover:text-primary text-dark-blue"
                   type="button"
-                  aria-label={`${t('steps.step2.removeArtist')} ${item}`}
+                  aria-label={`${t('steps.step2.removeArtist')} ${item.name}`}
                 >
                   <X className="h-4 w-4" />
                 </button>

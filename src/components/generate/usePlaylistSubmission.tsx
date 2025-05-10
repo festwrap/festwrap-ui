@@ -60,7 +60,7 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
             isPublic: values.isPublic,
           },
           artists: values.artists.map((artist) => ({
-            name: artist,
+            name: artist.name,
           })),
         };
 
@@ -83,7 +83,7 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
         const existingPlaylistData: UpdatePlaylistDTO = {
           playlistId: values.playlistSelected.id,
           artists: values.artists.map((artist) => ({
-            name: artist,
+            name: artist.name,
           })),
         };
 
