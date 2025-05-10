@@ -7,8 +7,8 @@ import { ArtistDTO } from '@/entities/artists';
 
 type SearchComboboxProps = {
   options: ArtistDTO[];
-  values: string[];
-  onChange: (_value: string) => void;
+  values: ArtistDTO[];
+  onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
   placeholder?: string;
 };
@@ -49,7 +49,7 @@ export function SearchArtistsCombobox({
   };
 
   const handleItemSelect = (item: ArtistDTO) => {
-    onChange(item.name);
+    onChange(item);
 
     // Ensure closure after all updates
     setSearch('');
@@ -155,7 +155,7 @@ export function SearchArtistsCombobox({
                   name={item.name}
                   isActive={index === activeIndex}
                   isSelected={values.some(
-                    (selectedItem) => selectedItem === item.name
+                    (selectedItem) => selectedItem.name === item.name
                   )}
                   handleItemSelect={() => handleItemSelect(item)}
                   imageUrl={item.imageUri}
