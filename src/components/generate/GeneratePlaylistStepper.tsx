@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Path } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import PlaylistUpdateReport from '@/components/generate/PlaylistUpdateReport/PlaylistUpdateReport';
@@ -24,8 +24,6 @@ export const PlaylistCreationMode = {
 } as const;
 
 const baseSchema = z.object({
-  description: z.string().optional(),
-  isPublic: z.boolean(),
   artists: z
     .array(z.string().min(1))
     .nonempty('At least one artist is required'),
@@ -34,12 +32,12 @@ const baseSchema = z.object({
 const newPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.New),
   name: z.string().min(1, 'Name is required when creating a new playlist'),
-  playlistSelected: z.undefined().optional(),
+  description: z.string().optional(),
+  isPublic: z.boolean(),
 });
 
 const existingPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.Existing),
-  name: z.string().optional(),
   playlistSelected: z.object({
     id: z.string().min(1, "Playlist ID can't be empty"),
     name: z.string(),
@@ -66,25 +64,30 @@ const GeneratePlaylistStepper = () => {
       playlistCreationMode: PlaylistCreationMode.New,
       name: '',
       description: '',
-      playlistSelected: undefined,
       isPublic: false,
       artists: [],
     },
   });
 
-  const { handleSubmit, trigger, formState } = form;
+  const { handleSubmit, trigger, formState, getValues } = form;
 
   const handleNext = async () => {
-    const fieldsToValidateStep1: Array<keyof FormSchemaType> = [
+    const currentPlaylistCreationMode = getValues('playlistCreationMode');
+
+    let fieldsToValidateStep1: Path<FormSchemaType>[] = [
       'playlistCreationMode',
-      'name',
-      'playlistSelected',
-      'isPublic',
     ];
-    const fieldsToValidate: Array<keyof FormSchemaType> =
+
+    if (currentPlaylistCreationMode === PlaylistCreationMode.New) {
+      fieldsToValidateStep1.push('name');
+    } else if (currentPlaylistCreationMode === PlaylistCreationMode.Existing) {
+      fieldsToValidateStep1.push('playlistSelected');
+    }
+
+    const fieldsToValidate: Path<FormSchemaType>[] =
       currentStep === 1 ? fieldsToValidateStep1 : ['artists'];
 
-    const isStepValid = await trigger(fieldsToValidate as any);
+    const isStepValid = await trigger(fieldsToValidate);
     if (isStepValid) setCurrentStep((prev) => prev + 1);
   };
 
