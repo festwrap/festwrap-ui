@@ -6,10 +6,6 @@
   },
   "steps": {
     "errors": {
-      "createNewPlaylist": {
-        "missingArtists": "La lista de reproducción se ha creado pero algunos artistas no se han podido añadir",
-        "unexpectedError": "Surgió un error inesperado al crear la lista de reproducción"
-      },
       "name": {
         "required": "El nombre de la lista es obligatorio"
       },
@@ -18,6 +14,10 @@
       },
       "selectedArtists": {
         "required": "Selecciona al menos un artista"
+      },
+      "submitPlaylist": {
+        "missingArtists": "Algunos artistas no se han podido añadir a la lista de reproducción",
+        "unexpectedError": "Surgió un error inesperado al crear/modificar la lista de reproducción"
       }
     },
     "navigation": {

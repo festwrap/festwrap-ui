@@ -6,10 +6,6 @@
   },
   "steps": {
     "errors": {
-      "createNewPlaylist": {
-        "missingArtists": "La llista de reproducció s'ha creat però alguns artistes no s'han pogut afegir",
-        "unexpectedError": "S'ha produït un error inesperat mentre es creava la llista de reproducció"
-      },
       "name": {
         "required": "El nom de la llista és obligatori"
       },
@@ -18,6 +14,10 @@
       },
       "selectedArtists": {
         "required": "Selecciona com a mínim un artista"
+      },
+      "submitPlaylist": {
+        "missingArtists": "Alguns artistes no s'han pogut afegir a la llista de reproducció",
+        "unexpectedError": "S'ha produït un error inesperat mentre es creava/actualitzava la llista de reproducció"
       }
     },
     "navigation": {

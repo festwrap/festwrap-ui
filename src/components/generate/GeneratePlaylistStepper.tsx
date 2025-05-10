@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Path } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import PlaylistUpdateReport from '@/components/generate/PlaylistUpdateReport/PlaylistUpdateReport';
@@ -9,7 +9,10 @@ import { Stepper, StepList, Step, StepContent } from '@components/ui/Stepper';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
-import { usePlaylistSubmission } from './usePlaylistSubmission';
+import {
+  SubmissionStatus,
+  usePlaylistSubmission,
+} from './usePlaylistSubmission';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -18,47 +21,33 @@ const STEPS_COUNT = 3;
 export const PlaylistCreationMode = {
   New: 'new',
   Existing: 'existing',
-};
+} as const;
 
-const formSchema = z
-  .object({
-    playlistCreationMode: z.enum([
-      PlaylistCreationMode.New,
-      PlaylistCreationMode.Existing,
-    ]),
-    name: z.string().optional(),
-    description: z.string().optional(),
-    playlistSelected: z
-      .object({
-        id: z.string(),
-        name: z.string(),
-      })
-      .optional(),
-    isPublic: z.boolean(),
-    artists: z
-      .array(z.string().min(1))
-      .nonempty('At least one artist is required'),
-  })
-  .superRefine((data, ctx) => {
-    if (data.playlistCreationMode === PlaylistCreationMode.New && !data.name) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Name is required for NEW role',
-        path: ['name'],
-      });
-    }
+const baseSchema = z.object({
+  artists: z
+    .array(z.string().min(1))
+    .nonempty('At least one artist is required'),
+});
 
-    if (
-      data.playlistCreationMode === PlaylistCreationMode.Existing &&
-      !data.playlistSelected
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Playlist is required for EXISTING role',
-        path: ['playlistSelected'],
-      });
-    }
-  });
+const newPlaylistSchema = baseSchema.extend({
+  playlistCreationMode: z.literal(PlaylistCreationMode.New),
+  name: z.string().min(1, 'Name is required when creating a new playlist'),
+  description: z.string().optional(),
+  isPublic: z.boolean(),
+});
+
+const existingPlaylistSchema = baseSchema.extend({
+  playlistCreationMode: z.literal(PlaylistCreationMode.Existing),
+  playlistSelected: z.object({
+    id: z.string().min(1, "Playlist ID can't be empty"),
+    name: z.string(),
+  }),
+});
+
+const formSchema = z.discriminatedUnion('playlistCreationMode', [
+  newPlaylistSchema,
+  existingPlaylistSchema,
+]);
 
 export type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -69,25 +58,34 @@ const GeneratePlaylistStepper = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [playlistId, setPlaylistId] = useState<string | undefined>(undefined);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       playlistCreationMode: PlaylistCreationMode.New,
       name: '',
       description: '',
-      playlistSelected: undefined,
       isPublic: false,
       artists: [],
     },
   });
 
-  const { handleSubmit, trigger, formState } = form;
+  const { handleSubmit, trigger, formState, getValues } = form;
 
   const handleNext = async () => {
-    const fieldsToValidate: Array<keyof FormSchemaType> =
-      currentStep === 1
-        ? ['name', 'isPublic', 'playlistCreationMode', 'playlistSelected']
-        : ['artists'];
+    const currentPlaylistCreationMode = getValues('playlistCreationMode');
+
+    let fieldsToValidateStep1: Path<FormSchemaType>[] = [
+      'playlistCreationMode',
+    ];
+
+    if (currentPlaylistCreationMode === PlaylistCreationMode.New) {
+      fieldsToValidateStep1.push('name');
+    } else if (currentPlaylistCreationMode === PlaylistCreationMode.Existing) {
+      fieldsToValidateStep1.push('playlistSelected');
+    }
+
+    const fieldsToValidate: Path<FormSchemaType>[] =
+      currentStep === 1 ? fieldsToValidateStep1 : ['artists'];
 
     const isStepValid = await trigger(fieldsToValidate);
     if (isStepValid) setCurrentStep((prev) => prev + 1);
@@ -96,13 +94,17 @@ const GeneratePlaylistStepper = () => {
   const handleBack = () => setCurrentStep((prev) => prev - 1);
 
   const onSubmit = async (values: FormSchemaType) => {
-    const { success, data: playlistId } = await submitPlaylist(values);
+    const { status, playlistId } = await submitPlaylist(values);
 
-    if (success) {
+    if (status === SubmissionStatus.OK) {
       setCurrentStep((prev) => prev + 1);
       setPlaylistId(playlistId);
     } else {
-      toast.error(t('steps.errors.createNewPlaylist.unexpectedError'));
+      const errorKey =
+        status === SubmissionStatus.PARTIAL_ERRORS
+          ? 'steps.errors.submitPlaylist.missingArtists'
+          : 'steps.errors.submitPlaylist.unexpectedError';
+      toast.error(t(errorKey));
     }
   };
 

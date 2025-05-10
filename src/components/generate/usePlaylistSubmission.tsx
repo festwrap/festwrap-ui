@@ -1,19 +1,43 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
-import { CreateNewPlaylistDTO } from '@/entities/playlists';
+import {
+  CreatedPlaylistStatus,
+  CreateNewPlaylistDTO,
+  UpdatePlaylistDTO,
+} from '@/entities/playlists';
 import { useServices } from '@/contexts/ServiceContext';
 import {
   FormSchemaType,
   PlaylistCreationMode,
 } from '@/components/generate/GeneratePlaylistStepper';
 
+export enum SubmissionStatus {
+  OK,
+  PARTIAL_ERRORS,
+  ERROR,
+}
+
 type SubmitPlaylistResponse = {
-  success: boolean;
-  data?: string | undefined;
+  status: SubmissionStatus;
+  playlistId?: string | undefined;
 };
 
 interface UsePlaylistSubmissionResult {
   isLoading: boolean;
   submitPlaylist: (_values: FormSchemaType) => Promise<SubmitPlaylistResponse>;
+}
+
+function dtoStatusToSubmissionStatus(
+  status?: CreatedPlaylistStatus
+): SubmissionStatus {
+  switch (status) {
+    case CreatedPlaylistStatus.OK:
+      return SubmissionStatus.OK;
+    case CreatedPlaylistStatus.MISSING_ARTISTS:
+      return SubmissionStatus.PARTIAL_ERRORS;
+    default:
+      return SubmissionStatus.ERROR;
+  }
 }
 
 export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
@@ -23,49 +47,68 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
   const submitPlaylist = async (
     values: FormSchemaType
   ): Promise<SubmitPlaylistResponse> => {
-    const { playlistCreationMode, ...playlistData } = values;
+    let response: SubmitPlaylistResponse;
 
     setIsLoading(true);
 
-    try {
-      if (playlistCreationMode === PlaylistCreationMode.New) {
+    if (values.playlistCreationMode === PlaylistCreationMode.New) {
+      try {
         const newPlaylistData: CreateNewPlaylistDTO = {
           playlist: {
-            name: playlistData.name || '',
-            description: playlistData.description,
-            isPublic: playlistData.isPublic,
+            name: values.name,
+            description: values.description,
+            isPublic: values.isPublic,
           },
-          artists: playlistData.artists.map((artist) => ({
+          artists: values.artists.map((artist) => ({
             name: artist,
           })),
         };
 
-        const response =
+        const serviceResponse =
           await playlistsService.createNewPlaylist(newPlaylistData);
 
-        const { playlistCreated } = response;
+        const { playlistCreated } = serviceResponse;
 
-        return {
-          success: true,
-          data: playlistCreated?.id,
+        response = {
+          status: dtoStatusToSubmissionStatus(playlistCreated?.status),
+          playlistId: playlistCreated?.id,
         };
-      } else if (playlistCreationMode === PlaylistCreationMode.Existing) {
-        return {
-          success: true,
-          data: 'mock-playlist-id',
-        };
-      } else {
-        return {
-          success: false,
+      } catch (error) {
+        response = {
+          status: SubmissionStatus.ERROR,
         };
       }
-    } catch {
-      return {
-        success: false,
+    } else if (values.playlistCreationMode === PlaylistCreationMode.Existing) {
+      try {
+        const existingPlaylistData: UpdatePlaylistDTO = {
+          playlistId: values.playlistSelected.id,
+          artists: values.artists.map((artist) => ({
+            name: artist,
+          })),
+        };
+
+        const serviceResponse =
+          await playlistsService.updatePlaylist(existingPlaylistData);
+
+        const { playlistUpdated } = serviceResponse;
+
+        response = {
+          playlistId: values.playlistSelected.id,
+          status: dtoStatusToSubmissionStatus(playlistUpdated?.status),
+        };
+      } catch (error) {
+        response = {
+          status: SubmissionStatus.ERROR,
+        };
+      }
+    } else {
+      response = {
+        status: SubmissionStatus.ERROR,
       };
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
+    return response;
   };
 
   return {
