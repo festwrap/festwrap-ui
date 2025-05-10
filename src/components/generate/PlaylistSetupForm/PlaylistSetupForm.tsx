@@ -78,7 +78,6 @@ const PlaylistSetupForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      required
                       placeholder={t(
                         'steps.step1.form.createNewPlaylist.namePlaceholder'
                       )}
