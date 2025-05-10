@@ -26,7 +26,7 @@ export const PlaylistCreationMode = {
 const baseSchema = z.object({
   artists: z
     .array(z.string().min(1))
-    .nonempty('At least one artist is required'),
+    .nonempty('steps.errors.selectedArtists.required'),
 });
 
 const newPlaylistSchema = baseSchema.extend({
