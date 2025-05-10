@@ -38,10 +38,15 @@ const newPlaylistSchema = baseSchema.extend({
 
 const existingPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.Existing),
-  playlistSelected: z.object({
-    id: z.string().min(1, "Playlist ID can't be empty"),
-    name: z.string(),
-  }),
+  playlistSelected: z
+    .object({
+      id: z.string().min(1),
+      name: z.string(),
+    })
+    .optional()
+    .refine((val) => !!val, {
+      message: 'steps.errors.playlistSelected.required',
+    }),
 });
 
 const formSchema = z.discriminatedUnion('playlistCreationMode', [
