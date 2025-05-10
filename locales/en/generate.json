@@ -10,7 +10,7 @@
         "required": "The playlist name is required"
       },
       "playlistSelected": {
-        "required": "Select a playlist"
+        "required": "Select a playlist is required"
       },
       "selectedArtists": {
         "required": "Select at least one artist"

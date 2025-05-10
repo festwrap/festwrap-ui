@@ -87,7 +87,7 @@ const PlaylistSetupForm = () => {
                   </FormControl>
                   {errors.name?.message && (
                     <ErrorMessage>
-                      {t('steps.errors.name.required')}
+                      {t(errors.name?.message as string)}
                     </ErrorMessage>
                   )}
                 </FormItem>
