@@ -214,6 +214,40 @@ describe('GeneratePlaylistPage', () => {
     expect(firstStepTitle).toBeInTheDocument();
   });
 
+  it.each([
+    {
+      scenario: 'existing playlist update',
+      getUpdatePlaylistFn: () => mockServices.playlistsService.updatePlaylist,
+      firstStepFn: actions.completeFirstStepExistingPlaylist,
+    },
+    {
+      scenario: 'new playlist creation',
+      getUpdatePlaylistFn: () =>
+        mockServices.playlistsService.createNewPlaylist,
+      firstStepFn: actions.completeFirstStepNewPlaylist,
+    },
+  ])(
+    'should display error toast when $scenario API fails',
+    async ({ getUpdatePlaylistFn, firstStepFn }) => {
+      vi.mocked(getUpdatePlaylistFn()).mockRejectedValue(
+        new Error('API Error')
+      );
+      renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+      await firstStepFn();
+      await actions.selectArtistAndAssertSelected(
+        TEST_DATA.artists.single.name
+      );
+      await actions.click(/steps.navigation.generate/i);
+
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith(
+          'steps.errors.submitPlaylist.unexpectedError'
+        );
+      });
+    }
+  );
+
   describe('New Playlist Flow', () => {
     it('should successfully generate a new playlist from start to finish', async () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
@@ -281,26 +315,6 @@ describe('GeneratePlaylistPage', () => {
         await screen.findByText(/steps.errors.name.required/i)
       ).toBeInTheDocument();
     });
-
-    it('should display error toast when API fails', async () => {
-      vi.mocked(
-        mockServices.playlistsService.createNewPlaylist
-      ).mockRejectedValue(new Error('API Error'));
-
-      renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
-
-      await actions.completeFirstStepNewPlaylist();
-      await actions.selectArtistAndAssertSelected(
-        TEST_DATA.artists.single.name
-      );
-      await actions.click(/steps.navigation.generate/i);
-
-      await waitFor(() => {
-        expect(toast.error).toHaveBeenCalledWith(
-          'steps.errors.submitPlaylist.unexpectedError'
-        );
-      });
-    });
   });
 
   describe('Existing Playlist Flow', () => {
@@ -329,26 +343,6 @@ describe('GeneratePlaylistPage', () => {
       expect(
         await screen.findByText(/steps.errors.playlistSelected.required/i)
       ).toBeInTheDocument();
-    });
-
-    it('should display error toast when API fails', async () => {
-      vi.mocked(mockServices.playlistsService.updatePlaylist).mockRejectedValue(
-        new Error('API Error')
-      );
-
-      renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
-
-      await actions.completeFirstStepExistingPlaylist();
-      await actions.selectArtistAndAssertSelected(
-        TEST_DATA.artists.single.name
-      );
-      await actions.click(/steps.navigation.generate/i);
-
-      await waitFor(() => {
-        expect(toast.error).toHaveBeenCalledWith(
-          'steps.errors.submitPlaylist.unexpectedError'
-        );
-      });
     });
   });
 });
