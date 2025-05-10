@@ -1,9 +1,7 @@
 import Heading from '@components/ui/Heading';
-import { X } from 'lucide-react';
 import { SearchArtistsCombobox } from './SearchArtistsCombobox';
 import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
-import { Badge } from '@components/ui/Badge';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem } from '@/components/ui/Form';
@@ -11,6 +9,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage';
 import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { ArtistDTO } from '@/entities/artists';
+import SelectedArtistBadge from './SelectedArtistBadge';
 
 const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
@@ -92,22 +91,12 @@ const PlaylistSearchArtistsForm = () => {
         ) : (
           <div className="mt-4 flex flex-wrap gap-2">
             {selectedValues.map((item) => (
-              <Badge
+              <SelectedArtistBadge
                 key={item.name}
-                variant="secondary"
-                size="lg"
-                className="flex items-center gap-1 px-3 py-1"
-              >
-                {item.name}
-                <button
-                  onClick={() => removeSelectedItem(item.name)}
-                  className="ml-1 hover:bg-slate-100 rounded-full hover:text-primary text-dark-blue"
-                  type="button"
-                  aria-label={`${t('steps.step2.removeArtist')} ${item.name}`}
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </Badge>
+                name={item.name}
+                imageUri={item.imageUri}
+                onRemove={removeSelectedItem}
+              />
             ))}
           </div>
         )}
