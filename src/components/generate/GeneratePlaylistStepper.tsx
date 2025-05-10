@@ -31,7 +31,7 @@ const baseSchema = z.object({
 
 const newPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.New),
-  name: z.string().min(1, 'Name is required when creating a new playlist'),
+  name: z.string().min(1, 'steps.errors.name.required'),
   description: z.string().optional(),
   isPublic: z.boolean(),
 });
