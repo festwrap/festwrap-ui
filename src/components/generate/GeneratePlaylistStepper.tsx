@@ -9,7 +9,10 @@ import { Stepper, StepList, Step, StepContent } from '@components/ui/Stepper';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
-import { usePlaylistSubmission } from './usePlaylistSubmission';
+import {
+  SubmissionStatus,
+  usePlaylistSubmission,
+} from './usePlaylistSubmission';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -88,13 +91,17 @@ const GeneratePlaylistStepper = () => {
   const handleBack = () => setCurrentStep((prev) => prev - 1);
 
   const onSubmit = async (values: FormSchemaType) => {
-    const { success, playlistId, errorKey } = await submitPlaylist(values);
+    const { status, playlistId } = await submitPlaylist(values);
 
-    if (success) {
+    if (status === SubmissionStatus.OK) {
       setCurrentStep((prev) => prev + 1);
       setPlaylistId(playlistId);
     } else {
-      toast.error(t(errorKey || 'steps.errors.unexpectedError'));
+      const errorKey =
+        status === SubmissionStatus.PARTIAL_ERRORS
+          ? 'steps.errors.submitPlaylist.missingArtists'
+          : 'steps.errors.submitPlaylist.unexpectedError';
+      toast.error(t(errorKey));
     }
   };
 

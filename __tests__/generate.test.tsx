@@ -7,6 +7,7 @@ import { ServiceProvider } from '@/contexts/ServiceContext';
 import { toast } from 'sonner';
 import { IPlaylistsService } from '@/services/playlistsService';
 import { IArtistsService } from '@/services/artistsService';
+import { CreatedPlaylistStatus } from '@/entities/playlists';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -68,9 +69,14 @@ const createServiceMocks = (): ServiceMocks => ({
       playlists: [TEST_DATA.playlists.existing],
     }),
     createNewPlaylist: vi.fn().mockResolvedValue({
-      playlistCreated: { id: TEST_DATA.createdPlaylistId },
+      playlistCreated: {
+        id: TEST_DATA.createdPlaylistId,
+        status: CreatedPlaylistStatus.OK,
+      },
     }),
-    updatePlaylist: vi.fn().mockResolvedValue({}),
+    updatePlaylist: vi.fn().mockResolvedValue({
+      playlistUpdated: { status: CreatedPlaylistStatus.OK },
+    }),
   },
   artistsService: {
     searchArtists: vi.fn().mockResolvedValue({
@@ -291,7 +297,7 @@ describe('GeneratePlaylistPage', () => {
 
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledWith(
-          'steps.errors.createNewPlaylist.unexpectedError'
+          'steps.errors.submitPlaylist.unexpectedError'
         );
       });
     });
@@ -340,7 +346,7 @@ describe('GeneratePlaylistPage', () => {
 
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledWith(
-          'steps.errors.existingPlaylist.unexpectedError'
+          'steps.errors.submitPlaylist.unexpectedError'
         );
       });
     });

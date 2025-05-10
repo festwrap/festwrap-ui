@@ -1,20 +1,43 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
-import { CreateNewPlaylistDTO, UpdatePlaylistDTO } from '@/entities/playlists';
+import {
+  CreatedPlaylistStatus,
+  CreateNewPlaylistDTO,
+  UpdatePlaylistDTO,
+} from '@/entities/playlists';
 import { useServices } from '@/contexts/ServiceContext';
 import {
   FormSchemaType,
   PlaylistCreationMode,
 } from '@/components/generate/GeneratePlaylistStepper';
 
+export enum SubmissionStatus {
+  OK,
+  PARTIAL_ERRORS,
+  ERROR,
+}
+
 type SubmitPlaylistResponse = {
-  success: boolean;
+  status: SubmissionStatus;
   playlistId?: string | undefined;
-  errorKey?: string;
 };
 
 interface UsePlaylistSubmissionResult {
   isLoading: boolean;
   submitPlaylist: (_values: FormSchemaType) => Promise<SubmitPlaylistResponse>;
+}
+
+function dtoStatusToSubmissionStatus(
+  status?: CreatedPlaylistStatus
+): SubmissionStatus {
+  switch (status) {
+    case CreatedPlaylistStatus.OK:
+      return SubmissionStatus.OK;
+    case CreatedPlaylistStatus.MISSING_ARTISTS:
+      return SubmissionStatus.PARTIAL_ERRORS;
+    default:
+      return SubmissionStatus.ERROR;
+  }
 }
 
 export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
@@ -47,13 +70,12 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
         const { playlistCreated } = serviceResponse;
 
         response = {
-          success: true,
+          status: dtoStatusToSubmissionStatus(playlistCreated?.status),
           playlistId: playlistCreated?.id,
         };
       } catch (error) {
         response = {
-          success: false,
-          errorKey: 'steps.errors.createNewPlaylist.unexpectedError',
+          status: SubmissionStatus.ERROR,
         };
       }
     } else if (values.playlistCreationMode === PlaylistCreationMode.Existing) {
@@ -65,22 +87,23 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
           })),
         };
 
-        await playlistsService.updatePlaylist(existingPlaylistData);
+        const serviceResponse =
+          await playlistsService.updatePlaylist(existingPlaylistData);
+
+        const { playlistUpdated } = serviceResponse;
 
         response = {
-          success: true,
           playlistId: values.playlistSelected.id,
+          status: dtoStatusToSubmissionStatus(playlistUpdated?.status),
         };
       } catch (error) {
         response = {
-          success: false,
-          errorKey: 'steps.errors.existingPlaylist.unexpectedError',
+          status: SubmissionStatus.ERROR,
         };
       }
     } else {
       response = {
-        success: false,
-        errorKey: 'steps.errors.unexpectedError',
+        status: SubmissionStatus.ERROR,
       };
     }
 
