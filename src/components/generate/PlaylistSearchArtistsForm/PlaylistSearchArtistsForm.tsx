@@ -10,15 +10,24 @@ import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { ArtistDTO } from '@/entities/artists';
 import SelectedArtistBadge from './SelectedArtistBadge';
+import { useRef, useEffect } from 'react';
 
 const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
   const { artists, search, clearArtists } = useArtistSearch();
   const { errors } = formState;
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation('generate');
 
   const selectedValues: Array<ArtistDTO> = watch('artists', []);
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop =
+        scrollContainerRef.current.scrollHeight;
+    }
+  }, [selectedValues]);
 
   const removeSelectedItem = (name: string) => {
     const newSelectedItems = selectedValues.filter(
@@ -89,7 +98,16 @@ const PlaylistSearchArtistsForm = () => {
             <p className="text-sm">{t('steps.step2.emptyState.description')}</p>
           </div>
         ) : (
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div
+            ref={scrollContainerRef}
+            className="mt-4 flex flex-col space-y-2 max-h-[280px] overflow-y-auto pr-2 pb-2"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#CBD5E1 transparent',
+              WebkitOverflowScrolling: 'touch',
+              msOverflowStyle: '-ms-autohiding-scrollbar',
+            }}
+          >
             {selectedValues.map((item) => (
               <SelectedArtistBadge
                 key={item.name}
