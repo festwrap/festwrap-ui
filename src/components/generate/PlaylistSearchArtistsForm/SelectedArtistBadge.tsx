@@ -8,13 +8,14 @@ interface SelectedArtistBadgeProps {
   onRemove: (_artistName: string) => void;
 }
 
+const IMAGE_SIZE = 24;
+
 const SelectedArtistBadge = ({
   name,
   imageUri,
   onRemove,
 }: SelectedArtistBadgeProps) => {
   const { t } = useTranslation('generate');
-  const IMAGE_SIZE = 24; // Example size, adjust as needed
 
   return (
     <div className="inline-flex items-center overflow-hidden rounded-lg border-2 bg-white">
