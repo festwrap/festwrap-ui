@@ -66,9 +66,9 @@ const PlaylistSearchArtistsForm = () => {
                   placeholder={t('steps.step2.searchPlaceholder')}
                 />
               </FormControl>
-              {errors.artists && (
+              {errors.artists?.message && (
                 <ErrorMessage>
-                  {t('steps.errors.selectedArtists.required')}
+                  {t(errors.artists.message as string)}
                 </ErrorMessage>
               )}
             </FormItem>

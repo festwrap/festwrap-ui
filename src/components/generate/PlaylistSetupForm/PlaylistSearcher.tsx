@@ -123,7 +123,7 @@ const PlaylistSearcher = () => {
           </Popover>
           {errors.playlistSelected?.message && (
             <ErrorMessage>
-              {t('steps.errors.playlistSelected.required')}
+              {t(errors.playlistSelected?.message as string)}
             </ErrorMessage>
           )}
         </FormItem>

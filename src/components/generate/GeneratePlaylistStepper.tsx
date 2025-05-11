@@ -31,22 +31,27 @@ const baseSchema = z.object({
         imageUri: z.string().optional(),
       })
     )
-    .nonempty('At least one artist is required'),
+    .nonempty('steps.errors.selectedArtists.required'),
 });
 
 const newPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.New),
-  name: z.string().min(1, 'Name is required when creating a new playlist'),
+  name: z.string().min(1, 'steps.errors.name.required'),
   description: z.string().optional(),
   isPublic: z.boolean(),
 });
 
 const existingPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.Existing),
-  playlistSelected: z.object({
-    id: z.string().min(1, "Playlist ID can't be empty"),
-    name: z.string(),
-  }),
+  playlistSelected: z
+    .object({
+      id: z.string().min(1),
+      name: z.string(),
+    })
+    .optional()
+    .refine((val) => !!val, {
+      message: 'steps.errors.playlistSelected.required',
+    }),
 });
 
 const formSchema = z.discriminatedUnion('playlistCreationMode', [
