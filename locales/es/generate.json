@@ -10,7 +10,7 @@
         "required": "El nombre de la lista es obligatorio"
       },
       "playlistSelected": {
-        "required": "Selecciona una lista de reproducción"
+        "required": "Seleccionar una lista de reproducción es obligatorio"
       },
       "selectedArtists": {
         "required": "Selecciona al menos un artista"
