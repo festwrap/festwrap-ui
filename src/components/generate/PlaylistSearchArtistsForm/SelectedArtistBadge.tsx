@@ -8,7 +8,7 @@ interface SelectedArtistBadgeProps {
   onRemove: (_artistName: string) => void;
 }
 
-const IMAGE_SIZE = 24;
+const IMAGE_SIZE = 20;
 
 const SelectedArtistBadge = ({
   name,
@@ -20,7 +20,7 @@ const SelectedArtistBadge = ({
   return (
     <div className="inline-flex items-center overflow-hidden rounded-lg border-2 bg-white">
       {imageUri ? (
-        <div className="h-full w-10 flex-shrink-0">
+        <div className="h-10 w-10 flex-shrink-0">
           <Image
             src={imageUri}
             alt={name}
