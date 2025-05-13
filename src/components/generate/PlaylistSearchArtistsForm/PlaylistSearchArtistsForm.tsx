@@ -24,7 +24,7 @@ const PlaylistSearchArtistsForm = () => {
     const newSelectedItems = selectedValues.filter(
       (item) => item.name !== name
     );
-    setValue('artists', newSelectedItems);
+    setValue('artists', newSelectedItems, { shouldValidate: true });
   };
 
   const debouncedSearch = useDebouncedCallback((searchTerm: string) => {
@@ -37,7 +37,7 @@ const PlaylistSearchArtistsForm = () => {
     )
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
-    setValue('artists', newSelectedItems);
+    setValue('artists', newSelectedItems, { shouldValidate: true });
     clearArtists();
   };
 
