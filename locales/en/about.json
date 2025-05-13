@@ -1,0 +1,17 @@
+{
+    "aboutUs": "About us",
+    "aboutUsDescription": "We’re Alex and Dani, two engineers with a passion for music — especially Metal and Punk. We built this app as a passion project in our spare time. It’s a web application that generates Spotify playlists based on the latest setlists uploaded to Setlist.fm for each artist, helping you listen to what they’re most likely to play at upcoming shows.",
+    "meetTheTeam": "Meet the team",
+    "meta": {
+        "description": "We’re Álex and Dani, two engineers passionate about Metal and Punk. This app builds Spotify playlists from the latest artist setlists on Setlist.fm.",
+        "title": "About us | Festwrap"
+    },
+    "profile": {
+        "alex": {
+            "description": "Passionate about creating intuitive user experiences and clean, efficient code. Specializes in React and modern CSS frameworks."
+        },
+        "dani": {
+            "description": "Expert in building scalable backend systems and database architecture. Loves solving complex problems and optimizing performance."
+        }
+    }
+}
