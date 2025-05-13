@@ -25,7 +25,12 @@ export const PlaylistCreationMode = {
 
 const baseSchema = z.object({
   artists: z
-    .array(z.string().min(1))
+    .array(
+      z.object({
+        name: z.string(),
+        imageUri: z.string().optional(),
+      })
+    )
     .nonempty('steps.errors.selectedArtists.required'),
 });
 
