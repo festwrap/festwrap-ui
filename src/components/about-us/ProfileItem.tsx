@@ -21,6 +21,11 @@ type ProfileItemProps = {
   email: string;
 };
 
+const getInitials = (name: string): string => {
+  const [first = '', second = ''] = name.trim().split(/\s+/);
+  return (first[0] ?? '').toUpperCase() + (second[0] ?? '').toUpperCase();
+};
+
 const ProfileItem = ({
   name,
   position,
@@ -35,7 +40,7 @@ const ProfileItem = ({
       <CardHeader className="flex flex-row items-center gap-4">
         <Avatar className="h-16 w-16">
           <AvatarImage src={imageUrl} alt="Profile" />
-          <AvatarFallback>AB</AvatarFallback>
+          <AvatarFallback>{getInitials(name)}</AvatarFallback>
         </Avatar>
         <div>
           <CardTitle>{name}</CardTitle>
