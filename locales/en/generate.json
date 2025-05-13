@@ -13,6 +13,7 @@
         "required": "Select a playlist is required"
       },
       "selectedArtists": {
+        "max": "You can only add 5 artists to the playlist",
         "required": "Select at least one artist"
       },
       "submitPlaylist": {

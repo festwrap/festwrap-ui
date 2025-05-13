@@ -31,6 +31,7 @@ const baseSchema = z.object({
         imageUri: z.string().optional(),
       })
     )
+    .max(5, 'steps.errors.selectedArtists.max')
     .nonempty('steps.errors.selectedArtists.required'),
 });
 
