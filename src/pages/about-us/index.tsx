@@ -19,7 +19,6 @@ type AboutTranslationProps = {
     description: string;
     linkedinUrl: string;
     githubUrl: string;
-    email: string;
   }>;
 };
 
@@ -59,7 +58,6 @@ export default function AboutPage({ translations }: AboutPageProps) {
               description={profile.description}
               linkedinUrl={profile.linkedinUrl}
               githubUrl={profile.githubUrl}
-              email={profile.email}
             />
           ))}
         </div>
@@ -76,13 +74,12 @@ export const getStaticProps: GetStaticProps = async (
 
   const profilesData = [
     {
-      name: 'Danie More de Checa',
-      position: 'Software, Machine Learning Engineer',
+      name: 'Dani Mora',
+      position: 'Software Engineer in Machine Learning',
       description: t('profile.dani.description'),
       imageUrl: 'https://avatars.githubusercontent.com/u/71647753?v=4',
       linkedinUrl: 'https://www.linkedin.com/in/daniel-mora-de-checa/',
       githubUrl: 'https://github.com/DanielMoraDC',
-      email: 'daniel.mora@gmail.com',
     },
     {
       name: 'Alex Barro Sendros',
@@ -91,7 +88,6 @@ export const getStaticProps: GetStaticProps = async (
       imageUrl: 'https://avatars.githubusercontent.com/u/28058520?v=4',
       linkedinUrl: 'https://www.linkedin.com/in/alex-barro-sendros-913124144/',
       githubUrl: 'https://github.com/barroro',
-      email: 'a.barro.sendros@gmail.com',
     },
   ];
 

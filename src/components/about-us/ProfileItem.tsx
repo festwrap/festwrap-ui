@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/Avatar';
-import { Linkedin, Github, Mail } from 'lucide-react';
+import { Linkedin, Github } from 'lucide-react';
 import { Button } from '@components/ui/Button';
 import {
   Card,
@@ -18,7 +18,6 @@ type ProfileItemProps = {
   description: string;
   linkedinUrl: string;
   githubUrl: string;
-  email: string;
 };
 
 const getInitials = (name: string): string => {
@@ -33,7 +32,6 @@ const ProfileItem = ({
   description,
   linkedinUrl,
   githubUrl,
-  email,
 }: ProfileItemProps) => {
   return (
     <Card>
@@ -59,11 +57,6 @@ const ProfileItem = ({
         <Button variant="outline" size="icon" asChild>
           <Link href={githubUrl} target="_blank" aria-label="GitHub">
             <Github className="h-4 w-4" />
-          </Link>
-        </Button>
-        <Button variant="outline" size="icon" asChild>
-          <Link href={`mailto:${email}`} aria-label="Email">
-            <Mail className="h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>
