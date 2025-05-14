@@ -8,10 +8,10 @@
     },
     "profile": {
         "alex": {
-            "description": "Passionate about creating intuitive user experiences and clean, efficient code. Specializes in React and modern CSS frameworks."
+            "description": "Experience in building frontend and backend infrastructure with a strong background in user interface and user experience design."
         },
         "dani": {
-            "description": "Expert in building scalable backend systems and database architecture. Loves solving complex problems and optimizing performance."
+            "description": "Experience in building backend and machine learning infrastructure with a strong focus on optimization, scalability and maintainability."
         }
     }
 }

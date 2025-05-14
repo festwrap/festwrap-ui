@@ -34,7 +34,7 @@ const ProfileItem = ({
   githubUrl,
 }: ProfileItemProps) => {
   return (
-    <Card>
+    <Card className="flex flex-col h-full">
       <CardHeader className="flex flex-row items-center gap-4">
         <Avatar className="h-16 w-16">
           <AvatarImage src={imageUrl} alt="Profile" />
@@ -45,7 +45,7 @@ const ProfileItem = ({
           <CardDescription>{position}</CardDescription>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-1">
         <p className="text-muted-foreground">{description}</p>
       </CardContent>
       <CardFooter className="flex justify-start gap-2">

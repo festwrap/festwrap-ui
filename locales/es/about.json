@@ -8,10 +8,10 @@
     },
     "profile": {
         "alex": {
-            "description": "Apasionado por crear experiencias de usuario intuitivas y código limpio y eficiente. Especializado en React y frameworks CSS modernos."
+            "description": "Experiència en la creació d’infraestructures de fronteres i backend amb una experiència forta en la interfície d’usuari i el disseny d’experiència de l’usuari."
         },
         "dani": {
-            "description": "Experto en la creación de sistemas backend escalables y arquitectura de bases de datos. Le encanta resolver problemas complejos y optimizar el rendimiento."
+            "description": "Experiencia en la construcción de la infraestructura de backend y machine learning con un fuerte enfoque en la optimización, la escalabilidad y la mantenibilidad."
         }
     }
 }
