@@ -8,10 +8,10 @@
     },
     "profile": {
         "alex": {
-            "description": "Experiència en la creació de infraestructures de frontend i backend amb un fons fort en la interfície d’usuari i el disseny d’experiència dels usuaris."
+            "description": "Experiència en la creació de infraestructures frontend i backend amb un fort coneixement en la interfície d’usuari i el disseny d’experiència d'usuaris."
         },
         "dani": {
-            "description": "Experiència en la construcció de backend i la infraestructura d’aprenentatge automàtic amb un fort enfocament d’optimització, escalabilitat i manteniment."
+            "description": "Experiència en la construcció de infraestructura backend i machine learning amb un fort enfocament d’optimització, escalabilitat i manteniment."
         }
     }
 }
