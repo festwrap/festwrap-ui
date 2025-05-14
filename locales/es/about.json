@@ -1,6 +1,6 @@
 {
     "aboutUs": "Sobre nosotros",
-    "aboutUsDescription": "Somos Alex y Dani, dos ingenieros apasionados por la música, especialmente el Metal y el Punk. Hemos creado esta aplicación por amor al arte, dedicándole tiempo en nuestros ratos libres. Se trata de una aplicación web que genera playlists de Spotify a partir de los últimos sets de canciones subidos a Setlist.fm por cada artista, permitiendo escuchar lo que probablemente tocarán en sus próximos conciertos.",
+    "aboutUsDescription": "Somos Alex y Dani, dos ingenieros apasionados por la música, especialmente el Metal y el Punk. Decidimos construir esta aplicación para reducir la cantidad de tiempo que pasamos creando listas de reproducción para nuestros conciertos y festivales, al tiempo que creamos nuevas oportunidades para aprender y colaborar con otros ingenieros.",
     "meetTheTeam": "Conoce al equipo",
     "meta": {
         "description": "Somos Álex y Dani, dos ingenieros apasionados del Metal y el Punk. Esta app crea playlists de Spotify basadas en los últimos setlists de Setlist.fm.",
