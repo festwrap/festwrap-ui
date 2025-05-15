@@ -1,8 +1,62 @@
 import ProfileItem from '@/components/about-us/ProfileItem';
-import Heading from '@/components/ui/Heading';
+import { motion } from 'framer-motion';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import getT from 'next-translate/getT';
 import Head from 'next/head';
+
+const titleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.3,
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const paragraphVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.4,
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const sectionTitleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.5,
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.6,
+      duration: 0.5,
+      type: 'spring',
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
 
 type AboutTranslationProps = {
   meta: {
@@ -34,31 +88,50 @@ export default function AboutPage({ translations }: AboutPageProps) {
         <meta name="description" content={translations.meta.description} />
       </Head>
       <div className="container mx-auto px-4 py-12 max-w-5xl">
-        <Heading size="4xl" weight="bold" className="mb-8">
+        <motion.h1
+          className="text-4xl sm:text-3xl md:text-4xl font-bold mb-8"
+          initial="hidden"
+          animate="visible"
+          variants={titleVariants}
+        >
           {translations.aboutUs}
-        </Heading>
-
+        </motion.h1>
         <div className="space-y-6 mb-12">
-          <p className="text-lg text-muted-foreground text-dark-blue font-medium">
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={paragraphVariants}
+            className="text-lg text-muted-foreground text-dark-blue font-medium"
+          >
             {translations.aboutUsDescription}
-          </p>
+          </motion.p>
         </div>
-
-        <Heading as="h2" size="2xl" weight="semibold" className="mb-6">
+        <motion.h2
+          initial="hidden"
+          animate="visible"
+          variants={sectionTitleVariants}
+          className="text-2xl font-semibold mb-6"
+        >
           {translations.meetTheTeam}
-        </Heading>
-
+        </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {translations.profiles.map((profile) => (
-            <ProfileItem
+            <motion.div
               key={profile.name}
-              name={profile.name}
-              position={profile.position}
-              imageUrl={profile.imageUrl}
-              description={profile.description}
-              linkedinUrl={profile.linkedinUrl}
-              githubUrl={profile.githubUrl}
-            />
+              initial="hidden"
+              animate="visible"
+              variants={cardVariants}
+            >
+              <ProfileItem
+                key={profile.name}
+                name={profile.name}
+                position={profile.position}
+                imageUrl={profile.imageUrl}
+                description={profile.description}
+                linkedinUrl={profile.linkedinUrl}
+                githubUrl={profile.githubUrl}
+              />
+            </motion.div>
           ))}
         </div>
       </div>
