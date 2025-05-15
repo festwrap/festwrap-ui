@@ -305,6 +305,44 @@ describe('GeneratePlaylistPage', () => {
       expect(screen.getByText(artist2)).toBeInTheDocument();
     });
 
+    it('should add a maximum of 5 artists in the selection', async () => {
+      const mockedArtists = [
+        ...TEST_DATA.artists.multiple,
+        { name: 'New Artist 1', imageUri: undefined },
+        { name: 'New Artist 2', imageUri: undefined },
+        { name: 'New Artist 3', imageUri: undefined },
+        { name: 'New Artist 4', imageUri: undefined },
+        { name: 'New Artist 5', imageUri: undefined },
+      ];
+
+      vi.mocked(mockServices.artistsService.searchArtists).mockResolvedValue({
+        artists: mockedArtists,
+        message: 'Success',
+      });
+
+      renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+      const [artist1, artist2, artist3, artist4, artist5, artist6] =
+        mockedArtists.map((a) => a.name);
+
+      await actions.completeFirstStepNewPlaylist();
+
+      await actions.selectArtistAndAssertSelected(artist1);
+      await actions.selectArtistAndAssertSelected(artist2);
+      await actions.selectArtistAndAssertSelected(artist3);
+      await actions.selectArtistAndAssertSelected(artist4);
+      await actions.selectArtistAndAssertSelected(artist5);
+      await actions.selectArtistAndAssertSelected(artist6);
+
+      expect(
+        await screen.findByText(/steps.errors.selectedArtists.max/i)
+      ).toBeInTheDocument();
+
+      expect(
+        mockServices.playlistsService.createNewPlaylist
+      ).not.toHaveBeenCalled();
+    });
+
     it('should validate playlist name is required', async () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
