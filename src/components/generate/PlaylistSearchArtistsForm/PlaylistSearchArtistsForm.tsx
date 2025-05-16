@@ -10,6 +10,7 @@ import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { ArtistDTO } from '@/entities/artists';
 import SelectedArtistBadge from './SelectedArtistBadge';
+import { MAX_ARTISTS } from '@/constants/playlist';
 
 const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();
@@ -68,7 +69,9 @@ const PlaylistSearchArtistsForm = () => {
               </FormControl>
               {errors.artists?.message && (
                 <ErrorMessage>
-                  {t(errors.artists.message as string)}
+                  {t(errors.artists.message as string, {
+                    max: MAX_ARTISTS,
+                  })}
                 </ErrorMessage>
               )}
             </FormItem>
