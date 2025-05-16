@@ -13,6 +13,7 @@
         "required": "Seleccionar una lista de reproducción es obligatorio"
       },
       "selectedArtists": {
+        "max": "Solo puedes añadir {{max}} artistas a la lista de reproducción",
         "required": "Selecciona al menos un artista"
       },
       "submitPlaylist": {
