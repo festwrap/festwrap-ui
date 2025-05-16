@@ -305,14 +305,15 @@ describe('GeneratePlaylistPage', () => {
       expect(screen.getByText(artist2)).toBeInTheDocument();
     });
 
-    it('should add a maximum of 5 artists in the selection', async () => {
+    it('should show an error if more than maximum artists selected', async () => {
+      const nArtists = 6;
       const mockedArtists = [
-        ...TEST_DATA.artists.multiple,
-        { name: 'New Artist 1', imageUri: undefined },
-        { name: 'New Artist 2', imageUri: undefined },
-        { name: 'New Artist 3', imageUri: undefined },
-        { name: 'New Artist 4', imageUri: undefined },
-        { name: 'New Artist 5', imageUri: undefined },
+        ...Array(nArtists)
+          .fill(null)
+          .map((_, i) => ({
+            name: 'New Artist ' + i,
+            imageUri: undefined,
+          })),
       ];
 
       vi.mocked(mockServices.artistsService.searchArtists).mockResolvedValue({
@@ -322,17 +323,11 @@ describe('GeneratePlaylistPage', () => {
 
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-      const [artist1, artist2, artist3, artist4, artist5, artist6] =
-        mockedArtists.map((a) => a.name);
-
       await actions.completeFirstStepNewPlaylist();
 
-      await actions.selectArtistAndAssertSelected(artist1);
-      await actions.selectArtistAndAssertSelected(artist2);
-      await actions.selectArtistAndAssertSelected(artist3);
-      await actions.selectArtistAndAssertSelected(artist4);
-      await actions.selectArtistAndAssertSelected(artist5);
-      await actions.selectArtistAndAssertSelected(artist6);
+      for (const artist of mockedArtists) {
+        await actions.selectArtistAndAssertSelected(artist.name);
+      }
 
       expect(
         await screen.findByText(/steps.errors.selectedArtists.max/i)
