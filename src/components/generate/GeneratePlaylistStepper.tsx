@@ -17,6 +17,7 @@ import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const STEPS_COUNT = 3;
+const MAX_ARTISTS = 5;
 
 export const PlaylistCreationMode = {
   New: 'new',
@@ -31,7 +32,7 @@ const baseSchema = z.object({
         imageUri: z.string().optional(),
       })
     )
-    .max(5, 'steps.errors.selectedArtists.max')
+    .max(MAX_ARTISTS, 'steps.errors.selectedArtists.max')
     .nonempty('steps.errors.selectedArtists.required'),
 });
 
