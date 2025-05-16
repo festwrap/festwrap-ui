@@ -7,6 +7,7 @@ interface HeadingProps {
   color?: 'primary' | 'secondary' | 'dark' | 'light' | 'neutral' | 'darkBlue';
   weight?: 'normal' | 'bold' | 'semibold';
   children: React.ReactNode;
+  className?: string;
 }
 
 const sizeMap = {
@@ -40,10 +41,16 @@ const Heading: React.FC<HeadingProps> = ({
   color = 'primary',
   weight = 'bold',
   children,
+  className,
 }) => {
   return (
     <Component
-      className={twMerge(sizeMap[size], colorMap[color], weightMap[weight])}
+      className={twMerge(
+        sizeMap[size],
+        colorMap[color],
+        weightMap[weight],
+        className
+      )}
     >
       {children}
     </Component>

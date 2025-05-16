@@ -1,0 +1,17 @@
+{
+    "aboutUs": "Sobre nosaltres",
+    "aboutUsDescription": "Som l’Alex i en Dani, dos enginyers apassionats per la música, especialment el Metal i el Punk. Vam decidir crear aquesta aplicació per reduir la quantitat de temps que dediquem a crear llistes de reproducció per als nostres concerts i festivals, alhora que creem noves oportunitats per aprendre i col·laborar amb altres enginyers",
+    "meetTheTeam": "Coneix l'equip",
+    "meta": {
+        "description": "Som l'Àlex i en Dani, dos enginyers apassionats pel Metal i el Punk. Aquesta app crea playlists de Spotify basades en els últims setlists de Setlist.fm.",
+        "title": "Sobre nosaltres | Festwrap"
+    },
+    "profile": {
+        "alex": {
+            "description": "Experiència en la creació de infraestructures frontend i backend amb un fort coneixement en la interfície d’usuari i el disseny d’experiència d'usuaris."
+        },
+        "dani": {
+            "description": "Experiència en la construcció de infraestructura backend i machine learning amb un fort enfocament d’optimització, escalabilitat i manteniment."
+        }
+    }
+}
