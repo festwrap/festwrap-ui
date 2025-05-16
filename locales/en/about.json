@@ -1,0 +1,17 @@
+{
+    "aboutUs": "About us",
+    "aboutUsDescription": "We’re Alex and Dani, two engineers with a passion for music — especially Metal and Punk. We decided to build this application to reduce the amount of time we spend creating playlists for our concerts and festivals, while also creating new opportunities for learning and collaborating with other engineers",
+    "meetTheTeam": "Meet the team",
+    "meta": {
+        "description": "We’re Álex and Dani, two engineers passionate about Metal and Punk. This app builds Spotify playlists from the latest artist setlists on Setlist.fm.",
+        "title": "About us | Festwrap"
+    },
+    "profile": {
+        "alex": {
+            "description": "Experience in building frontend and backend infrastructure with a strong background in user interface and user experience design."
+        },
+        "dani": {
+            "description": "Experience in building backend and machine learning infrastructure with a strong focus on optimization, scalability and maintainability."
+        }
+    }
+}
