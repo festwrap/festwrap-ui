@@ -10,7 +10,7 @@ import { useArtistSearch } from './useArtistSearch';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { ArtistDTO } from '@/entities/artists';
 import SelectedArtistBadge from './SelectedArtistBadge';
-import { MAX_ARTISTS } from '@/constants/playlist';
+import { MAX_ARTISTS } from '@/entities/playlists';
 
 const PlaylistSearchArtistsForm = () => {
   const { control, watch, setValue, formState } = useFormContext();

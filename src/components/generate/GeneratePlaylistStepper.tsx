@@ -15,7 +15,7 @@ import {
 } from './usePlaylistSubmission';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { MAX_ARTISTS } from '@/constants/playlist';
+import { MAX_ARTISTS } from '@/entities/playlists';
 
 const STEPS_COUNT = 3;
 

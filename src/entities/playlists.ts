@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+export const MAX_ARTISTS = 5;
 
 export type CreateNewPlaylistDTO = {
   playlist: {
