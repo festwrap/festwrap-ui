@@ -305,6 +305,39 @@ describe('GeneratePlaylistPage', () => {
       expect(screen.getByText(artist2)).toBeInTheDocument();
     });
 
+    it('should show an error if more than maximum artists selected', async () => {
+      const nArtists = 6;
+      const mockedArtists = [
+        ...Array(nArtists)
+          .fill(null)
+          .map((_, i) => ({
+            name: 'New Artist ' + i,
+            imageUri: undefined,
+          })),
+      ];
+
+      vi.mocked(mockServices.artistsService.searchArtists).mockResolvedValue({
+        artists: mockedArtists,
+        message: 'Success',
+      });
+
+      renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+
+      await actions.completeFirstStepNewPlaylist();
+
+      for (const artist of mockedArtists) {
+        await actions.selectArtistAndAssertSelected(artist.name);
+      }
+
+      expect(
+        await screen.findByText(/steps.errors.selectedArtists.max/i)
+      ).toBeInTheDocument();
+
+      expect(
+        mockServices.playlistsService.createNewPlaylist
+      ).not.toHaveBeenCalled();
+    });
+
     it('should validate playlist name is required', async () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 

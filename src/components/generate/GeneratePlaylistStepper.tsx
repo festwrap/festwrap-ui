@@ -15,6 +15,7 @@ import {
 } from './usePlaylistSubmission';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { MAX_ARTISTS } from '@/entities/playlists';
 
 const STEPS_COUNT = 3;
 
@@ -31,6 +32,7 @@ const baseSchema = z.object({
         imageUri: z.string().optional(),
       })
     )
+    .max(MAX_ARTISTS, 'steps.errors.selectedArtists.max')
     .nonempty('steps.errors.selectedArtists.required'),
 });
 
