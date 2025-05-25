@@ -9,7 +9,7 @@ import { useServices } from '@/contexts/ServiceContext';
 import {
   FormSchemaType,
   PlaylistCreationMode,
-} from '@/components/generate/GeneratePlaylistStepper';
+} from '@/components/generate/GeneratePlaylistForm/GeneratePlaylistForm';
 
 export enum SubmissionStatus {
   OK,

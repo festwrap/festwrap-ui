@@ -12,7 +12,7 @@ import { ArtistDTO } from '@/entities/artists';
 import SelectedArtistBadge from './SelectedArtistBadge';
 import { MAX_ARTISTS } from '@/entities/playlists';
 
-const PlaylistSearchArtistsForm = () => {
+const PlaylistSearchArtistsSection = () => {
   const { control, watch, setValue, formState } = useFormContext();
   const { artists, search, clearArtists } = useArtistSearch();
   const { errors } = formState;
@@ -43,15 +43,10 @@ const PlaylistSearchArtistsForm = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-col space-y-2">
-        <Heading as="h2" size="2xl" color="primary">
-          {t('steps.step2.title')}
-        </Heading>
-        <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
-          {t('steps.step2.description')}
-        </p>
-      </div>
+    <div className="flex flex-col space-y-6 mb-12">
+      <Heading as="h2" size="2xl" color="primary">
+        {t('playlistSearchArtists.title')}
+      </Heading>
       <div className="w-full">
         <FormField
           control={control}
@@ -64,7 +59,7 @@ const PlaylistSearchArtistsForm = () => {
                   values={field.value}
                   onChange={onChangeSelection}
                   onSearch={debouncedSearch}
-                  placeholder={t('steps.step2.searchPlaceholder')}
+                  placeholder={t('playlistSearchArtists.searchPlaceholder')}
                 />
               </FormControl>
               {errors.artists?.message && (
@@ -87,9 +82,11 @@ const PlaylistSearchArtistsForm = () => {
               />
             </div>
             <h3 className="font-semibold mb-2">
-              {t('steps.step2.emptyState.title')}
+              {t('playlistSearchArtists.emptyState.title')}
             </h3>
-            <p className="text-sm">{t('steps.step2.emptyState.description')}</p>
+            <p className="text-sm">
+              {t('playlistSearchArtists.emptyState.description')}
+            </p>
           </div>
         ) : (
           <div className="mt-4 flex flex-wrap gap-2">
@@ -104,8 +101,8 @@ const PlaylistSearchArtistsForm = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
-export default PlaylistSearchArtistsForm;
+export default PlaylistSearchArtistsSection;

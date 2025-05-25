@@ -44,7 +44,7 @@ const SelectedArtistBadge = ({
         onClick={() => onRemove(name)}
         type="button"
         className="mr-1 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
-        aria-label={`${t('steps.step2.removeArtist')} ${name}`}
+        aria-label={`${t('playlistSearchArtists.removeArtist')} ${name}`}
       >
         <X className="h-4 w-4" />
       </button>

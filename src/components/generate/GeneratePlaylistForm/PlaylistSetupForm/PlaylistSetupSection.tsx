@@ -17,10 +17,10 @@ import {
 } from '@/components/ui/Form';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import PlaylistSearcher from './PlaylistSearcher';
-import { PlaylistCreationMode } from '../GeneratePlaylistStepper';
+import { PlaylistCreationMode } from '../GeneratePlaylistForm';
 import { Textarea } from '@/components/ui/Textarea';
 
-const PlaylistSetupForm = () => {
+const PlaylistSetupSection = () => {
   const { watch, control, formState } = useFormContext();
   const { errors } = formState;
 
@@ -29,15 +29,10 @@ const PlaylistSetupForm = () => {
   const playlistModeSelected = watch('playlistCreationMode');
 
   return (
-    <>
-      <div className="flex flex-col space-y-2">
-        <Heading as="h2" size="2xl" color="primary">
-          {t('steps.step1.title')}
-        </Heading>
-        <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
-          {t('steps.step1.description')}
-        </p>
-      </div>
+    <div className="flex flex-col space-y-6 mb-12">
+      <Heading as="h2" size="2xl" color="primary">
+        {t('playlistSetup.title')}
+      </Heading>
       <FormField
         control={control}
         name="playlistCreationMode"
@@ -48,18 +43,18 @@ const PlaylistSetupForm = () => {
           >
             <RadioGroupButton value={PlaylistCreationMode.New}>
               <RadioGroupButtonTitle>
-                {t('steps.step1.form.createNewPlaylist.title')}
+                {t('playlistSetup.form.createNewPlaylist.title')}
               </RadioGroupButtonTitle>
               <RadioGroupButtonDescription>
-                {t('steps.step1.form.createNewPlaylist.description')}
+                {t('playlistSetup.form.createNewPlaylist.description')}
               </RadioGroupButtonDescription>
             </RadioGroupButton>
             <RadioGroupButton value={PlaylistCreationMode.Existing}>
               <RadioGroupButtonTitle>
-                {t('steps.step1.form.useExistingPlaylist.title')}
+                {t('playlistSetup.form.useExistingPlaylist.title')}
               </RadioGroupButtonTitle>
               <RadioGroupButtonDescription>
-                {t('steps.step1.form.useExistingPlaylist.description')}
+                {t('playlistSetup.form.useExistingPlaylist.description')}
               </RadioGroupButtonDescription>
             </RadioGroupButton>
           </RadioGroupButtons>
@@ -74,12 +69,12 @@ const PlaylistSetupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('steps.step1.form.createNewPlaylist.giveAName')}
+                    {t('playlistSetup.form.createNewPlaylist.giveAName')}
                   </FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t(
-                        'steps.step1.form.createNewPlaylist.namePlaceholder'
+                        'playlistSetup.form.createNewPlaylist.namePlaceholder'
                       )}
                       {...field}
                     />
@@ -98,12 +93,12 @@ const PlaylistSetupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('steps.step1.form.createNewPlaylist.giveADescription')}
+                    {t('playlistSetup.form.createNewPlaylist.giveADescription')}
                   </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder={t(
-                        'steps.step1.form.createNewPlaylist.descriptionPlaceholder'
+                        'playlistSetup.form.createNewPlaylist.descriptionPlaceholder'
                       )}
                       {...field}
                     />
@@ -122,19 +117,19 @@ const PlaylistSetupForm = () => {
                       onCheckedChange={field.onChange}
                       aria-readonly
                       title={t(
-                        'steps.step1.form.createNewPlaylist.publicPlaylist.title'
+                        'playlistSetup.form.createNewPlaylist.publicPlaylist.title'
                       )}
                     />
                   </FormControl>
                   <FormLabel className="flex flex-col">
                     <span className="text-sm font-medium">
                       {t(
-                        'steps.step1.form.createNewPlaylist.publicPlaylist.title'
+                        'playlistSetup.form.createNewPlaylist.publicPlaylist.title'
                       )}
                     </span>
                     <span className="text-sm text-muted-foreground text-dark-blue">
                       {t(
-                        'steps.step1.form.createNewPlaylist.publicPlaylist.description'
+                        'playlistSetup.form.createNewPlaylist.publicPlaylist.description'
                       )}
                     </span>
                   </FormLabel>
@@ -148,8 +143,8 @@ const PlaylistSetupForm = () => {
           <PlaylistSearcher />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default PlaylistSetupForm;
+export default PlaylistSetupSection;
