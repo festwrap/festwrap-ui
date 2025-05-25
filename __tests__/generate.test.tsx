@@ -1,5 +1,5 @@
 import { describe, expect, vi, it, beforeAll, beforeEach } from 'vitest';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 import { ReactNode } from 'react';
@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { IPlaylistsService } from '@/services/playlistsService';
 import { IArtistsService } from '@/services/artistsService';
 import { CreatedPlaylistStatus } from '@/entities/playlists';
+import { useRouter } from 'next/router';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -23,6 +24,10 @@ vi.mock('sonner', () => ({
     success: vi.fn(),
     error: vi.fn(),
   },
+}));
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }));
 
 const staticTranslations: GenerateProps = {
@@ -114,47 +119,41 @@ const actions = {
     }
   },
 
-  async completeFirstStepNewPlaylist(
+  async completeFirstSectionNewPlaylist(
     playlistName = 'My new playlist',
     description = ''
   ) {
-    await actions.selectRadio(/steps.step1.form.createNewPlaylist.title/i);
+    await actions.selectRadio(/playlistSetup.form.createNewPlaylist.title/i);
     await actions.type(
-      /steps.step1.form.createNewPlaylist.giveAName/i,
+      /playlistSetup.form.createNewPlaylist.giveAName/i,
       playlistName
     );
 
     if (description) {
       await actions.type(
-        /steps.step1.form.createNewPlaylist.giveADescription/i,
+        /playlistSetup.form.createNewPlaylist.giveADescription/i,
         description
       );
     }
-
-    await actions.click(/steps.navigation.next/i);
-    await actions.waitForStep(/steps.step2.title/i);
   },
 
-  async completeFirstStepExistingPlaylist(
+  async completeFirstSectionExistingPlaylist(
     playlistName = TEST_DATA.playlists.existing.name
   ) {
-    await actions.selectRadio(/steps.step1.form.useExistingPlaylist.title/i);
+    await actions.selectRadio(/playlistSetup.form.useExistingPlaylist.title/i);
     await actions.selectPlaylistAndAssetSelected(playlistName);
-    await actions.click(/steps.navigation.next/i);
-    await actions.waitForStep(/steps.step2.title/i);
   },
 
-  async completeSecondStep(artistNames = [TEST_DATA.artists.single.name]) {
+  async completeSecondSection(artistNames = [TEST_DATA.artists.single.name]) {
     for (const name of artistNames) {
       await actions.selectArtistAndAssertSelected(name);
     }
-    await actions.click(/steps.navigation.generate/i);
-    await actions.waitForStep(/steps.step3.title/i);
+    await actions.click(/navigation.generate/i);
   },
 
   async selectArtistAndAssertSelected(artistName: string) {
     const searchInput = screen.getByPlaceholderText(
-      'steps.step2.searchPlaceholder'
+      'playlistSearchArtists.searchPlaceholder'
     );
     await user.clear(searchInput);
     await user.type(searchInput, artistName);
@@ -171,7 +170,7 @@ const actions = {
     await user.click(combobox);
 
     const searchInput = screen.getByPlaceholderText(
-      /steps.step1.form.useExistingPlaylist.playlistSelector.placeholder/i
+      /playlistSetup.form.useExistingPlaylist.playlistSelector.placeholder/i
     );
     await user.type(searchInput, playlistName);
 
@@ -181,68 +180,51 @@ const actions = {
       expect(screen.getByText(playlistName)).toBeInTheDocument();
     });
   },
-
-  async waitForStep(stepTitleRegex: RegExp) {
-    return waitFor(() => {
-      const stepContent = screen.getByRole('tabpanel');
-      const stepTitle = within(stepContent).getByRole('heading', {
-        name: stepTitleRegex,
-      });
-      expect(stepTitle).toBeInTheDocument();
-      return stepTitle;
-    });
-  },
 };
 
 describe('GeneratePlaylistPage', () => {
+  const mockPush = vi.fn();
+
   beforeAll(() => {
     user = userEvent.setup({ delay: null });
   });
 
   beforeEach(() => {
     mockServices = createServiceMocks();
-  });
-
-  it('should navigate to the first step clicking on the previous button', async () => {
-    renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
-
-    await actions.completeFirstStepNewPlaylist();
-
-    await actions.click(/steps.navigation.previous/i);
-
-    const firstStepTitle = await actions.waitForStep(/steps.step1.title/i);
-    expect(firstStepTitle).toBeInTheDocument();
+    vi.mocked(useRouter as any).mockReturnValue({
+      push: mockPush,
+    });
   });
 
   it.each([
     {
       scenario: 'existing playlist update',
       getUpdatePlaylistFn: () => mockServices.playlistsService.updatePlaylist,
-      firstStepFn: actions.completeFirstStepExistingPlaylist,
+      firstSectionFn: actions.completeFirstSectionExistingPlaylist,
     },
     {
       scenario: 'new playlist creation',
       getUpdatePlaylistFn: () =>
         mockServices.playlistsService.createNewPlaylist,
-      firstStepFn: actions.completeFirstStepNewPlaylist,
+      firstSectionFn: actions.completeFirstSectionNewPlaylist,
     },
   ])(
     'should display error toast when $scenario API fails',
-    async ({ getUpdatePlaylistFn, firstStepFn }) => {
+    async ({ getUpdatePlaylistFn, firstSectionFn }) => {
       vi.mocked(getUpdatePlaylistFn()).mockRejectedValue(
         new Error('API Error')
       );
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-      await firstStepFn();
+      await firstSectionFn();
       await actions.selectArtistAndAssertSelected(
         TEST_DATA.artists.single.name
       );
-      await actions.click(/steps.navigation.generate/i);
+      await actions.click(/navigation.generate/i);
 
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledWith(
-          'steps.errors.submitPlaylist.unexpectedError'
+          'errors.submitPlaylist.unexpectedError'
         );
       });
     }
@@ -255,18 +237,11 @@ describe('GeneratePlaylistPage', () => {
       const { name, description } = TEST_DATA.playlists.new;
       const artistsToSelect = [TEST_DATA.artists.single.name];
 
-      await actions.completeFirstStepNewPlaylist(name, description);
-      await actions.completeSecondStep(artistsToSelect);
+      await actions.completeFirstSectionNewPlaylist(name, description);
+      await actions.completeSecondSection(artistsToSelect);
 
-      expect(
-        screen.getByRole('heading', {
-          name: /steps.step3.playlistGeneratedSuccessfully/i,
-        })
-      ).toBeInTheDocument();
-      const embeddedPlaylist = screen.getByTitle('Spotify embedded playlist');
-      expect(embeddedPlaylist).toHaveAttribute(
-        'src',
-        `https://open.spotify.com/embed/playlist/${TEST_DATA.createdPlaylistId}`
+      expect(mockPush).toHaveBeenCalledWith(
+        '/generate/success/' + TEST_DATA.createdPlaylistId
       );
 
       expect(
@@ -288,7 +263,7 @@ describe('GeneratePlaylistPage', () => {
       });
 
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
-      await actions.completeFirstStepNewPlaylist();
+      await actions.completeFirstSectionNewPlaylist();
 
       const [artist1, artist2] = TEST_DATA.artists.multiple.map((a) => a.name);
       await actions.selectArtistAndAssertSelected(artist1);
@@ -298,7 +273,7 @@ describe('GeneratePlaylistPage', () => {
       expect(screen.getByText(artist2)).toBeInTheDocument();
 
       const removeButton = screen.getByLabelText(
-        `steps.step2.removeArtist ${artist1}`
+        `playlistSearchArtists.removeArtist ${artist1}`
       );
       await user.click(removeButton);
       expect(screen.queryByText(artist1)).not.toBeInTheDocument();
@@ -323,14 +298,14 @@ describe('GeneratePlaylistPage', () => {
 
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-      await actions.completeFirstStepNewPlaylist();
+      await actions.completeFirstSectionNewPlaylist();
 
       for (const artist of mockedArtists) {
         await actions.selectArtistAndAssertSelected(artist.name);
       }
 
       expect(
-        await screen.findByText(/steps.errors.selectedArtists.max/i)
+        await screen.findByText(/errors.selectedArtists.max/i)
       ).toBeInTheDocument();
 
       expect(
@@ -341,11 +316,11 @@ describe('GeneratePlaylistPage', () => {
     it('should validate playlist name is required', async () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-      await actions.selectRadio(/steps.step1.form.createNewPlaylist.title/i);
-      await actions.click(/steps.navigation.next/i);
+      await actions.selectRadio(/form.createNewPlaylist.title/i);
+      await actions.click(/navigation.generate/i);
 
       expect(
-        await screen.findByText(/steps.errors.name.required/i)
+        await screen.findByText(/errors.name.required/i)
       ).toBeInTheDocument();
     });
   });
@@ -354,27 +329,22 @@ describe('GeneratePlaylistPage', () => {
     it('should successfully update an existing playlist', async () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-      await actions.completeFirstStepExistingPlaylist();
-      await actions.completeSecondStep([TEST_DATA.artists.single.name]);
+      await actions.completeFirstSectionExistingPlaylist();
+      await actions.completeSecondSection([TEST_DATA.artists.single.name]);
 
-      expect(
-        screen.getByText(/steps.step3.playlistGeneratedSuccessfully/i)
-      ).toBeInTheDocument();
-      const embeddedPlaylist = screen.getByTitle('Spotify embedded playlist');
-      expect(embeddedPlaylist).toHaveAttribute(
-        'src',
-        'https://open.spotify.com/embed/playlist/existing-playlist-1'
+      expect(mockPush).toHaveBeenCalledWith(
+        '/generate/success/' + TEST_DATA.playlists.existing.id
       );
     });
 
     it('should validate playlist selection is required', async () => {
       renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-      await actions.selectRadio(/steps.step1.form.useExistingPlaylist.title/i);
-      await actions.click(/steps.navigation.next/i);
+      await actions.selectRadio(/form.useExistingPlaylist.title/i);
+      await actions.click(/navigation.generate/i);
 
       expect(
-        await screen.findByText(/steps.errors.playlistSelected.required/i)
+        await screen.findByText(/errors.playlistSelected.required/i)
       ).toBeInTheDocument();
     });
   });
