@@ -44,6 +44,7 @@ export function Alert({
 
   return (
     <div
+      role="alert"
       className={cn(
         'flex items-center gap-3 rounded-lg border-2 p-4',
         styles.container,
