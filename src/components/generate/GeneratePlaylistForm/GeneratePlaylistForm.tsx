@@ -35,7 +35,6 @@ const baseSchema = z.object({
 const newPlaylistSchema = baseSchema.extend({
   playlistCreationMode: z.literal(PlaylistCreationMode.New),
   name: z.string().min(1, 'errors.name.required'),
-  description: z.string().optional(),
   isPublic: z.boolean(),
 });
 
@@ -69,7 +68,6 @@ const GeneratePlaylistForm = () => {
     defaultValues: {
       playlistCreationMode: PlaylistCreationMode.New,
       name: '',
-      description: '',
       isPublic: false,
       artists: [],
     },

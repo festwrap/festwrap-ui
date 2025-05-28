@@ -56,7 +56,6 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
         const newPlaylistData: CreateNewPlaylistDTO = {
           playlist: {
             name: values.name,
-            description: values.description,
             isPublic: values.isPublic,
           },
           artists: values.artists.map((artist) => ({

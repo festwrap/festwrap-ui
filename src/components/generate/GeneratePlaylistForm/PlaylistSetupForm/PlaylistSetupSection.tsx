@@ -18,7 +18,6 @@ import {
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import PlaylistSearcher from './PlaylistSearcher';
 import { PlaylistCreationMode } from '../GeneratePlaylistForm';
-import { Textarea } from '@/components/ui/Textarea';
 
 const PlaylistSetupSection = () => {
   const { watch, control, formState } = useFormContext();
@@ -84,25 +83,6 @@ const PlaylistSetupSection = () => {
                       {t(errors.name?.message as string)}
                     </ErrorMessage>
                   )}
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {t('playlistSetup.form.createNewPlaylist.giveADescription')}
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={t(
-                        'playlistSetup.form.createNewPlaylist.descriptionPlaceholder'
-                      )}
-                      {...field}
-                    />
-                  </FormControl>
                 </FormItem>
               )}
             />
