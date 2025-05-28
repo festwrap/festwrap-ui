@@ -28,14 +28,14 @@ const getEmptyMessageTranslationKey = (
   searchValue: string
 ) => {
   if (loading) {
-    return 'steps.step1.form.useExistingPlaylist.playlistSelector.loading';
+    return 'playlistSetup.form.useExistingPlaylist.playlistSelector.loading';
   }
 
   if (playlists.length === 0 && searchValue.trim() !== '') {
-    return 'steps.step1.form.useExistingPlaylist.playlistSelector.noResults';
+    return 'playlistSetup.form.useExistingPlaylist.playlistSelector.noResults';
   }
 
-  return 'steps.step1.form.useExistingPlaylist.playlistSelector.searchPlaceholder';
+  return 'playlistSetup.form.useExistingPlaylist.playlistSelector.searchPlaceholder';
 };
 
 const PlaylistSearcher = () => {
@@ -65,7 +65,7 @@ const PlaylistSearcher = () => {
       render={({ field }) => (
         <FormItem>
           <FormLabel>
-            {t('steps.step1.form.useExistingPlaylist.playlistSelector.title')}
+            {t('playlistSetup.form.useExistingPlaylist.playlistSelector.title')}
           </FormLabel>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -78,7 +78,7 @@ const PlaylistSearcher = () => {
                 {field.value
                   ? field.value.name
                   : t(
-                      'steps.step1.form.useExistingPlaylist.playlistSelector.placeholder'
+                      'playlistSetup.form.useExistingPlaylist.playlistSelector.placeholder'
                     )}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -87,7 +87,7 @@ const PlaylistSearcher = () => {
               <Command shouldFilter={false}>
                 <CommandInput
                   placeholder={t(
-                    'steps.step1.form.useExistingPlaylist.playlistSelector.placeholder'
+                    'playlistSetup.form.useExistingPlaylist.playlistSelector.placeholder'
                   )}
                   onValueChange={debouncedSearch}
                 />

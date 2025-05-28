@@ -64,7 +64,7 @@ export function RadioGroupButton({
         onChange={() => context.onChange(value)}
       />
       <div className="flex flex-col gap-1">{children}</div>
-      <div className="flex items-start w-8">
+      <div className="absolute top-3 right-3">
         {isChecked && <CircleCheck className="h-5 w-5 text-primary" />}
       </div>
     </label>

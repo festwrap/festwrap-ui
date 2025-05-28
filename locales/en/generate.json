@@ -1,75 +1,72 @@
 {
+  "betaInfo": {
+    "formLink": "Form link",
+    "title": "This site is in beta. You can help us improve the experience by reporting any issues you may encounter"
+  },
+  "errors": {
+    "name": {
+      "required": "The playlist name is required"
+    },
+    "playlistSelected": {
+      "required": "Select a playlist is required"
+    },
+    "selectedArtists": {
+      "max": "You can only add {{max}} artists to the playlist",
+      "required": "Select at least one artist"
+    },
+    "submitPlaylist": {
+      "missingArtists": "Some artists could not be added to the playlist",
+      "unexpectedError": "An unexpected error occurred while creating/modifying the playlist"
+    }
+  },
   "meta": {
     "description": "Create playlists with the songs your artists are currently touring with",
     "keywords": "Spotify, Setlist.fm, Playlist generator, Festivals, Music, Concerts",
     "title": "Generator | Festwrap"
   },
-  "steps": {
-    "errors": {
-      "name": {
-        "required": "The playlist name is required"
+  "navigation": {
+    "generate": "Generate",
+    "generating": "Generating..."
+  },
+  "playlistSearchArtists": {
+    "emptyState": {
+      "description": "Start searching for artists to add them to the playlist",
+      "title": "No artist added"
+    },
+    "removeArtist": "Remove",
+    "searchPlaceholder": "Search artists",
+    "title": "Search the artists"
+  },
+  "playlistSetup": {
+    "form": {
+      "createNewPlaylist": {
+        "description": "Use this option to create a new Spotify playlist",
+        "descriptionPlaceholder": "Playlist description",
+        "giveADescription": "Give a description to the playlist",
+        "giveAName": "Give a name to the playlist",
+        "namePlaceholder": "Playlist name",
+        "publicPlaylist": {
+          "description": "Only public playlists are visible in your profile",
+          "title": "Public on your profile"
+        },
+        "title": "Create a new playlist"
       },
-      "playlistSelected": {
-        "required": "Select a playlist is required"
-      },
-      "selectedArtists": {
-        "max": "You can only add {{max}} artists to the playlist",
-        "required": "Select at least one artist"
-      },
-      "submitPlaylist": {
-        "missingArtists": "Some artists could not be added to the playlist",
-        "unexpectedError": "An unexpected error occurred while creating/modifying the playlist"
+      "useExistingPlaylist": {
+        "description": "Use this option to add songs to one of your existing playlists.",
+        "playlistSelector": {
+          "loading": "Loading playlists...",
+          "noResults": "No playlists found",
+          "placeholder": "Select a playlist",
+          "searchPlaceholder": "Search playlists",
+          "title": "Select a playlist"
+        },
+        "title": "Use an existing playlist"
       }
     },
-    "navigation": {
-      "generate": "Generate",
-      "generating": "Generating...",
-      "next": "Next",
-      "previous": "Previous"
-    },
-    "step1": {
-      "description": "Create a new list or use an existing one",
-      "form": {
-        "createNewPlaylist": {
-          "description": "Use this option to create a new Spotify playlist",
-          "descriptionPlaceholder": "Playlist description",
-          "giveADescription": "Give a description to the playlist",
-          "giveAName": "Give a name to the playlist",
-          "namePlaceholder": "Playlist name",
-          "publicPlaylist": {
-            "description": "Only public playlists are visible in your profile",
-            "title": "Public on your profile"
-          },
-          "title": "Create a new playlist"
-        },
-        "useExistingPlaylist": {
-          "description": "Use this option to add songs to one of your existing playlists.",
-          "playlistSelector": {
-            "loading": "Loading playlists...",
-            "noResults": "No playlists found",
-            "placeholder": "Select a playlist",
-            "searchPlaceholder": "Search playlists",
-            "title": "Select a playlist"
-          },
-          "title": "Use an existing playlist"
-        }
-      },
-      "title": "Configure the playlist"
-    },
-    "step2": {
-      "description": "Select for the artists you want to add to the playlist",
-      "emptyState": {
-        "description": "Start searching for artists to add them to the playlist",
-        "title": "No artist added"
-      },
-      "removeArtist": "Remove",
-      "searchPlaceholder": "Search artists",
-      "title": "Search the artists"
-    },
-    "step3": {
-      "description": "Visualize the songs added to the playlist",
-      "playlistGeneratedSuccessfully": "Playlist generated successfully",
-      "title": "Visualize the playlist"
-    }
+    "title": "Configure the playlist"
+  },
+  "playlistSuccess": {
+    "playlistGeneratedSuccessfully": "Playlist generated successfully",
+    "title": "Visualize the playlist"
   }
 }

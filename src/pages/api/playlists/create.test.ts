@@ -95,7 +95,6 @@ describe('createCreatePlaylistHandler', () => {
     const playlistData = {
       playlist: {
         name: 'New Playlist',
-        description: 'A fresh playlist',
         isPublic: true,
       },
       artists: [{ name: 'Artist1' }, { name: 'Artist2' }],
@@ -112,7 +111,6 @@ describe('createCreatePlaylistHandler', () => {
     expect(client.createPlaylist).toHaveBeenCalledWith('mocked-token', {
       playlist: {
         name: playlistData.playlist.name,
-        description: playlistData.playlist.description,
         isPublic: playlistData.playlist.isPublic,
       },
       artists: playlistData.artists,
