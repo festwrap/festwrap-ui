@@ -21,7 +21,6 @@ export type CreatePlaylistResponseData = {
 const createNewPlaylistSchema = z.object({
   playlist: z.object({
     name: z.string(),
-    description: z.string(),
     isPublic: z.boolean(),
   }),
   artists: z.array(
