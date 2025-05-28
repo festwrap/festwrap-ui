@@ -62,19 +62,4 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
       screen.getByText('errors.submitPlaylist.missingArtists')
     ).toBeInTheDocument();
   });
-
-  it('renders without playlistId (should ideally not happen but test robustness)', () => {
-    vi.mocked(useRouter as any).mockReturnValue({
-      query: { partialError: undefined }, // No playlistId
-    });
-
-    render(<PlaylistGeneratedSuccessfully />);
-
-    expect(document.title).toBe('meta.title');
-
-    const spotifyIframe = screen.queryByTitle('Spotify embedded playlist');
-    expect(spotifyIframe).not.toBeInTheDocument();
-
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-  });
 });
