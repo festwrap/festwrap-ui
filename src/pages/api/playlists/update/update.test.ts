@@ -146,7 +146,7 @@ describe('createUpdatePlaylistHandler', () => {
   it('should return an error if update fails', async () => {
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'updatePlaylist').mockImplementation(() => {
-      throw new Error('test error');
+      throw new Error('update test error');
     });
     const response = createMockResponse();
 
@@ -155,7 +155,7 @@ describe('createUpdatePlaylistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error occurred',
+      message: 'Unexpected error occurred: update test error',
     });
   });
 
