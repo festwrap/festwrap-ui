@@ -37,9 +37,9 @@
     "artistSearch": {
         "searching": "Cercant...",
         "noResults": "No s'han trobat resultats",
+        "empty": "Escriu per començar la cerca"
     },
     "removeArtist": "Eliminar",
-    "searchPlaceholder": "Cerca artistes",
     "title": "Cerca els artistes"
   },
   "playlistSetup": {
