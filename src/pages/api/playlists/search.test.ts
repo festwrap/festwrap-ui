@@ -145,7 +145,7 @@ describe('createSearchPlaylistHandler', () => {
   it('should return an error if search fails', async () => {
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'searchPlaylists').mockImplementation(() => {
-      throw new Error('test error');
+      throw new Error('search test error');
     });
     const response = createMockResponse();
 
@@ -158,7 +158,7 @@ describe('createSearchPlaylistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error occurred',
+      message: 'Unexpected error occurred: search test error',
     });
   });
 

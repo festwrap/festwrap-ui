@@ -1,10 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
-import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Artist, ArtistDTO } from '@/entities/artists';
-import { ArtistsClient, ArtistsHTTPClient } from '@/lib/clients/artists';
-import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
+import { ArtistsClient } from '@/lib/clients/artists';
 import { createBaseHandler } from '@/lib/handlers/base';
+import { ARTISTS_CLIENT } from '@/lib/config';
 
 export type SearchArtistHandlerParams = {
   client: ArtistsClient;
@@ -71,17 +70,12 @@ const defaultLimit: number = parseInt(
   process.env.SEARCH_ARTISTS_DEFAULT_LIMIT || '5'
 );
 const maxLimit: number = parseInt(process.env.SEARCH_ARTISTS_MAX_LIMIT || '10');
-const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
-const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
-const httpClient: HttpClient = new HttpBaseClient();
-const httpAuthHeaderBuilder = new BaseAuthHeaderBuilder();
-const client: ArtistsClient = new ArtistsHTTPClient(
-  `${serverHost}:${serverPort}`,
-  httpClient,
-  httpAuthHeaderBuilder
-);
 const searchArtistHandler: (
   _request: NextApiRequest,
   _response: NextApiResponse
-) => void = createSearchArtistHandler({ client, defaultLimit, maxLimit });
+) => void = createSearchArtistHandler({
+  client: ARTISTS_CLIENT,
+  defaultLimit,
+  maxLimit,
+});
 export default searchArtistHandler;

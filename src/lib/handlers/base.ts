@@ -53,7 +53,9 @@ export function createBaseHandler<
       await handleRequest(parsedArgs.data, token.accessToken, response);
     } catch (error) {
       response.status(500).json({
-        message: 'Unexpected error occurred',
+        message:
+          'Unexpected error occurred: ' +
+          (error instanceof Error ? error.message : 'Unknown error'),
       } as TResponseData);
     }
   };
