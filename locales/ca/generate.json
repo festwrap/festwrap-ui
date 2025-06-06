@@ -34,6 +34,9 @@
       "description": "Comença a buscar artistes per afegir-los a la llista de reproducció",
       "title": "No hi ha cap artista afegit"
     },
+    "artistSearch": {
+        "noResults": "No s'han trobat resultats",
+    },
     "removeArtist": "Eliminar",
     "searchPlaceholder": "Cerca artistes",
     "title": "Cerca els artistes"

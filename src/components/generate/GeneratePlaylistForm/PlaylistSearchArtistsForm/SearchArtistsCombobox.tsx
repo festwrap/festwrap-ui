@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
 import ArtistSearchResult from './ArtistSearchResult';
 import { ArtistDTO } from '@/entities/artists';
+import useTranslation from 'next-translate/useTranslation';
 
 type SearchComboboxProps = {
   options: ArtistDTO[];
@@ -25,6 +26,8 @@ export function SearchArtistsCombobox({
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
+
+  const { t } = useTranslation('generate');
 
   const handleOutsideClick = (event: MouseEvent) => {
     if (
@@ -147,7 +150,9 @@ export function SearchArtistsCombobox({
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
             {options.length === 0 ? (
-              <li className="px-4 py-2 text-secondary">No results found.</li>
+              <li className="px-4 py-2 text-secondary">
+                {t('playlistSearchArtists.artistSearch.noResults')}
+              </li>
             ) : (
               options.map((item, index) => (
                 <ArtistSearchResult
