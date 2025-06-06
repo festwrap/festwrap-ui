@@ -33,6 +33,9 @@
       "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
       "title": "Ningún artista añadido"
     },
+    "artistSearch": {
+        "noResults": "No se han encontrado resultados",
+    },
     "removeArtist": "Eliminar",
     "searchPlaceholder": "Busca artistas",
     "title": "Busca los artistas"
