@@ -121,10 +121,10 @@ export function SearchArtistsCombobox({
             onChange={handleInputChange}
             onMouseDown={handleInputToggle}
             className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            placeholder={placeholder}
             aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-controls="combobox-items"
+            data-testid="artist-search-input"
           />
           {search && (
             <button
@@ -153,6 +153,10 @@ export function SearchArtistsCombobox({
             {isSearching ? (
               <li className="px-4 py-2 text-secondary" role="status">
                 {t('playlistSearchArtists.artistSearch.searching')}
+              </li>
+            ) : !search ? (
+              <li className="px-4 py-2 text-secondary" role="status">
+                {t('playlistSearchArtists.artistSearch.empty')}
               </li>
             ) : options.length === 0 ? (
               <li className="px-4 py-2 text-secondary">

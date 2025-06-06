@@ -36,9 +36,9 @@
     "artistSearch": {
         "searching": "Searching...",
         "noResults": "No results found",
+        "empty": "Type to start searching"
     },
     "removeArtist": "Remove",
-    "searchPlaceholder": "Search artists",
     "title": "Search the artists"
   },
   "playlistSetup": {

@@ -36,4 +36,25 @@ describe('SearchArtistsCombobox', () => {
     expect(searchItem).toBeInTheDocument();
   });
 
+  it('shows empty search message when search is empty', async () => {
+    render(
+      <SearchArtistsCombobox
+        options={[]}
+        values={[]}
+        onChange={vi.fn()}
+        onSearch={vi.fn()}
+        isSearching={false}
+        hasError={false}
+      />
+    );
+    await selectArtistInputAndType();
+
+    const emptySearchItem = screen
+      .getAllByRole('status')
+      .find(
+        (item) => item.textContent == 'playlistSearchArtists.artistSearch.empty'
+      );
+    expect(emptySearchItem).toBeInTheDocument();
+  });
+
 });
