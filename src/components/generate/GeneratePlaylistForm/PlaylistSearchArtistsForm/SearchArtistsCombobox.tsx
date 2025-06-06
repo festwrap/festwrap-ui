@@ -11,7 +11,7 @@ type SearchComboboxProps = {
   values: ArtistDTO[];
   onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
-  placeholder?: string;
+  isSearching: boolean;
 };
 
 export function SearchArtistsCombobox({
@@ -19,7 +19,7 @@ export function SearchArtistsCombobox({
   values,
   onChange,
   onSearch,
-  placeholder,
+  isSearching,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -116,6 +116,7 @@ export function SearchArtistsCombobox({
           <input
             ref={inputRef}
             type="text"
+            role="textbox"
             value={search}
             onChange={handleInputChange}
             onMouseDown={handleInputToggle}
@@ -149,7 +150,11 @@ export function SearchArtistsCombobox({
             role="listbox"
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
-            {options.length === 0 ? (
+            {isSearching ? (
+              <li className="px-4 py-2 text-secondary" role="status">
+                {t('playlistSearchArtists.artistSearch.searching')}
+              </li>
+            ) : options.length === 0 ? (
               <li className="px-4 py-2 text-secondary">
                 {t('playlistSearchArtists.artistSearch.noResults')}
               </li>

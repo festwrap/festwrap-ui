@@ -34,6 +34,7 @@
       "title": "No artist added"
     },
     "artistSearch": {
+        "searching": "Searching...",
         "noResults": "No results found",
     },
     "removeArtist": "Remove",
