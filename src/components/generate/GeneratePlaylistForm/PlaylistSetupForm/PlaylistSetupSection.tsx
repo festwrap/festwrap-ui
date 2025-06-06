@@ -18,6 +18,7 @@ import {
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import PlaylistSearcher from './PlaylistSearcher';
 import { PlaylistCreationMode } from '../GeneratePlaylistForm';
+import { BetaInfoAlert } from '../../BetaInfoAlert';
 
 const PlaylistSetupSection = () => {
   const { watch, control, formState } = useFormContext();
@@ -32,6 +33,7 @@ const PlaylistSetupSection = () => {
       <Heading as="h2" size="2xl" color="primary">
         {t('playlistSetup.title')}
       </Heading>
+      <BetaInfoAlert />
       <FormField
         control={control}
         name="playlistCreationMode"

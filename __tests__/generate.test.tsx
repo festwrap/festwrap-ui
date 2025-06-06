@@ -184,6 +184,11 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
+  it('should display beta info alert', () => {
+    renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+    expect(screen.getByText('betaInfo.title')).toBeInTheDocument();
+  });
+
   it.each([
     {
       scenario: 'existing playlist update',

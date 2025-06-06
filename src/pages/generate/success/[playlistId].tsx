@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { Alert } from '@/components/ui/Alert';
 import { TriangleAlert } from 'lucide-react';
+import { BetaInfoAlert } from '@/components/generate/BetaInfoAlert';
 
 export default function PlaylistGeneratedSuccessfully() {
   const { t } = useTranslation('generate');
@@ -26,6 +27,7 @@ export default function PlaylistGeneratedSuccessfully() {
               icon={TriangleAlert}
             />
           )}
+          <BetaInfoAlert />
         </div>
       </div>
     </>
