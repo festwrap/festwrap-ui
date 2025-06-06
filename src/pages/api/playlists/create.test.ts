@@ -166,7 +166,7 @@ describe('createCreatePlaylistHandler', () => {
   it('should return an error if creation fails', async () => {
     const client = new PlaylistsClientStub();
     vi.spyOn(client, 'createPlaylist').mockImplementation(() => {
-      throw new Error('test error');
+      throw new Error('creation test error');
     });
     const response = createMockResponse();
 
@@ -175,7 +175,7 @@ describe('createCreatePlaylistHandler', () => {
 
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
-      message: 'Unexpected error occurred',
+      message: 'Unexpected error occurred: creation test error',
     });
   });
 

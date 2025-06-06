@@ -1,10 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
-import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
 import { Playlist, PlaylistDTO } from '@/entities/playlists';
-import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
-import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
+import { PlaylistsClient } from '@/lib/clients/playlists';
 import { createBaseHandler } from '@/lib/handlers/base';
+import { PLAYLISTS, PLAYLISTS_CLIENT } from '@/lib/config';
 
 export type SearchPlaylistHandlerParams = {
   client: PlaylistsClient;
@@ -66,23 +65,13 @@ export function createSearchPlaylistHandler({
   });
 }
 
-const defaultLimit: number = parseInt(
-  process.env.SEARCH_PLAYLISTS_DEFAULT_LIMIT || '5'
-);
-const maxLimit: number = parseInt(
-  process.env.SEARCH_PLAYLISTS_MAX_LIMIT || '10'
-);
-const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
-const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
-const httpClient: HttpClient = new HttpBaseClient();
-const httpAuthHeaderBuilder = new BaseAuthHeaderBuilder();
-const client: PlaylistsClient = new PlaylistsHTTPClient(
-  `${serverHost}:${serverPort}`,
-  httpClient,
-  httpAuthHeaderBuilder
-);
 const searchPlaylistHandler: (
   _request: NextApiRequest,
   _response: NextApiResponse
-) => void = createSearchPlaylistHandler({ client, defaultLimit, maxLimit });
+) => void = createSearchPlaylistHandler({
+  client: PLAYLISTS_CLIENT,
+  defaultLimit: PLAYLISTS.search.defaultLimit,
+  maxLimit: PLAYLISTS.search.maxLimit,
+});
+
 export default searchPlaylistHandler;

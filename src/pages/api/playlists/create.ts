@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
-import { HttpClient, HttpBaseClient } from '@/lib/clients/http';
-import { PlaylistsClient, PlaylistsHTTPClient } from '@/lib/clients/playlists';
-import { BaseAuthHeaderBuilder } from '@/lib/clients/auth';
+import { PlaylistsClient } from '@/lib/clients/playlists';
 import {
   CreatedPlaylistStatus,
   CreateNewPlaylistResponseDTO,
 } from '@/entities/playlists';
 import { createBaseHandler } from '@/lib/handlers/base';
+import { PLAYLISTS_CLIENT } from '@/lib/config';
 
 export type CreatePlaylistHandlerParams = {
   client: PlaylistsClient;
@@ -65,17 +64,8 @@ export function createCreatePlaylistHandler({
   });
 }
 
-const serverHost: string = process.env.SERVER_HOST || 'http://localhost';
-const serverPort: number = parseInt(process.env.SERVER_PORT || '8080');
-const httpClient: HttpClient = new HttpBaseClient();
-const httpAuthHeaderBuilder = new BaseAuthHeaderBuilder();
-const client: PlaylistsClient = new PlaylistsHTTPClient(
-  `${serverHost}:${serverPort}`,
-  httpClient,
-  httpAuthHeaderBuilder
-);
 const createPlaylistHandler: (
   _request: NextApiRequest,
   _response: NextApiResponse
-) => void = createCreatePlaylistHandler({ client });
+) => void = createCreatePlaylistHandler({ client: PLAYLISTS_CLIENT });
 export default createPlaylistHandler;
