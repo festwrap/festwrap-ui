@@ -57,4 +57,25 @@ describe('SearchArtistsCombobox', () => {
     expect(emptySearchItem).toBeInTheDocument();
   });
 
+  it('shows error on search artists error', async () => {
+    render(
+      <SearchArtistsCombobox
+        options={[]}
+        values={[]}
+        onChange={vi.fn()}
+        onSearch={vi.fn()}
+        isSearching={false}
+        hasError={true}
+      />
+    );
+    await selectArtistInputAndType('Toe');
+
+    const errorItem = screen
+      .getAllByRole('alert')
+      .find(
+        (item) => item.textContent == 'errors.artistSearch.unexpectedError'
+      );
+    expect(errorItem).toBeInTheDocument();
+  });
+
 });

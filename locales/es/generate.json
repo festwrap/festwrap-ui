@@ -10,6 +10,9 @@
     "playlistSelected": {
       "required": "Seleccionar una lista de reproducción es obligatorio"
     },
+    "artistSearch": {
+      "unexpectedError": "Error en la búsqueda. Inténtalo de nuevo más tarde"
+    },
     "selectedArtists": {
       "max": "Solo puedes añadir {{max}} artistas a la lista de reproducción",
       "required": "Selecciona al menos un artista"

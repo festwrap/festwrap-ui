@@ -12,6 +12,7 @@ type SearchComboboxProps = {
   onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
   isSearching: boolean;
+  hasError: boolean;
 };
 
 export function SearchArtistsCombobox({
@@ -20,6 +21,7 @@ export function SearchArtistsCombobox({
   onChange,
   onSearch,
   isSearching,
+  hasError,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -157,6 +159,13 @@ export function SearchArtistsCombobox({
             ) : !search ? (
               <li className="px-4 py-2 text-secondary" role="status">
                 {t('playlistSearchArtists.artistSearch.empty')}
+              </li>
+            ) : hasError ? (
+              <li
+                className="px-4 py-2 text-red-400"
+                role="alert"
+              >
+                {t('errors.artistSearch.unexpectedError')}
               </li>
             ) : options.length === 0 ? (
               <li className="px-4 py-2 text-secondary">
