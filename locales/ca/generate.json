@@ -35,6 +35,7 @@
       "title": "No hi ha cap artista afegit"
     },
     "artistSearch": {
+        "searching": "Cercant...",
         "noResults": "No s'han trobat resultats",
     },
     "removeArtist": "Eliminar",
