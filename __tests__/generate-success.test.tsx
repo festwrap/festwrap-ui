@@ -38,7 +38,9 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
       'https://open.spotify.com/embed/playlist/test-playlist-id'
     );
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('errors.submitPlaylist.missingArtists')
+    ).not.toBeInTheDocument();
   });
 
   it('renders correctly when playlistId and partialError are provided', () => {
@@ -57,9 +59,13 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
       'https://open.spotify.com/embed/playlist/test-playlist-id-2'
     );
 
-    expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(
       screen.getByText('errors.submitPlaylist.missingArtists')
     ).toBeInTheDocument();
+  });
+
+  it('should display beta info alert', () => {
+    render(<PlaylistGeneratedSuccessfully />);
+    expect(screen.getByText('betaInfo.title')).toBeInTheDocument();
   });
 });
