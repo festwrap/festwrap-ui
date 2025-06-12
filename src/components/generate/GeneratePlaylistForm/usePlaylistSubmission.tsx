@@ -3,13 +3,9 @@ import { useState } from 'react';
 import {
   CreatedPlaylistStatus,
   CreateNewPlaylistDTO,
-  UpdatePlaylistDTO,
 } from '@/entities/playlists';
 import { useServices } from '@/contexts/ServiceContext';
-import {
-  FormSchemaType,
-  PlaylistCreationMode,
-} from '@/components/generate/GeneratePlaylistForm/GeneratePlaylistForm';
+import { FormSchemaType } from '@/components/generate/GeneratePlaylistForm/GeneratePlaylistForm';
 
 export enum SubmissionStatus {
   OK,
@@ -51,62 +47,31 @@ export function usePlaylistSubmission(): UsePlaylistSubmissionResult {
 
     setIsLoading(true);
 
-    if (values.playlistCreationMode === PlaylistCreationMode.New) {
-      try {
-        const newPlaylistData: CreateNewPlaylistDTO = {
-          playlist: {
-            name: values.name,
-            isPublic: values.isPublic,
-          },
-          artists: values.artists.map((artist) => ({
-            name: artist.name,
-          })),
-        };
+    const newPlaylistData: CreateNewPlaylistDTO = {
+      playlist: {
+        name: values.name,
+        isPublic: true, // TODO: this will not be configurable in the future, hardcoding for now
+      },
+      artists: values.artists.map((artist) => ({
+        name: artist.name,
+      })),
+    };
 
-        const serviceResponse =
-          await playlistsService.createNewPlaylist(newPlaylistData);
-
-        const { playlistCreated } = serviceResponse;
-
-        response = {
-          status: dtoStatusToSubmissionStatus(playlistCreated?.status),
-          playlistId: playlistCreated?.id,
-        };
-      } catch (error) {
-        response = {
-          status: SubmissionStatus.ERROR,
-        };
-      }
-    } else if (values.playlistCreationMode === PlaylistCreationMode.Existing) {
-      try {
-        const existingPlaylistData: UpdatePlaylistDTO = {
-          playlistId: values.playlistSelected.id,
-          artists: values.artists.map((artist) => ({
-            name: artist.name,
-          })),
-        };
-
-        const serviceResponse =
-          await playlistsService.updatePlaylist(existingPlaylistData);
-
-        const { playlistUpdated } = serviceResponse;
-
-        response = {
-          playlistId: values.playlistSelected.id,
-          status: dtoStatusToSubmissionStatus(playlistUpdated?.status),
-        };
-      } catch (error) {
-        response = {
-          status: SubmissionStatus.ERROR,
-        };
-      }
-    } else {
+    try {
+      const serviceResponse =
+        await playlistsService.createNewPlaylist(newPlaylistData);
+      const { playlistCreated } = serviceResponse;
+      response = {
+        status: dtoStatusToSubmissionStatus(playlistCreated?.status),
+        playlistId: playlistCreated?.id,
+      };
+    } catch (error) {
       response = {
         status: SubmissionStatus.ERROR,
       };
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
     return response;
   };
 

@@ -20,7 +20,8 @@ export const PlaylistCreationMode = {
   Existing: 'existing',
 } as const;
 
-const baseSchema = z.object({
+const formSchema = z.object({
+  name: z.string().min(1, 'errors.name.required'),
   artists: z
     .array(
       z.object({
@@ -32,30 +33,6 @@ const baseSchema = z.object({
     .nonempty('errors.selectedArtists.required'),
 });
 
-const newPlaylistSchema = baseSchema.extend({
-  playlistCreationMode: z.literal(PlaylistCreationMode.New),
-  name: z.string().min(1, 'errors.name.required'),
-  isPublic: z.boolean(),
-});
-
-const existingPlaylistSchema = baseSchema.extend({
-  playlistCreationMode: z.literal(PlaylistCreationMode.Existing),
-  playlistSelected: z
-    .object({
-      id: z.string().min(1),
-      name: z.string(),
-    })
-    .optional()
-    .refine((val) => !!val, {
-      message: 'errors.playlistSelected.required',
-    }),
-});
-
-const formSchema = z.discriminatedUnion('playlistCreationMode', [
-  newPlaylistSchema,
-  existingPlaylistSchema,
-]);
-
 export type FormSchemaType = z.infer<typeof formSchema>;
 
 const GeneratePlaylistForm = () => {
@@ -66,9 +43,7 @@ const GeneratePlaylistForm = () => {
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      playlistCreationMode: PlaylistCreationMode.New,
       name: '',
-      isPublic: false,
       artists: [],
     },
   });
