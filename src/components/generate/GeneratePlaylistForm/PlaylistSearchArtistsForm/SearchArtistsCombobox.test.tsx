@@ -78,4 +78,25 @@ describe('SearchArtistsCombobox', () => {
     expect(errorItem).toBeInTheDocument();
   });
 
+  it('shows empty results on no artists', async () => {
+    render(
+      <SearchArtistsCombobox
+        options={[]}
+        values={[]}
+        onChange={vi.fn()}
+        onSearch={vi.fn()}
+        isSearching={false}
+        hasError={false}
+      />
+    );
+    await selectArtistInputAndType('Thursday');
+
+    const noResultsItem = screen
+      .getAllByRole('status')
+      .find(
+        (item) =>
+          item.textContent == 'playlistSearchArtists.artistSearch.noResults'
+      );
+    expect(noResultsItem).toBeInTheDocument();
+  });
 });

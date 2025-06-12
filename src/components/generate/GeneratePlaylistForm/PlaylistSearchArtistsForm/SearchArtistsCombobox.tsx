@@ -168,7 +168,7 @@ export function SearchArtistsCombobox({
                 {t('errors.artistSearch.unexpectedError')}
               </li>
             ) : options.length === 0 ? (
-              <li className="px-4 py-2 text-secondary">
+              <li className="px-4 py-2 text-secondary" role="status">
                 {t('playlistSearchArtists.artistSearch.noResults')}
               </li>
             ) : (
