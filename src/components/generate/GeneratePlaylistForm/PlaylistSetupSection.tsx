@@ -9,7 +9,7 @@ import {
   FormControl,
 } from '@/components/ui/Form';
 import ErrorMessage from '@/components/ui/ErrorMessage';
-import { BetaInfoAlert } from '../../BetaInfoAlert';
+import { BetaInfoAlert } from '../BetaInfoAlert';
 
 const PlaylistSetupSection = () => {
   const { control, formState } = useFormContext();

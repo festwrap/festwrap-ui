@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import PlaylistSearchArtistsSection from '@/components/generate/GeneratePlaylistForm/PlaylistSearchArtistsForm/PlaylistSearchArtistsSection';
-import PlaylistSetupSection from '@/components/generate/GeneratePlaylistForm/PlaylistSetupForm/PlaylistSetupSection';
+import PlaylistSetupSection from '@/components/generate/GeneratePlaylistForm/PlaylistSetupSection';
 import { Button } from '@components/ui/Button';
 import useTranslation from 'next-translate/useTranslation';
 import { Form } from '@components/ui/Form';
