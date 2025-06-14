@@ -1,7 +1,12 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
+import {
+  ChevronsUpDownIcon,
+  SearchIcon,
+  XIcon,
+  Loader2Icon,
+} from 'lucide-react';
 import ArtistSearchResult from './ArtistSearchResult';
 import { ArtistDTO } from '@/entities/artists';
 
@@ -11,6 +16,7 @@ type SearchComboboxProps = {
   onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
   placeholder?: string;
+  isLoading?: boolean;
 };
 
 export function SearchArtistsCombobox({
@@ -19,6 +25,7 @@ export function SearchArtistsCombobox({
   onChange,
   onSearch,
   placeholder,
+  isLoading = false,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -122,7 +129,11 @@ export function SearchArtistsCombobox({
             aria-autocomplete="list"
             aria-controls="combobox-items"
           />
-          {search && (
+          {isLoading ? (
+            <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
+              <Loader2Icon className="h-5 w-5 text-secondary animate-spin" />
+            </div>
+          ) : search ? (
             <button
               className="absolute right-12 top-1/2 transform -translate-y-1/2"
               onClick={clearSearch}
@@ -130,7 +141,7 @@ export function SearchArtistsCombobox({
             >
               <XIcon className="h-5 w-5 text-gray-400" />
             </button>
-          )}
+          ) : null}
           <button
             className="absolute right-4 top-1/2 transform -translate-y-1/2"
             onClick={() => setIsOpen(!isOpen)}
@@ -146,7 +157,12 @@ export function SearchArtistsCombobox({
             role="listbox"
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
-            {options.length === 0 ? (
+            {isLoading ? (
+              <li className="px-4 py-2 text-secondary flex items-center justify-center">
+                <Loader2Icon className="h-5 w-5 text-secondary animate-spin mr-2" />
+                Searching...
+              </li>
+            ) : options.length === 0 ? (
               <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
               options.map((item, index) => (
