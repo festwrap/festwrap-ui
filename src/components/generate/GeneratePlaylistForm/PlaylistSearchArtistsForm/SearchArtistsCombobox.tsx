@@ -1,7 +1,12 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
+import {
+  ChevronsUpDownIcon,
+  Loader2Icon,
+  SearchIcon,
+  XIcon,
+} from 'lucide-react';
 import { ArtistDTO } from '@/entities/artists';
 import {
   ArtistSearchResultList,
@@ -13,8 +18,9 @@ type SearchComboboxProps = {
   values: ArtistDTO[];
   onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
-  isSearching: boolean;
   hasError: boolean;
+  placeholder?: string;
+  isLoading?: boolean;
 };
 
 export function SearchArtistsCombobox({
@@ -22,8 +28,9 @@ export function SearchArtistsCombobox({
   values,
   onChange,
   onSearch,
-  isSearching,
   hasError,
+  placeholder,
+  isLoading = false,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -86,8 +93,8 @@ export function SearchArtistsCombobox({
   };
 
   const getArtistSearchStatus = () => {
-    if (isSearching) {
-      return ArtistSearchStatus.Searching;
+    if (isLoading) {
+      return ArtistSearchStatus.Loading;
     } else if (!search) {
       return ArtistSearchStatus.Empty;
     } else if (hasError) {
@@ -140,8 +147,13 @@ export function SearchArtistsCombobox({
             aria-autocomplete="list"
             aria-controls="combobox-items"
             data-testid="artist-search-input"
+            placeholder={placeholder}
           />
-          {search && (
+          {isLoading ? (
+            <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
+              <Loader2Icon className="h-5 w-5 text-secondary animate-spin" />
+            </div>
+          ) : search ? (
             <button
               className="absolute right-12 top-1/2 transform -translate-y-1/2"
               onClick={clearSearch}
@@ -149,7 +161,7 @@ export function SearchArtistsCombobox({
             >
               <XIcon className="h-5 w-5 text-gray-400" />
             </button>
-          )}
+          ) : null}
           <button
             className="absolute right-4 top-1/2 transform -translate-y-1/2"
             onClick={() => setIsOpen(!isOpen)}

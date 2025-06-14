@@ -10,6 +10,7 @@ export enum ArtistSearchStatus {
   Error,
   NoResults,
   HasResults,
+  Loading,
 }
 
 type ArtistSearchResultListProps = {
@@ -73,6 +74,8 @@ export function ArtistSearchResultList({
             imageUrl={item.imageUri}
           />
         ));
+      case ArtistSearchStatus.Loading:
+        return buildStatusItem(t('playlistSearchArtists.artistSearch.loading'));
       default:
         return buildAlertStatusItem(t('errors.artistSearch.unexpectedError'));
     }

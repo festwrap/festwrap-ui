@@ -59,8 +59,9 @@ const PlaylistSearchArtistsSection = () => {
                   values={field.value}
                   onChange={onChangeSelection}
                   onSearch={debouncedSearch}
-                  isSearching={loading}
                   hasError={error !== null}
+                  placeholder={t('playlistSearchArtists.searchPlaceholder')}
+                  isLoading={loading}
                 />
               </FormControl>
               {errors.artists?.message && (
