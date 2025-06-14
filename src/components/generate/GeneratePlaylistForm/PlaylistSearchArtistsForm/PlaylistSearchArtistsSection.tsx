@@ -1,5 +1,7 @@
 import Heading from '@components/ui/Heading';
 import { SearchArtistsCombobox } from './SearchArtistsCombobox';
+import EmptyListImg from '@public/empty-list.png';
+import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem } from '@/components/ui/Form';
@@ -73,6 +75,13 @@ const PlaylistSearchArtistsSection = () => {
         />
         {selectedValues.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">
+            <div className="flex justify-center mb-4">
+              <Image
+                src={EmptyListImg}
+                alt="No artists selected"
+                className="w-48 h-full"
+              />
+            </div>
             <h3 className="font-semibold mb-2">
               {t('playlistSearchArtists.emptyState.title')}
             </h3>
