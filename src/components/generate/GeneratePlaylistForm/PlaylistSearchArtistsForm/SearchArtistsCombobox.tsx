@@ -2,9 +2,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
-import ArtistSearchResult from './ArtistSearchResult';
 import { ArtistDTO } from '@/entities/artists';
-import useTranslation from 'next-translate/useTranslation';
+import {
+  ArtistSearchResultList,
+  ArtistSearchStatus,
+} from './ArtistSearchResultList';
 
 type SearchComboboxProps = {
   options: ArtistDTO[];
@@ -28,8 +30,6 @@ export function SearchArtistsCombobox({
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
-
-  const { t } = useTranslation('generate');
 
   const handleOutsideClick = (event: MouseEvent) => {
     if (
@@ -82,6 +82,20 @@ export function SearchArtistsCombobox({
       setActiveIndex(-1);
     } else if (e.key === 'Tab' && isOpen) {
       e.preventDefault();
+    }
+  };
+
+  const getArtistSearchStatus = () => {
+    if (isSearching) {
+      return ArtistSearchStatus.Searching;
+    } else if (!search) {
+      return ArtistSearchStatus.Empty;
+    } else if (hasError) {
+      return ArtistSearchStatus.Error;
+    } else if (options.length == 0) {
+      return ArtistSearchStatus.NoResults;
+    } else {
+      return ArtistSearchStatus.HasResults;
     }
   };
 
@@ -146,43 +160,13 @@ export function SearchArtistsCombobox({
           </button>
         </div>
         {isOpen && (
-          <ul
-            ref={listRef}
-            id="combobox-items"
-            role="listbox"
-            className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
-          >
-            {isSearching ? (
-              <li className="px-4 py-2 text-secondary" role="status">
-                {t('playlistSearchArtists.artistSearch.searching')}
-              </li>
-            ) : !search ? (
-              <li className="px-4 py-2 text-secondary" role="status">
-                {t('playlistSearchArtists.artistSearch.empty')}
-              </li>
-            ) : hasError ? (
-              <li className="px-4 py-2 text-red-400" role="alert">
-                {t('errors.artistSearch.unexpectedError')}
-              </li>
-            ) : options.length === 0 ? (
-              <li className="px-4 py-2 text-secondary" role="status">
-                {t('playlistSearchArtists.artistSearch.noResults')}
-              </li>
-            ) : (
-              options.map((item, index) => (
-                <ArtistSearchResult
-                  key={index}
-                  name={item.name}
-                  isActive={index === activeIndex}
-                  isSelected={values.some(
-                    (selectedItem) => selectedItem.name === item.name
-                  )}
-                  handleItemSelect={() => handleItemSelect(item)}
-                  imageUrl={item.imageUri}
-                />
-              ))
-            )}
-          </ul>
+          <ArtistSearchResultList
+            activeArtistIndex={activeIndex}
+            searchedArtists={options}
+            selectedArtists={values}
+            onArtistSelect={handleItemSelect}
+            status={getArtistSearchStatus()}
+          />
         )}
       </div>
     </div>
