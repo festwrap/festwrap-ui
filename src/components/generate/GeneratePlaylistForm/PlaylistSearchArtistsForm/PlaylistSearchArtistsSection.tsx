@@ -30,7 +30,7 @@ const PlaylistSearchArtistsSection = () => {
 
   const debouncedSearch = useDebouncedCallback((searchTerm: string) => {
     search(searchTerm);
-  });
+  }, 300);
 
   const onChangeSelection = (value: ArtistDTO) => {
     const newSelectedItems = selectedValues.some(
