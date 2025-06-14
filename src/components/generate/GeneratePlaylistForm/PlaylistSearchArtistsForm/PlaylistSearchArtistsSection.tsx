@@ -14,7 +14,7 @@ import { MAX_ARTISTS } from '@/entities/playlists';
 
 const PlaylistSearchArtistsSection = () => {
   const { control, watch, setValue, formState } = useFormContext();
-  const { artists, search, clearArtists } = useArtistSearch();
+  const { artists, search, clearArtists, loading } = useArtistSearch();
   const { errors } = formState;
 
   const { t } = useTranslation('generate');
@@ -60,6 +60,7 @@ const PlaylistSearchArtistsSection = () => {
                   onChange={onChangeSelection}
                   onSearch={debouncedSearch}
                   placeholder={t('playlistSearchArtists.searchPlaceholder')}
+                  isLoading={loading}
                 />
               </FormControl>
               {errors.artists?.message && (
