@@ -12,13 +12,6 @@ export type CreateNewPlaylistDTO = {
   }>;
 };
 
-export type UpdatePlaylistDTO = {
-  playlistId: string;
-  artists: Array<{
-    name: string;
-  }>;
-};
-
 export enum CreatedPlaylistStatus {
   OK = 'OK',
   MISSING_ARTISTS = 'MISSING_ARTISTS',
@@ -26,10 +19,6 @@ export enum CreatedPlaylistStatus {
 
 export type CreateNewPlaylistResponseDTO = {
   id: string;
-  status: CreatedPlaylistStatus;
-};
-
-export type UpdatePlaylistResponseDTO = {
   status: CreatedPlaylistStatus;
 };
 
