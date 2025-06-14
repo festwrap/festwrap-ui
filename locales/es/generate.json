@@ -10,6 +10,9 @@
     "playlistSelected": {
       "required": "Seleccionar una lista de reproducción es obligatorio"
     },
+    "artistSearch": {
+      "unexpectedError": "Error en la búsqueda. Inténtalo de nuevo más tarde"
+    },
     "selectedArtists": {
       "max": "Solo puedes añadir {{max}} artistas a la lista de reproducción",
       "required": "Selecciona al menos un artista"
@@ -33,8 +36,12 @@
       "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
       "title": "Ningún artista añadido"
     },
+    "artistSearch": {
+        "searching": "Buscando...",
+        "noResults": "No se han encontrado resultados",
+        "empty": "Escribe para empezar la búsqueda"
+    },
     "removeArtist": "Eliminar",
-    "searchPlaceholder": "Busca artistas",
     "title": "Busca los artistas"
   },
   "playlistSetup": {

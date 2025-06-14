@@ -10,6 +10,9 @@
     "playlistSelected": {
       "required": "Select a playlist is required"
     },
+    "artistSearch": {
+      "unexpectedError": "Search error. Please try again later"
+    },
     "selectedArtists": {
       "max": "You can only add {{max}} artists to the playlist",
       "required": "Select at least one artist"
@@ -33,8 +36,12 @@
       "description": "Start searching for artists to add them to the playlist",
       "title": "No artist added"
     },
+    "artistSearch": {
+        "searching": "Searching...",
+        "noResults": "No results found",
+        "empty": "Type to start searching"
+    },
     "removeArtist": "Remove",
-    "searchPlaceholder": "Search artists",
     "title": "Search the artists"
   },
   "playlistSetup": {
