@@ -10,6 +10,9 @@
     "playlistSelected": {
       "required": "Seleccionar una llista de reproducció és obligatori"
     },
+    "artistSearch": {
+      "unexpectedError": "Error en la cerca. Prova de nou més tard"
+    },
     "selectedArtists": {
       "max": "Només es poden afegir {{max}} artistes a la llista de reproducció",
       "required": "Selecciona com a mínim un artista"
@@ -34,8 +37,12 @@
       "description": "Comença a buscar artistes per afegir-los a la llista de reproducció",
       "title": "No hi ha cap artista afegit"
     },
+    "artistSearch": {
+        "searching": "Cercant...",
+        "noResults": "No s'han trobat resultats",
+        "empty": "Escriu per començar la cerca"
+    },
     "removeArtist": "Eliminar",
-    "searchPlaceholder": "Cerca artistes",
     "title": "Cerca els artistes"
   },
   "playlistSetup": {

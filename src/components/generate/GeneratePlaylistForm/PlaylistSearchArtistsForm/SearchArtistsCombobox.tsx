@@ -2,15 +2,19 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
-import ArtistSearchResult from './ArtistSearchResult';
 import { ArtistDTO } from '@/entities/artists';
+import {
+  ArtistSearchResultList,
+  ArtistSearchStatus,
+} from './ArtistSearchResultList';
 
 type SearchComboboxProps = {
   options: ArtistDTO[];
   values: ArtistDTO[];
   onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
-  placeholder?: string;
+  isSearching: boolean;
+  hasError: boolean;
 };
 
 export function SearchArtistsCombobox({
@@ -18,7 +22,8 @@ export function SearchArtistsCombobox({
   values,
   onChange,
   onSearch,
-  placeholder,
+  isSearching,
+  hasError,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -80,6 +85,20 @@ export function SearchArtistsCombobox({
     }
   };
 
+  const getArtistSearchStatus = () => {
+    if (isSearching) {
+      return ArtistSearchStatus.Searching;
+    } else if (!search) {
+      return ArtistSearchStatus.Empty;
+    } else if (hasError) {
+      return ArtistSearchStatus.Error;
+    } else if (options.length == 0) {
+      return ArtistSearchStatus.NoResults;
+    } else {
+      return ArtistSearchStatus.HasResults;
+    }
+  };
+
   const clearSearch = () => {
     setSearch('');
     inputRef.current?.focus();
@@ -117,10 +136,10 @@ export function SearchArtistsCombobox({
             onChange={handleInputChange}
             onMouseDown={handleInputToggle}
             className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            placeholder={placeholder}
             aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-controls="combobox-items"
+            data-testid="artist-search-input"
           />
           {search && (
             <button
@@ -140,29 +159,13 @@ export function SearchArtistsCombobox({
           </button>
         </div>
         {isOpen && (
-          <ul
-            ref={listRef}
-            id="combobox-items"
-            role="listbox"
-            className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
-          >
-            {options.length === 0 ? (
-              <li className="px-4 py-2 text-secondary">No results found.</li>
-            ) : (
-              options.map((item, index) => (
-                <ArtistSearchResult
-                  key={index}
-                  name={item.name}
-                  isActive={index === activeIndex}
-                  isSelected={values.some(
-                    (selectedItem) => selectedItem.name === item.name
-                  )}
-                  handleItemSelect={() => handleItemSelect(item)}
-                  imageUrl={item.imageUri}
-                />
-              ))
-            )}
-          </ul>
+          <ArtistSearchResultList
+            activeArtistIndex={activeIndex}
+            searchedArtists={options}
+            selectedArtists={values}
+            onArtistSelect={handleItemSelect}
+            status={getArtistSearchStatus()}
+          />
         )}
       </div>
     </div>

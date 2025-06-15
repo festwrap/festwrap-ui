@@ -22,6 +22,7 @@ export function useArtistSearch() {
         setLoading(true);
         const data = await artistsService.searchArtists(name, limit);
         setArtists(data.artists || []);
+        setError(null);
       } catch (err: any) {
         setError(err.message);
       } finally {
