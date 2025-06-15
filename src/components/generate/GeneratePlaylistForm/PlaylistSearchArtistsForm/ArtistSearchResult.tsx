@@ -8,7 +8,7 @@ type ArtistSearchResultProps = {
   name: string;
   isActive: boolean;
   isSelected: boolean;
-  handleItemSelect: (_item: any) => void;
+  handleItemSelect: () => void;
   imageUrl?: string;
 };
 
