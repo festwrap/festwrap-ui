@@ -132,7 +132,6 @@ export function SearchArtistsCombobox({
           <input
             ref={inputRef}
             type="text"
-            role="textbox"
             value={search}
             onChange={handleInputChange}
             onMouseDown={handleInputToggle}
