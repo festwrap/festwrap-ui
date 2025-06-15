@@ -15,6 +15,18 @@ vi.mock('next-auth/jwt', () => ({
   getToken: vi.fn(),
 }));
 
+type CreatePlaylistRequestBody = {
+  playlist: {
+    name: string;
+    description?: string;
+    isPublic: boolean;
+  };
+  artists: Array<{ name: string }>;
+};
+
+// Union type to handle both valid and invalid test data
+type MockRequestBody = CreatePlaylistRequestBody | Record<string, unknown>;
+
 describe('createCreatePlaylistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
@@ -22,7 +34,7 @@ describe('createCreatePlaylistHandler', () => {
   });
 
   function createMockRequest(
-    body: any = {
+    body: MockRequestBody = {
       playlist: {
         name: 'Chill Vibes',
         description: 'Relaxing music',
