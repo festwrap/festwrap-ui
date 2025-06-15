@@ -1,17 +1,17 @@
 {
-    "aboutUs": "Sobre nosotros",
-    "aboutUsDescription": "Somos Alex y Dani, dos ingenieros apasionados por la música, especialmente el Metal y el Punk. Decidimos construir esta aplicación para reducir la cantidad de tiempo que pasamos creando listas de reproducción para nuestros conciertos y festivales, al tiempo que creamos nuevas oportunidades para aprender y colaborar con otros ingenieros.",
-    "meetTheTeam": "Conoce al equipo",
-    "meta": {
-        "description": "Somos Álex y Dani, dos ingenieros apasionados del Metal y el Punk. Esta app crea playlists de Spotify basadas en los últimos setlists de Setlist.fm.",
-        "title": "Sobre nosotros| Festwrap"
+  "aboutUs": "Sobre nosotros",
+  "aboutUsDescription": "Somos Alex y Dani, dos ingenieros apasionados por la música, especialmente el Metal y el Punk. Decidimos construir esta aplicación para reducir la cantidad de tiempo que pasamos creando listas de reproducción para nuestros conciertos y festivales, al tiempo que creamos nuevas oportunidades para aprender y colaborar con otros ingenieros.",
+  "meetTheTeam": "Conoce al equipo",
+  "meta": {
+    "description": "Somos Álex y Dani, dos ingenieros apasionados del Metal y el Punk. Esta app crea playlists de Spotify basadas en los últimos setlists de Setlist.fm.",
+    "title": "Sobre nosotros| Festwrap"
+  },
+  "profile": {
+    "alex": {
+      "description": "Experiencia en la creación de infraestructura frontend y backend con una fuerte experiencia en la interfaz de usuario y el diseño de la experiencia del usuario."
     },
-    "profile": {
-        "alex": {
-            "description": "Experiencia en la creación de infraestructura frontend y backend con una fuerte experiencia en la interfaz de usuario y el diseño de la experiencia del usuario."
-        },
-        "dani": {
-            "description": "Experiencia en la construcción de infraestructura de backend y machine learning con un fuerte enfoque en la optimización, la escalabilidad y la mantenibilidad."
-        }
+    "dani": {
+      "description": "Experiencia en la construcción de infraestructura de backend y machine learning con un fuerte enfoque en la optimización, la escalabilidad y la mantenibilidad."
     }
+  }
 }

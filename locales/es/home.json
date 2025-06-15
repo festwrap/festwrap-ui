@@ -1,12 +1,17 @@
 {
-    "heroSection": {
-        "button": "Comienza",
-        "subtitle": "Añade canciones de los sets más recientes que sonaran en tus próximos conciertos",
-        "title": "Crea <0>listas de Spotify</0> paras tus conciertos y festivales"
-    },
+  "heroSection": {
+    "button": "Comienza",
+    "subtitle": "Añade canciones de los sets más recientes que sonaran en tus próximos conciertos",
+    "title": "Crea <0>listas de Spotify</0> paras tus conciertos y festivales"
+  },
+  "howItWorksSection": {
     "meta": {
-        "description": "Genera listas de Spotify paras tus conciertos y festivales",
-        "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
-        "title": "Inicio | Festwrap"
+      "description": "Genera listas de Spotify paras tus conciertos y festivales",
+      "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
+      "title": "Inicio | Festwrap"
+    },
+    "step1": {
+      "title": "Inicia sesión en tu cuenta de Spotify"
     }
+  }
 }
