@@ -4,7 +4,7 @@ import { ZodSchema } from 'zod';
 
 export type BaseResponseData = {
   message: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export type BaseHandlerParams<
