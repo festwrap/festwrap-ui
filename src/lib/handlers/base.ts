@@ -15,7 +15,7 @@ export type BaseHandlerParams<
     _requestData: TRequestData,
     _response: NextApiResponse<TResponseData>
   ) => Promise<void>;
-  extractRequestData: (_req: NextApiRequest) => any;
+  extractRequestData: (_req: NextApiRequest) => unknown;
 };
 
 export function createBaseHandler<
