@@ -9,13 +9,20 @@ vi.mock('next-auth/jwt', () => ({
   getToken: vi.fn(),
 }));
 
+type SearchQuery = {
+  name?: string | number | null;
+  limit?: string | number;
+};
+
 describe('searchArtistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(getToken).mockResolvedValue({ accessToken: 'mocked-token' });
   });
 
-  function createMockRequest(query: any = { name: 'Brutus' }): NextApiRequest {
+  function createMockRequest(
+    query: SearchQuery = { name: 'Brutus' }
+  ): NextApiRequest {
     return { query } as unknown as NextApiRequest;
   }
 
