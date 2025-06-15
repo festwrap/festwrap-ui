@@ -5,7 +5,7 @@ import { useCallback, useRef } from 'react';
  * @param callback - Function to execute after the debounce
  * @param delay - Delay in milliseconds
  */
-export function useDebouncedCallback<T extends (..._args: any[]) => void>(
+export function useDebouncedCallback<T extends (..._args: unknown[]) => void>(
   callback: T,
   delay: number = 500
 ) {
