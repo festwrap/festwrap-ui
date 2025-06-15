@@ -17,7 +17,7 @@ export type BaseHandlerParams<
     _accessToken: string,
     _response: NextApiResponse<TResponseData>
   ) => Promise<void>;
-  extractRequestData: (_req: NextApiRequest) => any;
+  extractRequestData: (_req: NextApiRequest) => unknown;
 };
 
 export function createBaseHandler<
