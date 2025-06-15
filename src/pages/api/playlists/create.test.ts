@@ -10,13 +10,25 @@ import {
   CreateNewPlaylistResponseDTO,
 } from '@/entities/playlists';
 
+type CreatePlaylistRequestBody = {
+  playlist: {
+    name: string;
+    description?: string;
+    isPublic: boolean;
+  };
+  artists: Array<{ name: string }>;
+};
+
+// Union type to handle both valid and invalid test data
+type MockRequestBody = CreatePlaylistRequestBody | Record<string, unknown>;
+
 describe('createCreatePlaylistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
 
   function createMockRequest(
-    body: any = {
+    body: MockRequestBody = {
       playlist: {
         name: 'Chill Vibes',
         description: 'Relaxing music',
