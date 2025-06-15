@@ -2,6 +2,7 @@ import { ArtistDTO } from '@/entities/artists';
 import ArtistSearchResult from './ArtistSearchResult';
 import useTranslation from 'next-translate/useTranslation';
 import { cn } from '@/lib/utils';
+import { Loader2Icon } from 'lucide-react';
 
 /* eslint-disable no-unused-vars */
 export enum ArtistSearchStatus {
@@ -50,8 +51,11 @@ export function ArtistSearchResultList({
   function renderSearchItems() {
     switch (status) {
       case ArtistSearchStatus.Searching:
-        return buildStatusItem(
-          t('playlistSearchArtists.artistSearch.searching')
+        return (
+          <li className="px-4 py-2 text-secondary flex items-center justify-center">
+            <Loader2Icon className="h-5 w-5 text-secondary animate-spin mr-2" />
+            {t('playlistSearchArtists.artistSearch.searching')}
+          </li>
         );
       case ArtistSearchStatus.Empty:
         return buildStatusItem(t('playlistSearchArtists.artistSearch.empty'));
