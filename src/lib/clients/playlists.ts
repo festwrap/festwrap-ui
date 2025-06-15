@@ -2,6 +2,7 @@ import {
   CreatedPlaylistStatus,
   CreateNewPlaylistResponseDTO,
   CreateNewPlaylistDTO,
+  PlaylistDTO,
 } from '@/entities/playlists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
@@ -33,7 +34,9 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
     playlist: CreateNewPlaylistDTO
   ): Promise<CreateNewPlaylistResponseDTO> {
     const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
-    const response = await this.httpClient.send({
+    const response = await this.httpClient.send<{
+      playlist: PlaylistDTO;
+    }>({
       url: `${this.url}/playlists`,
       method: Method.Post,
       data: playlist,
@@ -69,7 +72,7 @@ export class PlaylistsClientStub implements PlaylistsClient {
     this.createPlaylistResult = createPlaylistResult;
   }
 
-  async createPlaylist(..._: any[]): Promise<any> {
+  async createPlaylist(..._: unknown[]): Promise<CreateNewPlaylistResponseDTO> {
     return this.createPlaylistResult;
   }
 }

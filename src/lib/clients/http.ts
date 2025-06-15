@@ -10,28 +10,28 @@ export enum Method {
 export interface HttpRequest {
   url: string;
   method: Method;
-  params?: Record<string, any>;
+  params?: Record<string, unknown>;
   headers?: Record<string, string>;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 }
 
 export interface HttpClient {
-  send(_request: HttpRequest): Promise<HttpResponse>;
+  send<T = unknown>(_request: HttpRequest): Promise<HttpResponse<T>>;
 }
 
-export interface HttpResponse {
-  data: any;
+export interface HttpResponse<T = unknown> {
+  data: T;
   status: number;
 }
 
 export class HttpBaseClient implements HttpClient {
-  async send({
+  async send<T = unknown>({
     url,
     method,
     params,
     headers,
     data,
-  }: HttpRequest): Promise<HttpResponse> {
+  }: HttpRequest): Promise<HttpResponse<T>> {
     const response = await axios({
       url,
       method,
@@ -63,10 +63,10 @@ export class FakeHttpClient implements HttpClient {
     this.sendErrorMessage = message;
   }
 
-  async send(..._: any[]): Promise<HttpResponse> {
+  async send<T = unknown>(..._: unknown[]): Promise<HttpResponse<T>> {
     if (this.sendErrorMessage !== undefined) {
       throw new Error(this.sendErrorMessage);
     }
-    return this.result;
+    return this.result as HttpResponse<T>;
   }
 }

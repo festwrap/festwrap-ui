@@ -1,31 +1,31 @@
 {
-    "auth": {
-        "login": {
-            "button": "Iniciar sessió amb Spotify",
-            "description": "Necessitem connectar-te a Spotify per poder crear les teves llistes de reproducció.",
-            "title": "Iniciar sessió per continuar"
-        }
-    },
-    "footer": {
-        "allRightsReserved": "Tots els drets reservats",
-        "selectLanguage": "Selecciona un idioma"
-    },
-    "languages": {
-        "catalan": "Català",
-        "english": "Anglès",
-        "spanish": "Espanyol"
-    },
-    "nav": {
-        "aboutUs": "Sobre nosaltres",
-        "getStarted": "Comença",
-        "login": "Inicia sessió en Spotify",
-        "logout": "Tanca sessió",
-        "privacyPolicy": "Política de privacitat",
-        "profile": "Perfil",
-        "termsOfService": "Termes de servei"
-    },
-    "notFound": {
-        "button": "Torna a l'inici",
-        "message": "Sembla que t'has perdut una mica"
+  "auth": {
+    "login": {
+      "button": "Iniciar sessió amb Spotify",
+      "description": "Necessitem connectar-te a Spotify per poder crear les teves llistes de reproducció.",
+      "title": "Iniciar sessió per continuar"
     }
+  },
+  "footer": {
+    "allRightsReserved": "Tots els drets reservats",
+    "selectLanguage": "Selecciona un idioma"
+  },
+  "languages": {
+    "catalan": "Català",
+    "english": "Anglès",
+    "spanish": "Espanyol"
+  },
+  "nav": {
+    "aboutUs": "Sobre nosaltres",
+    "getStarted": "Comença",
+    "login": "Inicia sessió en Spotify",
+    "logout": "Tanca sessió",
+    "privacyPolicy": "Política de privacitat",
+    "profile": "Perfil",
+    "termsOfService": "Termes de servei"
+  },
+  "notFound": {
+    "button": "Torna a l'inici",
+    "message": "Sembla que t'has perdut una mica"
+  }
 }
