@@ -1,14 +1,21 @@
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
+import { JWT } from 'next-auth/jwt';
+
+interface SpotifyJWT extends JWT {
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: number;
+}
 
 const scope =
   'playlist-modify-private playlist-modify-public playlist-read-private user-read-email';
 
 async function refreshAccessToken(
-  token: any,
+  token: SpotifyJWT,
   clientId: string,
   clientSecret: string
-) {
+): Promise<SpotifyJWT> {
   // See https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens
   const url = 'https://accounts.spotify.com/api/token';
   const payload = {
@@ -54,7 +61,7 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, account }: any) {
+    async jwt({ token, account }: { token: JWT; account: any }) {
       // See https://authjs.dev/guides/refresh-token-rotation
       if (account) {
         return {
@@ -64,19 +71,19 @@ export const authOptions = {
           expiresAt: account.expires_at * 1000,
           refreshToken: account.refresh_token,
         };
-      } else if (Date.now() < token.expiresAt) {
+      } else if (Date.now() < (token as SpotifyJWT).expiresAt) {
         // Non-first-time login, token not expired, yet
         return token;
       } else {
         // Token has expired, need to refresh
         return await refreshAccessToken(
-          token,
+          token as SpotifyJWT,
           process.env.SPOTIFY_CLIENT_ID as string,
           process.env.SPOTIFY_SECRET as string
         );
       }
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: { session: any; token: JWT }) {
       session.user = token;
       return session;
     },
