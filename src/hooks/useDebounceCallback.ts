@@ -5,10 +5,11 @@ import { useCallback, useRef } from 'react';
  * @param callback - Function to execute after the debounce
  * @param delay - Delay in milliseconds
  */
-export function useDebouncedCallback<T extends (..._args: unknown[]) => void>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
   delay: number = 500
-) {
+): (...args: Parameters<T>) => void {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   return useCallback(
