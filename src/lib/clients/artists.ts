@@ -1,4 +1,4 @@
-import { Artist } from '@/entities/artists';
+import { Artist, ArtistDTO } from '@/entities/artists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
@@ -23,7 +23,7 @@ export class ArtistsHTTPClient implements ArtistsClient {
 
   async searchArtists(name: string, limit: number): Promise<Artist[]> {
     const authHeader = await this.httpAuthHeaderBuilder.buildHeader();
-    const response = await this.httpClient.send({
+    const response = await this.httpClient.send<Array<ArtistDTO>>({
       url: `${this.url}/artists/search`,
       method: Method.Get,
       params: { name, limit },
@@ -31,7 +31,7 @@ export class ArtistsHTTPClient implements ArtistsClient {
     });
     if (response.status === 200) {
       return response.data.map(
-        (artist: any) => new Artist(artist.name, artist.imageUri)
+        (artist: ArtistDTO) => new Artist(artist.name, artist.imageUri)
       );
     } else {
       throw new Error(
@@ -48,7 +48,7 @@ export class ArtistsClientStub implements ArtistsClient {
     this.searchArtistResult = result;
   }
 
-  async searchArtists(..._: any[]): Promise<Artist[]> {
+  async searchArtists(..._: unknown[]): Promise<Artist[]> {
     return this.searchArtistResult;
   }
 }
