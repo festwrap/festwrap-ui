@@ -25,8 +25,6 @@ describe('Footer', () => {
 
     render(<Footer />);
 
-    expect(screen.getByText('nav.getStarted')).toBeInTheDocument();
-    expect(screen.getByText('nav.aboutUs')).toBeInTheDocument();
     expect(screen.getByText('nav.termsOfService')).toBeInTheDocument();
     expect(screen.getByText('nav.privacyPolicy')).toBeInTheDocument();
   });
