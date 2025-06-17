@@ -35,6 +35,7 @@
     "artistSearch": {
       "empty": "Type to start searching",
       "noResults": "No results found",
+      "placeholder": "Type to start searching",
       "searching": "Searching..."
     },
     "emptyState": {
