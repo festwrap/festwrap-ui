@@ -12,8 +12,10 @@ const Footer = () => {
         <div className="flex items-center justify-between border-t border-secondary py-2 text-sm">
           <div className="flex items-center space-x-6">
             <LanguageSelectorComponent />
-            <Link href="/terms-of-service">{t('nav.termsOfService')}</Link>
-            <Link href="/privacy-policy">{t('nav.privacyPolicy')}</Link>
+            <nav className="flex flex-col gap-2 items-start sm:flex-row sm:gap-10 sm:items-end font-medium text-sm">
+              <Link href="/terms-of-service">{t('nav.termsOfService')}</Link>
+              <Link href="/privacy-policy">{t('nav.privacyPolicy')}</Link>
+            </nav>
           </div>
           <p>
             &copy; {currentYear} Festwrap. {t('footer.allRightsReserved')}
