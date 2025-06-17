@@ -4,18 +4,6 @@
         "subtitle": "Add the most recent set songs that will be played in your upcoming shows",
         "title": "Create <0>Spotify playlists</0> for your concerts and festivals"
     },
-    "howItWorksSection": {
-        "step1": {
-            "title": "Log in to your Spotify account"
-        },
-        "step2": {
-            "title": "Search and select the artists"
-        },
-        "step3": {
-            "title": "Visualize the results"
-        },
-        "title": "How it works"
-    },
     "meta": {
         "description": "Create Spotify playlists for your concerts and festivals",
         "keywords": "Spotify, Setlist.fm, Playlist generator, Festivals, Music, Concerts",
