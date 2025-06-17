@@ -20,7 +20,7 @@ type SearchComboboxProps = {
   onSearch: (_search: string) => void;
   hasError: boolean;
   placeholder?: string;
-  isLoading?: boolean;
+  isSearching?: boolean;
 };
 
 export function SearchArtistsCombobox({
@@ -30,7 +30,7 @@ export function SearchArtistsCombobox({
   onSearch,
   hasError,
   placeholder,
-  isLoading = false,
+  isSearching = false,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -93,8 +93,8 @@ export function SearchArtistsCombobox({
   };
 
   const getArtistSearchStatus = () => {
-    if (isLoading) {
-      return ArtistSearchStatus.Loading;
+    if (isSearching) {
+      return ArtistSearchStatus.Searching;
     } else if (!search) {
       return ArtistSearchStatus.Empty;
     } else if (hasError) {
@@ -108,6 +108,7 @@ export function SearchArtistsCombobox({
 
   const clearSearch = () => {
     setSearch('');
+    onSearch('');
     inputRef.current?.focus();
   };
 
@@ -149,7 +150,7 @@ export function SearchArtistsCombobox({
             data-testid="artist-search-input"
             placeholder={placeholder}
           />
-          {isLoading ? (
+          {isSearching ? (
             <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
               <Loader2Icon className="h-5 w-5 text-secondary animate-spin" />
             </div>
@@ -170,7 +171,7 @@ export function SearchArtistsCombobox({
             <ChevronsUpDownIcon className="h-5 w-5 text-secondary" />
           </button>
         </div>
-        {isOpen && (
+        {search && (
           <ArtistSearchResultList
             activeArtistIndex={activeIndex}
             searchedArtists={options}

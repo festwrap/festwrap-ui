@@ -11,7 +11,6 @@ export enum ArtistSearchStatus {
   Error,
   NoResults,
   HasResults,
-  Loading,
 }
 
 type ArtistSearchResultListProps = {
@@ -52,7 +51,10 @@ export function ArtistSearchResultList({
     switch (status) {
       case ArtistSearchStatus.Searching:
         return (
-          <li className="px-4 py-2 text-secondary flex items-center justify-center">
+          <li
+            className="px-4 py-2 text-secondary flex items-center justify-center"
+            role="status"
+          >
             <Loader2Icon className="h-5 w-5 text-secondary animate-spin mr-2" />
             {t('playlistSearchArtists.artistSearch.searching')}
           </li>
@@ -78,8 +80,6 @@ export function ArtistSearchResultList({
             imageUrl={item.imageUri}
           />
         ));
-      case ArtistSearchStatus.Loading:
-        return buildStatusItem(t('playlistSearchArtists.artistSearch.loading'));
       default:
         return buildAlertStatusItem(t('errors.artistSearch.unexpectedError'));
     }
