@@ -47,14 +47,10 @@ export function createSearchArtistHandler({
   return createBaseHandler<typeof searchQuerySchema._type, ResponseData>({
     validationSchema: searchQuerySchema,
     extractRequestData: (req) => req.query,
-    handleRequest: async (requestData, accessToken, response) => {
+    handleRequest: async (requestData, response) => {
       const { name, limit } = requestData;
 
-      const searchResults = await client.searchArtists(
-        accessToken,
-        name,
-        limit
-      );
+      const searchResults = await client.searchArtists(name, limit);
       response.status(200).json({
         artists: searchResults.map((artist: Artist) => ({
           name: artist.getName(),

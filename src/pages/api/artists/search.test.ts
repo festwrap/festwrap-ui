@@ -3,16 +3,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
 import { ArtistsClientStub } from '@/lib/clients/artists';
 import { Artist } from '@/entities/artists';
-import { getToken } from 'next-auth/jwt';
-
-vi.mock('next-auth/jwt', () => ({
-  getToken: vi.fn(),
-}));
 
 describe('searchArtistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.mocked(getToken).mockResolvedValue({ accessToken: 'mocked-token' });
   });
 
   function createMockRequest(query: any = { name: 'Brutus' }): NextApiRequest {
@@ -93,7 +87,6 @@ describe('searchArtistHandler', () => {
       })(request, createMockResponse());
 
       expect(client.searchArtists).toBeCalledWith(
-        'mocked-token',
         args.name,
         limit ? parseInt(limit, 10) : defaultLimit
       );
@@ -144,19 +137,6 @@ describe('searchArtistHandler', () => {
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
       message: 'Unexpected error occurred: test error',
-    });
-  });
-
-  it('should return 401 if token is not provided', async () => {
-    vi.mocked(getToken).mockResolvedValue(null);
-    const response = createMockResponse();
-
-    const handler = createHandler();
-    await handler(createMockRequest(), response);
-
-    expect(response.status).toBeCalledWith(401);
-    expect(response.json).toBeCalledWith({
-      message: 'Unauthorized',
     });
   });
 });

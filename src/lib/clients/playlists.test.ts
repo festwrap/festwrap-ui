@@ -9,7 +9,6 @@ import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';
 
 describe('PlaylistsHTTPClient', () => {
   let url: string;
-  let token: string;
   let httpClient: FakeHttpClient;
   let headers: Record<string, string>;
   let authHeaderBuilder: AuthHeaderBuilder;
@@ -17,7 +16,6 @@ describe('PlaylistsHTTPClient', () => {
 
   beforeEach(() => {
     url = 'http://some_url';
-    token = 'my-token';
     headers = { Authorization: 'Bearer token' };
     authHeaderBuilder = new AuthHeaderBuilderStub(headers);
     httpClient = new FakeHttpClient();
@@ -53,7 +51,7 @@ describe('PlaylistsHTTPClient', () => {
     it('should call the client with the correct parameters', async () => {
       vi.spyOn(httpClient, 'send');
 
-      await client.createPlaylist(token, createPlaylistData);
+      await client.createPlaylist(createPlaylistData);
 
       expect(httpClient.send).toHaveBeenCalledWith({
         url: `${url}/playlists`,
@@ -72,7 +70,7 @@ describe('PlaylistsHTTPClient', () => {
         const httpResponse = responseWithStatus(status);
         httpClient.setResult(httpResponse);
 
-        const result = await client.createPlaylist(token, createPlaylistData);
+        const result = await client.createPlaylist(createPlaylistData);
 
         const expectedResponse = {
           id: httpResponse.data.playlist.id,
@@ -86,9 +84,9 @@ describe('PlaylistsHTTPClient', () => {
       const errorMessage = 'Failed to create playlist';
       httpClient.setSendErrorMessage(errorMessage);
 
-      await expect(
-        client.createPlaylist(token, createPlaylistData)
-      ).rejects.toThrow(errorMessage);
+      await expect(client.createPlaylist(createPlaylistData)).rejects.toThrow(
+        errorMessage
+      );
     });
 
     it.each([
@@ -101,9 +99,9 @@ describe('PlaylistsHTTPClient', () => {
         httpClient.setResult(httpResponse);
 
         const expectedMessage = `Unexpected playlist create response status: ${status}: ${message}`;
-        await expect(
-          client.createPlaylist(token, createPlaylistData)
-        ).rejects.toThrow(expectedMessage);
+        await expect(client.createPlaylist(createPlaylistData)).rejects.toThrow(
+          expectedMessage
+        );
       }
     );
 
@@ -112,9 +110,7 @@ describe('PlaylistsHTTPClient', () => {
         throw new Error('Authentication failed');
       });
 
-      await expect(
-        client.createPlaylist(token, createPlaylistData)
-      ).rejects.toThrow();
+      await expect(client.createPlaylist(createPlaylistData)).rejects.toThrow();
     });
   });
 });

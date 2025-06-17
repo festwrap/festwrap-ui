@@ -37,8 +37,6 @@ vi.mock('@components/ui/DropdownMenu', () => ({
 }));
 
 describe('Header', () => {
-  const TOMORRROW_DATE = new Date(Date.now() + 86400).toISOString();
-
   beforeAll(() => {
     window.PointerEvent = MouseEvent as typeof PointerEvent;
   });
@@ -59,41 +57,5 @@ describe('Header', () => {
     expect(
       screen.getByRole('link', { name: /nav.aboutUs/i })
     ).toBeInTheDocument();
-  });
-
-  test('should render sign in button when there is not session', () => {
-    vi.mocked(useSession).mockReturnValue({
-      update: vi.fn(),
-      data: null,
-      status: 'unauthenticated',
-    });
-
-    render(<Header />);
-
-    expect(screen.getByRole('button', { name: /nav.login/i })).toBeTruthy();
-  });
-
-  test('should render sign out button when there is session', async () => {
-    const mockSession = {
-      expires: TOMORRROW_DATE,
-      user: {
-        name: 'Peter Griffin',
-        email: 'user@gmail.com',
-        accessToken: 'token',
-      },
-    };
-
-    vi.mocked(useSession).mockReturnValue({
-      update: vi.fn(),
-      data: mockSession,
-      status: 'authenticated',
-    });
-
-    render(<Header />);
-
-    const avatarButton = screen.getByRole('button', { name: /PG/i });
-    expect(avatarButton).toBeInTheDocument();
-
-    expect(screen.getByText('nav.logout')).toBeInTheDocument();
   });
 });

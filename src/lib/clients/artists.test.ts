@@ -6,7 +6,6 @@ import { AuthHeaderBuilderStub, AuthHeaderBuilder } from './auth';
 
 describe('ArtistsHTTPClient', () => {
   let url: string;
-  let token: string;
   let name: string;
   let limit: number;
   let httpClient: FakeHttpClient;
@@ -15,7 +14,6 @@ describe('ArtistsHTTPClient', () => {
 
   beforeEach(() => {
     url = 'http://some_url';
-    token = 'my-token';
     name = 'Iron';
     limit = 5;
     response = {
@@ -38,7 +36,7 @@ describe('ArtistsHTTPClient', () => {
     );
     vi.spyOn(httpClient, 'send');
 
-    await client.searchArtists(token, name, limit);
+    await client.searchArtists(name, limit);
 
     expect(httpClient.send).toHaveBeenCalledWith({
       url: `${url}/artists/search`,
@@ -51,7 +49,7 @@ describe('ArtistsHTTPClient', () => {
   it('should return the list of artists returned by the HTTP client', async () => {
     const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
-    const actual = await client.searchArtists(token, name, limit);
+    const actual = await client.searchArtists(name, limit);
 
     const expected = [
       new Artist('Iron Chic', 'https://some_image'),
@@ -65,7 +63,7 @@ describe('ArtistsHTTPClient', () => {
     httpClient.setSendErrorMessage(errorMessage);
     const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
-    await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
+    await expect(client.searchArtists(name, limit)).rejects.toThrow(
       errorMessage
     );
   });
@@ -76,7 +74,7 @@ describe('ArtistsHTTPClient', () => {
     });
     const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
-    await expect(client.searchArtists(token, name, limit)).rejects.toThrow();
+    await expect(client.searchArtists(name, limit)).rejects.toThrow();
   });
 
   it.each([
@@ -90,7 +88,7 @@ describe('ArtistsHTTPClient', () => {
       const client = new ArtistsHTTPClient(url, httpClient, authHeaderBuilder);
 
       const expectedMessage = `Unexpected artist search response status: ${status}: ${message}`;
-      await expect(client.searchArtists(token, name, limit)).rejects.toThrow(
+      await expect(client.searchArtists(name, limit)).rejects.toThrow(
         expectedMessage
       );
     }
