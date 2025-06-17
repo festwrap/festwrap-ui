@@ -38,14 +38,11 @@ export function createCreatePlaylistHandler({
   >({
     validationSchema: createNewPlaylistSchema,
     extractRequestData: (req) => req.body,
-    handleRequest: async (requestData, accessToken, response) => {
+    handleRequest: async (requestData, response) => {
       const { playlist, artists } = requestData;
       const playlistData = { playlist, artists };
 
-      const playlistCreated = await client.createPlaylist(
-        accessToken,
-        playlistData
-      );
+      const playlistCreated = await client.createPlaylist(playlistData);
 
       if (playlistCreated.status === CreatedPlaylistStatus.MISSING_ARTISTS) {
         response.status(207).json({

@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 import { ZodSchema } from 'zod';
 
 export type BaseResponseData = {
@@ -14,7 +13,6 @@ export type BaseHandlerParams<
   validationSchema: ZodSchema;
   handleRequest: (
     _requestData: TRequestData,
-    _accessToken: string,
     _response: NextApiResponse<TResponseData>
   ) => Promise<void>;
   extractRequestData: (_req: NextApiRequest) => any;
@@ -42,15 +40,8 @@ export function createBaseHandler<
       return;
     }
 
-    const token = await getToken({ req: request });
-
-    if (!token) {
-      response.status(401).json({ message: 'Unauthorized' } as TResponseData);
-      return;
-    }
-
     try {
-      await handleRequest(parsedArgs.data, token.accessToken, response);
+      await handleRequest(parsedArgs.data, response);
     } catch (error) {
       response.status(500).json({
         message:

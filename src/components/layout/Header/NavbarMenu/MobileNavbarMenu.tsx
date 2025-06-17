@@ -4,7 +4,6 @@ import NavLink from '@components/layout/Header/NavbarMenu/NavLink';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import SpotifyAuthDropdown from './SpotifyAuthDropdown';
 import useTranslation from 'next-translate/useTranslation';
 import { Button } from '@components/ui/Button';
 
@@ -68,7 +67,6 @@ const MobileNavbarMenu = () => {
               >
                 {t('nav.aboutUs')}
               </NavLink>
-              <SpotifyAuthDropdown isMobileScreen />
             </nav>
           </div>
         </div>

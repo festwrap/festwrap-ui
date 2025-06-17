@@ -3,11 +3,7 @@ import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
 export interface ArtistsClient {
-  searchArtists(
-    _token: string,
-    _name: string,
-    _limit: number
-  ): Promise<Artist[]>;
+  searchArtists(_name: string, _limit: number): Promise<Artist[]>;
 }
 
 export class ArtistsHTTPClient implements ArtistsClient {
@@ -25,12 +21,8 @@ export class ArtistsHTTPClient implements ArtistsClient {
     this.httpAuthHeaderBuilder = httpAuthHeaderBuilder;
   }
 
-  async searchArtists(
-    token: string,
-    name: string,
-    limit: number
-  ): Promise<Artist[]> {
-    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
+  async searchArtists(name: string, limit: number): Promise<Artist[]> {
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader();
     const response = await this.httpClient.send({
       url: `${this.url}/artists/search`,
       method: Method.Get,
