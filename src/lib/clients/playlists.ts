@@ -8,7 +8,6 @@ import { HttpClient, Method } from './http';
 
 export interface PlaylistsClient {
   createPlaylist(
-    _token: string,
     _playlist: CreateNewPlaylistDTO
   ): Promise<CreateNewPlaylistResponseDTO>;
 }
@@ -29,10 +28,9 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
   }
 
   async createPlaylist(
-    token: string,
     playlist: CreateNewPlaylistDTO
   ): Promise<CreateNewPlaylistResponseDTO> {
-    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader();
     const response = await this.httpClient.send({
       url: `${this.url}/playlists`,
       method: Method.Post,

@@ -5,20 +5,14 @@ import {
   CreatePlaylistHandlerParams,
 } from './create';
 import { PlaylistsClientStub } from '@/lib/clients/playlists';
-import { getToken } from 'next-auth/jwt';
 import {
   CreatedPlaylistStatus,
   CreateNewPlaylistResponseDTO,
 } from '@/entities/playlists';
 
-vi.mock('next-auth/jwt', () => ({
-  getToken: vi.fn(),
-}));
-
 describe('createCreatePlaylistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.mocked(getToken).mockResolvedValue({ accessToken: 'mocked-token' });
   });
 
   function createMockRequest(
@@ -108,7 +102,7 @@ describe('createCreatePlaylistHandler', () => {
 
     await createHandler({ client })(request, createMockResponse());
 
-    expect(client.createPlaylist).toHaveBeenCalledWith('mocked-token', {
+    expect(client.createPlaylist).toHaveBeenCalledWith({
       playlist: {
         name: playlistData.playlist.name,
         isPublic: playlistData.playlist.isPublic,
@@ -176,19 +170,6 @@ describe('createCreatePlaylistHandler', () => {
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
       message: 'Unexpected error occurred: creation test error',
-    });
-  });
-
-  it('should return 401 if token is not provided', async () => {
-    vi.mocked(getToken).mockResolvedValue(null);
-    const response = createMockResponse();
-
-    const handler = createHandler();
-    await handler(createMockRequest(), response);
-
-    expect(response.status).toBeCalledWith(401);
-    expect(response.json).toBeCalledWith({
-      message: 'Unauthorized',
     });
   });
 });

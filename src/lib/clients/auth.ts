@@ -64,26 +64,24 @@ export class AuthClientStub implements AuthClient {
 }
 
 export interface AuthHeaderBuilder {
-  buildHeader: (_token: string) => Promise<Record<string, string>>;
+  buildHeader: () => Promise<Record<string, string>>;
 }
 
 export class BaseAuthHeaderBuilder implements AuthHeaderBuilder {
-  private gcpAuthClient?: AuthClient | undefined;
+  private authClient?: AuthClient | undefined;
 
-  constructor(gcpAuthClient?: AuthClient) {
-    this.gcpAuthClient = gcpAuthClient;
+  constructor(authClient?: AuthClient) {
+    this.authClient = authClient;
   }
 
-  async buildHeader(token: string): Promise<Record<string, string>> {
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${token}`,
-    };
+  async buildHeader(): Promise<Record<string, string>> {
+    const headers: Record<string, string> = {};
 
-    if (!this.gcpAuthClient) return headers;
+    if (!this.authClient) return headers;
 
     return {
       ...headers,
-      [this.gcpAuthClient.getHeaderName()]: `Bearer ${await this.gcpAuthClient.getToken()}`,
+      [this.authClient.getHeaderName()]: `Bearer ${await this.authClient.getToken()}`,
     };
   }
 }
@@ -95,7 +93,7 @@ export class AuthHeaderBuilderStub implements AuthHeaderBuilder {
     this.headers = headers;
   }
 
-  async buildHeader(_token: string): Promise<Record<string, string>> {
+  async buildHeader(): Promise<Record<string, string>> {
     return this.headers;
   }
 }
