@@ -12,6 +12,8 @@ import { ArtistDTO } from '@/entities/artists';
 import SelectedArtistBadge from './SelectedArtistBadge';
 import { MAX_ARTISTS } from '@/entities/playlists';
 
+const DEBOUNCE_INPUT_TIME = 300;
+
 const PlaylistSearchArtistsSection = () => {
   const { control, watch, setValue, formState } = useFormContext();
   const { artists, loading, error, search, clearArtists } = useArtistSearch();
@@ -30,7 +32,7 @@ const PlaylistSearchArtistsSection = () => {
 
   const debouncedSearch = useDebouncedCallback((searchTerm: string) => {
     search(searchTerm);
-  }, 300);
+  }, DEBOUNCE_INPUT_TIME);
 
   const onChangeSelection = (value: ArtistDTO) => {
     const newSelectedItems = selectedValues.some(
