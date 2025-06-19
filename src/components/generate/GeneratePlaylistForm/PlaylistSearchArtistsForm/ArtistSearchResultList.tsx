@@ -7,7 +7,6 @@ import { Loader2Icon } from 'lucide-react';
 /* eslint-disable no-unused-vars */
 export enum ArtistSearchStatus {
   Searching = 1,
-  Empty,
   Error,
   NoResults,
   HasResults,
@@ -59,8 +58,6 @@ export function ArtistSearchResultList({
             {t('playlistSearchArtists.artistSearch.searching')}
           </li>
         );
-      case ArtistSearchStatus.Empty:
-        return buildStatusItem(t('playlistSearchArtists.artistSearch.empty'));
       case ArtistSearchStatus.Error:
         return buildAlertStatusItem(t('errors.artistSearch.unexpectedError'));
       case ArtistSearchStatus.NoResults:

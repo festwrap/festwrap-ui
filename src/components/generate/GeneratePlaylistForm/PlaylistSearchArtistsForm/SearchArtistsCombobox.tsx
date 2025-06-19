@@ -34,6 +34,7 @@ export function SearchArtistsCombobox({
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [hasSearched, setHasSearched] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -58,6 +59,9 @@ export function SearchArtistsCombobox({
     setSearch(e.target.value);
     setIsOpen(true);
     setActiveIndex(-1);
+    if (e.target.value.trim() === '') {
+      setHasSearched(false);
+    }
   };
 
   const handleItemSelect = (item: ArtistDTO) => {
@@ -65,6 +69,7 @@ export function SearchArtistsCombobox({
 
     // Ensure closure after all updates
     setSearch('');
+    setHasSearched(false);
     setTimeout(() => setIsOpen(false), 0);
     setActiveIndex(-1);
     inputRef.current?.focus();
@@ -95,10 +100,10 @@ export function SearchArtistsCombobox({
   const getArtistSearchStatus = () => {
     if (isSearching) {
       return ArtistSearchStatus.Searching;
-    } else if (!search) {
-      return ArtistSearchStatus.Empty;
     } else if (hasError) {
       return ArtistSearchStatus.Error;
+    } else if (!hasSearched) {
+      return ArtistSearchStatus.Searching; // Show searching while waiting for debounced search
     } else if (options.length == 0) {
       return ArtistSearchStatus.NoResults;
     } else {
@@ -108,9 +113,17 @@ export function SearchArtistsCombobox({
 
   const clearSearch = () => {
     setSearch('');
+    setHasSearched(false);
     onSearch('');
     inputRef.current?.focus();
   };
+
+  // Track when search results are updated to set hasSearched
+  useEffect(() => {
+    if (!isSearching && search.trim() !== '') {
+      setHasSearched(true);
+    }
+  }, [isSearching, search]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
