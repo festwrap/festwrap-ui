@@ -36,9 +36,9 @@ Generate secret for the NextAuth secret
 openssl rand -base64 32
 ```
 
-Put the secret generate in the `NEXTAUTH_SECRET` env variable
+Put the secret generate in the `NEXTAUTH_SECRET` env variable in the `.env` file.
 
-Run the app
+Then run the app:
 
 ```shell
 make run-start
