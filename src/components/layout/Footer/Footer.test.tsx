@@ -17,18 +17,6 @@ vi.mock('next-translate/setLanguage', () => ({
 const mockT: any = (key: string) => key;
 
 describe('Footer', () => {
-  test('should render the footer with the correct links', () => {
-    vi.mocked(useTranslation).mockReturnValue({
-      t: mockT,
-      lang: 'en',
-    });
-
-    render(<Footer />);
-
-    expect(screen.getByText('nav.termsOfService')).toBeInTheDocument();
-    expect(screen.getByText('nav.privacyPolicy')).toBeInTheDocument();
-  });
-
   test('should change the language when clicking on the language button', async () => {
     vi.mocked(useTranslation).mockReturnValue({
       t: mockT,
