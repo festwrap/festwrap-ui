@@ -20,9 +20,7 @@
         "getStarted": "Empieza",
         "login": "Iniciar sesión en Spotify",
         "logout": "Cerrar sesión",
-        "privacyPolicy": "Politica de privacidad",
-        "profile": "Perfil",
-        "termsOfService": "Términos de servicio"
+        "profile": "Perfil"
     },
     "notFound": {
         "button": "Volver al inicio",

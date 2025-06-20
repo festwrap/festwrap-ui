@@ -20,9 +20,7 @@
         "getStarted": "Get Started",
         "login": "Sign in with Spotify",
         "logout": "Log out",
-        "privacyPolicy": "Privacy Policy",
-        "profile": "Profile",
-        "termsOfService": "Terms of Service"
+        "profile": "Profile"
     },
     "notFound": {
         "button": "Back to home",

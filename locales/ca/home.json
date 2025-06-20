@@ -4,18 +4,6 @@
         "subtitle": "Afegeix les cançons dels sets més recents que sonaran als teus propers concerts",
         "title": "Crea <0>llistes de Spotify</0> pels teus concerts i festivals"
     },
-    "howItWorksSection": {
-        "step1": {
-            "title": "Inicia sessió al teu compte de Spotify"
-        },
-        "step2": {
-            "title": "Busca i selecciona els artistes"
-        },
-        "step3": {
-            "title": "Visualitza el resultat"
-        },
-        "title": "Com funciona"
-    },
     "meta": {
         "description": "Llistes de Spotify pels teus concerts i festivals",
         "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
