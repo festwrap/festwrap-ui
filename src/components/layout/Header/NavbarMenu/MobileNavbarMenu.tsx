@@ -67,6 +67,9 @@ const MobileNavbarMenu = () => {
               >
                 {t('nav.aboutUs')}
               </NavLink>
+              <NavLink variant="mobile" href="/faq" onClick={handleMenuClose}>
+                {t('nav.faq')}
+              </NavLink>
             </nav>
           </div>
         </div>

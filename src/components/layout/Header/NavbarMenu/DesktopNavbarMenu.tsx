@@ -7,6 +7,7 @@ const DesktopNavbarMenu = () => {
     <nav className="hidden md:flex gap-10 items-center">
       <NavLink href="/generate">{t('nav.getStarted')}</NavLink>
       <NavLink href="/about-us">{t('nav.aboutUs')}</NavLink>
+      <NavLink href="/faq">{t('nav.faq')}</NavLink>
     </nav>
   );
 };
