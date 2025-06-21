@@ -9,7 +9,8 @@
     "*": [
       "common",
       "home",
-      "generate"
+      "generate",
+      "faq"
     ]
   }
 }
