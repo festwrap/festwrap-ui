@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "description": "Preguntes freqüents sobre Festwrap",
+    "title": "Preguntes Freqüents | Festwrap"
+  },
+  "questions": [
+    {
+      "answer": "Sí, ho és. Ho vam crear per ajudar-nos a crear les nostres pròpies llistes de reproducció, però volem que qualsevol pugui usar-ho també.",
+      "question": "És gratuït?"
+    },
+    {
+      "answer": "Sí, ho és. Pots trobar el codi a Github.",
+      "question": "És codi obert?"
+    },
+    {
+      "answer": "No, no ho fem. Tot i que les llistes de reproducció creades són públiques, no hi ha informació rastrejable sobre qui les va crear.",
+      "question": "Emmagatzemeu dades personals?"
+    },
+    {
+      "answer": "Es creen al compte de Spotify de Festwrap. Perquè hi puguis accedir, necessitem que totes les llistes de reproducció siguin públiques.",
+      "question": "On es creen les meves llistes de reproducció?"
+    },
+    {
+      "answer": "Tot i que aquesta era la intenció inicial, això no ha estat possible a causa de les restriccions recents de l'API de Spotify.",
+      "question": "Per què no puc crear llistes de reproducció al meu propi compte?"
+    },
+    {
+      "answer": "No és possible. Pots modificar o combinar llistes de reproducció anteriors en noves creades al teu propi compte.",
+      "question": "Puc modificar llistes de reproducció creades anteriorment?"
+    },
+    {
+      "answer": "Per evitar arribar a la quantitat màxima de llistes de reproducció, només garantim que la llista de reproducció existeixi durant 3 mesos. Si vols mantenir la teva llista de reproducció més temps, si us plau duplica-la al teu propi compte.",
+      "question": "Per quant temps estan disponibles les llistes de reproducció?"
+    },
+    {
+      "answer": "Utilitzem l'API de SetlistFM per aquest propòsit.",
+      "question": "Com obteniu les llistes de cançons recents?"
+    },
+    {
+      "answer": "Atès que fem servir versions de desenvolupament de les APIs de Setlistfm i Spotify, que tenen limitacions importants d'ús. Per limitar aquest ús i fer que aquesta aplicació estigui disponible per a múltiples usuaris, hem d'establir aquestes restriccions.",
+      "question": "Per què no puc afegir més de 5 artistes per llista de reproducció?"
+    },
+    {
+      "answer": "Tot i que hi ha múltiples factors que poden portar a això, aquí tens les principals raons possibles:\n- Llista de cançons no trobada: és possible que no hàgim trobat llistes de cançons recents per aquest artista.\n- Límit de velocitat d'API: les APIs de desenvolupament tenen límits de velocitat baixos, la qual cosa pot portar a errors si múltiples usuaris estan fent servir el lloc web al mateix temps.",
+      "question": "La meva llista de reproducció va fallar o alguns artistes no es van poder afegir. Per què?"
+    }
+  ],
+  "stillHaveQuestions": {
+    "button": "Contactar Suport",
+    "description": "No trobes la resposta que busques? Si us plau xateja amb el nostre equip amigable.",
+    "title": "Encara tens preguntes?"
+  },
+  "subtitle": "Troba respostes a preguntes comunes sobre els nostres productes i serveis",
+  "title": "Preguntes Freqüents"
+}
