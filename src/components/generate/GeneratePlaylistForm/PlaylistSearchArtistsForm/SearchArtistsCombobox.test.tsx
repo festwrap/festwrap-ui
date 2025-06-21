@@ -21,7 +21,7 @@ describe('SearchArtistsCombobox', () => {
         values={[]}
         onChange={vi.fn()}
         onSearch={vi.fn()}
-        isSearching={true}
+        isSearching
         hasError={false}
       />
     );
@@ -36,7 +36,7 @@ describe('SearchArtistsCombobox', () => {
     expect(searchItem).toBeInTheDocument();
   });
 
-  it('shows empty search message when search is empty', async () => {
+  it('shows empty search message in the placeholder when search is empty', async () => {
     render(
       <SearchArtistsCombobox
         options={[]}
@@ -45,16 +45,13 @@ describe('SearchArtistsCombobox', () => {
         onSearch={vi.fn()}
         isSearching={false}
         hasError={false}
+        placeholder="Type to start searching"
       />
     );
     await selectArtistInputAndType();
 
-    const emptySearchItem = screen
-      .getAllByRole('status')
-      .find(
-        (item) => item.textContent == 'playlistSearchArtists.artistSearch.empty'
-      );
-    expect(emptySearchItem).toBeInTheDocument();
+    const placeholder = screen.getByPlaceholderText('Type to start searching');
+    expect(placeholder).toBeInTheDocument();
   });
 
   it('shows error on search artists error', async () => {
