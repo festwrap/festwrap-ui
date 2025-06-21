@@ -33,9 +33,22 @@ export default function FAQSection() {
               </CollapsibleTrigger>
               <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                 <div className="border-t px-6 pb-6 pt-4">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {faq.answer}
-                  </p>
+                  <div className="text-muted-foreground leading-relaxed">
+                    {faq.answer
+                      .split('\n')
+                      .map((line: string, lineIndex: number) => (
+                        <div key={lineIndex}>
+                          {line.startsWith('- ') ? (
+                            <div className="ml-4 flex items-start">
+                              <span className="mr-2 mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground flex-shrink-0" />
+                              <span>- {line.substring(2)}</span>
+                            </div>
+                          ) : (
+                            <div>{line}</div>
+                          )}
+                        </div>
+                      ))}
+                  </div>
                 </div>
               </CollapsibleContent>
             </div>
