@@ -1,29 +1,30 @@
 {
-    "auth": {
-        "login": {
-            "button": "Sign in with Spotify",
-            "description": "We need to connect you to Spotify in order to create your playlists.",
-            "title": "Sign in to continue"
-        }
-    },
-    "footer": {
-        "allRightsReserved": "All rights reserved",
-        "selectLanguage": "Select a language"
-    },
-    "languages": {
-        "catalan": "Catalan",
-        "english": "English",
-        "spanish": "Spanish"
-    },
-    "nav": {
-        "aboutUs": "About us",
-        "getStarted": "Get Started",
-        "login": "Sign in with Spotify",
-        "logout": "Log out",
-        "profile": "Profile"
-    },
-    "notFound": {
-        "button": "Back to home",
-        "message": "It seems like you got a little bit lost"
+  "auth": {
+    "login": {
+      "button": "Sign in with Spotify",
+      "description": "We need to connect you to Spotify in order to create your playlists.",
+      "title": "Sign in to continue"
     }
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved",
+    "selectLanguage": "Select a language"
+  },
+  "languages": {
+    "catalan": "Catalan",
+    "english": "English",
+    "spanish": "Spanish"
+  },
+  "nav": {
+    "aboutUs": "About us",
+    "faq": "FAQ",
+    "getStarted": "Get Started",
+    "login": "Sign in with Spotify",
+    "logout": "Log out",
+    "profile": "Profile"
+  },
+  "notFound": {
+    "button": "Back to home",
+    "message": "It seems like you got a little bit lost"
+  }
 }
