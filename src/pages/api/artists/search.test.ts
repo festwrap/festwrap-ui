@@ -4,19 +4,12 @@ import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
 import { ArtistsClientStub } from '@/lib/clients/artists';
 import { Artist } from '@/entities/artists';
 
-type SearchQuery = {
-  name?: string | number | null;
-  limit?: string | number;
-};
-
 describe('searchArtistHandler', () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
 
-  function createMockRequest(
-    query: SearchQuery = { name: 'Brutus' }
-  ): NextApiRequest {
+  function createMockRequest(query: any = { name: 'Brutus' }): NextApiRequest {
     return { query } as unknown as NextApiRequest;
   }
 

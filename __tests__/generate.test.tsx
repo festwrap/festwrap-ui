@@ -112,7 +112,7 @@ const actions = {
   },
 
   async selectArtistAndAssertSelected(artistName: string) {
-    const searchInput = screen.getByTestId('artist-search-input')
+    const searchInput = screen.getByTestId('artist-search-input');
     await user.clear(searchInput);
     await user.type(searchInput, artistName);
 
