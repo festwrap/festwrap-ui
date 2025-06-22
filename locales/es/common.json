@@ -1,29 +1,30 @@
 {
-    "auth": {
-        "login": {
-            "button": "Iniciar sesión con Spotify",
-            "description": "Necesitamos conectarte a Spotify para poder crear tus listas de reproducción.",
-            "title": "Iniciar sesión para continuar"
-        }
-    },
-    "footer": {
-        "allRightsReserved": "Todos los derechos reservados",
-        "selectLanguage": "Selecciona un idioma"
-    },
-    "languages": {
-        "catalan": "Catalán",
-        "english": "Inglés",
-        "spanish": "Español"
-    },
-    "nav": {
-        "aboutUs": "Sobre nosotros",
-        "getStarted": "Empieza",
-        "login": "Iniciar sesión en Spotify",
-        "logout": "Cerrar sesión",
-        "profile": "Perfil"
-    },
-    "notFound": {
-        "button": "Volver al inicio",
-        "message": "Parece que te has perdido un poco"
+  "auth": {
+    "login": {
+      "button": "Iniciar sesión con Spotify",
+      "description": "Necesitamos conectarte a Spotify para poder crear tus listas de reproducción.",
+      "title": "Iniciar sesión para continuar"
     }
+  },
+  "footer": {
+    "allRightsReserved": "Todos los derechos reservados",
+    "selectLanguage": "Selecciona un idioma"
+  },
+  "languages": {
+    "catalan": "Catalán",
+    "english": "Inglés",
+    "spanish": "Español"
+  },
+  "nav": {
+    "aboutUs": "Sobre nosotros",
+    "faq": "Preguntas frecuentes",
+    "getStarted": "Empieza",
+    "login": "Iniciar sesión en Spotify",
+    "logout": "Cerrar sesión",
+    "profile": "Perfil"
+  },
+  "notFound": {
+    "button": "Volver al inicio",
+    "message": "Parece que te has perdido un poco"
+  }
 }

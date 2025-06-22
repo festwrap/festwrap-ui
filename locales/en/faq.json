@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "description": "Frequently Asked Questions about Festwrap",
+    "title": "FAQ | Festwrap"
+  },
+  "questions": [
+    {
+      "answer": "Yes, it is. We created this to help us create our own playlists but we want anyone to be able to use it, too.",
+      "question": "Is this free?"
+    },
+    {
+      "answer": "Yes, it is. You can find the code in [Github](https://github.com/festwrap).",
+      "question": "Is it open source?"
+    },
+    {
+      "answer": "No, we do not. While the created playlists are public, there is not traceable information on who created it.",
+      "question": "Do you store any personal data?"
+    },
+    {
+      "answer": "They are created in the Festwrap Spotify account. In order for you to access it, we need all playlists to be public.",
+      "question": "Where are my playlist created?"
+    },
+    {
+      "answer": "Though this was the initial intention, this has not been possible due to recent restrictions in the Spotify API.",
+      "question": "Why can't I create playlists in my own account?"
+    },
+    {
+      "answer": "It is not possible. You can amend or combine previous playlists into newer ones created in your own account.",
+      "question": "Can I modify previously created playlists?"
+    },
+    {
+      "answer": "To prevent reaching the maximum amount of Playlists, we only guarantee that playlist exists for 3 months. If you want to keep your playlist further than that, please duplicate it in your own account.",
+      "question": "How long are playlists available?"
+    },
+    {
+      "answer": "We use the SetlistFM API for that purpose.",
+      "question": "How do you get the recent setlists?"
+    },
+    {
+      "answer": "Given use development versions of Setlistfm and Spotify APIs, which have important usage limitations. In order to limit that usage and make this application available for multiple users, we need to set those restrictions.",
+      "question": "Why can't I add more than 5 artists per playlist?"
+    },
+    {
+      "answer": "While there are multiple factors that can lead to that, here are the main possible reasons:\n- Setlist not found: we might not have found recent setlists for that artist.\n- API rate limit: development APIs have low rate limits, which can lead to errors if multiple users are using the website at the same time.",
+      "question": "My playlist errored or some artists failed to be added. Why?"
+    }
+  ],
+  "title": "Frequently Asked Questions"
+}

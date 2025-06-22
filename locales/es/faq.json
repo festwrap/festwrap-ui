@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "description": "Preguntas frecuentes sobre Festwrap",
+    "title": "Preguntas Frecuentes | Festwrap"
+  },
+  "questions": [
+    {
+      "answer": "Sí, lo es. Lo creamos para ayudarnos a crear nuestras propias listas de reproducción, pero queremos que cualquiera pueda usarlo también.",
+      "question": "¿Es gratis?"
+    },
+    {
+      "answer": "Sí, lo es. Puedes encontrar el código en [Github](https://github.com/festwrap).",
+      "question": "¿Es código abierto?"
+    },
+    {
+      "answer": "No, no lo hacemos. Aunque las listas de reproducción creadas son públicas, no hay información rastreable sobre quién las creó.",
+      "question": "¿Almacenan datos personales?"
+    },
+    {
+      "answer": "Se crean en la cuenta de Spotify de Festwrap. Para que puedas acceder a ellas, necesitamos que todas las listas de reproducción sean públicas.",
+      "question": "¿Dónde se crean mis listas de reproducción?"
+    },
+    {
+      "answer": "Aunque esta era la intención inicial, esto no ha sido posible debido a las restricciones recientes en la API de Spotify.",
+      "question": "¿Por qué no puedo crear listas de reproducción en mi propia cuenta?"
+    },
+    {
+      "answer": "No es posible. Puedes modificar o combinar listas de reproducción anteriores en nuevas creadas en tu propia cuenta.",
+      "question": "¿Puedo modificar listas de reproducción creadas anteriormente?"
+    },
+    {
+      "answer": "Para evitar alcanzar la cantidad máxima de listas de reproducción, solo garantizamos que la lista de reproducción exista durante 3 meses. Si quieres mantener tu lista de reproducción más tiempo, por favor duplícala en tu propia cuenta.",
+      "question": "¿Por cuánto tiempo están disponibles las listas de reproducción?"
+    },
+    {
+      "answer": "Utilizamos la API de SetlistFM para ese propósito.",
+      "question": "¿Cómo obtienen las listas de canciones recientes?"
+    },
+    {
+      "answer": "Dado que usamos versiones de desarrollo de las APIs de Setlistfm y Spotify, que tienen limitaciones importantes de uso. Para limitar ese uso y hacer que esta aplicación esté disponible para múltiples usuarios, necesitamos establecer esas restricciones.",
+      "question": "¿Por qué no puedo agregar más de 5 artistas por lista de reproducción?"
+    },
+    {
+      "answer": "Aunque hay múltiples factores que pueden llevar a eso, aquí están las principales razones posibles:\n- Lista de canciones no encontrada: es posible que no hayamos encontrado listas de canciones recientes para ese artista.\n- Límite de velocidad de API: las APIs de desarrollo tienen límites de velocidad bajos, lo que puede llevar a errores si múltiples usuarios están usando el sitio web al mismo tiempo.",
+      "question": "Mi lista de reproducción falló o algunos artistas no se pudieron agregar. ¿Por qué?"
+    }
+  ],
+  "title": "Preguntas Frecuentes"
+}
