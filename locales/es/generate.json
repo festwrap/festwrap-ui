@@ -4,14 +4,14 @@
     "title": "Este sitio está en beta. Ayúdanos a mejorar la experiencia proporcionando tu feedback."
   },
   "errors": {
+    "artistSearch": {
+      "unexpectedError": "Error en la búsqueda. Inténtalo de nuevo más tarde"
+    },
     "name": {
       "required": "El nombre de la lista es obligatorio"
     },
     "playlistSelected": {
       "required": "Seleccionar una lista de reproducción es obligatorio"
-    },
-    "artistSearch": {
-      "unexpectedError": "Error en la búsqueda. Inténtalo de nuevo más tarde"
     },
     "selectedArtists": {
       "max": "Solo puedes añadir {{max}} artistas a la lista de reproducción",
@@ -32,14 +32,15 @@
     "generating": "Generando..."
   },
   "playlistSearchArtists": {
+    "artistSearch": {
+      "empty": "Escribe para empezar la búsqueda",
+      "noResults": "No se han encontrado resultados",
+      "placeholder": "Escribe para empezar la búsqueda",
+      "searching": "Buscando..."
+    },
     "emptyState": {
       "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
       "title": "Ningún artista añadido"
-    },
-    "artistSearch": {
-        "searching": "Buscando...",
-        "noResults": "No se han encontrado resultados",
-        "empty": "Escribe para empezar la búsqueda"
     },
     "removeArtist": "Eliminar",
     "title": "Busca los artistas"
