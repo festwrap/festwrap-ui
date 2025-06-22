@@ -9,6 +9,43 @@ import {
 } from '@/components/ui/Collapsible';
 import { Button } from '../ui/Button';
 
+// Helper function to parse markdown links and render as JSX
+const parseMarkdownLinks = (text: string) => {
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    // Add text before the link
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    // Add the link
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary hover:underline"
+      >
+        {match[1]}
+      </a>
+    );
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Add remaining text after the last link
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : [text];
+};
+
 export default function FAQSection() {
   const { t } = useTranslation('faq');
 
@@ -40,11 +77,13 @@ export default function FAQSection() {
                         <div key={lineIndex}>
                           {line.startsWith('- ') ? (
                             <div className="ml-4 flex items-start">
-                              <span className="mr-2 mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground flex-shrink-0" />
-                              <span>- {line.substring(2)}</span>
+                              <span className="mr-3 mt-2 h-2 w-2 rounded-full bg-muted-foreground flex-shrink-0" />
+                              <span className="flex-1">
+                                - {parseMarkdownLinks(line.substring(2))}
+                              </span>
                             </div>
                           ) : (
-                            <div>{line}</div>
+                            <div>{parseMarkdownLinks(line)}</div>
                           )}
                         </div>
                       ))}
