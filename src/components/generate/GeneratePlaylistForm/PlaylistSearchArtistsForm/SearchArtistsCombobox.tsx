@@ -108,7 +108,7 @@ export function SearchArtistsCombobox({
 
   const clearSearch = () => {
     setSearch('');
-    onSearch('');
+    // onSearch('');
     inputRef.current?.focus();
   };
 
