@@ -8,10 +8,8 @@ const Footer = () => {
   return (
     <footer className="bg-secondary bg-opacity-30 text-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-">
-        <div className="flex items-center justify-between border-t border-secondary py-2 text-sm">
-          <div className="flex items-center space-x-6">
-            <LanguageSelectorComponent />
-          </div>
+        <div className="flex flex-col sm:flex-row gap-2 items-center justify-between border-t border-secondary py-2 text-sm">
+          <LanguageSelectorComponent />
           <p>
             &copy; {currentYear} Festwrap. {t('footer.allRightsReserved')}
           </p>
