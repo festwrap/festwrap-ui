@@ -45,10 +45,5 @@
       "question": "My playlist errored or some artists failed to be added. Why?"
     }
   ],
-  "stillHaveQuestions": {
-    "button": "Contact Support",
-    "description": "Can't find the answer you're looking for? Please chat with our friendly team.",
-    "title": "Still have questions?"
-  },
   "title": "Frequently Asked Questions"
 }

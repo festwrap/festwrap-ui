@@ -7,7 +7,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/Collapsible';
-import { Button } from '../ui/Button';
 
 // Helper function to parse markdown links and render as JSX
 const parseMarkdownLinks = (text: string) => {
@@ -92,20 +91,6 @@ export default function FAQSection() {
             </div>
           </Collapsible>
         ))}
-      </div>
-
-      <div className="mt-8 rounded-lg bg-muted/50 p-6 text-center">
-        <h3 className="text-lg font-semibold">
-          {t('stillHaveQuestions.title')}
-        </h3>
-        <p className="mt-2 text-muted-foreground">
-          {t('stillHaveQuestions.description')}
-        </p>
-        <Button className="mt-4" asChild>
-          <a href="mailto:festwrap@gmail.com">
-            {t('stillHaveQuestions.button')}
-          </a>
-        </Button>
       </div>
     </div>
   );

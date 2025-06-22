@@ -45,10 +45,5 @@
       "question": "Mi lista de reproducción falló o algunos artistas no se pudieron agregar. ¿Por qué?"
     }
   ],
-  "stillHaveQuestions": {
-    "button": "Contactar Soporte",
-    "description": "¿No encuentras la respuesta que buscas? Por favor chatea con nuestro amigable equipo.",
-    "title": "¿Aún tienes preguntas?"
-  },
   "title": "Preguntas Frecuentes"
 }
