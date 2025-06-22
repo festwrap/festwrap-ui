@@ -9,7 +9,7 @@
       "question": "És gratuït?"
     },
     {
-      "answer": "Sí, ho és. Pots trobar el codi a Github.",
+      "answer": "Sí, ho és. Pots trobar el codi a [Github](https://github.com/festwrap).",
       "question": "És codi obert?"
     },
     {
@@ -33,7 +33,7 @@
       "question": "Per quant temps estan disponibles les llistes de reproducció?"
     },
     {
-      "answer": "Utilitzem l'API de SetlistFM per aquest propòsit.",
+      "answer": "Utilitzem l'API de SetlistFM per a aquest propòsit.",
       "question": "Com obteniu les llistes de cançons recents?"
     },
     {
