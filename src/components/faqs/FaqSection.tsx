@@ -57,7 +57,6 @@ export default function FAQSection() {
     <div className="mx-auto max-w-3xl p-6">
       <div className="mb-8 text-center">
         <h2 className="text-3xl font-bold tracking-tight">{t('title')}</h2>
-        <p className="mt-2 text-muted-foreground">{t('subtitle')}</p>
       </div>
 
       <div className="space-y-4">
