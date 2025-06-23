@@ -44,26 +44,26 @@ export function Alert({
     <div
       role="alert"
       className={cn(
-        'flex items-center gap-3 rounded-lg border-2 p-4',
+        'flex items-start md:items-center gap-3 rounded-lg border-2 p-4',
         styles.container,
         className
       )}
     >
       <IconComponent className={cn('h-6 w-6 flex-shrink-0', styles.icon)} />
-
-      <div className="flex-1 min-w-0">
-        {title && <div className="font-medium text-sm">{title}</div>}
-        {description && (
-          <div className={cn('text-sm', title ? 'mt-1' : '')}>
-            {description}
-          </div>
-        )}
-        {!title && !description && content && (
-          <div className="text-sm">{content}</div>
-        )}
+      <div className="flex flex-1 flex-col md:flex-row items-end md:items-center gap-2">
+        <div className="flex-1 min-w-0">
+          {title && <div className="font-medium text-sm">{title}</div>}
+          {description && (
+            <div className={cn('text-sm', title ? 'mt-1' : '')}>
+              {description}
+            </div>
+          )}
+          {!title && !description && content && (
+            <div className="text-sm">{content}</div>
+          )}
+        </div>
+        {action && <div className="flex-shrink-0">{action}</div>}
       </div>
-
-      {action && <div className="flex-shrink-0">{action}</div>}
     </div>
   );
 }
