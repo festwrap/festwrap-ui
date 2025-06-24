@@ -13,8 +13,8 @@ export interface CustomAlertProps {
 
 const variantStyles = {
   info: {
-    container: 'bg-slate-100 border-tertiary text-tertiary',
-    icon: 'text-tertiary',
+    container: 'bg-slate-100 border-tertiary text-dark-blue',
+    icon: 'text-dark-blue',
   },
   warning: {
     container: 'bg-yellow-100 border-yellow-200 text-yellow-700',
