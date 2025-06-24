@@ -67,7 +67,7 @@ export default function FAQSection() {
               </CollapsibleTrigger>
               <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                 <div className="border-t px-6 pb-6 pt-4">
-                  <div className="text-muted-foreground leading-relaxed">
+                  <div className="text-muted-foreground text-dark-blue leading-relaxed">
                     {faq.answer
                       .split('\n')
                       .map((line: string, lineIndex: number) => (
