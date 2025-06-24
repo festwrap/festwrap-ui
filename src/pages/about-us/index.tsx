@@ -33,7 +33,7 @@ export default function AboutPage({ translations }: AboutPageProps) {
         <title>{translations.meta.title}</title>
         <meta name="description" content={translations.meta.description} />
       </Head>
-      <div className="container mx-auto px-4 py-12 max-w-5xl">
+      <div className="container mx-auto py-4 md:py-12 max-w-5xl">
         <Heading size="4xl" weight="bold" className="mb-8">
           {translations.aboutUs}
         </Heading>

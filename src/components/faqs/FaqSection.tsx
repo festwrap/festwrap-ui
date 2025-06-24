@@ -48,12 +48,11 @@ const parseMarkdownLinks = (text: string) => {
 export default function FAQSection() {
   const { t } = useTranslation('faq');
 
-  // Get questions array from translations with proper fallback
   const questionsData = t('questions', {}, { returnObjects: true });
   const questions = Array.isArray(questionsData) ? questionsData : [];
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
+    <div className="mx-auto max-w-3xl">
       <div className="mb-8 text-center">
         <h2 className="text-3xl font-bold tracking-tight">{t('title')}</h2>
       </div>
@@ -68,7 +67,7 @@ export default function FAQSection() {
               </CollapsibleTrigger>
               <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                 <div className="border-t px-6 pb-6 pt-4">
-                  <div className="text-muted-foreground leading-relaxed">
+                  <div className="text-muted-foreground text-dark-blue leading-relaxed">
                     {faq.answer
                       .split('\n')
                       .map((line: string, lineIndex: number) => (

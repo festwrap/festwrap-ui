@@ -17,7 +17,7 @@ export default function PlaylistGeneratedSuccessfully() {
         <meta name="description" content={t('meta.description')} />
         <meta name="keywords" content={t('meta.keywords')} />
       </Head>
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <div className="container mx-auto py-4 md:py-12 max-w-4xl">
         <div className="flex flex-col gap-6">
           <PlaylistUpdateReport playlistId={playlistId as string} />
           {partialError && (
