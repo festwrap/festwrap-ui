@@ -61,17 +61,11 @@ type ServiceMocks = {
 
 const createServiceMocks = (): ServiceMocks => ({
   playlistsService: {
-    searchPlaylists: vi.fn().mockResolvedValue({
-      playlists: [TEST_DATA.playlist.name],
-    }),
     createNewPlaylist: vi.fn().mockResolvedValue({
       playlistCreated: {
         id: TEST_DATA.createdPlaylistId,
         status: CreatedPlaylistStatus.OK,
       },
-    }),
-    updatePlaylist: vi.fn().mockResolvedValue({
-      playlistUpdated: { status: CreatedPlaylistStatus.OK },
     }),
   },
   artistsService: {
@@ -118,7 +112,7 @@ const actions = {
   },
 
   async selectArtistAndAssertSelected(artistName: string) {
-    const searchInput = screen.getByTestId('artist-search-input')
+    const searchInput = screen.getByTestId('artist-search-input');
     await user.clear(searchInput);
     await user.type(searchInput, artistName);
 
@@ -150,15 +144,13 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should display error toast when $scenario API fails', async () => {
-    vi.mocked(mockServices.playlistsService.createNewPlaylist).mockRejectedValue(
-      new Error('API Error')
-    );
+    vi.mocked(
+      mockServices.playlistsService.createNewPlaylist
+    ).mockRejectedValue(new Error('API Error'));
     renderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     await actions.fillPlaylistName();
-    await actions.selectArtistAndAssertSelected(
-      TEST_DATA.artists.single.name
-    );
+    await actions.selectArtistAndAssertSelected(TEST_DATA.artists.single.name);
     await actions.click(/navigation.generate/i);
 
     await waitFor(() => {

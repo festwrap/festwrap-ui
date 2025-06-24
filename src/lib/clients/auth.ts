@@ -21,7 +21,7 @@ export class GCPAuthClient implements AuthClient {
   }
 
   async getToken(): Promise<string> {
-    const tokenResponse = await this.httpClient.send({
+    const tokenResponse = await this.httpClient.send<string>({
       url: this.baseUrl,
       method: Method.Get,
       params: { audience: this.audience },

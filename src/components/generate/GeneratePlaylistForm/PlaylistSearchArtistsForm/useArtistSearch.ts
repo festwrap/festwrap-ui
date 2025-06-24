@@ -22,9 +22,12 @@ export function useArtistSearch() {
         setLoading(true);
         const data = await artistsService.searchArtists(name, limit);
         setArtists(data.artists || []);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
       } finally {
         setLoading(false);
       }

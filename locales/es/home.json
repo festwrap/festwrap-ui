@@ -1,12 +1,12 @@
 {
-    "heroSection": {
-        "button": "Comienza",
-        "subtitle": "Añade canciones de los sets más recientes que sonaran en tus próximos conciertos",
-        "title": "Crea <0>listas de Spotify</0> paras tus conciertos y festivales"
-    },
-    "meta": {
-        "description": "Genera listas de Spotify paras tus conciertos y festivales",
-        "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
-        "title": "Inicio | Festwrap"
-    }
+  "heroSection": {
+    "button": "Comienza",
+    "subtitle": "Añade canciones de los sets más recientes que sonaran en tus próximos conciertos",
+    "title": "Crea <0>listas de Spotify</0> paras tus conciertos y festivales"
+  },
+  "meta": {
+    "description": "Genera listas de Spotify paras tus conciertos y festivales",
+    "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
+    "title": "Inicio | Festwrap"
+  }
 }

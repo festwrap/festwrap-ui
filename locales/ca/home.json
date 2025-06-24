@@ -1,12 +1,12 @@
 {
-    "heroSection": {
-        "button": "Començar",
-        "subtitle": "Afegeix les cançons dels sets més recents que sonaran als teus propers concerts",
-        "title": "Crea <0>llistes de Spotify</0> pels teus concerts i festivals"
-    },
-    "meta": {
-        "description": "Llistes de Spotify pels teus concerts i festivals",
-        "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
-        "title": "Inici | Festwrap"
-    }
+  "heroSection": {
+    "button": "Començar",
+    "subtitle": "Afegeix les cançons dels sets més recents que sonaran als teus propers concerts",
+    "title": "Crea <0>llistes de Spotify</0> pels teus concerts i festivals"
+  },
+  "meta": {
+    "description": "Llistes de Spotify pels teus concerts i festivals",
+    "keywords": "Spotify, Setlist.fm, Generador de llistes, Festivals, Música, Concerts",
+    "title": "Inici | Festwrap"
+  }
 }

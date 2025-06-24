@@ -1,16 +1,7 @@
 {
   "defaultLocale": "en",
-  "locales": [
-    "en",
-    "es",
-    "ca"
-  ],
+  "locales": ["en", "es", "ca"],
   "pages": {
-    "*": [
-      "common",
-      "home",
-      "generate",
-      "faq"
-    ]
+    "*": ["common", "home", "generate", "faq"]
   }
 }
