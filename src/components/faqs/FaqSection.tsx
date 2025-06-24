@@ -48,12 +48,11 @@ const parseMarkdownLinks = (text: string) => {
 export default function FAQSection() {
   const { t } = useTranslation('faq');
 
-  // Get questions array from translations with proper fallback
   const questionsData = t('questions', {}, { returnObjects: true });
   const questions = Array.isArray(questionsData) ? questionsData : [];
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
+    <div className="mx-auto max-w-3xl">
       <div className="mb-8 text-center">
         <h2 className="text-3xl font-bold tracking-tight">{t('title')}</h2>
       </div>
