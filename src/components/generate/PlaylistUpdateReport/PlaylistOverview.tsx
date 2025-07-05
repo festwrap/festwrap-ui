@@ -13,12 +13,12 @@ export const PlaylistOverview: FC<PlaylistOverviewProps> = ({
 
   return (
     <iframe
+      key={playlistId}
       src={embedUrl}
       className="rounded"
       width="100%"
       height={height}
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
       title="Spotify embedded playlist"
     />
   );
