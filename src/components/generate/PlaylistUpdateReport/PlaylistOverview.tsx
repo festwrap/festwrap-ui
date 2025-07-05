@@ -13,6 +13,7 @@ export const PlaylistOverview: FC<PlaylistOverviewProps> = ({
 
   return (
     <iframe
+      key={playlistId}
       src={embedUrl}
       className="rounded"
       width="100%"
