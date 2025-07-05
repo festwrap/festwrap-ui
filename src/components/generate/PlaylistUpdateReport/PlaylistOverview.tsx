@@ -19,7 +19,6 @@ export const PlaylistOverview: FC<PlaylistOverviewProps> = ({
       width="100%"
       height={height}
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
       title="Spotify embedded playlist"
     />
   );
