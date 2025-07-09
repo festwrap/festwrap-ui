@@ -159,7 +159,7 @@ export function SearchArtistsCombobox({
             </div>
           ) : search ? (
             <button
-              className="absolute right-12 top-1/2 transform -translate-y-1/2"
+              className="absolute right-12 top-1/2 transform -translate-y-1/2 p-2 rounded-full"
               onClick={clearSearch}
               aria-label="Clear search"
             >
@@ -167,7 +167,7 @@ export function SearchArtistsCombobox({
             </button>
           ) : null}
           <button
-            className="absolute right-4 top-1/2 transform -translate-y-1/2"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 rounded-full"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle options"
           >
