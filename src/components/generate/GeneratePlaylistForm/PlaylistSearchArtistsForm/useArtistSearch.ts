@@ -2,37 +2,61 @@ import { useState, useCallback } from 'react';
 import { useServices } from '@/contexts/ServiceContext';
 import { ArtistDTO } from '@/entities/artists';
 
-export function useArtistSearch() {
+const DEFAULT_MAX_ARTIST_NAME_LENGTH = 50;
+
+/* eslint-disable no-unused-vars */
+export enum ArtistSearchError {
+  Standard = 1,
+  Unexpected,
+  ArtistNameTooLong,
+}
+
+export function useArtistSearch(
+  maxArtistNameLength: number = DEFAULT_MAX_ARTIST_NAME_LENGTH
+) {
   const { artistsService } = useServices();
   const [artists, setArtists] = useState<ArtistDTO[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ArtistSearchError | null>(null);
 
-  const clearArtists = () => {
+  function clearArtists() {
     setArtists([]);
-  };
+  }
+
+  function setResultStatus(result: ArtistDTO[]) {
+    setArtists(result);
+    setError(null);
+  }
+
+  function setErrorStatus(error: ArtistSearchError) {
+    setArtists([]);
+    setError(error);
+  }
 
   const search = useCallback(
     async (name: string, limit: number = 5) => {
+      if (name.trim() === '') {
+        setResultStatus([]);
+        return;
+      } else if (name.length > maxArtistNameLength) {
+        setErrorStatus(ArtistSearchError.ArtistNameTooLong);
+        return;
+      }
+
+      setLoading(true);
       try {
-        if (name.trim() === '') {
-          setArtists([]);
-          return;
-        }
-        setLoading(true);
         const data = await artistsService.searchArtists(name, limit);
-        setArtists(data.artists || []);
+        setResultStatus(data.artists || []);
       } catch (err: unknown) {
         if (err instanceof Error) {
-          setError(err.message);
+          setErrorStatus(ArtistSearchError.Standard);
         } else {
-          setError('An unexpected error occurred');
+          setErrorStatus(ArtistSearchError.Unexpected);
         }
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
     },
-    [artistsService]
+    [artistsService, maxArtistNameLength]
   );
 
   return { artists, loading, error, search, clearArtists };
