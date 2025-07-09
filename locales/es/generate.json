@@ -36,7 +36,8 @@
       "empty": "Escribe para empezar la búsqueda",
       "noResults": "No se han encontrado resultados",
       "placeholder": "Escribe para empezar la búsqueda",
-      "searching": "Buscando..."
+      "searching": "Buscando...",
+      "artistNameTooLong": "El nombre del artista es demasiado largo. Por favor, prueba con un nombre más corto."
     },
     "emptyState": {
       "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",

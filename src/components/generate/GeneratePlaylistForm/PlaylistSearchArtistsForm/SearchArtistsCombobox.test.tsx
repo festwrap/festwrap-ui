@@ -91,4 +91,26 @@ describe('SearchArtistsCombobox', () => {
       );
     expect(noResultsItem).toBeInTheDocument();
   });
+
+  it('shows error on long artist name', async () => {
+    render(
+      <SearchArtistsCombobox
+        options={[]}
+        values={[]}
+        onChange={vi.fn()}
+        onSearch={vi.fn()}
+        error={ArtistSearchError.ArtistNameTooLong}
+      />
+    );
+    await selectArtistInputAndType('Thursday');
+
+    const artistTooLongItem = screen
+      .getAllByRole('alert')
+      .find(
+        (item) =>
+          item.textContent ==
+          'playlistSearchArtists.artistSearch.artistNameTooLong'
+      );
+    expect(artistTooLongItem).toBeInTheDocument();
+  });
 });

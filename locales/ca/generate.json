@@ -36,7 +36,8 @@
       "empty": "Escriu per començar la cerca",
       "noResults": "No s'han trobat resultats",
       "placeholder": "Escriu per començar la cerca",
-      "searching": "Cercant..."
+      "searching": "Cercant...",
+      "artistNameTooLong": "El nom de l'artista és massa llarg. Prova amb un nom més curt."
     },
     "description": "Selecciona els artistes que vols afegir a la llista de reproducció",
     "emptyState": {

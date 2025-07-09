@@ -94,14 +94,10 @@ export function SearchArtistsCombobox({
   };
 
   const getArtistSearchStatus = () => {
-    console.log('getArtistSearchStatus', {
-      isSearching,
-      error,
-      search,
-      options,
-    });
     if (isSearching) {
       return ArtistSearchStatus.Searching;
+    } else if (error == ArtistSearchError.ArtistNameTooLong) {
+      return ArtistSearchStatus.ArtistNameTooLong;
     } else if (error !== null) {
       return ArtistSearchStatus.Error;
     } else if (search.trim() === '') {

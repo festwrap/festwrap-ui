@@ -36,7 +36,8 @@
       "empty": "Type to start searching",
       "noResults": "No results found",
       "placeholder": "Type to start searching",
-      "searching": "Searching..."
+      "searching": "Searching...",
+      "artistNameTooLong": "The artist name is too long. Please try with a shorter name."
     },
     "emptyState": {
       "description": "Start searching for artists to add them to the playlist",

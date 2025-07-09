@@ -2,13 +2,18 @@ import { useState, useCallback } from 'react';
 import { useServices } from '@/contexts/ServiceContext';
 import { ArtistDTO } from '@/entities/artists';
 
+const DEFAULT_MAX_ARTIST_NAME_LENGTH = 50;
+
 /* eslint-disable no-unused-vars */
 export enum ArtistSearchError {
   Standard = 1,
   Unexpected,
+  ArtistNameTooLong,
 }
 
-export function useArtistSearch() {
+export function useArtistSearch(
+  maxArtistNameLength: number = DEFAULT_MAX_ARTIST_NAME_LENGTH
+) {
   const { artistsService } = useServices();
   const [artists, setArtists] = useState<ArtistDTO[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,6 +38,9 @@ export function useArtistSearch() {
       if (name.trim() === '') {
         setResultStatus([]);
         return;
+      } else if (name.length > maxArtistNameLength) {
+        setErrorStatus(ArtistSearchError.ArtistNameTooLong);
+        return;
       }
 
       setLoading(true);
@@ -48,7 +56,7 @@ export function useArtistSearch() {
       }
       setLoading(false);
     },
-    [artistsService]
+    [artistsService, maxArtistNameLength]
   );
 
   return { artists, loading, error, search, clearArtists };

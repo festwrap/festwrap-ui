@@ -7,6 +7,7 @@ import { Loader2Icon } from 'lucide-react';
 /* eslint-disable no-unused-vars */
 export enum ArtistSearchStatus {
   Searching = 1,
+  ArtistNameTooLong,
   Error,
   NoResults,
   HasResults,
@@ -63,6 +64,10 @@ export function ArtistSearchResultList({
       case ArtistSearchStatus.NoResults:
         return buildStatusItem(
           t('playlistSearchArtists.artistSearch.noResults')
+        );
+      case ArtistSearchStatus.ArtistNameTooLong:
+        return buildAlertStatusItem(
+          t('playlistSearchArtists.artistSearch.artistNameTooLong')
         );
       case ArtistSearchStatus.HasResults:
         return searchedArtists.map((item, index) => (
