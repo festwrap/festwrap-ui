@@ -12,13 +12,14 @@ import {
   ArtistSearchResultList,
   ArtistSearchStatus,
 } from './ArtistSearchResultList';
+import { ArtistSearchError } from './useArtistSearch';
 
 type SearchComboboxProps = {
   options: ArtistDTO[];
   values: ArtistDTO[];
   onChange: (_value: ArtistDTO) => void;
   onSearch: (_search: string) => void;
-  hasError: boolean;
+  error?: ArtistSearchError | null;
   placeholder?: string;
   isSearching?: boolean;
 };
@@ -28,7 +29,7 @@ export function SearchArtistsCombobox({
   values,
   onChange,
   onSearch,
-  hasError,
+  error = null,
   placeholder,
   isSearching = false,
 }: SearchComboboxProps) {
@@ -93,9 +94,15 @@ export function SearchArtistsCombobox({
   };
 
   const getArtistSearchStatus = () => {
+    console.log('getArtistSearchStatus', {
+      isSearching,
+      error,
+      search,
+      options,
+    });
     if (isSearching) {
       return ArtistSearchStatus.Searching;
-    } else if (hasError) {
+    } else if (error !== null) {
       return ArtistSearchStatus.Error;
     } else if (search.trim() === '') {
       return ArtistSearchStatus.Searching;

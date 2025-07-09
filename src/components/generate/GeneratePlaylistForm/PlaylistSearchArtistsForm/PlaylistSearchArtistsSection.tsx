@@ -61,7 +61,7 @@ const PlaylistSearchArtistsSection = () => {
                   values={field.value}
                   onChange={onChangeSelection}
                   onSearch={debouncedSearch}
-                  hasError={error !== null}
+                  error={error}
                   placeholder={t(
                     'playlistSearchArtists.artistSearch.placeholder'
                   )}

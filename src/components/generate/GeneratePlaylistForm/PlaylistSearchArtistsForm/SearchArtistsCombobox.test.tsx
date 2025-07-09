@@ -2,6 +2,7 @@ import { describe, expect, vi, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SearchArtistsCombobox } from './SearchArtistsCombobox';
 import userEvent from '@testing-library/user-event';
+import { ArtistSearchError } from './useArtistSearch';
 
 describe('SearchArtistsCombobox', () => {
   async function selectArtistInputAndType(
@@ -22,7 +23,6 @@ describe('SearchArtistsCombobox', () => {
         onChange={vi.fn()}
         onSearch={vi.fn()}
         isSearching
-        hasError={false}
       />
     );
     await selectArtistInputAndType('Descendents');
@@ -43,8 +43,6 @@ describe('SearchArtistsCombobox', () => {
         values={[]}
         onChange={vi.fn()}
         onSearch={vi.fn()}
-        isSearching={false}
-        hasError={false}
         placeholder="Type to start searching"
       />
     );
@@ -61,8 +59,7 @@ describe('SearchArtistsCombobox', () => {
         values={[]}
         onChange={vi.fn()}
         onSearch={vi.fn()}
-        isSearching={false}
-        hasError={true}
+        error={ArtistSearchError.Standard}
       />
     );
     await selectArtistInputAndType('Toe');
@@ -82,8 +79,6 @@ describe('SearchArtistsCombobox', () => {
         values={[]}
         onChange={vi.fn()}
         onSearch={vi.fn()}
-        isSearching={false}
-        hasError={false}
       />
     );
     await selectArtistInputAndType('Thursday');
