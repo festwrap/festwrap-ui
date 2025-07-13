@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import useTranslation from 'next-translate/useTranslation';
-import { Button } from '@components/ui/Button';
+import { Button } from '@components/ui/button';
 
 const MobileNavbarMenu = () => {
   const { t } = useTranslation('common');

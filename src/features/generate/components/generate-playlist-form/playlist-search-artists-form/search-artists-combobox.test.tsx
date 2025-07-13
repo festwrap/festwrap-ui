@@ -1,6 +1,6 @@
 import { describe, expect, vi, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SearchArtistsCombobox } from './SearchArtistsCombobox';
+import { SearchArtistsCombobox } from './search-artists-combobox';
 import userEvent from '@testing-library/user-event';
 
 describe('SearchArtistsCombobox', () => {

@@ -1,5 +1,5 @@
 import { ArtistDTO } from '@/entities/artists';
-import ArtistSearchResult from './ArtistSearchResult';
+import ArtistSearchResult from './artist-search-result';
 import useTranslation from 'next-translate/useTranslation';
 import { cn } from '@/lib/utils';
 import { Loader2Icon } from 'lucide-react';

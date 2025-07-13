@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
-import FloatingChips from './FloatingChips';
+import FloatingChips from './floating-chips';
 import heroBgDarkImage from '@public/hero-section-bg-dark-shape.svg';
 import heroBgLightImage from '@public/hero-section-bg-light-shape.svg';
 import spotifyListImage from '@public/spotify-list.svg';
 import Image from 'next/image';
-import { fadeInStaggerRight, scaleUp } from '@/lib/motionVariants';
+import { fadeInStaggerRight, scaleUp } from '@/lib/motion-variants';
 
 const HeroSectionRight = () => {
   return (

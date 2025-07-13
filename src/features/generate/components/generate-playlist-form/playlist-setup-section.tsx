@@ -1,5 +1,5 @@
-import Heading from '@components/ui/Heading';
-import { Input } from '@components/ui/Input';
+import Heading from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
 import {
@@ -7,9 +7,9 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-} from '@/components/ui/Form';
-import ErrorMessage from '@/components/ui/ErrorMessage';
-import { BetaInfoAlert } from '../BetaInfoAlert';
+} from '@/components/ui/form';
+import ErrorMessage from '@/components/ui/error-message';
+import { BetaInfoAlert } from '../beta-info-alert';
 
 const PlaylistSetupSection = () => {
   const { control, formState } = useFormContext();

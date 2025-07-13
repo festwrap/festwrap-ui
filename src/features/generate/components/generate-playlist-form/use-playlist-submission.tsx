@@ -5,7 +5,7 @@ import {
   CreateNewPlaylistDTO,
 } from '@/entities/playlists';
 import { useServices } from '@/contexts/ServiceContext';
-import { FormSchemaType } from '@/components/generate/GeneratePlaylistForm/GeneratePlaylistForm';
+import { FormSchemaType } from './generate-playlist-form';
 
 export enum SubmissionStatus {
   OK,

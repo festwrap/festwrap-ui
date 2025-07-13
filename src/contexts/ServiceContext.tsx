@@ -1,5 +1,5 @@
-import { IArtistsService } from '@/services/artistsService';
-import { IPlaylistsService } from '@/services/playlistsService';
+import { IArtistsService } from '@/services/artists-service';
+import { IPlaylistsService } from '@/services/playlists-service';
 import { createContext, useContext, ReactNode } from 'react';
 
 export interface ServiceContextType {

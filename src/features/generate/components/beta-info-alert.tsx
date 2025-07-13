@@ -1,6 +1,6 @@
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui/alert';
 import useTranslation from 'next-translate/useTranslation';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const GOOGLE_FORM_URL = 'https://forms.gle/NjV5wAKVDmp651x76';

@@ -1,9 +1,9 @@
 import useTranslation from 'next-translate/useTranslation';
-import { fadeInStaggerRight, fadeInUp } from '@/lib/motionVariants';
+import { fadeInStaggerRight, fadeInUp } from '@/lib/motion-variants';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Trans from 'next-translate/Trans';
-import { Button } from '@components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const HeroSectionLeft = () => {
   const { t } = useTranslation('home');

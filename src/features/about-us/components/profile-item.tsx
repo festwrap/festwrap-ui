@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/Avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Linkedin, Github } from 'lucide-react';
-import { Button } from '@components/ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardHeader,
@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from '@components/ui/Card';
+} from '@/components/ui/card';
 
 type ProfileItemProps = {
   name: string;

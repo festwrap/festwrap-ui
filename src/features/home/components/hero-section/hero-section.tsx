@@ -1,5 +1,5 @@
-import HeroSectionRight from './HeroSectionRight';
-import HeroSectionLeft from './HeroSectionLeft';
+import HeroSectionRight from './hero-section-right';
+import HeroSectionLeft from './hero-section-left';
 
 const HeroSection = () => {
   return (

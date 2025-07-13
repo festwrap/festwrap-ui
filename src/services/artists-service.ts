@@ -1,5 +1,5 @@
 import { ResponseData } from '@/pages/api/artists/search';
-import { IFetchService } from './fetchService';
+import { IFetchService } from './fetch-service';
 
 export interface IArtistsService {
   searchArtists(_name: string, _limit: number): Promise<ResponseData>;

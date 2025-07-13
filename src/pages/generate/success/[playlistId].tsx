@@ -1,10 +1,10 @@
 import Head from 'next/head';
-import PlaylistUpdateReport from '@/components/generate/PlaylistUpdateReport/PlaylistUpdateReport';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui/alert';
 import { TriangleAlert } from 'lucide-react';
-import { BetaInfoAlert } from '@/components/generate/BetaInfoAlert';
+import PlaylistUpdateReport from '@/features/generate/components/playlist-update-report/playlist-update-report';
+import { BetaInfoAlert } from '@/features/generate/components/beta-info-alert';
 
 export default function PlaylistGeneratedSuccessfully() {
   const { t } = useTranslation('generate');

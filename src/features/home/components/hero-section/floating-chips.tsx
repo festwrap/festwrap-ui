@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import Chip, { ChipVariant } from '@components/ui/Chip';
+import Chip, { ChipVariant } from '@/components/ui/chip';
 import { twMerge } from 'tailwind-merge';
-import { scaleUp } from '@/lib/motionVariants';
+import { scaleUp } from '@/lib/motion-variants';
 
 type ChipType = {
   color: ChipVariant;

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import getT from 'next-translate/getT';
-import GeneratePlaylistForm from '@/components/generate/GeneratePlaylistForm/GeneratePlaylistForm';
+import GeneratePlaylistForm from '@features/generate/components/generate-playlist-form/generate-playlist-form';
 
 type GenerateTranslationProps = {
   meta: {

@@ -11,7 +11,7 @@ import { ArtistDTO } from '@/entities/artists';
 import {
   ArtistSearchResultList,
   ArtistSearchStatus,
-} from './ArtistSearchResultList';
+} from './artist-search-result-list';
 
 type SearchComboboxProps = {
   options: ArtistDTO[];

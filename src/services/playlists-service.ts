@@ -1,4 +1,4 @@
-import { IFetchService } from './fetchService';
+import { IFetchService } from './fetch-service';
 import { CreateNewPlaylistDTO } from '@/entities/playlists';
 import { CreatePlaylistResponseData } from '@/pages/api/playlists/create';
 

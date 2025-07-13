@@ -1,15 +1,15 @@
-import Heading from '@components/ui/Heading';
-import { SearchArtistsCombobox } from './SearchArtistsCombobox';
+import Heading from '@/components/ui/heading';
+import { SearchArtistsCombobox } from './search-artists-combobox';
 import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
-import { FormControl, FormField, FormItem } from '@/components/ui/Form';
-import ErrorMessage from '@/components/ui/ErrorMessage';
-import { useArtistSearch } from './useArtistSearch';
+import { FormControl, FormField, FormItem } from '@/components/ui/form';
+import ErrorMessage from '@/components/ui/error-message';
+import { useArtistSearch } from './use-artist-search';
 import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
 import { ArtistDTO } from '@/entities/artists';
-import SelectedArtistBadge from './SelectedArtistBadge';
+import SelectedArtistBadge from './selected-artist-badge';
 import { MAX_ARTISTS } from '@/entities/playlists';
 
 const DEBOUNCE_INPUT_TIME = 300;

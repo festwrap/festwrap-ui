@@ -1,19 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import PlaylistSearchArtistsSection from '@/components/generate/GeneratePlaylistForm/PlaylistSearchArtistsForm/PlaylistSearchArtistsSection';
-import PlaylistSetupSection from '@/components/generate/GeneratePlaylistForm/PlaylistSetupSection';
-import { Button } from '@components/ui/Button';
+import { Button } from '@/components/ui/button';
 import useTranslation from 'next-translate/useTranslation';
-import { Form } from '@components/ui/Form';
+import { Form } from '@/components/ui/form';
 import {
   SubmissionStatus,
   usePlaylistSubmission,
-} from './usePlaylistSubmission';
+} from './use-playlist-submission';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { MAX_ARTISTS } from '@/entities/playlists';
 import { useRouter } from 'next/router';
+import PlaylistSetupSection from './playlist-setup-section';
+import PlaylistSearchArtistsSection from './playlist-search-artists-form/playlist-search-artists-section';
 
 export const PlaylistCreationMode = {
   New: 'new',

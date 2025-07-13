@@ -5,8 +5,8 @@ import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 import { ReactNode } from 'react';
 import { ServiceProvider } from '@/contexts/ServiceContext';
 import { toast } from 'sonner';
-import { IPlaylistsService } from '@/services/playlistsService';
-import { IArtistsService } from '@/services/artistsService';
+import { IPlaylistsService } from '@/services/playlists-service';
+import { IArtistsService } from '@/services/artists-service';
 import { CreatedPlaylistStatus } from '@/entities/playlists';
 import { useRouter } from 'next/router';
 

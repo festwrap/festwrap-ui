@@ -1,7 +1,7 @@
 import Header from '@components/layout/Header/Header';
 import Main from '@components/layout/Main';
 import Footer from '@components/layout/Footer/Footer';
-import { Toaster } from '@components/ui/Toaster';
+import { Toaster } from '@components/ui/toaster';
 
 export default function RootLayout({
   children,

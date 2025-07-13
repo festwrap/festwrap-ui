@@ -1,12 +1,11 @@
 import type { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import '../styles/globals.css';
-import SessionWrapper from '@components/SessionWrapper';
-import RootLayout from '@components/layout/RootLayout';
+import RootLayout from '@/components/layout/root-layout';
 import { ServiceContextType, ServiceProvider } from '@/contexts/ServiceContext';
-import { FetchService } from '@/services/fetchService';
-import { PlaylistsService } from '@/services/playlistsService';
-import { ArtistsService } from '@/services/artistsService';
+import { FetchService } from '@/services/fetch-service';
+import { PlaylistsService } from '@/services/playlists-service';
+import { ArtistsService } from '@/services/artists-service';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -24,14 +23,12 @@ const servicesValue: ServiceContextType = {
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionWrapper>
-      <ServiceProvider value={servicesValue}>
-        <main className={poppins.className}>
-          <RootLayout>
-            <Component {...pageProps} />
-          </RootLayout>
-        </main>
-      </ServiceProvider>
-    </SessionWrapper>
+    <ServiceProvider value={servicesValue}>
+      <main className={poppins.className}>
+        <RootLayout>
+          <Component {...pageProps} />
+        </RootLayout>
+      </main>
+    </ServiceProvider>
   );
 }
