@@ -6,7 +6,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/Collapsible';
+} from '@/components/ui/collapsible';
 
 // Helper function to parse markdown links and render as JSX
 const parseMarkdownLinks = (text: string) => {
