@@ -1,4 +1,4 @@
-import { LanguageSelectorComponent } from './LanguageSelector';
+import { LanguageSelectorComponent } from './language-selector';
 import useTranslation from 'next-translate/useTranslation';
 
 const Footer = () => {
