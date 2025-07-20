@@ -2,7 +2,10 @@ import type { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import '../styles/globals.css';
 import RootLayout from '@/components/layout/root-layout';
-import { ServiceContextType, ServiceProvider } from '@/contexts/ServiceContext';
+import {
+  ServiceContextType,
+  ServiceProvider,
+} from '@/contexts/service-context';
 import { FetchService } from '@/services/fetch-service';
 import { PlaylistsService } from '@/services/playlists-service';
 import { ArtistsService } from '@/services/artists-service';

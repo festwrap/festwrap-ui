@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useServices } from '@/contexts/ServiceContext';
+import { useServices } from '@/contexts/service-context';
 import { ArtistDTO } from '@/entities/artists';
 
 export function useArtistSearch() {

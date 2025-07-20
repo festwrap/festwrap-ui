@@ -4,7 +4,7 @@ import {
   CreatedPlaylistStatus,
   CreateNewPlaylistDTO,
 } from '@/entities/playlists';
-import { useServices } from '@/contexts/ServiceContext';
+import { useServices } from '@/contexts/service-context';
 import { FormSchemaType } from './generate-playlist-form';
 
 export enum SubmissionStatus {
