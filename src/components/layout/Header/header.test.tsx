@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { useSession } from 'next-auth/react';
-import Header from '@components/layout/Header/header';
+import Header from '@/components/layout/header/header';
 import { vi, describe, beforeAll, test, expect } from 'vitest';
 
 vi.mock('next-auth/react', () => {

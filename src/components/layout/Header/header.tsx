@@ -1,5 +1,5 @@
 import LogoLink from './logo-link';
-import NavbarMenu from './NavbarMenu/navbar-menu';
+import NavbarMenu from './navbar-menu/navbar-menu';
 
 const Header = () => {
   return (

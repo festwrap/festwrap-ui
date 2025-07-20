@@ -1,4 +1,4 @@
-import NavLink from '@components/layout/Header/NavbarMenu/nav-link';
+import NavLink from '@/components/layout/header/navbar-menu/nav-link';
 import useTranslation from 'next-translate/useTranslation';
 
 const DesktopNavbarMenu = () => {

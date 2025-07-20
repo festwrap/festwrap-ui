@@ -1,6 +1,6 @@
-import Header from '@components/layout/Header/header';
+import Header from '@/components/layout/header/header';
 import Main from '@components/layout/main';
-import Footer from '@components/layout/Footer/footer';
+import Footer from '@/components/layout/footer/footer';
 import { Toaster } from '@components/ui/toaster';
 
 export default function RootLayout({
