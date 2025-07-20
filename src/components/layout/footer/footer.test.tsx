@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import Footer from './Footer';
+import Footer from './footer';
 import setLanguage from 'next-translate/setLanguage';
 
 vi.mock('next-translate/setLanguage', () => ({
