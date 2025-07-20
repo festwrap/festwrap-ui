@@ -7,7 +7,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import ErrorMessage from '@/components/ui/error-message';
 import { useArtistSearch } from './use-artist-search';
-import { useDebouncedCallback } from '@/hooks/useDebounceCallback';
+import { useDebouncedCallback } from '@/hooks/use-debounce-callback';
 import { ArtistDTO } from '@/entities/artists';
 import SelectedArtistBadge from './selected-artist-badge';
 import { MAX_ARTISTS } from '@/entities/playlists';
