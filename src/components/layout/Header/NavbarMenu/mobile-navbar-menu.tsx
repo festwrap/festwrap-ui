@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import NavLink from '@components/layout/Header/NavbarMenu/NavLink';
+import NavLink from '@components/layout/Header/NavbarMenu/nav-link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';

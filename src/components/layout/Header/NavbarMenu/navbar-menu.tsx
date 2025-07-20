@@ -1,5 +1,5 @@
-import MobileNavbarMenu from './MobileNavbarMenu';
-import DesktopNavbarMenu from './DesktopNavbarMenu';
+import MobileNavbarMenu from './mobile-navbar-menu';
+import DesktopNavbarMenu from './desktop-navbar-menu';
 
 const NavbarMenu = () => {
   return (
