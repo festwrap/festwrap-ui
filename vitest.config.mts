@@ -11,6 +11,17 @@ export default defineConfig({
     clearMocks: true,
     mockReset: true,
     restoreMocks: true,
+    include: [
+      '__tests__/**/*.{test,spec}.{js,ts,jsx,tsx}',
+      'src/**/*.{test,spec}.{js,ts,jsx,tsx}'
+    ],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.next/**',
+      '**/build/**',
+      '**/coverage/**'
+    ],
   },
   resolve: {
     alias: {
@@ -18,6 +29,7 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/components'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@public': path.resolve(__dirname, './public'),
+      '@features': path.resolve(__dirname, './src/features'),
     },
   },
 });

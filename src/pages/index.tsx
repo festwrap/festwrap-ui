@@ -1,4 +1,4 @@
-import HeroSection from '@components/home/HeroSection/HeroSection';
+import HeroSection from '@/features/home/components/hero-section/hero-section';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import getT from 'next-translate/getT';

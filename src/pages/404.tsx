@@ -1,5 +1,5 @@
-import Heading from '@/components/ui/Heading';
-import { Button } from '@components/ui/Button';
+import Heading from '@/components/ui/heading';
+import { Button } from '@/components/ui/button';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';

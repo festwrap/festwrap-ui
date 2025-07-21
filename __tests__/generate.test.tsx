@@ -3,10 +3,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
 import { ReactNode } from 'react';
-import { ServiceProvider } from '@/contexts/ServiceContext';
+import { ServiceProvider } from '@/contexts/service-context';
 import { toast } from 'sonner';
-import { IPlaylistsService } from '@/services/playlistsService';
-import { IArtistsService } from '@/services/artistsService';
+import { IPlaylistsService } from '@/services/playlists-service';
+import { IArtistsService } from '@/services/artists-service';
 import { CreatedPlaylistStatus } from '@/entities/playlists';
 import { useRouter } from 'next/router';
 

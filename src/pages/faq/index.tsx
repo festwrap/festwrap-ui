@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import FAQSection from '@/components/faqs/FaqSection';
+import FAQSection from '@/features/faqs/components/faq-section';
 import Head from 'next/head';
 import getT from 'next-translate/getT';
 

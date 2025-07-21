@@ -1,5 +1,5 @@
-import ProfileItem from '@/components/about-us/ProfileItem';
-import Heading from '@/components/ui/Heading';
+import ProfileItem from '@/features/about-us/components/profile-item';
+import Heading from '@/components/ui/heading';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import getT from 'next-translate/getT';
 import Head from 'next/head';
