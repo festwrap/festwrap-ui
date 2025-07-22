@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import getT from 'next-translate/getT';
-import GeneratePlaylistForm from '@/components/generate/GeneratePlaylistForm/GeneratePlaylistForm';
+import GeneratePlaylistForm from '@features/generate/components/generate-playlist-form/generate-playlist-form';
 
 type GenerateTranslationProps = {
   meta: {
@@ -23,7 +23,7 @@ export default function Generate({ translations }: GenerateProps) {
         <meta name="description" content={translations.meta.description} />
         <meta name="keywords" content={translations.meta.keywords} />
       </Head>
-      <div className="container mx-auto px-4 py-12 max-w-5xl">
+      <div className="container mx-auto px-0 md:px-4 py-12 max-w-5xl">
         <GeneratePlaylistForm />
       </div>
     </>

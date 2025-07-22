@@ -1,10 +1,10 @@
 import Head from 'next/head';
-import PlaylistUpdateReport from '@/components/generate/PlaylistUpdateReport/PlaylistUpdateReport';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui/alert';
 import { TriangleAlert } from 'lucide-react';
-import { BetaInfoAlert } from '@/components/generate/BetaInfoAlert';
+import PlaylistUpdateReport from '@/features/generate/components/playlist-update-report/playlist-update-report';
+import { BetaInfoAlert } from '@/features/generate/components/beta-info-alert';
 
 export default function PlaylistGeneratedSuccessfully() {
   const { t } = useTranslation('generate');
@@ -17,7 +17,7 @@ export default function PlaylistGeneratedSuccessfully() {
         <meta name="description" content={t('meta.description')} />
         <meta name="keywords" content={t('meta.keywords')} />
       </Head>
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <div className="container mx-auto py-4 md:py-12 max-w-4xl">
         <div className="flex flex-col gap-6">
           <PlaylistUpdateReport playlistId={playlistId as string} />
           {partialError && (
