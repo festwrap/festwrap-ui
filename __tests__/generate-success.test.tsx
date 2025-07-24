@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import PlaylistGeneratedSuccessfully from '@/pages/generate/success/[playlistId]';
 import { useRouter } from 'next/router';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -67,5 +67,48 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
   it('should display beta info alert', () => {
     render(<PlaylistGeneratedSuccessfully />);
     expect(screen.getByText('betaInfo.title')).toBeInTheDocument();
+  });
+
+  it('shows loading state initially', async () => {
+    render(<PlaylistGeneratedSuccessfully />);
+
+    // Should show loading skeleton initially
+    expect(
+      screen.getByText('playlistSuccess.loadingPlaylist')
+    ).toBeInTheDocument();
+  });
+
+  it('renders iframe with correct attributes and handles basic interactions', async () => {
+    render(<PlaylistGeneratedSuccessfully />);
+
+    const iframe = screen.getByTitle('Spotify embedded playlist');
+
+    // Check iframe attributes
+    expect(iframe).toHaveAttribute(
+      'src',
+      'https://open.spotify.com/embed/playlist/test-playlist-id'
+    );
+    expect(iframe).toHaveAttribute('width', '100%');
+    expect(iframe).toHaveAttribute('height', '500');
+    expect(iframe).toHaveAttribute('loading', 'lazy');
+    expect(iframe).toHaveAttribute(
+      'allow',
+      'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
+    );
+  });
+
+  it('shows open in Spotify button when iframe loads successfully', async () => {
+    render(<PlaylistGeneratedSuccessfully />);
+
+    const iframe = screen.getByTitle('Spotify embedded playlist');
+
+    // Simulate successful iframe load
+    fireEvent.load(iframe);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('playlistSuccess.openInSpotify')
+      ).toBeInTheDocument();
+    });
   });
 });
