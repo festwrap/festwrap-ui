@@ -5,7 +5,7 @@ import useTranslation from 'next-translate/useTranslation';
 import PlaylistOverviewFallback from './playlist-overview-fallback';
 import PlaylistOverviewLoading from './playlist-overview-loading';
 import PlaylistOverviewRetryInfo from './playlist-overview-retry-info';
-import { usePlaylistIframeLoader } from './use-playlist-iframe-loader';
+import { usePlaylistIframeLoader } from '../use-playlist-iframe-loader';
 
 const DEFAULT_PLAYLIST_HEIGHT = 500;
 
