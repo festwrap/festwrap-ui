@@ -70,7 +70,7 @@ export const PlaylistOverview: FC<PlaylistOverviewProps> = ({
 
       {shouldShowSuccessButton && (
         <div className="mt-4 text-center">
-          <Button variant="outline" size="sm" asChild>
+          <Button size="sm" asChild>
             <a href={directUrl} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-3 h-3 mr-1" />
               {t('playlistSuccess.openInSpotify')}

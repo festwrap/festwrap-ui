@@ -72,7 +72,6 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
   it('shows loading state initially', async () => {
     render(<PlaylistGeneratedSuccessfully />);
 
-    // Should show loading skeleton initially
     expect(
       screen.getByText('playlistSuccess.loadingPlaylist')
     ).toBeInTheDocument();
@@ -83,7 +82,6 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
 
     const iframe = screen.getByTitle('Spotify embedded playlist');
 
-    // Check iframe attributes
     expect(iframe).toHaveAttribute(
       'src',
       'https://open.spotify.com/embed/playlist/test-playlist-id'
@@ -102,7 +100,6 @@ describe('PlaylistGeneratedSuccessfully Page', () => {
 
     const iframe = screen.getByTitle('Spotify embedded playlist');
 
-    // Simulate successful iframe load
     fireEvent.load(iframe);
 
     await waitFor(() => {
