@@ -33,11 +33,11 @@
   },
   "playlistSearchArtists": {
     "artistSearch": {
+      "artistNameTooLong": "The artist name is too long. Please try with a shorter name.",
       "empty": "Type to start searching",
       "noResults": "No results found",
       "placeholder": "Type to start searching",
-      "searching": "Searching...",
-      "artistNameTooLong": "The artist name is too long. Please try with a shorter name."
+      "searching": "Searching..."
     },
     "emptyState": {
       "description": "Start searching for artists to add them to the playlist",
@@ -75,7 +75,13 @@
     "title": "Configure the playlist"
   },
   "playlistSuccess": {
+    "embedLoadError": "Unable to load playlist",
+    "embedLoadErrorDescription": "The playlist couldn't be loaded. You can try again or open it directly in Spotify.",
+    "loadingPlaylist": "Loading playlist...",
+    "openInSpotify": "Open in Spotify",
     "playlistGeneratedSuccessfully": "Playlist generated successfully",
+    "retryEmbed": "Try again",
+    "retryingLoad": "Retrying to load",
     "title": "Visualize the playlist"
   }
 }

@@ -33,11 +33,11 @@
   },
   "playlistSearchArtists": {
     "artistSearch": {
+      "artistNameTooLong": "El nom de l'artista és massa llarg. Prova amb un nom més curt.",
       "empty": "Escriu per començar la cerca",
       "noResults": "No s'han trobat resultats",
       "placeholder": "Escriu per començar la cerca",
-      "searching": "Cercant...",
-      "artistNameTooLong": "El nom de l'artista és massa llarg. Prova amb un nom més curt."
+      "searching": "Cercant..."
     },
     "description": "Selecciona els artistes que vols afegir a la llista de reproducció",
     "emptyState": {
@@ -77,7 +77,13 @@
   },
   "playlistSuccess": {
     "description": "Visualitza les cançons afegides a a llista",
+    "embedLoadError": "No s'ha pogut carregar la llista",
+    "embedLoadErrorDescription": "La llista de reproducció no s'ha pogut carregar. Pots intentar-ho de nou o obrir-la directament a Spotify.",
+    "loadingPlaylist": "Carregant llista de reproducció...",
+    "openInSpotify": "Obrir a Spotify",
     "playlistGeneratedSuccessfully": "Llista generada amb èxit",
+    "retryEmbed": "Provar de nou",
+    "retryingLoad": "Reintentant carregar",
     "title": "Visualitza la llista de reproducció"
   }
 }

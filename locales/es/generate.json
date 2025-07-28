@@ -33,11 +33,11 @@
   },
   "playlistSearchArtists": {
     "artistSearch": {
+      "artistNameTooLong": "El nombre del artista es demasiado largo. Por favor, prueba con un nombre más corto.",
       "empty": "Escribe para empezar la búsqueda",
       "noResults": "No se han encontrado resultados",
       "placeholder": "Escribe para empezar la búsqueda",
-      "searching": "Buscando...",
-      "artistNameTooLong": "El nombre del artista es demasiado largo. Por favor, prueba con un nombre más corto."
+      "searching": "Buscando..."
     },
     "emptyState": {
       "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
@@ -76,7 +76,13 @@
     "title": "Configura la lista de reproducción"
   },
   "playlistSuccess": {
+    "embedLoadError": "No se pudo cargar la lista",
+    "embedLoadErrorDescription": "La lista de reproducción no se pudo cargar. Puedes intentarlo de nuevo o abrirla directamente en Spotify.",
+    "loadingPlaylist": "Cargando lista de reproducción...",
+    "openInSpotify": "Abrir en Spotify",
     "playlistGeneratedSuccessfully": "Lista de reproducción generada con éxito",
+    "retryEmbed": "Intentar de nuevo",
+    "retryingLoad": "Reintentando cargar",
     "title": "Visualiza la lista de reproducción"
   }
 }

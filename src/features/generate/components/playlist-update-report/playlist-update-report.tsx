@@ -1,6 +1,6 @@
 import Heading from '@/components/ui/heading';
 import useTranslation from 'next-translate/useTranslation';
-import { PlaylistOverview } from './playlist-overview';
+import { PlaylistOverview } from './playlist-overview/playlist-overview';
 
 const PlaylistUpdateReport = ({
   playlistId,
