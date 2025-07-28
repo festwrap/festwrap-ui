@@ -49,7 +49,7 @@ export const PlaylistOverview: FC<PlaylistOverviewProps> = ({
       {isLoading && <PlaylistOverviewLoading height={height} />}
 
       {shouldShowRetryInfo && (
-        <PlaylistOverviewRetryInfo retryCount={retryCount} />
+        <PlaylistOverviewRetryInfo retryCount={retryCount} height={height} />
       )}
 
       <iframe
