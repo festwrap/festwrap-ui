@@ -2,6 +2,7 @@
 import nextTranslate from 'next-translate-plugin';
 
 const nextConfig = nextTranslate({
+  output: "standalone",
   reactStrictMode: true,
   images: {
     remotePatterns: [
