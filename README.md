@@ -6,42 +6,44 @@ The backend is located in [this repository](https://github.com/DanielMoraDC/fest
 
 # Local development
 
-Make sure Node 20 and Make are available in your system. Then set everything up:
+Make sure Node 20+ and Make are available in your system. Then set everything up:
 
 ```shell
 make local-setup
 ```
 
-This will install the npm dependencies and prepare the env file. Make sure to fill the env file with the corresponding variables. You will need to to create your own Spotify app following [these instructions](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app).
-
-# Run the app
-
-To run the app, type:
-
-```shell
-make run-app
-```
-
-# Run production build locally
-
-Generate the build
-
-```shell
-make run-build
-```
-
-Generate secret for the NextAuth secret
+This will install the npm dependencies and prepare the env file (i.e. `.env.`). Make sure to fill the `NEXTAUTH_SECRET` with the output of:
 
 ```shell
 openssl rand -base64 32
 ```
 
-Put the secret generate in the `NEXTAUTH_SECRET` env variable in the `.env` file.
+# Run the app
 
-Then run the app:
+The app will look for the [backend service](https://github.com/DanielMoraDC/festwrap-server) in `http://localhost:8080` by default.
+
+## Development app
 
 ```shell
-make run-start
+make run-dev
+```
+
+## Production local app
+
+```shell
+make run
+```
+
+## Production dockerized app
+
+```shell
+make run-docker
+```
+
+You can then stop it by typing:
+
+```shell
+make stop-docker
 ```
 
 # Recommendations for a great experience using TailwindCSS 🧙🏼‍♂️
