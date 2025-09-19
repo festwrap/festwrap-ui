@@ -3,6 +3,7 @@ ENV_VARS := $(shell cat $(ENV_FILE) | xargs)
 
 IMAGE_NAME ?= festwrap-ui
 IMAGE_TAG ?= latest
+CONTAINER_NAME ?= festwrap-ui
 
 .PHONY: install-deps
 install-deps:
@@ -41,3 +42,18 @@ run-checks: run-lint run-tests
 .PHONY: build-image
 build-image:
 	docker build -f Dockerfile -t ${IMAGE_NAME}:${IMAGE_TAG} .
+
+# Note that this is only tested in Mac
+.PHONY: run-docker
+run-docker: build-image
+	@export $(ENV_VARS) && \
+	docker run \
+		--env-file $(ENV_FILE) \
+		-e SERVER_HOST=http://host.docker.internal \
+		--name $(CONTAINER_NAME) \
+		-p $$PORT:$$PORT \
+		-t $(IMAGE_NAME):$(IMAGE_TAG)
+
+.PHONY: stop-docker
+stop-docker:
+	@docker container stop $(CONTAINER_NAME) && docker container rm $(CONTAINER_NAME)

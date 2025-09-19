@@ -20,16 +20,30 @@ openssl rand -base64 32
 
 # Run the app
 
-To run the development verison of the app, type:
+The app will look for the [backend service](https://github.com/DanielMoraDC/festwrap-server) in `http://localhost:8080` by default.
+
+## Development app
 
 ```shell
 make run-dev
 ```
 
-You can run the production build by typing:
+## Production local app
 
 ```shell
 make run
+```
+
+## Production dockerized app
+
+```shell
+make run-docker
+```
+
+You can then stop it by typing:
+
+```shell
+make stop-docker
 ```
 
 # Recommendations for a great experience using TailwindCSS 🧙🏼‍♂️
