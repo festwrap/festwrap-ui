@@ -6,7 +6,7 @@ FROM node:${NODE_VERSION}-${DOCKER_TAG} as builder
 WORKDIR /app
 
 COPY . ./
-RUN npm ci && npm run build
+RUN npm ci && npm run build:standalone
 
 
 FROM node:${NODE_VERSION}-${DOCKER_TAG}
@@ -22,9 +22,10 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 COPY --from=builder /app .
 
-RUN CACHE_DIR=.next/cache mkdir -p $CACHE_DIR && chown -R $USERNAME:$USER_GID $CACHE_DIR
+ENV CACHE_DIR=.next/cache
+RUN mkdir -p $CACHE_DIR && chown -R $USERNAME:$USER_GID $CACHE_DIR
+COPY --from=builder /app/.next/standalone/ /app/
 
 USER $USERNAME
 EXPOSE $PORT
-
-CMD ["npm", "run", "start"]
+CMD ["node", "/app/server.js"]

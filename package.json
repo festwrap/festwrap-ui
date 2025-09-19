@@ -60,6 +60,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:standalone": "npm run build && cp -r public .next/standalone/ && cp -r .next/static .next/standalone/public/",
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
