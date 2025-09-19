@@ -1,7 +1,8 @@
-ENV_VARS := $(shell cat .env | xargs)
+ENV_FILE = .env
+ENV_VARS := $(shell cat $(ENV_FILE) | xargs)
 
-IMAGE_NAME?=festwrap-ui
-IMAGE_TAG?=latest
+IMAGE_NAME ?= festwrap-ui
+IMAGE_TAG ?= latest
 
 .PHONY: install-deps
 install-deps:
@@ -14,20 +15,15 @@ create-env-from-template:
 .PHONY: local-setup
 local-setup: install-deps create-env-from-template
 
-.PHONY: run-app
-run-app:
+.PHONY: run-dev
+run-dev:
 	@echo "Starting the frontend app..."
 	@export $(ENV_VARS) && npm run dev
 
-.PHONY: run-build
-run-build:
-	@echo "Building the frontend app..."
-	@export $(ENV_VARS) && npm run build
-
 .PHONY: run-start
-run-start:
+run:
 	@echo "Starting the production build locally..."
-	@export $(ENV_VARS) && npm run start
+	@export $(ENV_VARS) && npm run build && npm run start
 
 .PHONY: run-tests
 run-tests:
