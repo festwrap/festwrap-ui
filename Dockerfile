@@ -20,7 +20,10 @@ ARG USER_GID=$USER_UID
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
-COPY --from=builder /app /app
+COPY --from=builder /app .
+
+ENV CACHE_DIR=.next/cache
+RUN mkdir -p $CACHE_DIR && chown -R $USERNAME:$USER_GID $CACHE_DIR
 
 USER $USERNAME
 EXPOSE $PORT
